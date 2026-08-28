@@ -1,8 +1,8 @@
 {
   "name": "midnight-indigo",
   "displayName": "Midnight Indigo",
-  "description": "An ultra-dark purple/indigo theme with a matching flat pastel file icon set, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-  "version": "3.0.0",
+  "description": "An ultra-dark purple/indigo theme with a matching flat pastel file icon set in two variants (contained and outlined), plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+  "version": "3.1.0",
   "publisher": "diguu-rl",
   "license": "MIT",
   "icon": "icon.png",
@@ -43,8 +43,13 @@
     "iconThemes": [
       {
         "id": "midnight-indigo-icons",
-        "label": "Midnight Indigo Icons",
-        "path": "./icons/theme/midnight-indigo-icon-theme.json"
+        "label": "Midnight Indigo Icons — Contained",
+        "path": "./icons/theme/midnight-indigo-icon-theme-contained.json"
+      },
+      {
+        "id": "midnight-indigo-icons-outlined",
+        "label": "Midnight Indigo Icons — Outlined",
+        "path": "./icons/theme/midnight-indigo-icon-theme-outlined.json"
       }
     ],
     "grammars": [

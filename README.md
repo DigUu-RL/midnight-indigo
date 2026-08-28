@@ -5,7 +5,7 @@
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo&ssr=false#review-details)
 [![License: MIT](https://img.shields.io/badge/license-MIT-6C5CE7)](LICENSE)
 
-An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching flat pastel file icon set.
+An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching flat pastel file icon set in two variants — contained and outlined.
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
@@ -18,7 +18,8 @@ This is a single extension that contributes both parts. Install once, then enabl
 | | |
 | --- | --- |
 | **Midnight Indigo** | Color theme — 129 workbench colors, 39 TextMate rules, 34 semantic token rules |
-| **Midnight Indigo Icons** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants |
+| **Midnight Indigo Icons — Contained** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants. Glyphs filled with the language color |
+| **Midnight Indigo Icons — Outlined** | The same icon set and the same mapping, drawn as a colored outline with no fill |
 
 Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
 
@@ -40,7 +41,7 @@ code --install-extension diguu-rl.midnight-indigo
 Both are opt-in after install:
 
 1. **Color theme** — `Ctrl+K Ctrl+T` → **Midnight Indigo**
-2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Indigo Icons**
+2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Indigo Icons — Contained** or **— Outlined**
 
 Or set them directly in `settings.json`:
 
@@ -51,6 +52,8 @@ Or set them directly in `settings.json`:
 }
 ```
 
+`midnight-indigo-icons` is the contained variant; use `midnight-indigo-icons-outlined` for the outlined one.
+
 ## Language coverage
 
 Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, JSX/TSX, C#, PowerShell, Python, Markdown and JSON.
@@ -58,6 +61,8 @@ Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, J
 Every other language falls back to the general rule set, which covers the standard scopes (keywords, strings, numbers, comments, types, functions, variables, operators, punctuation).
 
 ### Icon theme coverage
+
+Both variants ship the same icons and the same mapping — they differ only in how each glyph is drawn (filled versus outlined). Icons have no background shape: the glyph itself carries the color.
 
 - **40 contextual folder icons**, each with an open and closed variant, matching several name synonyms per category: `components`, `hooks`, `functions`, `utils`, `helpers`, `services`, `controllers`, `models`, `views/pages`, `layouts`, `store/redux`, `context/providers`, `middleware`, `guards`, `routes`, `api`, `config`, `scripts/cli`, `tests/spec/e2e`, `mocks/fixtures`, `assets`, `images`, `icons`, `fonts`, `styles/themes`, `public`, `build/dist`, `docs`, `database/migrations`, `types/interfaces`, `constants/enums`, `core/lib`, `plugins/features`, `i18n`, `directives/pipes/decorators`, `validators`, `docker/kubernetes`, `workflows/.github`, `server`, `shared/common`, `security/auth`.
 - **140 file and language icons** covering JS/TS/JSX/TSX, HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Shell/Zsh/Fish/PowerShell/Batch, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, Vue, Svelte, Astro, GraphQL, Docker, Terraform, Jupyter, images, fonts, audio, video, archives, certificates, PDF/Office documents, and well-known config files (`package.json`, `.eslintrc`, `.prettierrc`, `tsconfig.json`, `webpack`/`vite`/`rollup`, `Dockerfile`, `Makefile`, `.gitignore`, `nginx.conf`, CI files).
@@ -82,7 +87,7 @@ You do not need to fork the theme to adjust it. Override any color in your own `
 }
 ```
 
-To change the icons, edit the `fill` attribute of the relevant file in `icons/svg/` — VS Code reads the SVGs directly, nothing needs to be regenerated. The folder/extension/filename → icon mapping lives in [`icons/theme/midnight-indigo-icon-theme.json`](icons/theme/midnight-indigo-icon-theme.json).
+To change the icons, edit the `fill` (contained) or `stroke` (outlined) attribute of the relevant file in [`icons/svg/contained/`](icons/svg/contained/) or [`icons/svg/outlined/`](icons/svg/outlined/) — VS Code reads the SVGs directly, nothing needs to be regenerated. The folder/extension/filename → icon mapping lives in [`midnight-indigo-icon-theme-contained.json`](icons/theme/midnight-indigo-icon-theme-contained.json) and [`midnight-indigo-icon-theme-outlined.json`](icons/theme/midnight-indigo-icon-theme-outlined.json); the two mappings are kept in sync, so an entry added to one belongs in the other as well.
 
 ## Development
 
