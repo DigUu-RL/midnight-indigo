@@ -1,0 +1,28 @@
+{
+  "scopeName": "midnight-indigo.jsx-components.injection",
+  "injectionSelector": "L:source.js, L:source.jsx, L:source.ts, L:source.tsx",
+  "patterns": [
+    {
+      "comment": "function ComponentName(...) { ... } / export default function ComponentName(...)",
+      "match": "\\b(?:export\\s+)?(?:default\\s+)?(?:async\\s+)?\\b(function)\\s+([A-Z][A-Za-z0-9_]*)\\s*(?=[(<])",
+      "captures": {
+        "2": { "name": "entity.name.function.component" }
+      }
+    },
+    {
+      "comment": "const ComponentName = (...) => { ... } / const ComponentName: React.FC<Props> = (...) => { ... }",
+      "match": "\\b(?:export\\s+)?(?:default\\s+)?(const|let)\\s+([A-Z][A-Za-z0-9_]*)\\s*(?::[^=;]+)?=\\s*(?:React\\.)?(?:memo\\(|forwardRef\\(|\\(|[A-Za-z_$][A-Za-z0-9_$]*\\s*=>)",
+      "captures": {
+        "1": { "name": "storage.modifier" },
+        "2": { "name": "entity.name.function.component" }
+      }
+    },
+    {
+      "comment": "class ComponentName extends React.Component / Component",
+      "match": "\\b(class)\\s+([A-Z][A-Za-z0-9_]*)\\s+(extends)\\s+(?:React\\.)?(Component|PureComponent)\\b",
+      "captures": {
+        "2": { "name": "entity.name.function.component" }
+      }
+    }
+  ]
+}

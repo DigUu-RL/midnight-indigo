@@ -1,0 +1,70 @@
+{
+  "name": "midnight-indigo",
+  "displayName": "Midnight Indigo",
+  "description": "An ultra-dark purple/indigo theme with a matching flat pastel file icon set, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+  "version": "3.0.0",
+  "publisher": "diguu-rl",
+  "license": "MIT",
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "theme",
+    "dark theme",
+    "icon theme",
+    "file icons",
+    "purple",
+    "indigo"
+  ],
+  "galleryBanner": {
+    "color": "#020108",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DigUu-RL/midnight-indigo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DigUu-RL/midnight-indigo/issues"
+  },
+  "homepage": "https://github.com/DigUu-RL/midnight-indigo#readme",
+  "contributes": {
+    "themes": [
+      {
+        "label": "Midnight Indigo",
+        "uiTheme": "vs-dark",
+        "path": "./themes/midnight-indigo-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "midnight-indigo-icons",
+        "label": "Midnight Indigo Icons",
+        "path": "./icons/theme/midnight-indigo-icon-theme.json"
+      }
+    ],
+    "grammars": [
+      {
+        "scopeName": "midnight-indigo.jsx-components.injection",
+        "path": "./injections/jsx-components.tmLanguage.json",
+        "injectTo": [
+          "source.js",
+          "source.jsx",
+          "source.ts",
+          "source.tsx"
+        ]
+      },
+      {
+        "scopeName": "midnight-indigo.csharp-delegates.injection",
+        "path": "./injections/csharp-delegates.tmLanguage.json",
+        "injectTo": [
+          "source.cs"
+        ]
+      }
+    ]
+  }
+}

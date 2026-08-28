@@ -1,0 +1,11 @@
+{
+  "scopeName": "midnight-indigo.csharp-delegates.injection",
+  "injectionSelector": "L:source.cs",
+  "patterns": [
+    {
+      "comment": "Action / Func / Predicate (delegates embutidos do .NET), com ou sem <...>",
+      "match": "\\b(Action|Func|Predicate)\\b(?=\\s*[<(;,)\\]\\s]|$)",
+      "name": "support.type.delegate.cs"
+    }
+  ]
+}
