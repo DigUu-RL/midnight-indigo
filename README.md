@@ -1,6 +1,13 @@
 # Midnight Indigo
 
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/diguu-rl.midnight-indigo?label=marketplace&color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
+[![Installs](https://img.shields.io/visual-studio-marketplace/i/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo&ssr=false#review-details)
+[![License: MIT](https://img.shields.io/badge/license-MIT-6C5CE7)](LICENSE)
+
 An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching flat pastel file icon set.
+
+**[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
 The editor background sits at `#020108` — near-black with an indigo cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
@@ -46,9 +53,7 @@ Or set them directly in `settings.json`:
 
 ## Language coverage
 
-Semantic and TextMate rules are tuned specifically for:
-
-**JavaScript · TypeScript · JSX/TSX · C# · PowerShell · Python · Markdown · JSON**
+Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, JSX/TSX, C#, PowerShell, Python, Markdown and JSON.
 
 Every other language falls back to the general rule set, which covers the standard scopes (keywords, strings, numbers, comments, types, functions, variables, operators, punctuation).
 
