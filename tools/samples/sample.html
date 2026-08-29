@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Members &middot; Workspace</title>
+    <link rel="stylesheet" href="/assets/app.css" />
+  </head>
+  <body class="app">
+    <!-- Rendered server-side, hydrated by the members island. -->
+    <header class="topbar">
+      <h1 class="topbar__title">Members</h1>
+      <button type="button" data-action="invite" aria-label="Invite member">
+        Invite
+      </button>
+    </header>
+
+    <ul id="roster" class="roster" hidden>
+      <template id="row">
+        <li class="roster__row"><span class="email"></span></li>
+      </template>
+    </ul>
+
+    <script type="module" src="/assets/members.js"></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+@use 'sass:color';
+
+$indigo: #6c5ce7;
+$surface: #0a0716;
+$radius: 0.5rem;
+
+@mixin focus-ring($color: $indigo) {
+  outline: 2px solid $color;
+  outline-offset: 2px;
+}
+
+.roster {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 0.5rem;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    border-radius: $radius;
+    background: color.adjust($surface, $lightness: 2%);
+    transition: background 120ms ease-in-out;
+
+    &:hover { background: color.adjust($surface, $lightness: 6%); }
+    &:focus-visible { @include focus-ring; }
+
+    .email { font-variant-numeric: tabular-nums; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__row { transition: none; }
+  }
+}

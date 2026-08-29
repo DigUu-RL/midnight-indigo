@@ -5,3 +5,7 @@
 .vscodeignore
 node_modules/**
 *.vsix
+tools/**
+icons/preview.html
+docs/**
+tools/samples/**

@@ -1,75 +1,80 @@
 {
-  "name": "midnight-indigo",
-  "displayName": "Midnight Indigo",
-  "description": "An ultra-dark purple/indigo theme with a matching vivid file icon set in two variants (contained and outlined), plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-  "version": "3.2.0",
-  "publisher": "diguu-rl",
-  "license": "MIT",
-  "icon": "icon.png",
-  "engines": {
-    "vscode": "^1.60.0"
-  },
-  "categories": [
-    "Themes"
-  ],
-  "keywords": [
-    "theme",
-    "dark theme",
-    "icon theme",
-    "file icons",
-    "purple",
-    "indigo"
-  ],
-  "galleryBanner": {
-    "color": "#020108",
-    "theme": "dark"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DigUu-RL/midnight-indigo.git"
-  },
-  "bugs": {
-    "url": "https://github.com/DigUu-RL/midnight-indigo/issues"
-  },
-  "homepage": "https://github.com/DigUu-RL/midnight-indigo#readme",
-  "contributes": {
-    "themes": [
-      {
-        "label": "Midnight Indigo",
-        "uiTheme": "vs-dark",
-        "path": "./themes/midnight-indigo-color-theme.json"
-      }
+    "name": "midnight-indigo",
+    "displayName": "Midnight Indigo",
+    "description": "An ultra-dark purple/indigo theme with a matching file icon set built on real language logos, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+    "version": "4.0.0",
+    "publisher": "diguu-rl",
+    "license": "MIT",
+    "icon": "icon.png",
+    "engines": {
+        "vscode": "^1.60.0"
+    },
+    "categories": [
+        "Themes"
     ],
-    "iconThemes": [
-      {
-        "id": "midnight-indigo-icons",
-        "label": "Midnight Indigo Icons — Contained",
-        "path": "./icons/theme/midnight-indigo-icon-theme-contained.json"
-      },
-      {
-        "id": "midnight-indigo-icons-outlined",
-        "label": "Midnight Indigo Icons — Outlined",
-        "path": "./icons/theme/midnight-indigo-icon-theme-outlined.json"
-      }
+    "keywords": [
+        "theme",
+        "dark theme",
+        "icon theme",
+        "file icons",
+        "purple",
+        "indigo"
     ],
-    "grammars": [
-      {
-        "scopeName": "midnight-indigo.jsx-components.injection",
-        "path": "./injections/jsx-components.tmLanguage.json",
-        "injectTo": [
-          "source.js",
-          "source.jsx",
-          "source.ts",
-          "source.tsx"
+    "galleryBanner": {
+        "color": "#020108",
+        "theme": "dark"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DigUu-RL/midnight-indigo.git"
+    },
+    "bugs": {
+        "url": "https://github.com/DigUu-RL/midnight-indigo/issues"
+    },
+    "homepage": "https://github.com/DigUu-RL/midnight-indigo#readme",
+    "scripts": {
+        "measure:glyphs": "node tools/measure.js",
+        "build:icons": "node tools/build-icons.js",
+        "build:extension": "npm install -g @vscode/vsce && vsce package",
+        "preview:icons": "node tools/build-icons.js && node tools/preview.js",
+        "preview:theme": "node tools/build-theme-preview.js"
+    },
+    "contributes": {
+        "themes": [
+            {
+                "label": "Midnight Indigo",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-indigo-color-theme.json"
+            }
+        ],
+        "iconThemes": [
+            {
+                "id": "midnight-indigo-icons",
+                "label": "Midnight Indigo Icons",
+                "path": "./icons/theme/midnight-indigo-icon-theme.json"
+            }
+        ],
+        "grammars": [
+            {
+                "scopeName": "midnight-indigo.jsx-components.injection",
+                "path": "./injections/jsx-components.tmLanguage.json",
+                "injectTo": [
+                    "source.js",
+                    "source.jsx",
+                    "source.ts",
+                    "source.tsx"
+                ]
+            },
+            {
+                "scopeName": "midnight-indigo.csharp-delegates.injection",
+                "path": "./injections/csharp-delegates.tmLanguage.json",
+                "injectTo": [
+                    "source.cs"
+                ]
+            }
         ]
-      },
-      {
-        "scopeName": "midnight-indigo.csharp-delegates.injection",
-        "path": "./injections/csharp-delegates.tmLanguage.json",
-        "injectTo": [
-          "source.cs"
-        ]
-      }
-    ]
-  }
+    },
+    "devDependencies": {
+        "shiki": "^4.4.3"
+    }
 }

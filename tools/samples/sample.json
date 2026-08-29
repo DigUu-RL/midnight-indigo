@@ -1,0 +1,23 @@
+{
+  "name": "@workspace/members",
+  "version": "2.4.0",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "exports": {
+    ".": "./dist/index.js",
+    "./roles": "./dist/roles.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --coverage"
+  },
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "roles": [
+    { "id": "owner", "rank": 0, "canInvite": true, "canDelete": true },
+    { "id": "editor", "rank": 10, "canInvite": true, "canDelete": false },
+    { "id": "viewer", "rank": 20, "canInvite": false, "canDelete": false }
+  ],
+  "retention": { "auditDays": 365, "softDelete": true, "purgeAt": null }
+}
