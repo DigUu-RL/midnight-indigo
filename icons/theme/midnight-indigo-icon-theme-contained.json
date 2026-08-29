@@ -264,9 +264,6 @@
     "_file_markdown": {
       "iconPath": "../svg/contained/file-markdown.svg"
     },
-    "_file_python": {
-      "iconPath": "../svg/contained/file-python.svg"
-    },
     "_file_docker": {
       "iconPath": "../svg/contained/file-docker.svg"
     },
@@ -297,14 +294,44 @@
     "_file_csv": {
       "iconPath": "../svg/contained/file-csv.svg"
     },
+    "_file_python": {
+      "iconPath": "../svg/contained/file-python.svg"
+    },
     "_file_jsx": {
       "iconPath": "../svg/contained/file-jsx.svg"
     },
-    "_file_mjs": {
-      "iconPath": "../svg/contained/file-mjs.svg"
-    },
     "_file_vue": {
       "iconPath": "../svg/contained/file-vue.svg"
+    },
+    "_file_scss": {
+      "iconPath": "../svg/contained/file-scss.svg"
+    },
+    "_file_sass": {
+      "iconPath": "../svg/contained/file-sass.svg"
+    },
+    "_file_ruby": {
+      "iconPath": "../svg/contained/file-ruby.svg"
+    },
+    "_file_java": {
+      "iconPath": "../svg/contained/file-java.svg"
+    },
+    "_file_kotlin": {
+      "iconPath": "../svg/contained/file-kotlin.svg"
+    },
+    "_file_swift": {
+      "iconPath": "../svg/contained/file-swift.svg"
+    },
+    "_file_rust": {
+      "iconPath": "../svg/contained/file-rust.svg"
+    },
+    "_file_graphql": {
+      "iconPath": "../svg/contained/file-graphql.svg"
+    },
+    "_file_dart": {
+      "iconPath": "../svg/contained/file-dart.svg"
+    },
+    "_file_mjs": {
+      "iconPath": "../svg/contained/file-mjs.svg"
     },
     "_file_svelte": {
       "iconPath": "../svg/contained/file-svelte.svg"
@@ -327,17 +354,8 @@
     "_file_twig": {
       "iconPath": "../svg/contained/file-twig.svg"
     },
-    "_file_graphql": {
-      "iconPath": "../svg/contained/file-graphql.svg"
-    },
     "_file_protobuf": {
       "iconPath": "../svg/contained/file-protobuf.svg"
-    },
-    "_file_scss": {
-      "iconPath": "../svg/contained/file-scss.svg"
-    },
-    "_file_sass": {
-      "iconPath": "../svg/contained/file-sass.svg"
     },
     "_file_less": {
       "iconPath": "../svg/contained/file-less.svg"
@@ -363,23 +381,8 @@
     "_file_mdx": {
       "iconPath": "../svg/contained/file-mdx.svg"
     },
-    "_file_ruby": {
-      "iconPath": "../svg/contained/file-ruby.svg"
-    },
     "_file_go": {
       "iconPath": "../svg/contained/file-go.svg"
-    },
-    "_file_rust": {
-      "iconPath": "../svg/contained/file-rust.svg"
-    },
-    "_file_java": {
-      "iconPath": "../svg/contained/file-java.svg"
-    },
-    "_file_kotlin": {
-      "iconPath": "../svg/contained/file-kotlin.svg"
-    },
-    "_file_swift": {
-      "iconPath": "../svg/contained/file-swift.svg"
     },
     "_file_c": {
       "iconPath": "../svg/contained/file-c.svg"
@@ -422,9 +425,6 @@
     },
     "_file_lua": {
       "iconPath": "../svg/contained/file-lua.svg"
-    },
-    "_file_dart": {
-      "iconPath": "../svg/contained/file-dart.svg"
     },
     "_file_elixir": {
       "iconPath": "../svg/contained/file-elixir.svg"
@@ -820,7 +820,6 @@
     "tasks": "_folder_validators",
     "notifications": "_folder_validators",
     "validators": "_folder_validators",
-    "validator": "_folder_validators",
     "docker": "_folder_docker",
     "kubernetes": "_folder_docker",
     "k8s": "_folder_docker",
@@ -986,7 +985,6 @@
     "tasks": "_folder_validators_open",
     "notifications": "_folder_validators_open",
     "validators": "_folder_validators_open",
-    "validator": "_folder_validators_open",
     "docker": "_folder_docker_open",
     "kubernetes": "_folder_docker_open",
     "k8s": "_folder_docker_open",

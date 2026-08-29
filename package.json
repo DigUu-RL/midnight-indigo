@@ -1,8 +1,8 @@
 {
   "name": "midnight-indigo",
   "displayName": "Midnight Indigo",
-  "description": "An ultra-dark purple/indigo theme with a matching flat pastel file icon set in two variants (contained and outlined), plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-  "version": "3.1.0",
+  "description": "An ultra-dark purple/indigo theme with a matching vivid file icon set in two variants (contained and outlined), plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+  "version": "3.2.0",
   "publisher": "diguu-rl",
   "license": "MIT",
   "icon": "icon.png",

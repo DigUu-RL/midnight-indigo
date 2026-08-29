@@ -4,6 +4,21 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0]
+
+A brighter pass over the icon set. No ids, labels or mappings changed, so nothing needs touching in `settings.json`.
+
+### Changed
+
+- The icon palette moved from pastel to vivid. Colors are now saturated enough to read against the theme's near-black background instead of washing out into it — TypeScript goes from `#A8C8F0` to `#5CB3FF`, and every other icon shifted the same way.
+- File glyphs are drawn at `scale(1.75)` instead of `scale(1.32)`, filling much more of the 32×32 box so short labels stay legible at tree size.
+- The outlined variant thickened its stroke from `0.9` to `1.15` to keep pace with the larger glyphs.
+- Folder badges were reworked: the badge circle grew (`r` 6.6 → 8.6), it now carries the folder's short name in dark ink on the folder's own color rather than a small monochrome pictogram on a light disc, and the folder body picked up the same vivid fill.
+
+### Removed
+
+- The singular `validator` folder-name mapping. Folders named `validators` are unaffected.
+
 ## [3.1.0]
 
 Icon set redesign, plus a second icon variant.

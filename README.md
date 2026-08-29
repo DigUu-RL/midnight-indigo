@@ -5,7 +5,7 @@
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo&ssr=false#review-details)
 [![License: MIT](https://img.shields.io/badge/license-MIT-6C5CE7)](LICENSE)
 
-An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching flat pastel file icon set in two variants — contained and outlined.
+An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching vivid file icon set in two variants — contained and outlined.
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
