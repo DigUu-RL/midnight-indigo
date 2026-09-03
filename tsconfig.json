@@ -1,0 +1,32 @@
+{
+  // Type checking only. Nothing is emitted and nothing is bundled: Node runs the
+  // .ts files in tools/ directly by stripping the types, so `npm run typecheck`
+  // is a linter, not a build step. That is why `verbatimModuleSyntax` and
+  // `erasableSyntaxOnly` are on — they reject any syntax that would need a real
+  // compiler (enums, namespaces, parameter properties, `import x = require()`).
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "isolatedModules": true,
+
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["tools/**/*.ts"],
+  // tools/samples/ holds code that exists to be SCREENSHOTTED, not run. It is
+  // deliberately full of decorators and imports of packages this repo does not
+  // depend on, because that is what the highlighting has to be shown against.
+  "exclude": ["tools/samples"]
+}
