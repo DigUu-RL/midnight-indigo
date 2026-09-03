@@ -2,7 +2,7 @@
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
     "description": "An ultra-dark purple/indigo theme with a matching file icon set built on real language logos, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "4.0.0",
+    "version": "4.1.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
@@ -33,11 +33,12 @@
     },
     "homepage": "https://github.com/DigUu-RL/midnight-indigo#readme",
     "scripts": {
-        "measure:glyphs": "node tools/measure.js",
-        "build:icons": "node tools/build-icons.js",
+        "typecheck": "tsc",
+        "measure:glyphs": "node tools/measure.ts",
+        "build:icons": "node tools/build-icons.ts",
         "build:extension": "npm install -g @vscode/vsce && vsce package",
-        "preview:icons": "node tools/build-icons.js && node tools/preview.js",
-        "preview:theme": "node tools/build-theme-preview.js"
+        "preview:icons": "node tools/build-icons.ts && node tools/preview.ts && node tools/preview.ts neon",
+        "preview:theme": "node tools/build-theme-preview.ts"
     },
     "contributes": {
         "themes": [
@@ -52,6 +53,11 @@
                 "id": "midnight-indigo-icons",
                 "label": "Midnight Indigo Icons",
                 "path": "./icons/theme/midnight-indigo-icon-theme.json"
+            },
+            {
+                "id": "midnight-indigo-neon-icons",
+                "label": "Midnight Indigo Icons (Neon)",
+                "path": "./icons/theme/midnight-indigo-neon-icon-theme.json"
             }
         ],
         "grammars": [
@@ -75,6 +81,8 @@
         ]
     },
     "devDependencies": {
-        "shiki": "^4.4.3"
+        "@types/node": "^22.10.2",
+        "shiki": "^4.4.3",
+        "typescript": "^5.7.2"
     }
 }

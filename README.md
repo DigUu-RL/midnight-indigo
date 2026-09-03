@@ -21,6 +21,7 @@ This is a single extension that contributes both parts. Install once, then enabl
 | --- | --- |
 | **Midnight Indigo** | Color theme — 129 workbench colors, 39 TextMate rules, 34 semantic token rules |
 | **Midnight Indigo Icons** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants |
+| **Midnight Indigo Icons (Neon)** | The same 222 icons, lit: brand-colored ink glowing on a dark ground instead of a brand-colored tile |
 
 Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
 
@@ -64,7 +65,7 @@ code --install-extension diguu-rl.midnight-indigo
 Both are opt-in after install:
 
 1. **Color theme** — `Ctrl+K Ctrl+T` → **Midnight Indigo**
-2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Indigo Icons**
+2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Indigo Icons** or **Midnight Indigo Icons (Neon)**
 
 Or set them directly in `settings.json`:
 
@@ -74,6 +75,8 @@ Or set them directly in `settings.json`:
   "workbench.iconTheme": "midnight-indigo-icons"
 }
 ```
+
+Use `"midnight-indigo-neon-icons"` for the neon set. Both cover exactly the same files and folders, so switching between them changes nothing but the look.
 
 ## Language coverage
 
@@ -92,6 +95,12 @@ The set is built around one rule: an icon has to be identifiable at the 16px VS 
 - **40 contextual folder icons**, each with an open and closed variant, matching several name synonyms per category: `components`, `hooks`, `functions`, `utils`, `helpers`, `services`, `controllers`, `models`, `views/pages`, `layouts`, `store/redux`, `context/providers`, `middleware`, `guards`, `routes`, `api`, `config`, `scripts/cli`, `tests/spec/e2e`, `mocks/fixtures`, `assets`, `images`, `icons`, `fonts`, `styles/themes`, `public`, `build/dist`, `docs`, `database/migrations`, `types/interfaces`, `constants/enums`, `core/lib`, `plugins/features`, `i18n`, `directives/pipes/decorators`, `validators`, `docker/kubernetes`, `workflows/.github`, `server`, `shared/common`, `security/auth`.
 - **140 file and language icons** covering JS/TS/JSX/TSX, HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Shell/Zsh/Fish/PowerShell/Batch, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, Vue, Svelte, Astro, GraphQL, Docker, Terraform, Jupyter, images, fonts, audio, video, archives, certificates, PDF/Office documents, and well-known config files (`package.json`, `.eslintrc`, `.prettierrc`, `tsconfig.json`, `webpack`/`vite`/`rollup`, `Dockerfile`, `Makefile`, `.gitignore`, `nginx.conf`, CI files).
 - **Filename-pattern variants**, each a dedicated icon: `*.spec.ts(x)`, `*.test.ts(x)`, `*.d.ts`, `*.module.ts/scss/css`, `*.component.ts(x)`, `*.service.ts`, `*.stories.ts(x)`, `*.config.ts/js`, `*.min.js`, `*.guard.ts`, `*.pipe.ts`, `*.directive.ts`, `*.controller.ts`, `*.model.ts`, `*.dto.ts`, `*.entity.ts`.
+
+### The neon variant
+
+The neon set is the same 222 icons — same geometry, same glyphs, same measured centres, same mappings. Only the paint differs: the tile becomes the dark indigo ground, the brand color moves onto the ink, and a soft glow sits under the artwork.
+
+The brand color cannot simply be reused as ink, because a color chosen to be read *against* is not one that reads *on* a dark ground: Kotlin's `#241C3A` lands at 1.09:1 against the tile and Lua's `#00007B` at 1.08:1 — 32 of the 140 file icons would have been invisible. So the palette derives the ink instead, keeping the brand's hue and raising saturation and lightness until it clears a contrast floor. TypeScript stays blue and JavaScript stays yellow; every icon in the set clears 3.5:1.
 
 ## Customize
 
@@ -112,20 +121,27 @@ You do not need to fork the theme to adjust it. Override any color in your own `
 }
 ```
 
-The icons in [`icons/svg/`](icons/svg/) and the mapping in [`midnight-indigo-icon-theme.json`](icons/theme/midnight-indigo-icon-theme.json) are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator:
+The icons in [`icons/svg/`](icons/svg/) and [`icons/svg-neon/`](icons/svg-neon/), and both mappings under [`icons/theme/`](icons/theme/), are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator:
 
 | | |
 | --- | --- |
-| [`tools/glyphs.js`](tools/glyphs.js) | The pictogram library. Every glyph is drawn fill-only inside a 24×24 box centred on `(0,0)` |
-| [`tools/icon-spec.js`](tools/icon-spec.js) | Which colour and which glyph or acronym each icon gets |
-| [`tools/build-icons.js`](tools/build-icons.js) | The tile and folder geometry, and the drawing itself |
-| [`tools/build-theme.js`](tools/build-theme.js) | The folder-name / extension / filename / language-id → icon mapping |
+| [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library. Every glyph is drawn fill-only inside a 24×24 box centred on `(0,0)` |
+| [`tools/icon-spec.ts`](tools/icon-spec.ts) | Which colour and which glyph or acronym each icon gets |
+| [`tools/palette.ts`](tools/palette.ts) | Every colour the build paints with, and the derivations between variants |
+| [`tools/build-icons.ts`](tools/build-icons.ts) | The tile and folder geometry, the drawing, and the paint recipe per variant |
+| [`tools/build-theme.ts`](tools/build-theme.ts) | The folder-name / extension / filename / language-id → icon mapping, shared by every variant |
 
 ```bash
-npm run build:icons
+npm run build:icons              # every variant
+node tools/build-icons.ts neon   # just one
+npm run typecheck                # tsc, no emit
 ```
 
-The build fails if a mapping points at an icon that does not exist, so the two can never drift apart. `npm run preview:icons` additionally writes `icons/preview.html`, which shows every icon at 48px and at the 16px VS Code renders it.
+The build scripts are TypeScript, run straight by Node's type stripping — there is no compile step, no bundler and no `dist/`. `typescript` is a devDependency for checking only, and nothing in `tools/` is packaged into the extension. The types are load-bearing rather than decorative: `glyph` is the union of the 89 real glyph names, and every entry in the extension / filename / language-id tables must name an icon the spec defines, so a typo is an error in the editor instead of a thrown build.
+
+The build fails if a mapping points at an icon that does not exist, so the two can never drift apart. `npm run preview:icons` additionally writes `icons/preview.html` and `icons/preview-neon.html`, which show every icon at 48px and at the 16px VS Code renders it.
+
+**Adding a variant** is a paint recipe and nothing else. The geometry, the glyph library, the measurements and the mappings are all shared: add a derivation to `tools/palette.ts`, a `file`/`folder` pair to `VARIANTS` in `tools/build-icons.ts`, and an entry to `contributes.iconThemes`. Nothing an existing variant emits changes — the classic set is byte-for-byte reproducible, so `git diff` after a build is the regression test.
 
 ### Centring
 

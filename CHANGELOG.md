@@ -4,6 +4,48 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0]
+
+A second icon variant, and a fix to the curly-brace glyph. Nothing was removed and no id, label or mapping changed, so an existing `settings.json` keeps working untouched.
+
+### Added
+
+- **Midnight Indigo Icons (Neon)** (`midnight-indigo-neon-icons`) — the same 222 icons, lit. The tile becomes the dark indigo ground already used for folder fills, the brand color moves off the tile and onto the ink, and a soft glow sits under the artwork. Same geometry, same glyphs, same measured centres, same mappings: switching between the two changes nothing but the look.
+- [`tools/palette.ts`](tools/palette.ts) — every color the build paints with, plus the derivations between variants, extracted out of the drawing code. A variant is now a paint recipe (`VARIANTS` in [`tools/build-icons.ts`](tools/build-icons.ts)) rather than a copy of the generator, and the classic set is byte-for-byte reproducible, which makes `git diff` after a build the regression test.
+- `node tools/build-icons.ts <variant>` builds a single variant; with no argument it builds all of them. `node tools/preview.ts neon` writes `icons/preview-neon.html`.
+
+### Changed
+
+- **The build scripts are TypeScript.** Nothing about the published extension changes: it has no entry point and ships no JavaScript, and `tools/` was already excluded from the package. Node runs the `.ts` files directly by stripping the types, so there is no compile step, no bundler and no `dist/` — `typescript` is a devDependency for `npm run typecheck` only, and `tsconfig.json` sets `erasableSyntaxOnly` to keep it that way. The 444 SVGs, both manifests and both measurement files came out byte-for-byte identical to the JavaScript build, which is what the migration was checked against.
+
+  The types earn their place rather than decorating the code:
+
+  - `glyph` on a spec is the union of the 89 real glyph names, so `glyph: 'brases'` is an editor error suggesting `'braces'` instead of a build that throws.
+  - Every entry in the extension, filename and language-id tables must name an icon the spec defines — around 400 mappings checked statically. The existing runtime check stays, because it catches the other direction: an icon the spec defines but the build failed to write.
+  - A misspelled field on a spec (`txet` for `text`) is rejected rather than silently ignored.
+
+  The pictogram library became one object literal instead of 89 separate `glyphs.name = ...` assignments, which is what makes the name union possible. The conversion was scripted and then verified by calling every glyph in both versions across a matrix of arguments: 267 calls, no differences.
+
+### Fixed
+
+Every glyph was rasterised and checked for shapes that fall apart: pieces that should be joined but are not, pieces separated by a gap too small to read as deliberate, and ink thin enough to disappear at 16px. Seven glyphs needed work, affecting 16 icons in each variant.
+
+- **The curly-brace glyph was skewed.** The closing brace had been written out by hand as a second path, and that path was the opening brace *rotated* 180° rather than mirrored — so the two braces carried each other's terminals, one running 0.6 units lower than the other. It is now derived by mirroring the opening brace, which makes the symmetry structural rather than something that has to be maintained. Affects the JSON, Handlebars, CSS-module and SCSS-module file icons and the `config/` folder icon.
+- **The crown had a seam across it.** The body ended at y 8.4 and the base band started at 8.6, leaving a 0.2-unit line straight through the icon. (Nim.)
+- **The brush's ferrule was detached**, floating 0.6 units below the head. (`styles/`.)
+- **The key's bits were floating.** Both were rounded rects whose top-left corner was placed exactly on the shaft's lower edge — a single-point contact that the corner radius then rounded away, leaving them 0.86 units clear of the shaft. They also sat on the half of the shaft buried inside the bow, where there is no shaft to attach to. They are now struck perpendicular to the shaft from a point on its centre line, on its free half. (Certificates.)
+- **The medal's ribbon did not touch the medal**, coming no closer than 0.53 units. (Licenses.)
+- **The whale's tail touched nothing** and sat 0.1 units from the nearest container — close enough to read as a fused seam rather than a gap. It now rides on the hull. (Docker.)
+- **The server rack's LEDs nearly touched the frame** they sit in, with 0.2 units of clearance that closes up at tree size. (`server/`.)
+
+Everything still separated is separated on purpose and by a readable margin: the prompt inside the terminal window, the clock hands inside their rim, the Docker container grid, the Terraform tiles.
+
+- **Neon artwork collided with the ring.** The ring stood inside the tile and took the margin the artwork was drawn to have: the Twig leaf merged with it outright, and MDX, ASM, TOML and the jigsaw pieces all touched it. The ring is now the tile's rim — its outer edge sits on the tile edge — and the artwork layer is scaled about the tile centre to clear it. Measured across all 140 file icons, the tightest clearance went from −0.92 units (an overlap) to 1.34 units. The transform is applied over already-placed content, so every measured centre still holds and no acronym needed re-measuring.
+
+### Notes on the neon palette
+
+A brand color chosen to be read *against* is not one that reads *on* a dark ground. Measured against the neon tile, 32 of the 140 file icons fell below 3:1 — Kotlin's `#241C3A` at 1.09:1, Lua's `#00007B` at 1.08:1, the HTML and CSS crests at 1.03:1 and 1.11:1 — and would have been invisible had the brand color simply been reused as ink. The palette derives the ink instead: the brand's hue is kept, and saturation and lightness are raised until it clears a 3.5:1 floor. Lightness is walked up rather than set to a target because luminance is hue-dependent, and a fixed target would leave the blues unreadable. Every icon in the set clears the floor.
+
 ## [4.0.0]
 
 The icon set was thrown away and redrawn from scratch as a single variant. If you were using the outlined theme, switch your `workbench.iconTheme` to `midnight-indigo-icons`.
