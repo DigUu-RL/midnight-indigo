@@ -1,0 +1,258 @@
+/*
+ * Imports the official brand geometry the icon set draws its language marks
+ * from, and writes it to tools/mark-paths.ts:
+ *
+ *   node tools/import-marks.ts
+ *
+ * Why this exists
+ * ---------------
+ * A language mark is not ours to invent. "Python" is two specific interlocking
+ * snakes, "Go" is a specific wordmark with three speed lines behind it, and an
+ * approximation drawn from memory is the thing that makes an icon set look
+ * almost-right — which is worse than looking nothing like the logo at all. So
+ * the outlines come from the projects' own artwork, and only the *treatment*
+ * (size, palette, shadow, glow) is ours. tools/marks.ts is where the treatment
+ * is applied, and it is also where the marks that have no usable upstream SVG
+ * are drawn by hand from the same references.
+ *
+ * Sources, both pinned so a re-run reproduces the same file
+ * --------------------------------------------------------
+ *   simple-icons 16.29.0  CC0-1.0 (public domain) — https://simpleicons.org
+ *       Flat, single-path, already in a 24x24 box. The default source.
+ *   devicon v2.17.0       MIT — https://github.com/devicons/devicon
+ *       Used only where the mark is genuinely multi-colour (Python's two
+ *       snakes, the HTML5 and CSS3 shields, Dart, Vue, C#, Azure) and a
+ *       single-colour silhouette would not be the logo any more. Gradients are
+ *       flattened to the brand's flat colours by `fills` below — the icon set
+ *       is flat, and a gradient would be the only one in it.
+ *
+ * What is NOT here
+ * ----------------
+ * A logo only earns an import if it survives being drawn at 16px, which is the
+ * size VS Code renders a file icon at. Several upstream marks do not: Groovy's
+ * is an outlined wordmark on a star, Jenkins's is a line-art portrait, Jest's
+ * is a line-art wizard, Vim's sets "Vim" inside its diamond, Lua's sets "Lua"
+ * inside its sphere. At 16px each of those is a smudge. Those are redrawn in
+ * tools/marks.ts, solid and simplified, from the same official artwork.
+ *
+ * The output is checked in, so building the icons never touches the network.
+ */
+
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const SIMPLE_ICONS = '16.29.0';
+const DEVICON = 'v2.17.0';
+
+const si = (slug: string): string =>
+  `https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS}/icons/${slug}.svg`;
+const dv = (name: string, variant = 'original'): string =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon@${DEVICON}/icons/${name}/${name}-${variant}.svg`;
+
+/**
+ * One mark to import. `fills` is only needed for the multi-colour sources: it
+ * maps a fill in the upstream file (or a gradient reference) to the colour SLOT
+ * the mark uses, and anything not named there is dropped — which is how the
+ * shields lose the grey half-tone panels that a flat set has no use for.
+ */
+type Source = {
+  url: string;
+  /** Upstream fill (lower-cased) -> slot index. Single-path marks need none. */
+  fills?: Record<string, number>;
+  note?: string;
+};
+
+const SOURCES: Record<string, Source> = {
+  /* --- simple-icons: flat, one path, one colour --- */
+  apache: { url: si('apache') },
+  astro: { url: si('astro') },
+  babel: { url: si('babel') },
+  c: { url: si('c') },
+  clojure: { url: si('clojure') },
+  coffeescript: { url: si('coffeescript') },
+  cplusplus: { url: si('cplusplus') },
+  crystal: { url: si('crystal') },
+  // The logo CSS got in November 2024: "CSS" in rebeccapurple, the colour named
+  // for Rebecca Meyer. It replaces the blue CSS3 shield, which was never a W3C
+  // mark for the language itself.
+  css: { url: si('css') },
+  docker: { url: si('docker') },
+  dotenv: { url: si('dotenv') },
+  dotnet: { url: si('dotnet') },
+  elixir: { url: si('elixir') },
+  eslint: { url: si('eslint') },
+  fishshell: { url: si('fishshell') },
+  fsharp: { url: si('fsharp') },
+  git: { url: si('git') },
+  // The tanuki as GitLab simplified it in 2022 — one solid head, not the seven
+  // triangles of the old mark.
+  gitlab: { url: si('gitlab') },
+  gnubash: { url: si('gnubash') },
+  go: { url: si('go') },
+  graphql: { url: si('graphql') },
+  handlebars: { url: si('handlebarsdotjs') },
+  haskell: { url: si('haskell') },
+  javascript: { url: si('javascript') },
+  jupyter: { url: si('jupyter') },
+  markdown: { url: si('markdown') },
+  mdx: { url: si('mdx') },
+  nginx: { url: si('nginx') },
+  nim: { url: si('nim') },
+  perl: { url: si('perl') },
+  php: { url: si('php') },
+  pnpm: { url: si('pnpm') },
+  pug: { url: si('pug') },
+  r: { url: si('r') },
+  react: { url: si('react') },
+  rollup: { url: si('rollupdotjs') },
+  ruby: { url: si('ruby') },
+  rust: { url: si('rust') },
+  sass: { url: si('sass') },
+  scala: { url: si('scala') },
+  solidity: { url: si('solidity') },
+  stylelint: { url: si('stylelint') },
+  svelte: { url: si('svelte') },
+  swift: { url: si('swift') },
+  terraform: { url: si('terraform') },
+  toml: { url: si('toml') },
+  typescript: { url: si('typescript') },
+  vagrant: { url: si('vagrant') },
+  vite: { url: si('vite') },
+  webpack: { url: si('webpack') },
+  yarn: { url: si('yarn') },
+  zig: { url: si('zig') },
+  zsh: { url: si('zsh') },
+
+  /* --- devicon: the marks that are two-tone by nature --- */
+  python: {
+    url: dv('python'),
+    // The upstream file paints each snake with a gradient; the brand's flat
+    // colours are the two ends of those gradients. The third path is a soft
+    // ground shadow under the mark, which is not part of the logo.
+    fills: { 'url(#python-original-a)': 0, 'url(#python-original-b)': 1 },
+    note: 'gradients flattened to the flat brand blue/yellow; ground shadow dropped',
+  },
+  dart: {
+    url: dv('dart'),
+    fills: { '#0075c9': 0, '#00a8e1': 1, '#00c4b3': 2, '#22d3c5': 3 },
+  },
+  vue: { url: dv('vuejs'), fills: { '#35495e': 0, '#41b883': 1 } },
+  // The steaming cup, in the two colours the mark has always been drawn in:
+  // a blue cup under red steam.
+  java: { url: dv('java'), fills: { '#0074bd': 0, '#ea2d2e': 1 } },
+  // The numeral on the shield is drawn in two tones, white over a grey
+  // half-tone. A flat set has one tone, so both map to the same slot and the
+  // numeral comes out solid.
+  html5: { url: dv('html5'), fills: { '#e44d26': 0, '#f16529': 1, '#ebebeb': 2, '#fff': 2 } },
+  csharp: { url: dv('csharp'), fills: { '#9b4f96': 0, '#68217a': 1, '#fff': 2 } },
+  azure: {
+    url: dv('azure'),
+    // Two gradient slabs and one solid wedge make the "A"; the fourth path is a
+    // translucent shadow the flat mark has no use for.
+    fills: { 'url(#azure-original-a)': 0, '#0078d4': 0, 'url(#azure-original-c)': 1 },
+    note: 'gradients flattened; translucent shadow slab dropped',
+  },
+};
+
+/* -------------------------------------------------------------- *
+ * Extraction
+ * -------------------------------------------------------------- */
+
+type Part = { d: string; c: number };
+
+const attr = (tag: string, name: string): string | undefined =>
+  tag.match(new RegExp(`\\s${name}="([^"]*)"`))?.[1];
+
+function extract(name: string, src: Source, svg: string): { box: number; parts: Part[] } {
+  const viewBox = svg.match(/viewBox="([^"]+)"/)?.[1];
+  if (!viewBox) throw new Error(`${name}: no viewBox`);
+  const [minX, minY, w, h] = viewBox.split(/[\s,]+/).map(Number);
+  if (minX !== 0 || minY !== 0 || w !== h) throw new Error(`${name}: unexpected viewBox "${viewBox}"`);
+
+  // Groups and transforms would have to be flattened into the path data, and no
+  // source below uses them. Fail loudly rather than silently dropping artwork.
+  if (/<(g|use|image|text)\b/.test(svg)) throw new Error(`${name}: source has elements this importer cannot flatten`);
+
+  const parts: Part[] = [];
+  for (const tag of svg.match(/<path\b[^>]*>/g) || []) {
+    const d = attr(tag, 'd');
+    if (!d) continue;
+    const fill = (attr(tag, 'fill') || '').toLowerCase();
+    let slot = 0;
+    if (src.fills) {
+      const mapped = src.fills[fill];
+      if (mapped === undefined) continue; // a half-tone or decoration a flat mark drops
+      slot = mapped;
+    }
+    // Every source below relies on the default nonzero winding — its holes are
+    // reverse-wound sub-paths. A source that asked for evenodd would come out
+    // with its holes filled in, so refuse it rather than draw it wrong.
+    if (attr(tag, 'fill-rule') === 'evenodd' || attr(tag, 'clip-rule') === 'evenodd') {
+      throw new Error(`${name}: source uses fill-rule="evenodd", which this importer does not carry through`);
+    }
+    parts.push({ d, c: slot });
+  }
+  if (!parts.length) throw new Error(`${name}: no paths survived`);
+  return { box: w, parts };
+}
+
+/* -------------------------------------------------------------- *
+ * Emit
+ * -------------------------------------------------------------- */
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const OUT = path.join(HERE, 'mark-paths.ts');
+
+const names = Object.keys(SOURCES).sort();
+const imported: Record<string, { box: number; parts: Part[]; url: string; note?: string }> = {};
+
+for (const name of names) {
+  const src = SOURCES[name];
+  const res = await fetch(src.url);
+  if (!res.ok) throw new Error(`${name}: ${res.status} ${src.url}`);
+  const svg = await res.text();
+  imported[name] = { ...extract(name, src, svg), url: src.url, note: src.note };
+  process.stdout.write(`  ${name.padEnd(14)} ${imported[name].parts.length} path(s)\n`);
+}
+
+const body = names
+  .map((name) => {
+    const m = imported[name];
+    const parts = m.parts
+      .map((p) => `    { c: ${p.c}, d: '${p.d.replace(/'/g, "\\'")}' },`)
+      .join('\n');
+    return (
+      `  // ${m.url}${m.note ? `\n  // ${m.note}` : ''}\n` +
+      `  ${name}: {\n    box: ${m.box},\n    parts: [\n${parts}\n    ],\n  },`
+    );
+  })
+  .join('\n');
+
+fs.writeFileSync(
+  OUT,
+  `/*
+ * GENERATED by tools/import-marks.ts — do not edit by hand.
+ *
+ * Official brand geometry, imported from the projects' own artwork:
+ *   simple-icons ${SIMPLE_ICONS} (CC0-1.0)  https://simpleicons.org
+ *   devicon ${DEVICON} (MIT)          https://github.com/devicons/devicon
+ *
+ * \`box\` is the source viewBox's edge length; \`c\` indexes the colour slot the
+ * part is painted with. tools/marks.ts scales each mark into the 24x24 glyph
+ * box and decides what those slots are painted with in each variant.
+ */
+
+export type MarkPart = { c: number; d: string };
+export type MarkArt = { box: number; parts: readonly MarkPart[] };
+
+export const markPaths = {
+${body}
+} satisfies Record<string, MarkArt>;
+
+export type ImportedMark = keyof typeof markPaths;
+`,
+  'utf8'
+);
+
+console.log(`wrote tools/mark-paths.ts (${names.length} marks)`);

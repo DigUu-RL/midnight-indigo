@@ -3,36 +3,43 @@
  * manifest each. Run with `node tools/build-icons.ts [variant]` — with no
  * argument it builds every variant.
  *
- * Design system
- * -------------
- * FILES   A 26x26 rounded tile (rx 7) centred in the 32x32 canvas, carrying
- *         either the language's official mark or a short acronym. The tile is
- *         what makes the icon readable at 16px: the glyph always sits on a
- *         solid, high-contrast ground, and every icon has the exact same
- *         optical weight and centre.
- * FOLDERS A stroked (outlined) folder in lavender, with a pictogram sitting
- *         over its bottom-right corner. The pictogram is drawn twice: once in
- *         the editor background colour with a stroke on the wrapper (punching a
- *         halo through the folder outline) and once in its accent colour on
- *         top. That halo is the "leve borda" that separates the two shapes.
+ * Design system (V2)
+ * ------------------
+ * FILES   No tile. The mark IS the icon: the language's own logo, or one of our
+ *         pictograms, or bare lettering, drawn to fill a 25.4-unit box in the
+ *         32-unit canvas. V1 put everything on a 26x26 rounded tile, which gave
+ *         the set a uniform optical weight at the cost of shrinking every logo
+ *         to fit inside it — and of painting official two-tone marks onto a
+ *         brand-coloured ground they were never meant to sit on. Dropping the
+ *         tile gives each logo the whole icon and lets it be the shape it is.
+ *
+ *         Because there is no tile, there is also no knock-out colour: holes in
+ *         a shape are cut with fill-rule="evenodd" and are genuinely
+ *         transparent, so an icon survives the file explorer's hover and
+ *         selection backgrounds. See tools/shapes.ts.
+ *
+ * FOLDERS A solid folder in the folder's accent colour, with its pictogram sunk
+ *         into the body in a darker tone of that same accent. One shape, two
+ *         tones, no outline — the same flat language as the file icons.
  *
  * There are no badges anywhere. File variants (.spec.ts, .module.ts, ...) are
- * their own icons: the tile keeps the language colour so you still read the
- * language, and the whole glyph area is given over to the pictogram that says
- * what the file is.
+ * their own icons: the colour keeps saying which language it is, and the whole
+ * icon is given over to the pictogram that says what the file does.
  *
  * Variants
  * --------
- * Everything above is geometry, and every variant shares it: the same glyph
- * library, the same measured centres, the same tile. A variant is a PAINT
- * RECIPE and nothing else — see VARIANTS at the bottom of this file, and
- * tools/palette.js for the colours it paints with.
+ * Everything above is geometry, and every variant shares it: the same marks,
+ * the same pictograms, the same measured centres, the same box. A variant is a
+ * PAINT RECIPE and nothing else — see VARIANTS at the bottom of this file, and
+ * tools/palette.ts for the colours it paints with.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { glyphs, type Colour, type Extra, type GlyphName } from './glyphs.ts';
+import { glyphs } from './glyphs.ts';
+import { marks, unusedImports } from './marks.ts';
+import type { Colour, Ink } from './shapes.ts';
 import {
   FONT,
   WEIGHT,
@@ -46,22 +53,12 @@ import {
   type FileIcon,
   type FolderIcon,
 } from './icon-spec.ts';
-import {
-  LIGHT,
-  DARK,
-  BG,
-  FOLDER_STROKE,
-  FOLDER_FILL,
-  NEON_TILE,
-  autoFg,
-  neonInk,
-  neonInkAll,
-} from './palette.ts';
+import { FOLDER, neonInk, readable, shade, tint } from './palette.ts';
 import buildTheme from './build-theme.ts';
 
-/** What tools/measure.ts records for one glyph and one acronym. */
-type GlyphBounds = { cx: number; cy: number; w: number; h: number };
-type TextMetrics = { dx: number; dy: number };
+/** What tools/measure.ts records for one piece of artwork and one text run. */
+type Bounds = { cx: number; cy: number; w: number; h: number };
+type TextMetrics = Bounds & { dx: number; dy: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ICONS = path.join(HERE, '..', 'icons');
@@ -69,221 +66,244 @@ const ICONS = path.join(HERE, '..', 'icons');
 const readJson = <T,>(name: string): T =>
   JSON.parse(fs.readFileSync(path.join(HERE, name), 'utf8')) as T;
 
-const bounds = readJson<Record<string, GlyphBounds>>('glyph-bounds.json');
+const bounds = readJson<Record<string, Bounds>>('glyph-bounds.json');
 const textBounds = readJson<Record<string, TextMetrics>>('text-bounds.json');
 
-/*
- * Hand-authored glyphs drift off the nominal 24x24 box, and the ones that punch
- * holes in themselves (the puzzle piece's socket, the gem's facets) have ink
- * that is not centred on their bounding box at all. tools/measure.js rasterises
- * each glyph and records where the ink actually is; this recentres every glyph
- * on that and shrinks anything that outgrew the box.
- */
-function place(name: string, cx: number, cy: number, scale: number): string {
-  const b = bounds[name];
-  if (!b) throw new Error(`no measured bounds for glyph "${name}" — run: npm run measure:glyphs`);
-  const fit = Math.min(1, 24 / Math.max(b.w, b.h));
-  const s = scale * fit;
-  // Recentre in glyph space (before the outer scale), so the correction scales with it.
-  return `<g transform="translate(${round(cx - b.cx * s)} ${round(cy - b.cy * s)}) scale(${round(s)})">`;
-}
-
 const round = (v: number): number => Number(v.toFixed(3));
+
+/* -------------------------------------------------------------- *
+ * The box everything is drawn into
+ * -------------------------------------------------------------- */
+
+/*
+ * Artwork is fitted to ART units and centred on (CX, CY). The centre sits a
+ * little up and to the left of the canvas centre because the classic variant's
+ * shadow falls down and to the right: put the artwork dead centre and the
+ * shadow is what gets clipped by the viewBox.
+ */
+const ART = 25.4;
+const CX = 15.6;
+const CY = 15.4;
+
+/**
+ * Hand-authored artwork drifts off its nominal box, and anything that punches
+ * holes in itself has ink that is not centred on its bounding box at all.
+ * Imported logos are worse: they are drawn to their own optical balance inside
+ * whatever box upstream chose. tools/measure.ts rasterises each piece and
+ * records where the ink actually is; this puts that ink in the middle of ours,
+ * at the size we want, whatever the artwork thought it was doing.
+ */
+function place(kind: string, name: string, body: string, size = ART): string {
+  const key = `${kind}:${name}`;
+  const b = bounds[key];
+  if (!b) throw new Error(`no measured bounds for ${key} — run: npm run measure:glyphs`);
+  const s = size / Math.max(b.w, b.h);
+  return (
+    `<g transform="translate(${round(CX - b.cx * s)} ${round(CY - b.cy * s)}) scale(${round(s)})">` +
+    body +
+    '</g>'
+  );
+}
 
 /* -------------------------------------------------------------- *
  * Canvas primitives
  * -------------------------------------------------------------- */
 
-const svg = (body: string): string => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">${body}</svg>`;
+const svg = (body: string): string =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">${body}</svg>`;
 
 // XML-escaped for the font-family attribute, which is quoted with " itself.
 const FONT_ATTR = FONT.replace(/"/g, '&quot;');
 
-/** Everything `label()` needs beyond the string itself. */
-type LabelOpts = { fill?: Colour; size?: number; track?: number; dy?: number };
-
 /*
- * Acronyms are placed from measured ink, not from a rule of thumb.
+ * Lettering is placed from measured ink, not from a rule of thumb.
  * `text-anchor="middle"` centres the advance width, which is not where the ink
  * sits — and the baseline a string wants depends on whether it has a descender.
- * tools/measure.js records both; this just applies the correction.
+ * tools/measure.ts records both, plus the ink's size, which is what lets a wide
+ * string be scaled down instead of running out of the canvas.
  */
-function label(str: string, opts: LabelOpts = {}): string {
+function label(str: string, fill: Colour, opts: { size?: number; track?: number; dy?: number }): string {
   const size = sizeFor(str, opts);
   const track = trackFor(str, opts);
   const m = textBounds[textKey(str, size, track)];
   if (!m) throw new Error(`no measured text metrics for "${str}" — run: npm run measure:glyphs`);
-  // dx/dy move the measured ink box onto the tile centre.
+
+  // Only ever shrink: the sizes in icon-spec.ts are chosen per character count,
+  // and growing a short string here would undo that.
+  const fit = Math.min(1, ART / Math.max(m.w, m.h));
+  const x = CX + m.dx * fit;
+  const y = CY + (m.dy + (opts.dy || 0)) * fit;
   return (
-    `<text x="${round(16 + m.dx)}" y="${round(16 + m.dy + (opts.dy || 0))}" text-anchor="middle" ` +
-    `font-family="${FONT_ATTR}" font-weight="${WEIGHT}" font-size="${size}" ` +
-    `letter-spacing="${track}" fill="${opts.fill}">${str}</text>`
+    `<text x="${round(x)}" y="${round(y)}" text-anchor="middle" ` +
+    `font-family="${FONT_ATTR}" font-weight="${WEIGHT}" font-size="${round(size * fit)}" ` +
+    `letter-spacing="${round(track * fit)}" fill="${fill}">${str}</text>`
   );
 }
 
-const TILE = (bg: Colour): string => `<rect x="3" y="3" width="26" height="26" rx="7" fill="${bg}"/>`;
+/* -------------------------------------------------------------- *
+ * Resolving an icon to artwork plus ink
+ * -------------------------------------------------------------- */
 
-// 0.8 puts a 24-unit glyph at 19.2 units inside a 26-unit tile: big, with just
-// enough air that the rounded corners never clip it.
-const GLYPH_SCALE = 0.8;
+/** The colours an icon is painted with, before a variant has had its say. */
+function paletteOf(spec: FileSpec): readonly Colour[] {
+  if (spec.colors) return spec.colors;
+  if (spec.mark) return marks[spec.mark].palette;
+  throw new Error('spec has neither a mark nor colours to paint with');
+}
 
-function drawGlyph(name: GlyphName, fg: Colour, knockOut: Colour, extra: Extra | undefined, scale?: number): string {
-  const g = glyphs[name];
-  if (!g) throw new Error(`unknown glyph: ${name}`);
-  return place(name, 16, 16, scale || GLYPH_SCALE) + g(fg, knockOut, extra) + '</g>';
+/**
+ * Pictograms are duotone: the identity colour plus a lighter tint of it. A spec
+ * only ever names the identity colour, so the pair is derived here — that way
+ * every pictogram gets one for free, and adding a language means adding one
+ * colour rather than two.
+ */
+const duotone = (ink: Ink): Ink => (ink.length > 1 ? ink : [ink[0], tint(ink[0])]);
+
+/** Draws a spec's artwork — everything but the lettering — with resolved ink. */
+function artwork(spec: FileSpec, ink: Ink): string {
+  const scale = spec.scale ? ART * spec.scale : ART;
+  if (spec.mark) return place('mark', spec.mark, marks[spec.mark].draw(ink), scale);
+  if (spec.glyph) return place('glyph', spec.glyph, glyphs[spec.glyph](duotone(ink)), scale);
+  return '';
 }
 
 /* -------------------------------------------------------------- *
  * Folders
  * -------------------------------------------------------------- */
 
-const folderPath = (isOpen: boolean, stroke: Colour, fill: Colour): string =>
-  isOpen
-    ? `<path d="M4 24.5V7.5A2 2 0 0 1 6 5.5h6.3a2 2 0 0 1 1.55.75l1.8 2.15a2 2 0 0 0 1.55.75H24a2 2 0 0 1 2 2v2.6" ` +
-      `fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` +
-      `<path d="M4.15 24.9 7.05 14.85A1.9 1.9 0 0 1 8.87 13.5H28.2a1.45 1.45 0 0 1 1.4 1.85l-2.6 9.25A2.6 2.6 0 0 1 24.5 26.5H6.1A2 2 0 0 1 4.15 24.9Z" ` +
-      `fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`
-    : `<path d="M4 24.5V7.5A2 2 0 0 1 6 5.5h6.3a2 2 0 0 1 1.55.75l1.8 2.15a2 2 0 0 0 1.55.75H26a2 2 0 0 1 2 2V24.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" ` +
-      `fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`;
+/*
+ * One folder, two states. The closed folder is a tabbed rounded rectangle; the
+ * open one keeps that WHOLE shape as the back of the folder and swings a front
+ * panel out and down over it, which is what reads as "open" at 16px — a folder
+ * drawn merely wider does not.
+ *
+ * The back is the complete folder rather than the strip of it that shows above
+ * the front panel. Drawing only the strip leaves the ground visible in the
+ * wedge between the panel's slanted left edge and the folder's own left edge,
+ * and that gap reads as a piece of the icon failing to render rather than as
+ * depth.
+ */
+const FOLDER_BACK =
+  'M3 9.4a2.6 2.6 0 0 1 2.6-2.6h6.35a2.2 2.2 0 0 1 1.7.8l1.85 2.25a2.2 2.2 0 0 0 1.7.8H26.4A2.6 2.6 0 0 1 29 13.25V24.4a2.6 2.6 0 0 1-2.6 2.6H5.6A2.6 2.6 0 0 1 3 24.4Z';
+const FOLDER_OPEN_FRONT =
+  'M3.05 24.6 6.15 14.4A2.6 2.6 0 0 1 8.65 12.55h19.6a1.8 1.8 0 0 1 1.72 2.32l-2.8 9.45A3 3 0 0 1 24.3 27H5.6a2.6 2.6 0 0 1-2.55-2.4Z';
 
-// The overlay sits low-right, where the old badge used to be, but it is the
-// pictogram itself — no chip, no lettering — ringed by the editor background.
-// Sized so the pictogram still reads at the 16px VS Code renders folders at —
-// it is deliberately large enough to cover most of the folder's lower-right.
-const OVERLAY_AT = [21.8, 22];
-const OVERLAY_SCALE = 0.72;
+/** Where the pictogram sits, and how big, in each state. */
+const FOLDER_ART = {
+  closed: { cx: 16, cy: 18.6, size: 12.6 },
+  open: { cx: 17, cy: 19.9, size: 11.6 },
+};
 
-function overlayAt(name: GlyphName): [string, (typeof glyphs)[GlyphName]] {
-  const g = glyphs[name];
-  if (!g) throw new Error(`unknown glyph: ${name}`);
-  return [place(name, OVERLAY_AT[0], OVERLAY_AT[1], OVERLAY_SCALE), g];
-}
-
-// The knock-out ring that separates the pictogram from the folder outline.
-function overlayHalo(name: GlyphName): string {
-  const [open, g] = overlayAt(name);
-  return `${open}<g stroke="${BG}" stroke-width="5.2" stroke-linejoin="round" stroke-linecap="round">${g(BG, BG, [BG, BG, BG])}</g></g>`;
-}
-
-function overlayInk(name: GlyphName, accent: Colour, extra?: Extra): string {
-  const [open, g] = overlayAt(name);
-  return `${open}${g(accent, BG, extra)}</g>`;
+function folderArt(spec: Partial<FolderSpec>, isOpen: boolean, ink: Ink): string {
+  const at = isOpen ? FOLDER_ART.open : FOLDER_ART.closed;
+  const [kind, name, body] = spec.mark
+    ? (['mark', spec.mark, marks[spec.mark].draw(ink)] as const)
+    : spec.glyph
+      ? (['glyph', spec.glyph, glyphs[spec.glyph](ink)] as const)
+      : ([null, null, ''] as const);
+  if (!kind) return '';
+  const b = bounds[`${kind}:${name}`];
+  if (!b) throw new Error(`no measured bounds for ${kind}:${name} — run: npm run measure:glyphs`);
+  const s = at.size / Math.max(b.w, b.h);
+  return (
+    `<g transform="translate(${round(at.cx - b.cx * s)} ${round(at.cy - b.cy * s)}) scale(${round(s)})">` +
+    body +
+    '</g>'
+  );
 }
 
 /* -------------------------------------------------------------- *
- * Variant: classic — brand-coloured tiles
- * -------------------------------------------------------------- */
+ * Variant: classic — flat, official colour, with a shadow
+ * -------------------------------------------------------------- *
+ *
+ * The shadow is what keeps a flat icon from looking like a sticker on this
+ * theme, and it cannot be black: the ground is #040208, so a black shadow is
+ * not a shadow, it is nothing. Each icon casts its own colour, taken down in
+ * lightness by palette.ts -> shade. One soft offset pass, no spread: at the
+ * 16px VS Code renders a file icon at, anything more turns the mark to mush.
+ */
+
+const SHADOW_ID = 'sh';
+const SHADOW = (colour: Colour): string =>
+  `<defs><filter id="${SHADOW_ID}" x="-25%" y="-25%" width="160%" height="160%" color-interpolation-filters="sRGB">` +
+  `<feDropShadow dx="0.9" dy="1.3" stdDeviation="0.55" flood-color="${colour}" flood-opacity="1"/>` +
+  `</filter></defs>`;
+
+const dropped = (body: string): string => `<g filter="url(#${SHADOW_ID})">${body}</g>`;
 
 function classicFile(spec: FileSpec): string {
-  const fg = spec.fg || autoFg(spec.bg);
-  let body = TILE(spec.bg);
-  if (spec.glyph) body += drawGlyph(spec.glyph, fg, spec.hole || spec.bg, spec.extra, spec.scale);
-  if (spec.text) body += label(spec.text, { fill: spec.textFill || fg, size: spec.size, dy: spec.dy });
-  return svg(body);
+  const ink = paletteOf(spec).map(readable);
+  let body = artwork(spec, ink);
+  if (spec.text) body += label(spec.text, spec.textFill || ink[0], spec);
+  return svg(SHADOW(shade(ink[0])) + dropped(body));
 }
 
 function classicFolder(spec: Partial<FolderSpec>, isOpen: boolean): string {
-  const base = folderPath(isOpen, FOLDER_STROKE, FOLDER_FILL);
-  // The plain folder is drawn from an empty spec; a pictogram needs both halves.
-  if (!spec.glyph || !spec.accent) return svg(base);
-  return svg(base + overlayHalo(spec.glyph) + overlayInk(spec.glyph, spec.accent, spec.extra));
+  const accent = readable(spec.accent || FOLDER);
+  /*
+   * The pictogram is not a second colour: it is the folder's own accent taken
+   * down until it reads as sunk into the body rather than laid on top of it.
+   * Its duotone goes DOWN from there rather than up — the lighter tint a file
+   * icon uses would climb back toward the folder it is meant to be cut into.
+   */
+  const sunk: Ink = [shade(accent, 0.74), shade(accent, 0.56)];
+  const body = isOpen
+    ? `<path d="${FOLDER_BACK}" fill="${shade(accent, 0.34)}"/><path d="${FOLDER_OPEN_FRONT}" fill="${accent}"/>`
+    : `<path d="${FOLDER_BACK}" fill="${accent}"/>`;
+  return svg(SHADOW(shade(accent)) + dropped(body + folderArt(spec, isOpen, sunk)));
 }
 
 /* -------------------------------------------------------------- *
- * Variant: neon — lit ink on a dark ground
+ * Variant: neon — lit ink on the theme's own ground
  * -------------------------------------------------------------- *
  *
- * Same tile, same glyphs, same measured centres. What changes is the paint:
- * the brand colour moves off the tile and onto the ink, the tile becomes the
- * dark ground already used for folder fills, and everything drawn on it is put
- * through a blur-and-merge filter so it reads as a lit tube rather than a flat
- * shape. The ink itself comes from palette.js -> neonInk, which keeps the
- * brand's hue but raises it until it clears the contrast floor against that
- * ground — half the set's brand colours are too dark to survive otherwise.
+ * Same artwork, same measured centres, same box. What changes is the paint:
+ * every colour is lifted by palette.ts -> neonInk until it reads as lit rather
+ * than merely legible, and the whole icon is put through a blur-and-merge
+ * filter so it sits in its own light.
  *
- * Glyphs stay FILLED rather than becoming hollow outlines. A 24-unit glyph
- * lands at 19 units on a tile VS Code renders at 16px; hollowing it out at that
- * size closes the counters and turns the pictogram into a smudge. The glow is
- * what carries the neon, not the hollowing.
+ * Artwork stays FILLED rather than becoming a hollow outline. A mark drawn at
+ * 25 units lands at 12 or 13 real pixels in the file explorer; hollowing it out
+ * at that size closes the counters and turns the logo into a smudge. The glow
+ * is what carries the neon, not the hollowing.
+ *
+ * The blur is laid UNDER the untouched artwork rather than merged over it.
+ * Merging a blur over itself is what turns a glow into a bloom: the halo gains
+ * enough alpha to swallow the edge it is supposed to be radiating from. Two
+ * soft passes with SourceGraphic drawn last keeps every edge exactly as sharp
+ * as the classic set and lets the light sit around it instead of on it.
  */
 
-/*
- * A single soft pass laid UNDER the untouched artwork. Merging the blur over
- * itself is what turns a glow into a bloom: the halo gains enough alpha to
- * swallow the stroke it is supposed to be radiating from, and the icon loses
- * its contour. One pass at partial alpha, with SourceGraphic drawn last, keeps
- * every edge exactly as sharp as the classic set and lets the light sit around
- * it instead of on it.
- */
-const GLOW_ID = 'glow';
-const GLOW_RADIUS = 0.55;
-const GLOW_ALPHA = 0.5;
-const NEON_DEFS =
-  `<defs><filter id="${GLOW_ID}" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">` +
-  `<feGaussianBlur stdDeviation="${GLOW_RADIUS}" result="b"/>` +
-  `<feComponentTransfer in="b" result="soft"><feFuncA type="linear" slope="${GLOW_ALPHA}"/></feComponentTransfer>` +
-  `<feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge>` +
+const GLOW_ID = 'gl';
+const GLOW = (): string =>
+  `<defs><filter id="${GLOW_ID}" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">` +
+  `<feGaussianBlur stdDeviation="0.85" result="b"/>` +
+  `<feComponentTransfer in="b" result="s"><feFuncA type="linear" slope="0.7"/></feComponentTransfer>` +
+  `<feMerge><feMergeNode in="s"/><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>` +
   `</filter></defs>`;
 
 const lit = (body: string): string => `<g filter="url(#${GLOW_ID})">${body}</g>`;
 
-/*
- * The ring is the tile's lit rim: its outer edge sits exactly on the tile edge
- * (3.7 - 1.4/2 = 3.0), and the corner radius is inset to match so it stays
- * concentric. Drawing it further in cost room the artwork does not have.
- */
-const NEON_RING = (ink: Colour): string =>
-  `<rect x="3.7" y="3.7" width="24.6" height="24.6" rx="6.3" fill="none" stroke="${ink}" stroke-width="1.4"/>`;
-
-/*
- * On the classic tile the artwork's field is the whole 26-unit tile. Here the
- * ring stands inside that field and takes 1.4 units per side, so artwork drawn
- * at the classic size runs straight into it — the Twig leaf merged with the
- * ring outright, and MDX, ASM, TOML and the jigsaw pieces all touched it.
- * Shrinking the artwork layer about the tile centre gives the ring its room
- * back. It is applied as a transform over already-placed content, so every
- * measured centre from tools/measure.js still holds and no acronym needs
- * re-measuring at a new size.
- */
-const NEON_ARTWORK_SCALE = 0.88;
-const inset = (body: string): string =>
-  `<g transform="translate(16 16) scale(${NEON_ARTWORK_SCALE}) translate(-16 -16)">${body}</g>`;
-
-/*
- * Which colour on the spec carries the language's identity. Normally it is the
- * tile (`bg`). But a handful of specs deliberately pair a dark tile with a
- * coloured glyph — HTML's crest on #2B1610, Python's snakes on #2B5F8E — and
- * there the identity is in `fg`, so lifting `bg` would give a muddy brown where
- * the icon should be orange. `fg: LIGHT` is not an identity colour, it is the
- * classic variant's contrast pick, so it falls through to the tile.
- */
-const identity = (spec: FileSpec): Colour => (spec.fg && spec.fg !== LIGHT && spec.fg !== DARK ? spec.fg : spec.bg);
-
 function neonFile(spec: FileSpec): string {
-  const ink = neonInk(identity(spec));
-  // The two crest icons ask for scale 0.9 so the badge fills a brand-coloured
-  // tile. Here the tile is dark and the ring is the frame, so a glyph that big
-  // covers both and the icon comes out a solid block among lit outlines.
-  const scale = Math.min(spec.scale || GLYPH_SCALE, GLYPH_SCALE);
-  let art = '';
-  // Knock-outs are painted with the ground, so holes read as holes.
-  if (spec.glyph) art += drawGlyph(spec.glyph, ink, NEON_TILE, neonInkAll(spec.extra), scale);
-  if (spec.text) art += label(spec.text, { fill: spec.textFill || ink, size: spec.size, dy: spec.dy });
-  return svg(NEON_DEFS + TILE(NEON_TILE) + lit(NEON_RING(neonInk(spec.bg)) + inset(art)));
+  const ink = paletteOf(spec).map(neonInk);
+  let body = artwork(spec, ink);
+  if (spec.text) body += label(spec.text, spec.textFill ? neonInk(spec.textFill) : ink[0], spec);
+  return svg(GLOW() + lit(body));
 }
 
+/*
+ * A solid folder painted in lit ink would be a glowing block with a hole in it,
+ * so neon keeps the geometry and inverts the weight: the body is dimmed to a
+ * dark tint of the accent, the RIM is the lit line, and the pictogram is lit
+ * with it. Same two paths, same pictogram, same places.
+ */
 function neonFolder(spec: Partial<FolderSpec>, isOpen: boolean): string {
-  // The halo stays unlit: it is a knock-out in the editor background, and
-  // blurring it would smear a dark cloud over the folder outline it separates.
-  const base = lit(folderPath(isOpen, neonInk(FOLDER_STROKE), FOLDER_FILL));
-  // The plain folder is drawn from an empty spec; a pictogram needs both halves.
-  if (!spec.glyph || !spec.accent) return svg(NEON_DEFS + base);
-  return svg(
-    NEON_DEFS +
-      base +
-      overlayHalo(spec.glyph) +
-      lit(overlayInk(spec.glyph, neonInk(spec.accent), neonInkAll(spec.extra)))
-  );
+  const ink = neonInk(spec.accent || FOLDER);
+  const fill = shade(ink, 0.84);
+  const rim = (d: string): string =>
+    `<path d="${d}" fill="${fill}" stroke="${ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  const body = isOpen ? rim(FOLDER_BACK) + rim(FOLDER_OPEN_FRONT) : rim(FOLDER_BACK);
+  return svg(GLOW() + lit(body + folderArt(spec, isOpen, [ink, tint(ink)])));
 }
 
 /* -------------------------------------------------------------- *
@@ -357,3 +377,6 @@ else if (isVariant(only)) targets = [only];
 else throw new Error(`unknown variant "${only}" — expected one of: ${Object.keys(VARIANTS).join(', ')}`);
 
 for (const name of targets) build(name);
+
+const dead = unusedImports();
+if (dead.length) console.warn(`note: imported but unused marks: ${dead.join(', ')}`);

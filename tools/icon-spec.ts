@@ -1,237 +1,260 @@
 /*
- * What every icon is made of: the tile colour, and either a glyph from
- * tools/glyphs.ts or an acronym. Shared by build-icons.ts (which draws them)
- * and measure.ts (which measures them), so the two can never disagree about
- * what text is set at what size.
+ * What every icon is made of. Shared by build-icons.ts (which draws them) and
+ * measure.ts (which measures them), so the two can never disagree about what
+ * text is set at what size.
+ *
+ * An icon is one of three things:
+ *
+ *   A MARK — the language's or tool's own logo, from tools/marks.ts. It brings
+ *   its official colours with it, so most entries here are a single word. That
+ *   is the point: if an icon needs a colour written next to it, either the logo
+ *   is ours (a pictogram) or something is being overridden on purpose.
+ *
+ *   A PICTOGRAM plus a colour — for everything that has no logo, and for the
+ *   file *variants* (.spec.ts, .module.ts, ...), where the colour says which
+ *   language it is and the pictogram says what the file does.
+ *
+ *   TEXT — bare letters, no shape behind them. Used for the formats whose logo
+ *   IS a wordmark (YAML) and for the ones with no logo at all (INI, BAT, ASM).
  */
 
-import type { Colour, Extra, GlyphName } from './glyphs.ts';
+import type { Colour } from './shapes.ts';
+import type { GlyphName } from './glyphs.ts';
+import type { MarkName } from './marks.ts';
 
-/*
- * `glyph` is typed as the union of the 89 real glyph names, so a typo here is
- * an error in the editor rather than a thrown build. The literals below are
- * declared with `satisfies` so that `keyof typeof files` stays the union of the
- * actual icon names — build-theme.ts checks every mapping against it.
- */
 export type FileSpec = {
-  /** The tile colour, and the language's identity colour in most icons. */
-  bg: Colour;
-  /** Overrides the automatic dark/light contrast pick for the glyph. */
-  fg?: Colour;
+  /** The official logo. Brings its own palette unless `colors` overrides it. */
+  mark?: MarkName;
+  /** One of our pictograms. Needs `colors`. */
   glyph?: GlyphName;
+  /** Bare text, no shape behind it. */
   text?: string;
-  /** Secondary colours for the two-tone and multi-colour marks. */
-  extra?: Extra;
-  /** Knock-out colour, when it must differ from the tile. */
-  hole?: Colour;
-  scale?: number;
+  /** The palette. Slot 0 is the icon's identity colour in every variant. */
+  colors?: readonly Colour[];
+  /** Overrides the automatic size for `text`. */
   size?: number;
+  /** Nudges `text` off the optical centre — only the lettered marks need it. */
   dy?: number;
-  textFill?: Colour;
   track?: number;
+  /** Paints `text` with something other than the identity colour. */
+  textFill?: Colour;
+  /** Shrinks or grows the artwork inside the icon's box. */
+  scale?: number;
 };
 
 export type FolderSpec = {
+  /** The colour the folder body is painted with. */
   accent: Colour;
   glyph?: GlyphName;
-  extra?: Extra;
+  mark?: MarkName;
 };
 
-/** What `label()` and the measuring pass need to set one acronym. */
+/** What `label()` and the measuring pass need to set one string. */
 export type TextOpts = { size?: number; track?: number };
 
 export const FONT =
   '"Segoe UI Semibold","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif';
 export const WEIGHT = 700;
 
-// Acronyms are the weak spot of any icon set, so they take as much of the tile
-// as the character count allows, set tight and heavy.
-const TEXT_SIZE: Record<number, number> = { 1: 19, 2: 15, 3: 11.4, 4: 8.8 };
-const TEXT_TRACK: Record<number, number> = { 1: 0, 2: -0.7, 3: -0.5, 4: -0.35 };
+/*
+ * Text is the weak spot of any icon set, and V2 took the tile away — so a
+ * lettered icon is now nothing but its letters, and they can have the whole box.
+ *
+ * These are deliberately set a size too large for the widest string of each
+ * length: build-icons.ts only ever SHRINKS a string, and it shrinks from the
+ * measured ink, so each one ends up as large as it can be without overrunning
+ * the box. Setting a size that the widest string just fits would leave the
+ * narrow ones ("INI", "CI") looking half-drawn next to the marks.
+ */
+const TEXT_SIZE: Record<number, number> = { 1: 24, 2: 20, 3: 16, 4: 13 };
+const TEXT_TRACK: Record<number, number> = { 1: 0, 2: -0.8, 3: -0.6, 4: -0.4 };
 
 export const sizeFor = (str: string, opts: TextOpts = {}): number =>
-  opts.size || TEXT_SIZE[Math.min([...str].length, 4)] || 8.8;
+  opts.size || TEXT_SIZE[Math.min([...str].length, 4)] || 10.4;
 export const trackFor = (str: string, opts: TextOpts = {}): number =>
-  opts.track !== undefined ? opts.track : TEXT_TRACK[Math.min([...str].length, 4)] || -0.35;
-export const textKey = (str: string, size: number, track: number): string =>
-  `${str}|${size}|${track}`;
+  opts.track !== undefined ? opts.track : TEXT_TRACK[Math.min([...str].length, 4)] || -0.4;
+export const textKey = (str: string, size: number, track: number): string => `${str}|${size}|${track}`;
 
-export const LIGHT: Colour = '#FFFFFF';
+const WHITE: Colour = '#FFFFFF';
 
-const TS = '#3178C6';
-const JS = '#F7DF1E'; // the official JavaScript yellow
-const REACT = '#61DAFB';
+/* The language colours the file variants inherit. */
+const JS: Colour = '#F7DF1E';
+const TS: Colour = '#3178C6';
+const REACT: Colour = '#61DAFB';
 
 export const files = {
   /* --- JavaScript / TypeScript family --- */
-  javascript: { bg: JS, text: 'JS' },
-  typescript: { bg: TS, text: 'TS' },
-  jsx: { bg: REACT, glyph: 'atom' },
-  mjs: { bg: JS, glyph: 'cubes' },
+  javascript: { mark: 'javascript' },
+  typescript: { mark: 'typescript' },
+  jsx: { mark: 'react' },
+  mjs: { glyph: 'cubes', colors: [JS] },
 
-  'javascript-spec': { bg: JS, glyph: 'flask' },
-  'javascript-test': { bg: JS, glyph: 'listCheck' },
-  'javascript-config': { bg: JS, glyph: 'wrench' },
-  'javascript-min': { bg: JS, glyph: 'compress' },
-  'javascript-module': { bg: JS, glyph: 'cubes' },
+  'javascript-spec': { glyph: 'flask', colors: [JS] },
+  'javascript-test': { glyph: 'listCheck', colors: [JS] },
+  'javascript-config': { glyph: 'wrench', colors: [JS] },
+  'javascript-min': { glyph: 'compress', colors: [JS] },
+  'javascript-module': { glyph: 'cubes', colors: [JS] },
 
-  'typescript-spec': { bg: TS, glyph: 'flask' },
-  'typescript-test': { bg: TS, glyph: 'listCheck' },
-  'typescript-d': { bg: TS, glyph: 'tag' },
-  'typescript-module': { bg: TS, glyph: 'cubes' },
-  'typescript-component': { bg: TS, glyph: 'puzzle' },
-  'typescript-service': { bg: TS, glyph: 'gear' },
-  'typescript-stories': { bg: TS, glyph: 'book' },
-  'typescript-config': { bg: TS, glyph: 'wrench' },
-  'typescript-guard': { bg: TS, glyph: 'shield' },
-  'typescript-pipe': { bg: TS, glyph: 'funnel' },
-  'typescript-directive': { bg: TS, glyph: 'wand' },
-  'typescript-controller': { bg: TS, glyph: 'sliders' },
-  'typescript-model': { bg: TS, glyph: 'cylinder' },
-  'typescript-dto': { bg: TS, glyph: 'exchange' },
-  'typescript-entity': { bg: TS, glyph: 'grid' },
+  'typescript-spec': { glyph: 'flask', colors: [TS] },
+  'typescript-test': { glyph: 'listCheck', colors: [TS] },
+  'typescript-d': { glyph: 'tag', colors: [TS] },
+  'typescript-module': { glyph: 'cubes', colors: [TS] },
+  'typescript-component': { glyph: 'puzzle', colors: [TS] },
+  'typescript-service': { glyph: 'gear', colors: [TS] },
+  'typescript-stories': { glyph: 'book', colors: [TS] },
+  'typescript-config': { glyph: 'wrench', colors: [TS] },
+  'typescript-guard': { glyph: 'shield', colors: [TS] },
+  'typescript-pipe': { glyph: 'funnel', colors: [TS] },
+  'typescript-directive': { glyph: 'wand', colors: [TS] },
+  'typescript-controller': { glyph: 'sliders', colors: [TS] },
+  'typescript-model': { glyph: 'cylinder', colors: [TS] },
+  'typescript-dto': { glyph: 'exchange', colors: [TS] },
+  'typescript-entity': { glyph: 'grid', colors: [TS] },
 
-  'jsx-spec': { bg: REACT, glyph: 'flask' },
-  'jsx-test': { bg: REACT, glyph: 'listCheck' },
-  'jsx-stories': { bg: REACT, glyph: 'book' },
-  'jsx-component': { bg: REACT, glyph: 'puzzle' },
+  'jsx-spec': { glyph: 'flask', colors: [REACT] },
+  'jsx-test': { glyph: 'listCheck', colors: [REACT] },
+  'jsx-stories': { glyph: 'book', colors: [REACT] },
+  'jsx-component': { glyph: 'puzzle', colors: [REACT] },
 
   /* --- Web frameworks and templating --- */
-  vue: { bg: '#35495E', glyph: 'vue', fg: '#41B883' },
-  svelte: { bg: '#FF3E00', text: 'S', fg: LIGHT },
-  astro: { bg: '#FF5D01', text: 'A' },
-  coffeescript: { bg: '#6F4E37', glyph: 'mug' },
-  // The Handlebars moustache turns to two blobs at 16px; its own {{ }} reads.
-  handlebars: { bg: '#F0772B', glyph: 'braces' },
-  pug: { bg: '#A86454', text: 'PUG', fg: LIGHT },
-  ejs: { bg: '#B4CA65', text: 'EJS' },
-  twig: { bg: '#78C043', glyph: 'leaf' },
-  graphql: { bg: '#E10098', glyph: 'graphql' },
-  protobuf: { bg: '#4285F4', text: 'PB', fg: LIGHT },
+  vue: { mark: 'vue' },
+  svelte: { mark: 'svelte' },
+  astro: { mark: 'astro' },
+  coffeescript: { mark: 'coffeescript' },
+  handlebars: { mark: 'handlebars' },
+  pug: { mark: 'pug' },
+  // EJS and Twig have no SVG mark to import: EJS's logo is its lettering, and
+  // Twig's is the leaf from its wordmark.
+  ejs: { text: 'EJS', colors: ['#B4CA65'] },
+  twig: { glyph: 'leaf', colors: ['#78C043'] },
+  graphql: { mark: 'graphql' },
+  protobuf: { text: 'PB', colors: ['#4285F4'] },
 
   /* --- Markup and styles --- */
-  // The only two icons that put a real badge on a dark tile rather than a glyph
-  // on a brand-coloured one: the HTML5 and CSS3 marks are two-tone shields, and
-  // flattening them to one colour is what made them look like blank crests.
-  // Drawn larger than the standard glyph scale: the badge IS the icon here, so
-  // it fills the tile rather than floating in it.
-  html: { bg: '#2B1610', glyph: 'crest', fg: '#E34F26', extra: '#F06529', scale: 0.9, text: '5', textFill: LIGHT, size: 14, dy: 1.5 },
-  css: { bg: '#0E2437', glyph: 'crest', fg: '#1572B6', extra: '#33A9DC', scale: 0.9, text: '3', textFill: LIGHT, size: 14, dy: 1.5 },
-  scss: { bg: '#CD6799', text: 'S', fg: LIGHT },
-  sass: { bg: '#8E4A6C', text: 'SASS', fg: LIGHT },
-  less: { bg: '#1D365D', text: 'L' },
-  stylus: { bg: '#FF6347', text: 'ST' },
-  'scss-module': { bg: '#CD6799', glyph: 'braces', fg: LIGHT },
-  'css-module': { bg: '#1572B6', glyph: 'braces', fg: LIGHT },
+  html: { mark: 'html5' },
+  css: { mark: 'css' },
+  // Sass is one brand with two syntaxes, so .scss and .sass carry one mark.
+  scss: { mark: 'sass' },
+  sass: { mark: 'sass' },
+  // Both logos are logotypes set in a script face that closes up at 16px, so
+  // they are set as text instead, in the brand's own colour.
+  less: { text: 'LESS', colors: ['#1D365D'] },
+  stylus: { text: 'ST', colors: ['#333333'] },
+  'scss-module': { glyph: 'braces', colors: ['#CC6699'] },
+  'css-module': { glyph: 'braces', colors: ['#1572B6'] },
 
   /* --- Data and config formats --- */
-  json: { bg: '#F2C94C', glyph: 'braces' },
-  xml: { bg: '#F97316', glyph: 'angles' },
-  yaml: { bg: '#E11D48', text: 'YML', fg: LIGHT },
-  toml: { bg: '#9C4221', text: 'TOML', fg: LIGHT },
-  ini: { bg: '#7C8794', text: 'INI', fg: LIGHT },
-  env: { bg: '#ECD53F', text: 'ENV' },
-  markdown: { bg: '#E8E6F3', text: 'MD' },
-  mdx: { bg: '#FCB32C', text: 'MDX' },
-  csv: { bg: '#22A06B', glyph: 'grid', fg: LIGHT },
-  sql: { bg: '#E38C00', glyph: 'cylinder' },
+  // JSON's mark is a pair of braces closed into a ring, which at icon size is a
+  // ring and nothing else. The braces themselves are what say JSON.
+  json: { glyph: 'braces', colors: ['#F2C94C'] },
+  xml: { glyph: 'angles', colors: ['#005FAD'] },
+  yaml: { text: 'YAML', colors: ['#CB171E'] },
+  toml: { mark: 'toml' },
+  ini: { text: 'INI', colors: ['#7C8794'] },
+  env: { mark: 'dotenv' },
+  markdown: { mark: 'markdown' },
+  mdx: { mark: 'mdx' },
+  csv: { glyph: 'grid', colors: ['#22A06B'] },
+  sql: { glyph: 'cylinder', colors: ['#E38C00'] },
 
   /* --- Languages --- */
-  python: { bg: '#2B5F8E', glyph: 'python', fg: '#FFD43B', hole: '#2B5F8E', extra: '#F5FAFF' },
-  java: { bg: '#E76F00', glyph: 'cup', fg: LIGHT },
-  csharp: { bg: '#9B4F96', text: 'C#', fg: LIGHT },
-  fsharp: { bg: '#378BBA', text: 'F#', fg: LIGHT },
-  vbnet: { bg: '#512BD4', text: 'VB', fg: LIGHT },
-  php: { bg: '#777BB4', text: 'php', fg: LIGHT },
-  ruby: { bg: '#CC342D', glyph: 'gem', fg: LIGHT },
-  go: { bg: '#00ADD8', text: 'GO', fg: LIGHT },
-  rust: { bg: '#B7410E', glyph: 'gearRing', fg: LIGHT },
-  c: { bg: '#A8B9CC', text: 'C' },
-  cpp: { bg: '#00599C', text: 'C++', fg: LIGHT },
-  objectivec: { bg: '#438EFF', text: 'OC', fg: LIGHT },
-  swift: { bg: '#F05138', glyph: 'swift', fg: LIGHT },
-  kotlin: { bg: '#241C3A', glyph: 'kotlin', fg: '#7F52FF', extra: '#E44857' },
-  dart: { bg: '#0175C2', text: 'D', fg: LIGHT },
-  scala: { bg: '#DE3423', text: 'SC', fg: LIGHT },
-  groovy: { bg: '#4298B8', text: 'GR', fg: LIGHT },
-  clojure: { bg: '#5881D8', text: 'CLJ', fg: LIGHT },
-  haskell: { bg: '#5E5086', text: 'λ', fg: LIGHT, size: 20 },
-  elixir: { bg: '#4B275F', glyph: 'drop', fg: LIGHT },
-  erlang: { bg: '#A90533', text: 'ER', fg: LIGHT },
-  lua: { bg: '#00007B', glyph: 'lua', fg: LIGHT },
-  perl: { bg: '#39457E', text: 'PL', fg: LIGHT },
-  r: { bg: '#276DC3', text: 'R', fg: LIGHT },
-  julia: { bg: '#2B2340', glyph: 'julia', extra: ['#CB3C33', '#389826', '#9558B2'] },
-  nim: { bg: '#FFE953', glyph: 'crown' },
-  // Neither language has a mark that survives being drawn at 16px — the Crystal
-  // shard and the Solidity rhombus stack both collapse into noise — so both use
-  // the acronym, which is what the rest of the no-logo languages do anyway.
-  crystal: { bg: '#1F2430', text: 'CR', fg: LIGHT },
-  zig: { bg: '#F7A41D', text: 'Z' },
-  solidity: { bg: '#2E3A4F', text: 'SOL', fg: LIGHT },
-  assembly: { bg: '#7A5B2E', text: 'ASM', fg: LIGHT },
+  python: { mark: 'python' },
+  // The cup sits under its steam, so the mark is taller than it is wide; a
+  // touch of extra size keeps the cup itself as heavy as its neighbours.
+  java: { mark: 'java', scale: 1.12 },
+  csharp: { mark: 'csharp' },
+  fsharp: { mark: 'fsharp' },
+  vbnet: { mark: 'dotnet' },
+  php: { mark: 'php' },
+  ruby: { mark: 'ruby' },
+  go: { mark: 'go' },
+  rust: { mark: 'rust' },
+  c: { mark: 'c' },
+  cpp: { mark: 'cplusplus' },
+  objectivec: { text: 'OC', colors: ['#438EFF'] },
+  swift: { mark: 'swift' },
+  kotlin: { mark: 'kotlin' },
+  dart: { mark: 'dart' },
+  scala: { mark: 'scala' },
+  groovy: { mark: 'groovy' },
+  clojure: { mark: 'clojure' },
+  haskell: { mark: 'haskell' },
+  elixir: { mark: 'elixir' },
+  // Erlang's logo is its wordmark, and its letters close up at icon size.
+  erlang: { text: 'ERL', colors: ['#A90533'] },
+  lua: { mark: 'lua' },
+  perl: { mark: 'perl' },
+  r: { mark: 'r' },
+  julia: { mark: 'julia' },
+  nim: { mark: 'nim' },
+  crystal: { mark: 'crystal' },
+  zig: { mark: 'zig' },
+  solidity: { mark: 'solidity' },
+  assembly: { text: 'ASM', colors: ['#B08B4F'] },
 
   /* --- Shells --- */
-  shell: { bg: '#4EAA25', glyph: 'prompt', fg: LIGHT },
-  zsh: { bg: '#3D3D46', text: 'zsh', fg: LIGHT },
-  fish: { bg: '#3B8C3B', glyph: 'fish', fg: LIGHT },
-  powershell: { bg: '#0B2E63', glyph: 'prompt', fg: LIGHT },
-  batch: { bg: '#B0B4BC', text: 'BAT' },
-  vim: { bg: '#019833', text: 'V', fg: LIGHT },
+  shell: { mark: 'gnubash' },
+  zsh: { mark: 'zsh' },
+  fish: { mark: 'fishshell' },
+  powershell: { mark: 'powershell' },
+  batch: { text: 'BAT', colors: ['#B0B4BC'] },
+  vim: { mark: 'vim' },
 
   /* --- Infrastructure and tooling --- */
-  docker: { bg: '#2496ED', glyph: 'whale', fg: LIGHT },
-  terraform: { bg: '#7B42BC', glyph: 'terraform', fg: LIGHT },
-  jupyter: { bg: '#F37726', glyph: 'jupyter', fg: LIGHT },
-  git: { bg: '#F05033', glyph: 'git', fg: LIGHT, hole: '#F05033' },
-  nginx: { bg: '#009639', text: 'N', fg: LIGHT },
-  htaccess: { bg: '#D22128', glyph: 'feather', fg: LIGHT },
-  robots: { bg: '#4B5563', glyph: 'robot', fg: LIGHT },
-  manifest: { bg: '#3B82F6', glyph: 'browser', fg: LIGHT },
-  procfile: { bg: '#6762A6', text: 'P', fg: LIGHT },
-  vagrant: { bg: '#1868F2', text: 'V', fg: LIGHT },
-  makefile: { bg: '#6D8086', glyph: 'hammer', fg: LIGHT },
-  cmake: { bg: '#10233A', glyph: 'cmake', extra: ['#00A94F', '#3D7EBB', '#E1231A'] },
-  jenkins: { bg: '#D33833', glyph: 'butler', fg: LIGHT },
-  ci: { bg: '#3EAAAF', text: 'CI', fg: LIGHT },
-  gitlabci: { bg: '#35243B', glyph: 'gitlab', extra: ['#E24329', '#FC6D26', '#FCA326'] },
-  azure: { bg: '#0078D4', glyph: 'azure', fg: LIGHT },
+  docker: { mark: 'docker' },
+  terraform: { mark: 'terraform' },
+  jupyter: { mark: 'jupyter' },
+  git: { mark: 'git' },
+  nginx: { mark: 'nginx' },
+  htaccess: { mark: 'apache' },
+  robots: { glyph: 'robot', colors: ['#8B93A1'] },
+  manifest: { glyph: 'browser', colors: ['#3B82F6'] },
+  procfile: { text: 'P', colors: ['#6762A6'] },
+  vagrant: { mark: 'vagrant' },
+  makefile: { glyph: 'hammer', colors: ['#6D8086'] },
+  cmake: { mark: 'cmake' },
+  jenkins: { mark: 'jenkins' },
+  ci: { text: 'CI', colors: ['#3EAAAF'] },
+  gitlabci: { mark: 'gitlab' },
+  azure: { mark: 'azure' },
 
   /* --- JS ecosystem tooling --- */
-  npm: { bg: '#CB3837', text: 'npm', fg: LIGHT },
-  yarnlock: { bg: '#2C8EBB', glyph: 'yarn', fg: LIGHT },
-  pnpm: { bg: '#F9AD00', glyph: 'grid9' },
-  eslint: { bg: '#4B32C3', glyph: 'hexFrame', fg: LIGHT },
-  prettier: { bg: '#1A2B34', glyph: 'prettierBars', extra: ['#F7B93E', '#EA5E5E', '#56B3B4', '#BF85BF', '#E8EEF2'] },
-  stylelint: { bg: '#2A2A35', text: 'SL', fg: LIGHT },
-  babel: { bg: '#F5DA55', text: 'B' },
-  webpack: { bg: '#1C78C0', glyph: 'webpackCube', fg: LIGHT },
-  vite: { bg: '#646CFF', glyph: 'bolt', fg: '#FFD62E' },
-  rollup: { bg: '#EF3335', glyph: 'refresh', fg: LIGHT },
-  jest: { bg: '#C21325', glyph: 'wizardHat', fg: LIGHT },
-  tsconfig: { bg: TS, glyph: 'wrench' },
-  jsconfig: { bg: JS, glyph: 'wrench' },
-  browserslist: { bg: '#FFD539', glyph: 'browser' },
-  editorconfig: { bg: '#DCE6E6', text: 'EC' },
+  npm: { mark: 'npm', text: 'npm', textFill: WHITE, size: 9.6, dy: 0.3 },
+  yarnlock: { mark: 'yarn' },
+  pnpm: { mark: 'pnpm' },
+  eslint: { mark: 'eslint' },
+  prettier: { mark: 'prettier' },
+  stylelint: { mark: 'stylelint' },
+  babel: { mark: 'babel' },
+  webpack: { mark: 'webpack' },
+  vite: { mark: 'vite' },
+  rollup: { mark: 'rollup' },
+  jest: { mark: 'jest' },
+  tsconfig: { glyph: 'wrench', colors: [TS] },
+  jsconfig: { glyph: 'wrench', colors: [JS] },
+  browserslist: { glyph: 'browser', colors: ['#FFD539'] },
+  editorconfig: { text: 'EC', colors: ['#DCE6E6'] },
 
   /* --- Documents and generic assets --- */
-  text: { bg: '#64748B', glyph: 'lines', fg: LIGHT },
-  log: { bg: '#78716C', glyph: 'logLines', fg: LIGHT },
-  license: { bg: '#B08D57', glyph: 'seal' },
-  changelog: { bg: '#A855F7', glyph: 'history', fg: LIGHT },
-  lock: { bg: '#94A3B8', glyph: 'padlock' },
-  cert: { bg: '#10B981', glyph: 'key' },
-  diff: { bg: '#8B5CF6', glyph: 'plusMinus', fg: LIGHT },
-  binary: { bg: '#57534E', text: '10', fg: LIGHT },
-  image: { bg: '#26A69A', glyph: 'picture', fg: LIGHT },
-  font: { bg: '#6366F1', glyph: 'typeA', fg: LIGHT },
-  audio: { bg: '#EC4899', glyph: 'note', fg: LIGHT },
-  video: { bg: '#38BDF8', glyph: 'play' },
-  archive: { bg: '#F59E0B', glyph: 'zip' },
-  pdf: { bg: '#E5252A', text: 'PDF', fg: LIGHT },
-  word: { bg: '#2B579A', text: 'W', fg: LIGHT },
-  excel: { bg: '#217346', text: 'X', fg: LIGHT },
-  powerpoint: { bg: '#D24726', text: 'P', fg: LIGHT },
+  text: { glyph: 'lines', colors: ['#94A3B8'] },
+  log: { glyph: 'logLines', colors: ['#A8A29E'] },
+  license: { glyph: 'seal', colors: ['#C9A227'] },
+  changelog: { glyph: 'history', colors: ['#A855F7'] },
+  lock: { glyph: 'padlock', colors: ['#94A3B8'] },
+  cert: { glyph: 'key', colors: ['#10B981'] },
+  diff: { glyph: 'plusMinus', colors: ['#8B5CF6'] },
+  binary: { text: '10', colors: ['#8A8580'] },
+  image: { glyph: 'picture', colors: ['#26A69A'] },
+  font: { glyph: 'typeA', colors: ['#6366F1'] },
+  audio: { glyph: 'note', colors: ['#EC4899'] },
+  video: { glyph: 'play', colors: ['#38BDF8'] },
+  archive: { glyph: 'zip', colors: ['#F59E0B'] },
+  // Adobe's mark is not ours to ship, and a PDF badge is its letters anyway.
+  pdf: { text: 'PDF', colors: ['#E5252A'] },
+  // The Office marks are the app's tile with its initial set over it.
+  word: { mark: 'word', text: 'W', textFill: WHITE, size: 15, dy: 0.2 },
+  excel: { mark: 'excel', text: 'X', textFill: WHITE, size: 15, dy: 0.2 },
+  powerpoint: { mark: 'powerpoint', text: 'P', textFill: WHITE, size: 15, dy: 0.2 },
 } satisfies Record<string, FileSpec>;
 
 export const folders = {
@@ -270,7 +293,7 @@ export const folders = {
   i18n: { accent: '#4ADE80', glyph: 'translate' },
   guards: { accent: '#FCD34D', glyph: 'shieldCheck' },
   validators: { accent: '#6EE7B7', glyph: 'listCheck' },
-  docker: { accent: '#38BDF8', glyph: 'whale' },
+  docker: { accent: '#38BDF8', mark: 'docker' },
   workflows: { accent: '#C084FC', glyph: 'flow' },
   server: { accent: '#7DD3FC', glyph: 'serverRack' },
   shared: { accent: '#F472B6', glyph: 'share' },
@@ -283,7 +306,7 @@ export type FolderIcon = keyof typeof folders;
 
 export type TextRun = { str: string; size: number; track: number };
 
-// Every distinct (string, size, tracking) that gets set anywhere in the set.
+/** Every distinct (string, size, tracking) that gets set anywhere in the set. */
 export function textRuns(): TextRun[] {
   const seen = new Map<string, TextRun>();
   for (const spec of Object.values(files) as FileSpec[]) {
