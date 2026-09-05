@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 Both icon sets redrawn from scratch. Every one of the 222 icons in each variant changed. Nothing was removed and no icon id, theme id, label or mapping changed, so an existing `settings.json` keeps working untouched — but the set looks nothing like 4.x, which is why this is a major version.
 
+### Added
+
+- **The README shows the icons.** It never did: the listing described the set in prose and showed one editor mock. [`tools/build-icon-preview.ts`](tools/build-icon-preview.ts) (`npm run preview:gallery`) renders three galleries into `docs/preview/` — every file and language icon, every folder icon closed and open, and the two variants on the same icons — from the real SVGs, on the theme's own sidebar colour. They have to be images linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing.
+
 ### Changed
 
 - **The tile is gone; the logo is the icon.** V1 sat every mark on a 26×26 rounded tile in the language's brand color. That gave the set a uniform optical weight, and cost it everything else: each logo was shrunk to fit inside the tile, and an official two-tone mark had to be flattened onto a brand-colored ground it was never meant to sit on — which is why the React atom, the HTML5 crest and the Python hooks all read as approximately-something. A mark now fills the whole 32-unit canvas and is painted in its own colors.
