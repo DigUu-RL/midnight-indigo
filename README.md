@@ -30,9 +30,27 @@ Two grammar injections ship with the theme so a few constructs VS Code does not 
 
 ## Preview
 
+Every screenshot on this page is generated from this repository's own theme file and its own icon SVGs — the colors are the theme's and the icons are the real ones, not an artist's impression.
+
+### The icon set
+
+Both variants, on the same icons:
+
+![Classic and neon side by side](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-variants.png)
+
+All 140 file and language icons:
+
+![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-files.png)
+
+All 40 folder icons, closed and open:
+
+![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-folders.png)
+
+### Syntax
+
 Four of the tuned languages are below. **[Every language is in the full gallery →](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/PREVIEW.md)** — 17 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, SCSS, SQL, Go, Rust, Java, PHP, YAML and Shell.
 
-Every screenshot is generated from this repository's own theme file using the same TextMate grammars VS Code ships, including the two grammar injections below — so the colors are the theme's, not an artist's impression.
+Highlighting goes through the same TextMate grammars VS Code ships, including the two grammar injections below.
 
 ### TypeScript
 
@@ -181,6 +199,14 @@ npm run preview:theme
 ```
 
 Rewrites `docs/preview/` and [`docs/PREVIEW.md`](docs/PREVIEW.md) from the samples in [`tools/samples/`](tools/samples/). Highlighting goes through [Shiki](https://shiki.style) fed this repo's own theme JSON, the TextMate grammars VS Code ships, and the extension's two grammar injections, so a screenshot cannot claim a color the theme does not actually produce. Add a file to `tools/samples/` and an entry to `LANGUAGES` in the script to cover another language; the gallery page picks it up on the next run. Same browser requirement as above.
+
+```bash
+npm run preview:gallery
+```
+
+Rewrites the three icon galleries in `docs/preview/` — `icons-files.png`, `icons-folders.png` and `icons-variants.png` — from the SVGs in `icons/`, on the theme's own sidebar color. Run it after `npm run build:icons`, because it shoots whatever is currently built.
+
+These have to be images, and they have to be linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing. Every image in this file is therefore a `raw.githubusercontent.com` URL on `main` — which also means an image only appears on the listing once the commit that adds it is merged there.
 
 ## Development
 

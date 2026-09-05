@@ -39,6 +39,7 @@
         "build:icons": "node tools/build-icons.ts",
         "build:extension": "npm install -g @vscode/vsce && vsce package",
         "preview:icons": "node tools/build-icons.ts && node tools/preview.ts && node tools/preview.ts neon",
+        "preview:gallery": "node tools/build-icon-preview.ts",
         "preview:theme": "node tools/build-theme-preview.ts"
     },
     "contributes": {
