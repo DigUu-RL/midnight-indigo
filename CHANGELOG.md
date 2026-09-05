@@ -4,6 +4,49 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0]
+
+Both icon sets redrawn from scratch. Every one of the 222 icons in each variant changed. Nothing was removed and no icon id, theme id, label or mapping changed, so an existing `settings.json` keeps working untouched — but the set looks nothing like 4.x, which is why this is a major version.
+
+### Changed
+
+- **The tile is gone; the logo is the icon.** V1 sat every mark on a 26×26 rounded tile in the language's brand color. That gave the set a uniform optical weight, and cost it everything else: each logo was shrunk to fit inside the tile, and an official two-tone mark had to be flattened onto a brand-colored ground it was never meant to sit on — which is why the React atom, the HTML5 crest and the Python hooks all read as approximately-something. A mark now fills the whole 32-unit canvas and is painted in its own colors.
+
+- **The marks are the projects' own artwork, in their current version.** A language mark is not ours to invent: "Python" is two specific interlocking snakes in `#3776AB` and `#FFD43B`, and "Go" is a specific wordmark with three speed lines behind it. [`tools/import-marks.ts`](tools/import-marks.ts) imports the outlines from [Simple Icons](https://simpleicons.org) 16.29.0 (CC0-1.0) and, where the mark is genuinely multi-color, from [devicon](https://github.com/devicons/devicon) v2.17.0 (MIT), pinning both so a re-run reproduces the same file. It writes a checked-in module, so building the icons never touches the network. Only the treatment — size, palette, shadow, glow — is ours.
+
+  Where a project has redrawn its logo, the set carries the current one: **CSS** is the rebeccapurple mark adopted in November 2024, not the blue CSS3 shield (which was never a mark for the language itself), and **GitLab** is the tanuki as simplified in 2022, not the seven-triangle original.
+
+  Languages that had been making do with an acronym now carry their real logo: **Dart**, **Go**, **C**, **C++**, **C#**, **Scala**, **Clojure**, **Haskell**, **Erlang**, **Perl**, **R**, **Crystal**, **Zig**, **Solidity**, **Groovy**, **PowerShell**, **Svelte**, **Astro**, **Vagrant**, **Babel**, **Vite**, **Zsh**, **Markdown**, **MDX**, **TOML**, **.ENV**, **npm**, **stylelint**, **EJS**'s neighbours and more. The marks that were already logos but not quite the real thing — **Python**, **Java**, **Ruby**, **Lua**, **Excel**, **Word**, **PowerPoint**, **Vue**, **Kotlin**, **Swift**, **Julia**, **CMake**, **Jenkins**, **Jest**, **Vim** — were replaced with the official geometry or redrawn from it.
+
+- **Flat, with a shadow.** Each mark casts a soft offset shadow in a darkened tint of its own color. A black shadow on a `#040208` ground is not a shadow, it is nothing, so the shadow is derived per icon by `shade()` in [`tools/palette.ts`](tools/palette.ts).
+
+- **Holes are holes.** V1 punched them with a knock-out colour — the tile fill — which only worked because every glyph sat on a tile of known colour. With no tile, a hole is cut with `fill-rule="evenodd"` and is genuinely transparent, so an icon survives the file explorer's hover and selection backgrounds. `cut()` in the new [`tools/shapes.ts`](tools/shapes.ts) is where that rule lives, along with the caveat that evenodd is a parity rule and two overlapping holes cancel.
+
+- **Over-filled logos read again.** Several marks are a solid block with the lettering cut out of it. Painted as one colour with the cut-outs left open, they came out as blobs. TypeScript, npm, Swift, JavaScript and `.env` now get a plate behind the mark in the colour the logo has its letters in — white for TypeScript's `TS` and Swift's bird, near-black for JavaScript's `JS`.
+
+- **Colours are lifted, not replaced.** With the tile gone, a brand colour is ink on near-black rather than a background to read against, and many are far too dark for that — Lua's `#000080` lands at 1.1:1, and every logo whose official form is black lands at 1.0:1. `readable()` raises lightness while keeping hue and saturation, so the language still looks like itself; a logo that is officially black goes to the white version those logos ship for dark backgrounds rather than to a muddy charcoal.
+
+- **Folders are solid.** A filled folder in the category's accent colour, with the pictogram sunk into the body in a darker tone of that same accent — replacing the stroked lavender outline with a corner pictogram haloed in the editor background. The open state keeps the whole folder as its back and swings a front panel out and down over it, which is what reads as "open" at 16px.
+
+- **Text is only text.** A format whose logo is a wordmark, or has no logo at all, is now bare lettering with nothing behind it. Each string is set from its measured ink at the largest size that fits the box, so `INI` and `CI` no longer look half-drawn next to `YAML` and `ASM`.
+
+- **The neon variant follows the same geometry.** Same marks, same pictograms, same measured centres, same mappings; the shadow becomes a glow, every colour goes through `neonInk()`, and folders invert their weight — the body dims to a dark tint of the accent and the rim becomes the lit line. A variant is still a paint recipe and nothing else.
+
+- **The pictograms are duotone, and none of them is a V1 shape recoloured.** Each one is handed its icon's colour plus a lighter tint of the same hue, and the split carries the drawing: the tint is the *surface* — the glass of the flask, the page of the book, the screen of the terminal, the face of the clock — and full strength is what sits on it: the liquid, the print, the prompt, the hands. V1 had to say everything with one silhouette, so its pictograms ended up as clusters of thin slots that close up at 16px; two tones carry the structure instead and the outline can stay simple and heavy.
+
+  Every one of the 56 pictograms was rebuilt on that basis rather than restyled. The book opens, the cube and the parcel are isometric with a lit top face, the sheet is a header row over four cells, the cog lost two teeth and gained a hub, the wrench became an open-jaw spanner, the hammer grew a claw, the medal has a ribbon, and the padlock, key, brush and eye are new drawings.
+
+- **The curly braces were wrong.** `{}` had been written out as a filled outline by hand, and both arms bowed the same way — the pair read as an hourglass, and the two halves did not line up. They are now the centre line of a stroke, one arm mirrored, symmetric about the middle by construction. `stroked()` in [`tools/shapes.ts`](tools/shapes.ts) exists for exactly this: V1 banned strokes because the folder halo trick needed fill-only glyphs, and V2 has no halo, so the handful of glyphs that genuinely ARE a stroke — a brace, a chevron, a tick — can be drawn as one. Affects the JSON, CSS-module and SCSS-module file icons and the `config/` folder.
+
+- **The library is split** into [`tools/shapes.ts`](tools/shapes.ts) (primitives), [`tools/glyphs.ts`](tools/glyphs.ts) (the pictograms that are ours) and [`tools/marks.ts`](tools/marks.ts) (the brand marks).
+
+- **Measurement covers the marks too.** `npm run measure:glyphs` now rasterises the imported logos alongside the pictograms and records the ink size of every string, not just its offset. That is what lets marks drawn to wildly different proportions — the Go wordmark is twice as wide as it is tall — be fitted to one size, and what lets an over-long string be scaled down instead of running out of the canvas.
+
+### Notes
+
+- Some upstream marks do not survive being drawn at 16px: Groovy's is an outlined wordmark on a star, Jenkins's and Jest's are line-art portraits, Vim's sets "Vim" inside its diamond, Lua's sets "Lua" inside its sphere, and JSON's closes its braces into a ring that reads as a ring. Those are redrawn solid and simplified from the same official artwork, and JSON uses the braces its mark is built from. Marks with no redistributable source — PowerShell, Excel, Word, PowerPoint — are drawn by hand in the shape language of the official icons.
+- Erlang's logo is a wordmark whose letters close up at icon size, so it is set as `ERL` instead.
+
 ## [4.1.0]
 
 A second icon variant, and a fix to the curly-brace glyph. Nothing was removed and no id, label or mapping changed, so an existing `settings.json` keeps working untouched.

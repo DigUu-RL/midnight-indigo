@@ -1,8 +1,8 @@
 {
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
-    "description": "An ultra-dark purple/indigo theme with a matching file icon set built on real language logos, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "4.1.0",
+    "description": "An ultra-dark purple/indigo theme with a matching file icon set built on the languages' own official logos, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+    "version": "5.0.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
@@ -35,6 +35,7 @@
     "scripts": {
         "typecheck": "tsc",
         "measure:glyphs": "node tools/measure.ts",
+        "import:marks": "node tools/import-marks.ts",
         "build:icons": "node tools/build-icons.ts",
         "build:extension": "npm install -g @vscode/vsce && vsce package",
         "preview:icons": "node tools/build-icons.ts && node tools/preview.ts && node tools/preview.ts neon",

@@ -6,21 +6,27 @@
  *
  * Everything is measured by rasterising in a real renderer (headless Edge) and
  * finding the lit pixels — that is, the INK, not the nominal box. The
- * distinction matters twice:
+ * distinction matters three times:
  *
- *   Glyphs punch holes in themselves with the knock-out colour (the puzzle
- *   piece's socket, the gem's facets). Those holes are inside the element's
+ *   Artwork punches holes in itself. Those holes are inside the element's
  *   bounding box but are not ink, so centring on getBBox() leaves the visible
- *   shape leaning to one side. Rendering the glyph white-on-black, with the
- *   knock-out painted black, measures exactly what the eye sees.
+ *   shape leaning to one side. Rendering the artwork white on black measures
+ *   exactly what the eye sees.
+ *
+ *   Imported logos are drawn to their own optical balance inside whatever box
+ *   upstream chose, and several of them do not fill it — the Go wordmark is
+ *   twice as wide as it is tall, the Docker whale sits low. Measuring is what
+ *   lets the build fit them all to one size regardless.
  *
  *   Text set with text-anchor="middle" is centred on its ADVANCE width, not on
  *   its ink, and the baseline a string wants depends on whether it has a
- *   descender ("php") or not ("MD"). Measuring the ink sidesteps both.
+ *   descender ("php") or not ("MD"). Measuring the ink sidesteps both, and the
+ *   ink's own size is what lets the build shrink a string that would otherwise
+ *   run out of the canvas.
  *
- * build-icons.ts turns these into a translate for every glyph and an x/y for
- * every acronym, and fails with a pointer back here if it meets one it has no
- * numbers for. Re-run after adding or changing a glyph or an acronym.
+ * build-icons.ts turns these into a transform for every piece of artwork and an
+ * x/y for every string, and fails with a pointer back here if it meets one it
+ * has no numbers for. Re-run after adding or changing artwork or a string.
  */
 
 import fs from 'node:fs';
@@ -28,12 +34,13 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { glyphs, type Glyph, type GlyphName } from './glyphs.ts';
+import { glyphs, type GlyphName } from './glyphs.ts';
+import { marks, type MarkName } from './marks.ts';
+import { FONT, WEIGHT, textRuns, textKey } from './icon-spec.ts';
 
 /** The two shapes this script writes out. */
-type GlyphBounds = { cx: number; cy: number; w: number; h: number };
-type TextMetrics = { dx: number; dy: number };
-import { FONT, WEIGHT, textRuns, textKey } from './icon-spec.ts';
+type Bounds = { cx: number; cy: number; w: number; h: number };
+type TextMetrics = Bounds & { dx: number; dy: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.join(os.tmpdir(), 'midnight-indigo-measure.html');
@@ -55,41 +62,36 @@ function findBrowser(): string {
   throw new Error('No Chromium-based browser found to measure with. Set MIDNIGHT_INDIGO_BROWSER to one.');
 }
 
-/*
- * Glyphs are called as (foreground, knockOut, extra). White foreground, black
- * knock-out, drawn on black: ink is then simply the lit pixels. `extra` is an
- * array for the multi-colour glyphs and a plain colour string for the two-tone
- * ones (python, kotlin), so hand it something that answers to both.
- */
-// An array that also answers to toString(), so one flat render serves both
-// the multi-colour glyphs (which index it) and the two-tone ones (which use it
-// as a colour). That duality is why the seven glyphs reading it annotate the
-// parameter `any`.
-const WHITE = Object.assign(['#fff', '#fff', '#fff', '#fff', '#fff'], { toString: () => '#fff' });
-const flat = (fn: Glyph): string => fn('#fff', '#000', WHITE);
+// Artwork is drawn with the resolved ink for its icon; measuring only cares
+// where the ink is, so every slot is the same white and the ground is black.
+const WHITE: string[] = Array(8).fill('#fff');
 
-const names = Object.keys(glyphs) as GlyphName[];
+const glyphNames = Object.keys(glyphs) as GlyphName[];
+const markNames = Object.keys(marks) as MarkName[];
 const runs = textRuns();
 
 /*
  * Measured on a canvas comfortably larger than the nominal box in both cases:
- * several glyphs overrun the 24-unit box on purpose, and a box that merely fits
- * would clip them — which silently reports a wrong ink centre AND hides the
- * fact that they need shrinking.
+ * a good deal of the artwork overruns the 24-unit box on purpose, and a box
+ * that merely fits would clip it — which silently reports a wrong ink centre
+ * AND hides the fact that it needs shrinking.
  */
-const GLYPH_SPAN = 40;
-const TEXT_SPAN = 48;
+const ART_SPAN = 48;
+const TEXT_SPAN = 56;
+
+const artJob = (kind: string, id: string, body: string) => ({
+  kind,
+  id,
+  span: ART_SPAN,
+  svg:
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-ART_SPAN / 2} ${-ART_SPAN / 2} ${ART_SPAN} ${ART_SPAN}">` +
+    `<rect x="${-ART_SPAN / 2}" y="${-ART_SPAN / 2}" width="${ART_SPAN}" height="${ART_SPAN}" fill="#000"/>` +
+    `${body}</svg>`,
+});
 
 const jobs = [
-  ...names.map((n) => ({
-    kind: 'glyph',
-    id: n,
-    span: GLYPH_SPAN,
-    svg:
-      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-GLYPH_SPAN / 2} ${-GLYPH_SPAN / 2} ${GLYPH_SPAN} ${GLYPH_SPAN}">` +
-      `<rect x="${-GLYPH_SPAN / 2}" y="${-GLYPH_SPAN / 2}" width="${GLYPH_SPAN}" height="${GLYPH_SPAN}" fill="#000"/>` +
-      `${flat(glyphs[n])}</svg>`,
-  })),
+  ...glyphNames.map((n) => artJob('glyph', n, glyphs[n](WHITE))),
+  ...markNames.map((n) => artJob('mark', n, marks[n].draw(WHITE))),
   ...runs.map((r) => ({
     kind: 'text',
     id: textKey(r.str, r.size, r.track),
@@ -144,16 +146,16 @@ fs.writeFileSync(
 
 const dom = execFileSync(
   findBrowser(),
-  ['--headless', '--disable-gpu', '--virtual-time-budget=60000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
-  { encoding: 'utf8', maxBuffer: 128 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
+  ['--headless', '--disable-gpu', '--virtual-time-budget=120000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
+  { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
 );
 
 const m = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
 if (!m || !m[1].trim()) throw new Error('measurement page produced no output');
 
 const round = (v: string | number): number => Number(Number(v).toFixed(3));
-const glyphBounds: Record<string, GlyphBounds> = {};
-const textBounds: Record<string, TextMetrics> = {};
+const artBounds: Record<string, Bounds> = {};
+const textMetrics: Record<string, TextMetrics> = {};
 const empty: string[] = [];
 
 for (const line of m[1].trim().split('\u0002')) {
@@ -162,26 +164,25 @@ for (const line of m[1].trim().split('\u0002')) {
     empty.push(`${kind} ${id}`);
     continue;
   }
-  if (kind === 'glyph') glyphBounds[id] = { cx: round(cx), cy: round(cy), w: round(w), h: round(h) };
-  // For text the correction is simply "move the ink back to the centre".
-  else textBounds[id] = { dx: round(-cx), dy: round(-cy) };
+  // For text the correction is "move the ink back to the centre", so the
+  // offsets are stored negated; the size is kept as measured.
+  if (kind === 'text') textMetrics[id] = { dx: round(-cx), dy: round(-cy), cx: round(cx), cy: round(cy), w: round(w), h: round(h) };
+  else artBounds[`${kind}:${id}`] = { cx: round(cx), cy: round(cy), w: round(w), h: round(h) };
 }
 
 if (empty.length) throw new Error(`nothing rendered for: ${empty.join(', ')}`);
-const missingGlyphs = names.filter((n) => !glyphBounds[n]);
-const missingText = runs.filter((r) => !textBounds[textKey(r.str, r.size, r.track)]);
-if (missingGlyphs.length) throw new Error(`no bounds measured for glyphs: ${missingGlyphs.join(', ')}`);
+const missingArt = [
+  ...glyphNames.map((n) => `glyph:${n}`),
+  ...markNames.map((n) => `mark:${n}`),
+].filter((k) => !artBounds[k]);
+const missingText = runs.filter((r) => !textMetrics[textKey(r.str, r.size, r.track)]);
+if (missingArt.length) throw new Error(`no bounds measured for: ${missingArt.join(', ')}`);
 if (missingText.length) throw new Error(`no bounds measured for text: ${missingText.map((r) => r.str).join(', ')}`);
 
-fs.writeFileSync(GLYPH_OUT, JSON.stringify(glyphBounds, null, 2) + '\n', 'utf8');
-fs.writeFileSync(TEXT_OUT, JSON.stringify(textBounds, null, 2) + '\n', 'utf8');
+fs.writeFileSync(GLYPH_OUT, JSON.stringify(artBounds, null, 2) + '\n', 'utf8');
+fs.writeFileSync(TEXT_OUT, JSON.stringify(textMetrics, null, 2) + '\n', 'utf8');
 
-const offBy = (b: GlyphBounds): number => Math.max(Math.abs(b.cx), Math.abs(b.cy));
-const offGlyph = names.filter((n) => offBy(glyphBounds[n]) >= 0.3);
-const oversized = names.filter((n) => Math.max(glyphBounds[n].w, glyphBounds[n].h) > 24.05);
-const offText = Object.values(textBounds).filter((b) => Math.max(Math.abs(b.dx), Math.abs(b.dy)) >= 0.3);
-
-console.log(`measured ${names.length} glyphs -> tools/glyph-bounds.json`);
-console.log(`  ${offGlyph.length} need re-centring, ${oversized.length} need shrinking into the 24x24 box`);
+const wide = Object.entries(artBounds).filter(([, b]) => Math.max(b.w, b.h) / Math.min(b.w, b.h) > 2.5);
+console.log(`measured ${glyphNames.length} pictograms and ${markNames.length} marks -> tools/glyph-bounds.json`);
+console.log(`  ${wide.length} are more than 2.5x longer than they are tall: ${wide.map(([k]) => k).join(', ') || '—'}`);
 console.log(`measured ${runs.length} text runs -> tools/text-bounds.json`);
-console.log(`  ${offText.length} need an offset of 0.3 units or more to centre their ink`);
