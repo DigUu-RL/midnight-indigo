@@ -1,7 +1,7 @@
 .vscode/**
 .github/**
 .git/**
-.claude/**
+.*/**
 .gitignore
 .vscodeignore
 node_modules/**

@@ -48,7 +48,8 @@
         "build:extension": "npm install -g @vscode/vsce && vsce package",
         "preview:icons": "node tools/build-icons.ts && node tools/preview.ts",
         "preview:gallery": "node tools/build-icon-preview.ts",
-        "preview:theme": "node tools/build-theme-preview.ts"
+        "preview:theme": "node tools/build-theme-preview.ts",
+        "check:images": "node tools/check-images.ts"
     },
     "contributes": {
         "themes": [

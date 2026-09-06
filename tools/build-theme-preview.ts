@@ -39,6 +39,31 @@ const OUT = path.join(ROOT, 'docs', 'preview');
 const TMP = path.join(os.tmpdir(), 'midnight-indigo-preview');
 
 /*
+ * The git ref the README and docs/PREVIEW.md load their screenshots from.
+ *
+ * It has to be an absolute https URL — the Marketplace renders the README and
+ * nothing else, docs/** is excluded from the package, and a relative path works
+ * on GitHub and breaks on the listing. The question is only which ref.
+ *
+ * It used to be `main`, and that has a hole in it: an image added on a branch
+ * does not exist on main until the branch is merged, so a NEW screenshot is a
+ * broken image everywhere it is looked at in the meantime — which is exactly
+ * what happened to palettes.png. Worse, it is silent, and it points at a moving
+ * target: main's copy of a screenshot changes under a listing that was
+ * published against a different one.
+ *
+ * A commit SHA fixes both. It resolves the moment the commit is pushed, on any
+ * branch and in any pull request, and it keeps pointing at the images the
+ * README was written about rather than at whatever main has now.
+ *
+ * The cost is that it has to be bumped when the screenshots are regenerated,
+ * to the commit that carries the new ones. `npm run check:images` is the
+ * reminder: it fetches every image the docs reference and fails on any that
+ * does not resolve.
+ */
+const IMAGE_REF = 'd57c1e5dd621f6dcef2db035175cc571da78b27a';
+
+/*
  * The hero and the language cards are shot in one variant — indigo unless a
  * family is named on the command line — because their job is to show the syntax
  * rules, and eight copies of the same C# sample would say nothing the first one
@@ -433,7 +458,7 @@ async function main() {
 // The gallery is generated alongside the images so the two cannot drift: add a
 // sample to tools/samples/ and LANGUAGES, and it appears here on the next run.
 function writeGallery(items: any[]): void {
-  const RAW = 'https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview';
+  const RAW = `https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/${IMAGE_REF}/docs/preview`;
   const heading = (label: string): string => `## ${label.replace(/#/g, '\\#')}`;
   const tuned = items.filter((i) => i.tuned);
   const rest = items.filter((i) => !i.tuned);

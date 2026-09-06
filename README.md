@@ -9,7 +9,7 @@ An ultra-dark theme for Visual Studio Code in eight colors, bundled with a match
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
-![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/hero.png)
+![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/hero.png)
 
 The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
@@ -37,17 +37,17 @@ Every screenshot on this page is generated from this repository's own theme file
 
 The same code in all eight, so the differences are the generator's rather than a photographer's:
 
-![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/palettes.png)
+![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/palettes.png)
 
 ### The icon set
 
 All 140 file and language icons:
 
-![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-files.png)
+![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/icons-files.png)
 
 All 40 folder icons, closed and open:
 
-![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-folders.png)
+![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/icons-folders.png)
 
 ### Syntax
 
@@ -57,19 +57,19 @@ Highlighting goes through the same TextMate grammars VS Code ships, including th
 
 ### TypeScript
 
-![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/typescript.png)
+![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/typescript.png)
 
 ### React / TSX
 
-![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/tsx.png)
+![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/tsx.png)
 
 ### C\#
 
-![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/csharp.png)
+![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/csharp.png)
 
 ### Python
 
-![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/python.png)
+![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/d57c1e5dd621f6dcef2db035175cc571da78b27a/docs/preview/python.png)
 
 ## Install
 
@@ -257,7 +257,17 @@ npm run preview:gallery
 
 Rewrites the two icon galleries in `docs/preview/` — `icons-files.png` and `icons-folders.png` — from the SVGs in `icons/`, on the theme's own sidebar color. Run it after `npm run build:icons`, because it shoots whatever is currently built.
 
-These have to be images, and they have to be linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing. Every image in this file is therefore a `raw.githubusercontent.com` URL on `main` — which also means an image only appears on the listing once the commit that adds it is merged there.
+These have to be images, and they have to be linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing. Every image in this file is therefore a `raw.githubusercontent.com` URL.
+
+**Pinned to a commit, not to a branch.** These URLs used to name `main`, which has a hole in it: an image added on a branch does not exist on `main` until that branch is merged, so a *new* screenshot is a broken image in the README and in the pull request until then — silently, because Markdown does not complain about a 404, it renders nothing. A commit SHA resolves the moment the commit is pushed, on any branch, and keeps pointing at the screenshots this README was written about rather than at whatever `main` has now.
+
+The cost is a step to remember: after regenerating screenshots, bump `IMAGE_REF` in [`tools/build-theme-preview.ts`](tools/build-theme-preview.ts) to the commit carrying them and update the URLs here.
+
+```bash
+npm run check:images
+```
+
+Fetches every image the docs link to and fails on any that does not resolve, which is the reminder. It is the one script in this repo that touches the network, and it is never part of a build.
 
 ## Development
 
