@@ -1,27 +1,28 @@
-# Midnight Indigo
+# Midnight
 
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/diguu-rl.midnight-indigo?label=marketplace&color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo&ssr=false#review-details)
 [![License: MIT](https://img.shields.io/badge/license-MIT-6C5CE7)](LICENSE)
 
-An ultra-dark purple/indigo theme for Visual Studio Code, bundled with a matching file icon set built on the languages' own official logos.
+An ultra-dark theme for Visual Studio Code in eight colors, bundled with a matching file icon set built on the languages' own official logos.
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
-![Midnight Indigo — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/hero.png)
+![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/hero.png)
 
-The editor background sits at `#020108` — near-black with an indigo cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
+The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
+
+The eight palettes are not eight themes. They are one theme at eight hues: the same lightnesses, the same contrast, the same rules, generated from a single source so that switching color never means switching to something that behaves differently. **Midnight Indigo** is the original, and it is unchanged.
 
 ## What's included
 
-This is a single extension that contributes both parts. Install once, then enable each one where you want it.
+This is a single extension. Install once, then pick a color theme and turn on the icons.
 
 | | |
 | --- | --- |
-| **Midnight Indigo** | Color theme — 129 workbench colors, 39 TextMate rules, 34 semantic token rules |
-| **Midnight Indigo Icons** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants |
-| **Midnight Indigo Icons (Neon)** | The same 222 icons, lit: every color raised until it glows, and the shadow replaced by that glow |
+| **Midnight Indigo**, **Purple**, **Pink**, **Red**, **Orange**, **Green**, **Cyan**, **Blue** | Eight color themes — each 129 workbench colors, 39 TextMate rules and 34 semantic token rules |
+| **Midnight Icons** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants. Shared by all eight themes |
 
 Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
 
@@ -30,13 +31,15 @@ Two grammar injections ship with the theme so a few constructs VS Code does not 
 
 ## Preview
 
-Every screenshot on this page is generated from this repository's own theme file and its own icon SVGs — the colors are the theme's and the icons are the real ones, not an artist's impression.
+Every screenshot on this page is generated from this repository's own theme files and its own icon SVGs — the colors are the themes' and the icons are the real ones, not an artist's impression.
+
+### The eight palettes
+
+The same code in all eight, so the differences are the generator's rather than a photographer's:
+
+![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/palettes.png)
 
 ### The icon set
-
-Both variants, on the same icons:
-
-![Classic and neon side by side](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/main/docs/preview/icons-variants.png)
 
 All 140 file and language icons:
 
@@ -72,7 +75,7 @@ Highlighting goes through the same TextMate grammars VS Code ships, including th
 
 ### From the Marketplace
 
-Search for **Midnight Indigo** in the Extensions view (`Ctrl+Shift+X`), or run:
+Search for **Midnight** in the Extensions view (`Ctrl+Shift+X`), or run:
 
 ```bash
 code --install-extension diguu-rl.midnight-indigo
@@ -82,8 +85,8 @@ code --install-extension diguu-rl.midnight-indigo
 
 Both are opt-in after install:
 
-1. **Color theme** — `Ctrl+K Ctrl+T` → **Midnight Indigo**
-2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Indigo Icons** or **Midnight Indigo Icons (Neon)**
+1. **Color theme** — `Ctrl+K Ctrl+T` → **Midnight Indigo** (or Purple, Pink, Red, Orange, Green, Cyan, Blue)
+2. **File icons** — `Ctrl+Shift+P` → *Preferences: File Icon Theme* → **Midnight Icons**
 
 Or set them directly in `settings.json`:
 
@@ -94,7 +97,49 @@ Or set them directly in `settings.json`:
 }
 ```
 
-Use `"midnight-indigo-neon-icons"` for the neon set. Both cover exactly the same files and folders, so switching between them changes nothing but the look.
+One icon set serves all eight themes, so changing color theme leaves the icons alone.
+
+## How the eight palettes work
+
+They are generated, from one theme and one number per color. [`tools/theme-palette.ts`](tools/theme-palette.ts) holds the whole design; the notes below are the short version.
+
+### The theme was already one hue
+
+Measured in [OKLCH](https://bottosson.github.io/posts/oklab/), 30 of the theme's 39 colors land inside a 19-degree band around hue 290. The grounds, the borders, the selection, the accent, the foreground ramp and four of the syntax roles — variables, properties, operators, comments — are not thirty independent decisions. They are one hue seen at thirty lightnesses. The pink the keywords are set in sits at a fixed offset from it, and its darker partner further round; a relationship rather than a coordinate.
+
+All of that rotates together. What is left — strings, functions, types, numbers — means something outside this theme, and moves less.
+
+### Why OKLCH and not HSL
+
+Because HSL's `L` is not lightness. It is the midpoint of the largest and smallest channel, which says nothing about how bright a color looks: hue 60 and hue 240 at identical `S` and `L` are a headlight and a bruise. Rotate a theme in HSL and the yellow variant blows out while the blue one goes muddy, from the same numbers. OKLCH's `L` *is* perceived lightness, so rotating hue is as close as arithmetic gets to "the same color, somewhere else on the wheel" — which is the entire premise here.
+
+Chroma stays absolute for the same reason. It is tempting to store it as a fraction of what each hue can hold, since sRGB carries far more chroma at magenta than at green — but OKLCH chroma is *already* the perceptually comparable quantity, and normalizing it against the gamut undoes the thing OKLCH was chosen for. Tried, it produced `#FF53F7` keywords in the red variant. It was also built on a false premise: indigo's own operators, keywords, calls and enum members already sit at 100% of their hue's chroma, so "reuse the fraction" meant "sit on the gamut edge everywhere", and the edge is a long way out in magenta.
+
+### A variant is rebuilt, not tinted
+
+The first version of this held lightness and chroma fixed and rotated only the family hue, and every variant came out looking like the original under colored glass. Measuring said why: the semantic layer — most of what is actually on a screen — sat **0.009 to 0.035** away from indigo in OKLab. It had not moved at all.
+
+Three things fix that, and each is in the generator for this reason:
+
+- **Every token takes some of the rotation.** The share is weighted by how much convention is behind a role, but it has a floor: freezing the roles with the strongest conventions meant freezing strings and function calls, which are the two that cover the most screen.
+- **The drift saturates instead of clamping.** A hard cap hands the same answer to every family past the limit, so red (97° from indigo) and orange (130°) were given an identical semantic layer — the same strings, the same types, in two themes that are supposed to be different colors. Green and cyan collapsed together the same way.
+- **A hue gets the lightness it needs.** OKLCH holds perceived lightness across hue and that is still not the whole story: a saturated hue near 100 at `L` 0.73 reads as khaki, not as yellow-green. The theme knew this before the generator existed — its warm roles all sit high, lime interfaces at 0.885 and amber numbers at 0.843, while its cool ones sit low. That correction is applied as a *difference* between where a role's hue was and where it moved to, so a role that stays put gets nothing and indigo is untouched.
+
+  It applies only where a color is bright enough to be read as a color. There is no khaki at `L` 0.08 — there is near-black with a hint of hue in it — and correcting it there does not rescue anything, it just makes the theme paler: ungated, this took the orange variant's editor background from `L` 0.083 to 0.143 and its side bar to 0.176, a brownish grey rather than the near-black the theme is built on. All eight grounds now sit within 0.008 of indigo's.
+
+### A string still stays green
+
+Crowded is not a metaphor. In the green, cyan and blue variants the family hue lands inside the arc the semantic roles occupy, and something has to move. The generator solves that arrangement — keeping the roles in their cyclic order, so warm stays warm — instead of nudging colors apart until they look separated, and it reports any variant it had to squeeze.
+
+### The separations are the theme's own
+
+There is no rule that two token colors must be some fixed number of degrees apart, because the theme does not obey one: enum members and numbers sit 19 degrees apart on purpose, told apart by lightness and chroma. So each pair is owed *whatever it already had*, under a ceiling. The generator cannot make anything better separated than the author made it; it can only stop a rotation from making it worse.
+
+Legibility is held to an absolute standard rather than to indigo's, because the variants are meant to differ: every code token clears WCAG AAA at 7:1, which the shipped theme already did — its dimmest token being the operators at 7.55:1 — so no variant can trade legibility for color. Chrome text is held to its own indigo value with slack, since that ramp is deliberately graded and the bottom of it, the comments at 3.76:1, sits below AA on purpose.
+
+### The original cannot move
+
+[`tools/indigo-baseline.json`](tools/indigo-baseline.json) is the theme exactly as it shipped, and the build asserts that the indigo variant still regenerates it — every workbench color, every TextMate rule, every semantic rule. That check is the point of the whole arrangement: it is what lets the palette math be changed with the knowledge that the theme already open in someone's editor did not move. `npm run build:themes` fails and writes nothing if it does not hold.
 
 ## Language coverage
 
@@ -118,13 +163,7 @@ The set is built around one rule: an icon has to be identifiable at the 16px VS 
 - **140 file and language icons** covering JS/TS/JSX/TSX, HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Shell/Zsh/Fish/PowerShell/Batch, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, Vue, Svelte, Astro, GraphQL, Docker, Terraform, Jupyter, images, fonts, audio, video, archives, certificates, PDF/Office documents, and well-known config files (`package.json`, `.eslintrc`, `.prettierrc`, `tsconfig.json`, `webpack`/`vite`/`rollup`, `Dockerfile`, `Makefile`, `.gitignore`, `nginx.conf`, CI files).
 - **Filename-pattern variants**, each a dedicated icon: `*.spec.ts(x)`, `*.test.ts(x)`, `*.d.ts`, `*.module.ts/scss/css`, `*.component.ts(x)`, `*.service.ts`, `*.stories.ts(x)`, `*.config.ts/js`, `*.min.js`, `*.guard.ts`, `*.pipe.ts`, `*.directive.ts`, `*.controller.ts`, `*.model.ts`, `*.dto.ts`, `*.entity.ts`.
 
-### The neon variant
-
-The neon set is the same 222 icons — same marks, same pictograms, same measured centres, same mappings. Only the paint differs: every color is lifted until it reads as lit rather than merely legible, the shadow is replaced by a glow, and folders invert their weight — the body dims to a dark tint and the rim becomes the lit line.
-
-An official color cannot simply be reused as neon ink, because a color that is right at rest is not one that reads as *lit*: Lua's `#000080` lands at 1.1:1 against the theme's ground, and every logo whose official form is black lands at 1.0:1. So the palette derives the ink instead, keeping the brand's hue and raising saturation and lightness until it clears a contrast floor. TypeScript stays blue and JavaScript stays yellow.
-
-The same problem exists in the classic set, in a milder form — with the tile gone, a dark brand color is now ink on near-black rather than a background to read against. `readable()` lifts those the same way, except for the logos whose official form is black: those ship a white version for dark backgrounds, and that is the one the set uses.
+The icons keep the languages' own colors in every theme. A Python file is `#3776AB` and `#FFD43B` whether the editor around it is indigo or green — the mark is the language's identity, not the theme's, and tinting it to match the chrome would cost the one thing the icon set is for.
 
 ### Where the logos come from
 
@@ -156,31 +195,40 @@ You do not need to fork the theme to adjust it. Override any color in your own `
 }
 ```
 
-The icons in [`icons/svg/`](icons/svg/) and [`icons/svg-neon/`](icons/svg-neon/), and both mappings under [`icons/theme/`](icons/theme/), are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator:
+The name in brackets is the theme's label, so an override applies to that one color only — `[Midnight Green]` for the green variant, and so on. To adjust all eight at once, drop the brackets and put the settings at the top level.
+
+Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) and the mapping under [`icons/theme/`](icons/theme/) are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator:
 
 | | |
 | --- | --- |
+| [`tools/color.ts`](tools/color.ts) | Colour-space maths — sRGB, WCAG contrast, and the OKLCH conversion the palettes rotate in |
+| [`tools/theme-palette.ts`](tools/theme-palette.ts) | The eight families, the role table, and the rules that keep the tokens apart |
+| [`tools/build-color-themes.ts`](tools/build-color-themes.ts) | The theme structure, written once against role names, plus every check the build makes |
+| [`tools/indigo-baseline.json`](tools/indigo-baseline.json) | The theme as it shipped. The build refuses to write if indigo no longer reproduces it |
 | [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the two rules everything obeys: fill only, and holes are cut with `evenodd` rather than painted |
 | [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — the shapes that are ours. Each is drawn inside a 24×24 box centred on `(0,0)` |
 | [`tools/marks.ts`](tools/marks.ts) | The language and tool marks: official palettes over imported geometry, plus the ones drawn by hand |
 | [`tools/import-marks.ts`](tools/import-marks.ts) | Fetches the official artwork and writes [`tools/mark-paths.ts`](tools/mark-paths.ts). Only re-run when adding a mark |
 | [`tools/icon-spec.ts`](tools/icon-spec.ts) | Which mark, pictogram or string each icon gets, and in which colours |
-| [`tools/palette.ts`](tools/palette.ts) | Every colour the build paints with, and the derivations between variants |
+| [`tools/palette.ts`](tools/palette.ts) | Every colour the icon build paints with, and which of them a variant may not repaint |
 | [`tools/build-icons.ts`](tools/build-icons.ts) | The box, the folder geometry, the drawing, and the paint recipe per variant |
-| [`tools/build-theme.ts`](tools/build-theme.ts) | The folder-name / extension / filename / language-id → icon mapping, shared by every variant |
+| [`tools/build-theme.ts`](tools/build-theme.ts) | The folder-name / extension / filename / language-id → icon mapping |
 
 ```bash
-npm run build:icons              # every variant
-node tools/build-icons.ts neon   # just one
+npm run build                    # themes, then icons
+npm run build:themes             # the eight colour themes
+npm run build:icons              # the icon set
 npm run import:marks             # re-fetch the official logo geometry
 npm run typecheck                # tsc, no emit
 ```
 
 The build scripts are TypeScript, run straight by Node's type stripping — there is no compile step, no bundler and no `dist/`. `typescript` is a devDependency for checking only, and nothing in `tools/` is packaged into the extension. The types are load-bearing rather than decorative: `mark` and `glyph` on a spec are the unions of the real mark and pictogram names, and every entry in the extension / filename / language-id tables must name an icon the spec defines, so a typo is an error in the editor instead of a thrown build.
 
-The build fails if a mapping points at an icon that does not exist, so the two can never drift apart. `npm run preview:icons` additionally writes `icons/preview.html` and `icons/preview-neon.html`, which show every icon at 48px and at the 16px VS Code renders it.
+The icon build fails if a mapping points at an icon that does not exist, and the theme build fails if `package.json` does not contribute exactly the eight themes it writes — so neither pair can drift apart silently. `npm run preview:icons` additionally writes `icons/preview.html`, which shows every icon at 48px and at the 16px VS Code renders it.
 
-**Adding a variant** is a paint recipe and nothing else. The geometry, the glyph library, the measurements and the mappings are all shared: add a derivation to `tools/palette.ts`, a `file`/`folder` pair to `VARIANTS` in `tools/build-icons.ts`, and an entry to `contributes.iconThemes`. Nothing an existing variant emits changes — the classic set is byte-for-byte reproducible, so `git diff` after a build is the regression test.
+Both sets are byte-for-byte reproducible, so `git diff` after a build is the regression test: a change that was meant to touch two icons and touches nine has said so before it is committed.
+
+**Adding a colour** is one line — a name and an OKLCH hue in `FAMILIES` — plus its entry in `contributes.themes`. Everything else follows: the role table, the separations and the checks are shared, and the build will tell you if the new hue leaves the wheel too crowded to give every token the separation the original had.
 
 ### Centring
 
@@ -195,16 +243,19 @@ Run it after adding or editing artwork or a string — the build stops and point
 ### Screenshots
 
 ```bash
-npm run preview:theme
+npm run preview:theme                    # the hero and the language cards, in indigo
+node tools/build-theme-preview.ts green  # ... in another family instead
 ```
 
 Rewrites `docs/preview/` and [`docs/PREVIEW.md`](docs/PREVIEW.md) from the samples in [`tools/samples/`](tools/samples/). Highlighting goes through [Shiki](https://shiki.style) fed this repo's own theme JSON, the TextMate grammars VS Code ships, and the extension's two grammar injections, so a screenshot cannot claim a color the theme does not actually produce. Add a file to `tools/samples/` and an entry to `LANGUAGES` in the script to cover another language; the gallery page picks it up on the next run. Same browser requirement as above.
+
+The hero and the language cards are shot in one family, because their job is to show the syntax rules and eight copies of the same C# sample would say nothing the first one did not. `palettes.png` is the one that shows all eight, and it is written on every run whichever family is named.
 
 ```bash
 npm run preview:gallery
 ```
 
-Rewrites the three icon galleries in `docs/preview/` — `icons-files.png`, `icons-folders.png` and `icons-variants.png` — from the SVGs in `icons/`, on the theme's own sidebar color. Run it after `npm run build:icons`, because it shoots whatever is currently built.
+Rewrites the two icon galleries in `docs/preview/` — `icons-files.png` and `icons-folders.png` — from the SVGs in `icons/`, on the theme's own sidebar color. Run it after `npm run build:icons`, because it shoots whatever is currently built.
 
 These have to be images, and they have to be linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing. Every image in this file is therefore a `raw.githubusercontent.com` URL on `main` — which also means an image only appears on the listing once the commit that adds it is merged there.
 

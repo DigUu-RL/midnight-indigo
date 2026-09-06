@@ -38,7 +38,26 @@ const SVG = path.join(ROOT, 'icons', 'svg');
 const OUT = path.join(ROOT, 'docs', 'preview');
 const TMP = path.join(os.tmpdir(), 'midnight-indigo-preview');
 
-const theme = readJson(ROOT, 'themes', 'midnight-indigo-color-theme.json');
+/*
+ * The hero and the language cards are shot in one variant — indigo unless a
+ * family is named on the command line — because their job is to show the syntax
+ * rules, and eight copies of the same C# sample would say nothing the first one
+ * did not. The eight-up palette sheet is what shows the variants.
+ *
+ *   node tools/build-theme-preview.ts          indigo
+ *   node tools/build-theme-preview.ts green    the green variant instead
+ */
+const FAMILIES = ['indigo', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue'];
+
+const themeFor = (family: string): any =>
+  readJson(ROOT, 'themes', `midnight-${family}-color-theme.json`);
+
+const family = process.argv[2] || 'indigo';
+if (!FAMILIES.includes(family)) {
+  throw new Error(`unknown family "${family}" — expected one of: ${FAMILIES.join(', ')}`);
+}
+
+const theme = themeFor(family);
 const C = theme.colors;
 
 const BROWSERS = [
@@ -246,6 +265,68 @@ function heroPage(html: string, lineCount: number): string {
 }
 
 /* -------------------------------------------------------------- *
+ * The palette sheet
+ * -------------------------------------------------------------- */
+
+/*
+ * The same code in all eight variants, two to a row, each in a small editor.
+ *
+ * It has to be the same code, and it has to be code rather than swatches: a row
+ * of coloured chips would show that eight palettes exist and nothing about what
+ * matters — whether a string still reads as a string when the chrome turns
+ * green, whether the keyword pole still separates from the operators.
+ *
+ * And it has to carry the chrome. A card that is only a code pane compares two
+ * palettes on the tokens alone, which is the half most constrained by meaning
+ * and therefore the half that varies least; every card looks alike and the set
+ * gets a clean bill of health it has not earned. The tab strip, the gutter, the
+ * selected row and the status bar are where a variant's own colour is doing
+ * most of its work, so they are in the frame.
+ */
+function palettesPage(cards: { label: string; theme: any; html: string }[], lineCount: number): string {
+  const cell = ({ label, theme: t, html }: { label: string; theme: any; html: string }): string => {
+    const c = t.colors;
+    return `<figure style="background:${c['editor.background']};border:1px solid ${c['tab.border']}">
+      <div class="bar" style="background:${c['editorGroupHeader.tabsBackground']};
+                              border-bottom:1px solid ${c['editorGroupHeader.border']}">
+        <span class="tab" style="background:${c['tab.activeBackground']};
+                                 color:${c['tab.activeForeground']};
+                                 box-shadow:inset 0 2px 0 ${c['tab.activeBorderTop']}">member.service.ts</span>
+        <span class="tab off" style="color:${c['tab.inactiveForeground']}">MemberList.tsx</span>
+        <span class="name" style="color:${c.foreground}">
+          <span class="dot" style="background:${c.focusBorder}"></span>${esc(label)}
+        </span>
+      </div>
+      <div class="body" style="--gutter:${c['editorLineNumber.foreground']}">
+        ${withGutter(html, lineCount)}
+      </div>
+      <div class="status" style="background:${c['statusBar.background']};
+                                 border-top:1px solid ${c['statusBar.border']};
+                                 color:${c['statusBar.foreground']}">
+        <span style="color:${c['editorLineNumber.activeForeground']}">main*</span>
+        <span>TypeScript</span><span>UTF-8</span>
+      </div>
+    </figure>`;
+  };
+
+  return `<!doctype html><meta charset="utf-8"><style>${baseCss}
+    body { padding: 18px; }
+    .sheet { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    figure { margin: 0; border-radius: 10px; overflow: hidden; }
+    .bar { display: flex; align-items: stretch; font-size: 12px; }
+    .tab { display: flex; align-items: center; padding: 8px 14px; }
+    .tab.off { background: transparent; }
+    .name { margin-left: auto; display: flex; align-items: center; gap: 8px;
+            padding: 8px 14px; font-size: 12.5px; font-weight: 600; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; }
+    .body { padding: 10px 0; }
+    /* Each card carries its own gutter colour; the shared rule would use indigo's. */
+    .body pre.gutter { color: var(--gutter); }
+    .status { display: flex; gap: 16px; padding: 5px 14px; font-size: 11px; }
+  </style><div class="sheet">${cards.map(cell).join('')}</div>`;
+}
+
+/* -------------------------------------------------------------- *
  * Render
  * -------------------------------------------------------------- */
 
@@ -293,13 +374,14 @@ async function main() {
     return { ...grammar, name: `midnight-indigo-${file}`, injectTo: scopes };
   });
 
+  const all = FAMILIES.map(themeFor);
   const highlighter = await createHighlighter({
-    themes: [theme],
+    themes: all,
     langs: [...new Set(items.map((i) => i.lang)), ...injections],
   });
 
-  const render = (code: string, lang: string): string =>
-    highlighter.codeToHtml(code, { lang, theme: theme.name, structure: 'classic' });
+  const render = (code: string, lang: string, t: any = theme): string =>
+    highlighter.codeToHtml(code, { lang, theme: t.name, structure: 'classic' });
 
   // Hero
   const hero = items.find((i) => i.lang === 'typescript');
@@ -320,6 +402,30 @@ async function main() {
   }
   console.log(`wrote ${items.length} language previews to docs/preview/`);
 
+  /*
+   * The palette sheet. A short excerpt rather than the whole sample: eight
+   * cards of forty lines each is a screenshot nobody scrolls to the bottom of,
+   * and everything worth comparing — keywords, strings, types, calls, numbers,
+   * comments, punctuation — is in the first dozen.
+   */
+  const EXCERPT = 14;
+  const excerpt = hero.code.split('\n').slice(0, EXCERPT).join('\n');
+  const cards = FAMILIES.map((f, i) => ({
+    label: all[i].name,
+    theme: all[i],
+    html: render(excerpt, hero.lang, all[i]),
+  }));
+  const sheetFile = path.join(TMP, 'palettes.html');
+  fs.writeFileSync(sheetFile, palettesPage(cards, EXCERPT), 'utf8');
+  shoot(
+    browser,
+    sheetFile,
+    path.join(OUT, 'palettes.png'),
+    1180,
+    36 + 4 * (34 + 22 + 24 + EXCERPT * LINE_H + 18)
+  );
+  console.log(`wrote docs/preview/palettes.png (${FAMILIES.length} palettes)`);
+
   writeGallery(items);
   console.log('wrote docs/PREVIEW.md');
 }
@@ -334,12 +440,16 @@ function writeGallery(items: any[]): void {
 
   const section = (list: any[]): string =>
     list
-      .map((i) => `${heading(i.label)}\n\n![${i.label} in Midnight Indigo](${RAW}/${i.lang}.png)`)
+      .map((i) => `${heading(i.label)}\n\n![${i.label} in ${theme.name}](${RAW}/${i.lang}.png)`)
       .join('\n\n');
 
   const body = `# Preview
 
-Every screenshot on this page is generated from [the theme file](../themes/midnight-indigo-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own two grammar injections loaded — so these are the theme's real colors rather than an approximation. Regenerate them with \`npm run preview:theme\`.
+Every screenshot on this page is generated from [the theme file](../themes/midnight-${family}-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own two grammar injections loaded — so these are the theme's real colors rather than an approximation. Regenerate them with \`npm run preview:theme\`.
+
+The language samples below are **${theme.name}**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
+
+![The eight palettes](${RAW}/palettes.png)
 
 ![The color theme and the icon set together](${RAW}/hero.png)
 

@@ -1,8 +1,8 @@
 {
     "name": "midnight-indigo",
-    "displayName": "Midnight Indigo",
-    "description": "An ultra-dark purple/indigo theme with a matching file icon set built on the languages' own official logos, plus semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "5.0.0",
+    "displayName": "Midnight",
+    "description": "An ultra-dark theme in eight colours — indigo, purple, pink, red, orange, green, cyan and blue — each the same theme at another hue, with a matching file icon set built on the languages' own official logos and semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+    "version": "6.0.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
@@ -17,8 +17,14 @@
         "dark theme",
         "icon theme",
         "file icons",
+        "indigo",
         "purple",
-        "indigo"
+        "pink",
+        "red",
+        "orange",
+        "green",
+        "cyan",
+        "blue"
     ],
     "galleryBanner": {
         "color": "#020108",
@@ -37,8 +43,10 @@
         "measure:glyphs": "node tools/measure.ts",
         "import:marks": "node tools/import-marks.ts",
         "build:icons": "node tools/build-icons.ts",
+        "build:themes": "node tools/build-color-themes.ts",
+        "build": "npm run build:themes && npm run build:icons",
         "build:extension": "npm install -g @vscode/vsce && vsce package",
-        "preview:icons": "node tools/build-icons.ts && node tools/preview.ts && node tools/preview.ts neon",
+        "preview:icons": "node tools/build-icons.ts && node tools/preview.ts",
         "preview:gallery": "node tools/build-icon-preview.ts",
         "preview:theme": "node tools/build-theme-preview.ts"
     },
@@ -48,18 +56,48 @@
                 "label": "Midnight Indigo",
                 "uiTheme": "vs-dark",
                 "path": "./themes/midnight-indigo-color-theme.json"
+            },
+            {
+                "label": "Midnight Purple",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-purple-color-theme.json"
+            },
+            {
+                "label": "Midnight Pink",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-pink-color-theme.json"
+            },
+            {
+                "label": "Midnight Red",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-red-color-theme.json"
+            },
+            {
+                "label": "Midnight Orange",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-orange-color-theme.json"
+            },
+            {
+                "label": "Midnight Green",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-green-color-theme.json"
+            },
+            {
+                "label": "Midnight Cyan",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-cyan-color-theme.json"
+            },
+            {
+                "label": "Midnight Blue",
+                "uiTheme": "vs-dark",
+                "path": "./themes/midnight-blue-color-theme.json"
             }
         ],
         "iconThemes": [
             {
                 "id": "midnight-indigo-icons",
-                "label": "Midnight Indigo Icons",
+                "label": "Midnight Icons",
                 "path": "./icons/theme/midnight-indigo-icon-theme.json"
-            },
-            {
-                "id": "midnight-indigo-neon-icons",
-                "label": "Midnight Indigo Icons (Neon)",
-                "path": "./icons/theme/midnight-indigo-neon-icon-theme.json"
             }
         ],
         "grammars": [
