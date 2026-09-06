@@ -1,4 +1,4 @@
-# Midnight
+# Midnight Indigo
 
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/diguu-rl.midnight-indigo?label=marketplace&color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/diguu-rl.midnight-indigo?color=6C5CE7)](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)
@@ -75,7 +75,7 @@ Highlighting goes through the same TextMate grammars VS Code ships, including th
 
 ### From the Marketplace
 
-Search for **Midnight** in the Extensions view (`Ctrl+Shift+X`), or run:
+Search for **Midnight Indigo** in the Extensions view (`Ctrl+Shift+X`), or run:
 
 ```bash
 code --install-extension diguu-rl.midnight-indigo

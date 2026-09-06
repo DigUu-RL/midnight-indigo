@@ -1,12 +1,12 @@
 # Changelog
 
-All notable changes to the Midnight extension are documented in this file.
+All notable changes to the Midnight Indigo extension are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [6.0.0]
 
-Seven new color themes, a renamed extension, one icon theme removed, and a bug fix that had been making two file icons unreadable.
+Seven new color themes, one icon theme removed, and a bug fix that had been making two file icons unreadable.
 
 **If you use the theme, nothing changes.** `Midnight Indigo` is still called `Midnight Indigo`, and it is byte-for-byte the theme 5.0.0 shipped — the build asserts that and refuses to write anything if it ever stops being true. **If you use the neon icon set, it is gone** and VS Code will fall back to its default icons; switch to `Midnight Icons` in *Preferences: File Icon Theme*.
 
@@ -42,9 +42,7 @@ Seven new color themes, a renamed extension, one icon theme removed, and a bug f
 
 ### Changed
 
-- **The extension is now called Midnight**, because "Midnight Indigo" stopped describing something with eight colors in it. Only the display name moved: the extension id is still `diguu-rl.midnight-indigo`, so this is an update rather than a new listing, and the theme labels are unchanged — a color theme with no `id` is remembered by its label, so renaming `Midnight Indigo` would have silently reset the theme of every editor that has it selected.
-
-  The icon theme is now labelled **Midnight Icons**, since one set serves all eight. Its id is unchanged, so `workbench.iconTheme` keeps working.
+- **The icon theme is now labelled Midnight Icons**, since one set serves all eight. Its id is unchanged, so `workbench.iconTheme` keeps working. The extension itself is still **Midnight Indigo** — the Marketplace requires display names to be unique across the whole catalogue and "Midnight" is already taken — and the color theme labels are unchanged too, since a color theme with no `id` is remembered by its label and renaming `Midnight Indigo` would have silently reset the theme of every editor that has it selected.
 
 - **The icons still carry the languages' own colors, in every theme.** A Python file is `#3776AB` and `#FFD43B` whether the editor around it is indigo or green. A theme-tinted set was considered and dropped: with the color gone, 28 of the 140 file icons become the same drawing — a `.spec.ts` and a `.spec.js` are one flask, four `*.config.*` files are one wrench — because this set deliberately says *what a file does* with the pictogram and *which language it is* with the color.
 
