@@ -1,33 +1,18 @@
 /*
- * Builds icons/preview.html (or icons/preview-<variant>.html): every generated
- * icon shown at 48px (to inspect the drawing) and at 16px (the size VS Code
- * actually renders it), on the theme's editor background. Used to eyeball a set
- * after a build.
+ * Builds icons/preview.html: every generated icon shown at 48px (to inspect the
+ * drawing) and at 16px (the size VS Code actually renders it), on the theme's
+ * editor background. Used to eyeball the set after a build.
  *
- *   node tools/preview.ts            the classic set
- *   node tools/preview.ts neon       the neon set
+ *   node tools/preview.ts
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const VARIANTS = {
-  classic: { dir: 'svg', out: 'preview.html' },
-  neon: { dir: 'svg-neon', out: 'preview-neon.html' },
-};
-
-type VariantName = keyof typeof VARIANTS;
-
-const name = process.argv[2] || 'classic';
-if (!(name in VARIANTS)) {
-  throw new Error(`unknown variant "${name}" — expected one of: ${Object.keys(VARIANTS).join(', ')}`);
-}
-const variant = VARIANTS[name as VariantName];
-
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const SVG = path.join(HERE, '..', 'icons', variant.dir);
-const OUT = path.join(HERE, '..', 'icons', variant.out);
+const SVG = path.join(HERE, '..', 'icons', 'svg');
+const OUT = path.join(HERE, '..', 'icons', 'preview.html');
 
 const names = fs.readdirSync(SVG).filter((f) => f.endsWith('.svg')).sort();
 
@@ -48,4 +33,4 @@ const html = `<!doctype html><meta charset="utf-8"><style>
 </style><div class="grid">${names.map(cell).join('')}</div>`;
 
 fs.writeFileSync(OUT, html, 'utf8');
-console.log(`wrote icons/${variant.out} (${names.length} icons)`);
+console.log(`wrote icons/preview.html (${names.length} icons)`);

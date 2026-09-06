@@ -34,6 +34,41 @@ export const DARK: Colour = '#0A0716';
 export const FOLDER: Colour = '#8B7CF6';
 
 /* -------------------------------------------------------------- *
+ * Structural colours
+ * -------------------------------------------------------------- */
+
+/**
+ * White, and the near-black a knocked-out letter is worth when the logo's own
+ * letters are dark. Several marks are a solid shape with the lettering cut out
+ * of it — the TypeScript square, the npm rectangle, JavaScript's, .env's — and
+ * with no tile under them those cut-outs are just holes, so the mark is painted
+ * over a PLATE in the colour the letters are supposed to be.
+ */
+export const WHITE: Colour = '#FFFFFF';
+export const INK_DARK: Colour = '#0F0B1E';
+
+/**
+ * The colours no variant may derive.
+ *
+ * A plate is not a brand colour. It is structure: the thing that makes a
+ * knocked-out letter legible, and it is chosen against the letter it sits
+ * behind rather than against the theme's ground. `readable()` cannot tell the
+ * difference on its own — it sees a saturated near-black, assumes a logo too
+ * dark to paint on #040208, and lifts it. Which is exactly what went wrong:
+ * INK_DARK came out as #7762C6, a mid purple, and the yellow lettering of the
+ * .env and JavaScript marks dropped from 13:1 against their plate to 3.3:1,
+ * turning both icons into a smudge at the size the file explorer draws them.
+ *
+ * These live here rather than in tools/marks.ts because this module is where
+ * the question "may a variant repaint this?" is answered, and the answer has to
+ * be visible to the derivations that would otherwise repaint it.
+ */
+const STRUCTURAL: ReadonlySet<Colour> = new Set([WHITE, INK_DARK]);
+
+/** Whether a colour is structure rather than identity, and so must not move. */
+export const structural = (hex: Colour): boolean => STRUCTURAL.has(hex);
+
+/* -------------------------------------------------------------- *
  * Colour maths
  * -------------------------------------------------------------- */
 
@@ -113,6 +148,7 @@ const MAX_L = 0.86;
  * would produce a muddy charcoal that reads as "broken" rather than "reversed".
  */
 export function readable(hex: Colour): Colour {
+  if (structural(hex)) return hex;
   const [h, s, l0] = hexToHsl(hex);
   if (s < 0.2 && l0 < 0.3) return LIGHT;
   let l = l0;
@@ -130,9 +166,10 @@ export function readable(hex: Colour): Colour {
  * flask, the page of the book, the screen of the terminal.
  *
  * It is derived rather than specified so that a pictogram tinted with any
- * language's colour gets a matching pair for free, and so that both variants
- * stay in step: neon lifts the identity colour first and takes the tint of
- * *that*, which keeps the two tones the same distance apart under either paint.
+ * language's colour gets a matching pair for free — adding a language means
+ * adding one colour, not two — and so that a variant which repaints the
+ * identity colour gets the second tone repainted with it, keeping the two tones
+ * the same distance apart under any paint.
  */
 export function tint(hex: Colour): Colour {
   const [h, s, l] = hexToHsl(hex);
@@ -153,31 +190,3 @@ export function shade(hex: Colour, amount = 0.62): Colour {
   return hslToHex(h, Math.min(1, s * 1.08), Math.max(0.1, l * (1 - amount)));
 }
 
-/* -------------------------------------------------------------- *
- * The neon derivation
- * -------------------------------------------------------------- */
-
-const NEON_MIN_CONTRAST = 5;
-const NEON_MIN_SAT = 0.85;
-const NEON_MAX_L = 0.94;
-
-/*
- * Lifts a brand colour to neon: hue is kept, so TypeScript stays blue and
- * JavaScript stays yellow, while saturation and lightness are raised until the
- * ink reads as *lit* against the ground rather than merely legible on it.
- * Lightness is walked up rather than set outright because luminance is
- * hue-dependent — a pure blue has to go much lighter than a yellow to reach the
- * same contrast, and a fixed target lightness would leave the blues dim.
- */
-export function neonInk(hex: Colour): Colour {
-  const [h, s0, l0] = hexToHsl(hex);
-  // Near-greys have no hue worth amplifying; saturating them would invent one.
-  const s = s0 < 0.12 ? s0 : Math.max(s0, NEON_MIN_SAT);
-  let l = Math.max(l0, 0.5);
-  let out = hslToHex(h, s, l);
-  while (l < NEON_MAX_L && contrast(out, GROUND) < NEON_MIN_CONTRAST) {
-    l = Math.min(NEON_MAX_L, l + 0.01);
-    out = hslToHex(h, s, l);
-  }
-  return out;
-}

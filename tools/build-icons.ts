@@ -53,7 +53,7 @@ import {
   type FileIcon,
   type FolderIcon,
 } from './icon-spec.ts';
-import { FOLDER, neonInk, readable, shade, tint } from './palette.ts';
+import { FOLDER, readable, shade, tint } from './palette.ts';
 import buildTheme from './build-theme.ts';
 
 /** What tools/measure.ts records for one piece of artwork and one text run. */
@@ -254,59 +254,6 @@ function classicFolder(spec: Partial<FolderSpec>, isOpen: boolean): string {
 }
 
 /* -------------------------------------------------------------- *
- * Variant: neon — lit ink on the theme's own ground
- * -------------------------------------------------------------- *
- *
- * Same artwork, same measured centres, same box. What changes is the paint:
- * every colour is lifted by palette.ts -> neonInk until it reads as lit rather
- * than merely legible, and the whole icon is put through a blur-and-merge
- * filter so it sits in its own light.
- *
- * Artwork stays FILLED rather than becoming a hollow outline. A mark drawn at
- * 25 units lands at 12 or 13 real pixels in the file explorer; hollowing it out
- * at that size closes the counters and turns the logo into a smudge. The glow
- * is what carries the neon, not the hollowing.
- *
- * The blur is laid UNDER the untouched artwork rather than merged over it.
- * Merging a blur over itself is what turns a glow into a bloom: the halo gains
- * enough alpha to swallow the edge it is supposed to be radiating from. Two
- * soft passes with SourceGraphic drawn last keeps every edge exactly as sharp
- * as the classic set and lets the light sit around it instead of on it.
- */
-
-const GLOW_ID = 'gl';
-const GLOW = (): string =>
-  `<defs><filter id="${GLOW_ID}" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">` +
-  `<feGaussianBlur stdDeviation="0.85" result="b"/>` +
-  `<feComponentTransfer in="b" result="s"><feFuncA type="linear" slope="0.7"/></feComponentTransfer>` +
-  `<feMerge><feMergeNode in="s"/><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>` +
-  `</filter></defs>`;
-
-const lit = (body: string): string => `<g filter="url(#${GLOW_ID})">${body}</g>`;
-
-function neonFile(spec: FileSpec): string {
-  const ink = paletteOf(spec).map(neonInk);
-  let body = artwork(spec, ink);
-  if (spec.text) body += label(spec.text, spec.textFill ? neonInk(spec.textFill) : ink[0], spec);
-  return svg(GLOW() + lit(body));
-}
-
-/*
- * A solid folder painted in lit ink would be a glowing block with a hole in it,
- * so neon keeps the geometry and inverts the weight: the body is dimmed to a
- * dark tint of the accent, the RIM is the lit line, and the pictogram is lit
- * with it. Same two paths, same pictogram, same places.
- */
-function neonFolder(spec: Partial<FolderSpec>, isOpen: boolean): string {
-  const ink = neonInk(spec.accent || FOLDER);
-  const fill = shade(ink, 0.84);
-  const rim = (d: string): string =>
-    `<path d="${d}" fill="${fill}" stroke="${ink}" stroke-width="1.5" stroke-linejoin="round"/>`;
-  const body = isOpen ? rim(FOLDER_BACK) + rim(FOLDER_OPEN_FRONT) : rim(FOLDER_BACK);
-  return svg(GLOW() + lit(body + folderArt(spec, isOpen, [ink, tint(ink)])));
-}
-
-/* -------------------------------------------------------------- *
  * Emit
  * -------------------------------------------------------------- */
 
@@ -320,18 +267,23 @@ type Variant = {
   folder: (spec: Partial<FolderSpec>, isOpen: boolean) => string;
 };
 
+/*
+ * There is one variant, and the machinery for more is kept anyway.
+ *
+ * V2 shipped a second set, "neon", which lifted every colour until it glowed
+ * and traded the shadow for a halo. It is gone in V3 — it read as a novelty
+ * next to a set built on the projects' own marks, and it was the one part of
+ * the extension nobody could give a reason to prefer. What stays is the shape
+ * of the thing: a variant is a paint recipe, `dir` and `theme` say where it
+ * lands, and adding one back touches nothing else. The geometry, the marks, the
+ * measurements and the mappings never belonged to a variant in the first place.
+ */
 const VARIANTS = {
   classic: {
     dir: 'svg',
     theme: 'midnight-indigo-icon-theme.json',
     file: classicFile,
     folder: classicFolder,
-  },
-  neon: {
-    dir: 'svg-neon',
-    theme: 'midnight-indigo-neon-icon-theme.json',
-    file: neonFile,
-    folder: neonFolder,
   },
 } satisfies Record<string, Variant>;
 

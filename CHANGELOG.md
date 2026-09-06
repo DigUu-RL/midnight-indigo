@@ -1,8 +1,60 @@
 # Changelog
 
-All notable changes to the Midnight Indigo extension are documented in this file.
+All notable changes to the Midnight extension are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [6.0.0]
+
+Seven new color themes, a renamed extension, one icon theme removed, and a bug fix that had been making two file icons unreadable.
+
+**If you use the theme, nothing changes.** `Midnight Indigo` is still called `Midnight Indigo`, and it is byte-for-byte the theme 5.0.0 shipped — the build asserts that and refuses to write anything if it ever stops being true. **If you use the neon icon set, it is gone** and VS Code will fall back to its default icons; switch to `Midnight Icons` in *Preferences: File Icon Theme*.
+
+### Added
+
+- **Seven more colors: Purple, Pink, Red, Orange, Green, Cyan and Blue.** Not seven new themes — the same theme at seven more hues. Same lightnesses, same contrast, same TextMate and semantic rules, same icon set.
+
+  They are generated rather than written, because a color here is not a value: it is a decision applied in up to nine places, and keeping nine copies of it in step by hand across eight files is not something anyone does correctly for long. [`tools/build-color-themes.ts`](tools/build-color-themes.ts) holds the structure once, against role names, and [`tools/theme-palette.ts`](tools/theme-palette.ts) decides what color each role is in each family.
+
+  The design rests on something the theme turned out to already be. Measured in OKLCH, 30 of its 39 colors sit inside a **19-degree band around hue 290** — the grounds, the borders, the selection, the accent, the whole foreground ramp, and four of the syntax roles. Those were never thirty decisions; they are one hue at thirty lightnesses, and they rotate together. The pink the keywords are set in sits at a fixed offset from that hue, a relationship rather than a coordinate, and rotates with it.
+
+  **Each variant is rebuilt rather than tinted**, which took two attempts. The first held lightness and chroma fixed and rotated only the family hue, and the result looked like the original seen through colored glass. Measuring said why: the semantic layer — strings, calls, types, numbers, which is most of what is on a screen — sat 0.009 to 0.035 away from indigo in OKLab. It had not moved.
+
+  Three things now make a variant its own palette. Every token takes a share of the rotation, with a floor, because freezing the roles with the strongest conventions behind them meant freezing strings and function calls. The drift *saturates* rather than clamping, because a hard cap handed red (97° from indigo) and orange (130°) an identical semantic layer, and did the same to green and cyan. And a role rotated into the yellow-green trough is given the altitude that hue needs — the theme already knew that rule, its warm roles all sitting high and its cool ones low; it is applied as a difference from where the role started, so anything that stays put is untouched.
+
+  That last one is gated by lightness, which matters more than it sounds: mud is something that happens to colors bright enough to be seen as colors, and correcting for it in the near-blacks only makes them paler. Ungated it took the orange variant's editor background from `L` 0.083 to 0.143 and its side bar to 0.176 — an ultra-dark theme that was only ultra-dark in six of its eight colors. All eight grounds now sit within 0.008 of indigo's.
+
+  Chroma stays absolute, and that is deliberate. Storing it as a fraction of what each hue can hold looks obviously right — sRGB carries far more chroma at magenta than at green — and is wrong twice over: OKLCH chroma is already the perceptually comparable quantity, so normalizing against the gamut undoes the reason for using OKLCH at all; and indigo's own operators, keywords, calls and enum members already sit at 100% of their hue's chroma, so "reuse the fraction" meant "sit on the gamut edge everywhere". It produced `#FF53F7` keywords in the red variant before it was backed out.
+
+- **[`tools/color.ts`](tools/color.ts) — the color math, now in OKLCH.** The palettes rotate hue, and HSL cannot do that: its `L` is the midpoint of the largest and smallest channel, which says nothing about how bright a color looks, so hue 60 and hue 240 at identical `S` and `L` are a headlight and a bruise. Rotating in HSL would have blown out the yellow variants and muddied the blue ones from the same numbers. OKLCH's `L` is perceived lightness, so only the hue moves. Contrast across the eight variants varies by at most 3%.
+
+  Out-of-gamut results reduce chroma until they fit rather than letting the channels clip, because clipping shifts hue — and only for the hues that happen to be out of gamut, which is exactly how a generated palette ends up subtly inconsistent in the places it was generated to be consistent.
+
+- **[`tools/indigo-baseline.json`](tools/indigo-baseline.json) — the theme as it shipped, as a test.** The build regenerates indigo and compares it against this file, key for key, and writes nothing if a single color has moved. It is what lets the palette math be changed at all: the theme thousands of editors already have open is now covered by an assertion rather than by care.
+
+- **A palette sheet in the docs.** `docs/preview/palettes.png` shows the same code in all eight, rendered from the real theme files.
+
+### Fixed
+
+- **The `.env` and JavaScript icons were unreadable, and it was one bug.** Both marks are a solid block with the lettering cut out of it, so both are painted over a near-black *plate* that makes the cut-out letters legible. `readable()` in [`tools/palette.ts`](tools/palette.ts) exists to lift brand colors that are too dark to paint on a `#040208` ground — and it could not tell that plate apart from a dark logo, so it lifted it too, from `#0F0B1E` to a mid purple `#7762C6`. The lettering went from **13:1 against its plate to 3.3:1** on `.env`, and 14.3:1 to 3.6:1 on JavaScript.
+
+  Plate colors now live in `tools/palette.ts` alongside the derivations, marked structural, and no variant may repaint them. `.env` is back to 13.0:1 and JavaScript to 14.3:1. No other icon changed.
+
+### Changed
+
+- **The extension is now called Midnight**, because "Midnight Indigo" stopped describing something with eight colors in it. Only the display name moved: the extension id is still `diguu-rl.midnight-indigo`, so this is an update rather than a new listing, and the theme labels are unchanged — a color theme with no `id` is remembered by its label, so renaming `Midnight Indigo` would have silently reset the theme of every editor that has it selected.
+
+  The icon theme is now labelled **Midnight Icons**, since one set serves all eight. Its id is unchanged, so `workbench.iconTheme` keeps working.
+
+- **The icons still carry the languages' own colors, in every theme.** A Python file is `#3776AB` and `#FFD43B` whether the editor around it is indigo or green. A theme-tinted set was considered and dropped: with the color gone, 28 of the 140 file icons become the same drawing — a `.spec.ts` and a `.spec.js` are one flask, four `*.config.*` files are one wrench — because this set deliberately says *what a file does* with the pictogram and *which language it is* with the color.
+
+- **`package.json` is now checked against the build.** A theme VS Code is not told about is a file on disk and nothing else, and the failure is silent in both directions. The theme build now refuses to run unless `contributes.themes` names exactly the eight files it writes, the same guarantee the icon build has always had for its mappings.
+
+### Removed
+
+- **The neon icon set.** It read as a novelty next to a set built on the projects' own marks, and it was the one part of the extension with no case for preferring it. `icons/svg-neon/`, its manifest and `neonInk()` are gone; 222 fewer files in the package.
+
+  The machinery for variants stays — a variant is still a paint recipe and nothing else, and adding one back touches nothing but `VARIANTS` in [`tools/build-icons.ts`](tools/build-icons.ts).
 
 ## [5.0.0]
 

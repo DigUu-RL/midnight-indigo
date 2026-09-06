@@ -7,10 +7,13 @@
  * top of that geometry is:
  *
  *   THE PALETTE. Every mark carries its official colours, in slot order. The
- *   build passes them through tools/palette.ts before painting: `readable` in
- *   the classic variant (the ground is #040208, and a logo whose official
- *   colour is #000080 or black cannot be painted onto it unchanged), `neonInk`
- *   in the neon one. Nothing here knows which variant is asking.
+ *   build passes them through tools/palette.ts before painting — `readable` in
+ *   the classic variant, because the ground is #040208 and a logo whose
+ *   official colour is #000080 or black cannot be painted onto it unchanged.
+ *   Nothing here knows which variant is asking, which is why the plate colours
+ *   below are imported from palette.ts rather than declared: whether a colour
+ *   is a brand's or the set's own structure is a question only that module
+ *   answers, and `readable` has to be able to ask it.
  *
  *   THE PLATE. Several logos are a solid shape with the letters cut OUT of it —
  *   the TypeScript square, the npm rectangle, the Swift squircle. With a tile
@@ -25,6 +28,7 @@
  */
 
 import { markPaths, type ImportedMark } from './mark-paths.ts';
+import { INK_DARK, WHITE } from './palette.ts';
 import {
   C,
   G,
@@ -47,10 +51,6 @@ export type Mark = {
   palette: readonly Colour[];
   draw: (ink: Ink) => string;
 };
-
-const WHITE: Colour = '#FFFFFF';
-// What a knocked-out letter is worth when the logo's own letters are dark.
-const INK_DARK: Colour = '#0F0B1E';
 
 /* -------------------------------------------------------------- *
  * Imported geometry

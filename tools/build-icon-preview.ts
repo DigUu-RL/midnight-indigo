@@ -4,10 +4,8 @@
  *
  *   npm run preview:gallery
  *
- *   icons-files.png     Every file and language icon, classic variant.
+ *   icons-files.png     Every file and language icon.
  *   icons-folders.png   Every folder icon, closed and open.
- *   icons-variants.png  The same icons in both variants, side by side, so the
- *                       difference between them is visible without installing.
  *
  * Why PNGs rather than the HTML previews: the Marketplace renders the README
  * and nothing else, so the only way the listing can show the icons is as an
@@ -55,18 +53,17 @@ function findBrowser(): string {
  * Reading the built sets
  * -------------------------------------------------------------- */
 
-const dirFor = (variant: 'classic' | 'neon'): string =>
-  path.join(ROOT, 'icons', variant === 'neon' ? 'svg-neon' : 'svg');
+const SVG = path.join(ROOT, 'icons', 'svg');
 
-function icon(variant: 'classic' | 'neon', name: string): string {
-  const file = path.join(dirFor(variant), `${name}.svg`);
+function icon(name: string): string {
+  const file = path.join(SVG, `${name}.svg`);
   if (!fs.existsSync(file)) throw new Error(`no such icon: ${file} — run: npm run build:icons`);
   return `data:image/svg+xml;base64,${fs.readFileSync(file).toString('base64')}`;
 }
 
-const names = (variant: 'classic' | 'neon', prefix: string, suffix = ''): string[] =>
+const names = (prefix: string, suffix = ''): string[] =>
   fs
-    .readdirSync(dirFor(variant))
+    .readdirSync(SVG)
     .filter((f) => f.endsWith('.svg'))
     .map((f) => f.slice(0, -4))
     .filter((n) => n.startsWith(prefix) && (suffix ? n.endsWith(suffix) : !n.endsWith('-open')))
@@ -116,19 +113,6 @@ const cell = (src: string, text: string): string =>
 
 function gallery(title: string, note: string, cols: number, cells: string[]): string {
   return page(head(title, note) + `<div class="grid" style="grid-template-columns:repeat(${cols},1fr)">${cells.join('')}</div>`);
-}
-
-/*
- * The variants page pairs each icon with itself, so the two paint recipes can
- * be compared on the same shape rather than across two screenshots.
- */
-function variantsPage(rows: string[]): string {
-  const pair = (n: string): string =>
-    `<div class="cell"><img src="${icon('classic', n)}"><img src="${icon('neon', n)}"><span>${label(n)}</span></div>`;
-  return page(
-    head('Classic and neon', 'the same icon in both variants — left classic, right neon') +
-      `<div class="grid" style="grid-template-columns:repeat(5,1fr)">${rows.map(pair).join('')}</div>`
-  );
 }
 
 /* -------------------------------------------------------------- *
@@ -193,8 +177,8 @@ const browser = findBrowser();
 fs.mkdirSync(OUT, { recursive: true });
 fs.mkdirSync(TMP, { recursive: true });
 
-const fileIcons = names('classic', 'file-');
-const folderIcons = names('classic', 'folder-');
+const fileIcons = names('file-');
+const folderIcons = names('folder-');
 
 const FILE_COLS = 7;
 shoot(
@@ -203,7 +187,7 @@ shoot(
     `${fileIcons.length} file and language icons`,
     'each drawn from the language\'s own logo',
     FILE_COLS,
-    fileIcons.map((n) => cell(icon('classic', n), label(n)))
+    fileIcons.map((n) => cell(icon(n), label(n)))
   ),
   path.join(OUT, 'icons-files.png'),
   1180
@@ -216,7 +200,7 @@ console.log(`wrote docs/preview/icons-files.png (${fileIcons.length} icons)`);
  */
 const FOLDER_COLS = 4;
 const folderCells = folderIcons.flatMap((n) => [
-  `<div class="cell"><img src="${icon('classic', n)}"><img src="${icon('classic', `${n}-open`)}"><span>${label(n)}</span></div>`,
+  `<div class="cell"><img src="${icon(n)}"><img src="${icon(`${n}-open`)}"><span>${label(n)}</span></div>`,
 ]);
 shoot(
   browser,
@@ -228,14 +212,3 @@ shoot(
   900
 );
 console.log(`wrote docs/preview/icons-folders.png (${folderIcons.length} folders, closed and open)`);
-
-/* A spread wide enough to show marks, lettering, pictograms and folders. */
-const VARIANTS = [
-  'file-typescript', 'file-python', 'file-rust', 'file-go', 'file-ruby',
-  'file-docker', 'file-csharp', 'file-html', 'file-css', 'file-java',
-  'file-vue', 'file-kotlin', 'file-dart', 'file-swift', 'file-lua',
-  'file-yaml', 'file-json', 'file-typescript-spec', 'file-excel', 'file-npm',
-  'folder-components', 'folder-api', 'folder-tests', 'folder-database', 'folder-security',
-];
-shoot(browser, variantsPage(VARIANTS), path.join(OUT, 'icons-variants.png'), 1000);
-console.log(`wrote docs/preview/icons-variants.png (${VARIANTS.length} icons in both variants)`);
