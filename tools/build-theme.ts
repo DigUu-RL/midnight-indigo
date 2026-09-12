@@ -17,13 +17,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import type { FileIcon, FolderIcon } from './icon-spec.ts';
 
-const key = (kind: string, name: string): string => `_${kind}_${name.replace(/-/g, '_')}`;
+const definitionKey = (kind: string, name: string): string => `_${kind}_${name.replace(/-/g, '_')}`;
 
-const F = (name: string): string => key('file', name);
-const D = (name: string): string => key('folder', name);
+const fileIconKey = (name: string): string => definitionKey('file', name);
+const folderIconKey = (name: string): string => definitionKey('folder', name);
 
 /* Folder name -> folder icon. */
-const folderNames = {
+const folderNameToIcon = {
   components: 'components', component: 'components', widgets: 'components',
   hooks: 'hooks', hook: 'hooks',
   functions: 'functions', function: 'functions', fn: 'functions', lambda: 'functions',
@@ -72,7 +72,7 @@ const folderNames = {
 } satisfies Record<string, FolderIcon>;
 
 /* Extension -> file icon. Compound keys such as "spec.ts" win over "ts". */
-const fileExtensions = {
+const extensionToIcon = {
   js: 'javascript', cjs: 'javascript', jsx: 'jsx', mjs: 'mjs',
   ts: 'typescript', tsx: 'jsx', mts: 'mjs', cts: 'typescript',
   vue: 'vue', svelte: 'svelte', astro: 'astro', coffee: 'coffeescript',
@@ -102,15 +102,68 @@ const fileExtensions = {
   tf: 'terraform', tfvars: 'terraform', tfstate: 'terraform', ipynb: 'jupyter',
   log: 'log', pem: 'cert', crt: 'cert', key: 'cert', cer: 'cert', p12: 'cert', pfx: 'cert',
   png: 'image', jpg: 'image', jpeg: 'image', gif: 'image', webp: 'image',
-  ico: 'image', bmp: 'image', svg: 'image', avif: 'image', tiff: 'image',
+  ico: 'image', bmp: 'image', avif: 'image', tiff: 'image', tif: 'image', heic: 'image',
   ttf: 'font', otf: 'font', woff: 'font', woff2: 'font', eot: 'font',
   mp3: 'audio', wav: 'audio', flac: 'audio', ogg: 'audio', m4a: 'audio', aac: 'audio',
+  wma: 'audio', opus: 'audio', aiff: 'audio', mid: 'audio', midi: 'audio',
   mp4: 'video', mov: 'video', avi: 'video', mkv: 'video', webm: 'video',
+  wmv: 'video', flv: 'video', m4v: 'video', mpeg: 'video', mpg: 'video', ogv: 'video',
   zip: 'archive', tar: 'archive', gz: 'archive', rar: 'archive', '7z': 'archive', bz2: 'archive', xz: 'archive',
-  pdf: 'pdf', doc: 'word', docx: 'word', rtf: 'word',
+  tgz: 'archive', zst: 'archive', lz: 'archive', lzma: 'archive', cab: 'archive', arj: 'archive',
+  pdf: 'pdf', doc: 'word', docx: 'word', rtf: 'word', odt: 'word', dot: 'word', dotx: 'word',
   xls: 'excel', xlsx: 'excel', csv: 'csv', tsv: 'csv', ppt: 'powerpoint', pptx: 'powerpoint',
-  exe: 'binary', dll: 'binary', so: 'binary', dylib: 'binary', bin: 'binary', o: 'binary', wasm: 'binary',
+  ods: 'excel', xlsm: 'excel', odp: 'powerpoint',
+  exe: 'binary', dll: 'binary', so: 'binary', dylib: 'binary', bin: 'binary', o: 'binary',
+  // `.obj` is a compiled object file and a Wavefront mesh; the mesh is the one
+  // a person is more likely to be looking at in an editor.
+  a: 'binary', lib: 'binary', elf: 'binary', com: 'binary',
   vim: 'vim', diff: 'diff', patch: 'diff', txt: 'text', lock: 'lock',
+
+  /* --- more languages, each with a mark of its own --- */
+  elm: 'elm', hx: 'haxe', hxml: 'haxe', ml: 'ocaml', mli: 'ocaml',
+  f: 'fortran', f90: 'fortran', f95: 'fortran', f03: 'fortran', for: 'fortran',
+  rkt: 'racket', purs: 'purescript', gleam: 'gleam', nix: 'nix',
+  wasm: 'webassembly', wat: 'webassembly',
+  tex: 'latex', sty: 'latex', cls: 'latex', bib: 'latex',
+  adoc: 'asciidoc', asciidoc: 'asciidoc',
+
+  /* --- frameworks and platforms --- */
+  ino: 'arduino', blend: 'blender', fig: 'figma',
+  gd: 'godot', tscn: 'godot', tres: 'godot', godot: 'godot',
+  unity: 'unity', prefab: 'unity', asset: 'unity', unitypackage: 'unity',
+  ui: 'qt', qml: 'qt', pro: 'qt', qrc: 'qt',
+  prisma: 'prisma',
+
+  /* ---------------------------------------------------------------- *
+   * Formats the set used to answer with the plain-text page.
+   * ---------------------------------------------------------------- */
+  eml: 'email', msg: 'email', mbox: 'email', emlx: 'email',
+  ics: 'calendar', ical: 'calendar', ifb: 'calendar',
+  vcf: 'contact', vcard: 'contact',
+  geojson: 'geo', kml: 'geo', kmz: 'geo', gpx: 'geo', topojson: 'geo', shp: 'geo',
+  svg: 'vector', ai: 'vector', eps: 'vector', sketch: 'vector', afdesign: 'vector',
+  obj: 'model3d', fbx: 'model3d', gltf: 'model3d', glb: 'model3d', stl: 'model3d',
+  dae: 'model3d', '3ds': 'model3d', ply: 'model3d', usdz: 'model3d',
+  srt: 'subtitle', vtt: 'subtitle', sub: 'subtitle', ass: 'subtitle', ssa: 'subtitle',
+  epub: 'ebook', mobi: 'ebook', azw: 'ebook', azw3: 'ebook', fb2: 'ebook', djvu: 'ebook',
+  iso: 'diskimage', dmg: 'diskimage', img: 'diskimage', vhd: 'diskimage',
+  vhdx: 'diskimage', vmdk: 'diskimage', qcow2: 'diskimage', toast: 'diskimage',
+  lnk: 'shortcut', url: 'shortcut', webloc: 'shortcut', desktop: 'shortcut',
+  pdb: 'debug', dmp: 'debug', mdmp: 'debug', stackdump: 'debug', core: 'debug',
+  parquet: 'dataset', avro: 'dataset', orc: 'dataset', arrow: 'dataset',
+  feather: 'dataset', hdf5: 'dataset', h5: 'dataset', npy: 'dataset', npz: 'dataset',
+  nb: 'math', sage: 'math', mac: 'math', mt: 'math', gp: 'math',
+  pcap: 'capture', pcapng: 'capture', cap: 'capture', har: 'capture',
+  sav: 'game', rom: 'game', nes: 'game', gba: 'game', gbc: 'game',
+  n64: 'game', z64: 'game', smc: 'game', sfc: 'game',
+  torrent: 'torrent', magnet: 'torrent',
+  raw: 'raw', cr2: 'raw', cr3: 'raw', nef: 'raw', arw: 'raw', dng: 'raw',
+  orf: 'raw', rw2: 'raw', raf: 'raw',
+  deb: 'package', rpm: 'package', apk: 'package', ipa: 'package', msi: 'package',
+  pkg: 'package', appimage: 'package', snap: 'package', flatpak: 'package',
+  vsix: 'package', crx: 'package', xpi: 'package', whl: 'package', egg: 'package',
+  nupkg: 'package', gem: 'package', war: 'java', ear: 'java',
+  bak: 'temp', tmp: 'temp', temp: 'temp', swp: 'temp', swo: 'temp', old: 'temp', orig: 'temp',
 
   'spec.ts': 'typescript-spec', 'test.ts': 'typescript-test', 'd.ts': 'typescript-d',
   'module.ts': 'typescript-module', 'component.ts': 'typescript-component',
@@ -131,7 +184,7 @@ const fileExtensions = {
 } satisfies Record<string, FileIcon>;
 
 /* Exact file name -> file icon. */
-const fileNames = {
+const fileNameToIcon = {
   'package.json': 'npm', 'package-lock.json': 'npm', 'npm-shrinkwrap.json': 'npm', '.npmrc': 'npm', '.npmignore': 'npm',
   'yarn.lock': 'yarnlock', '.yarnrc': 'yarnlock', '.yarnrc.yml': 'yarnlock',
   'pnpm-lock.yaml': 'pnpm', 'pnpm-workspace.yaml': 'pnpm',
@@ -148,7 +201,7 @@ const fileNames = {
   '.stylelintrc': 'stylelint', '.stylelintrc.json': 'stylelint', 'stylelint.config.js': 'stylelint',
   'babel.config.js': 'babel', '.babelrc': 'babel', 'babel.config.json': 'babel',
   'webpack.config.js': 'webpack', 'webpack.config.ts': 'webpack', 'webpack.common.js': 'webpack',
-  'vite.config.js': 'vite', 'vite.config.ts': 'vite', 'vitest.config.ts': 'vite',
+  'vite.config.js': 'vite', 'vite.config.ts': 'vite', 'vite.config.mts': 'vite',
   'rollup.config.js': 'rollup', 'rollup.config.mjs': 'rollup',
   'tsconfig.json': 'tsconfig', 'tsconfig.base.json': 'tsconfig', 'tsconfig.build.json': 'tsconfig',
   'jsconfig.json': 'jsconfig',
@@ -160,16 +213,71 @@ const fileNames = {
   'manifest.json': 'manifest', 'site.webmanifest': 'manifest',
   procfile: 'procfile', vagrantfile: 'vagrant',
   '.browserslistrc': 'browserslist', jenkinsfile: 'jenkins',
-  '.travis.yml': 'ci', '.circleci': 'ci', '.gitlab-ci.yml': 'gitlabci',
-  'azure-pipelines.yml': 'azure', '.vimrc': 'vim', '.nvmrc': 'text',
+  '.travis.yml': 'travis', '.circleci': 'circleci', '.gitlab-ci.yml': 'gitlabci',
+  'bitbucket-pipelines.yml': 'bitbucket', 'renovate.json': 'renovate', '.renovaterc': 'renovate',
+  'azure-pipelines.yml': 'azure', '.vimrc': 'vim',
   '.env': 'env', '.env.local': 'env', '.env.development': 'env', '.env.production': 'env', '.env.example': 'env',
   'go.mod': 'go', 'go.sum': 'go', 'cargo.toml': 'rust', 'cargo.lock': 'rust',
   'gemfile': 'ruby', 'rakefile': 'ruby', 'requirements.txt': 'python', 'pyproject.toml': 'python',
-  'composer.json': 'php', 'composer.lock': 'php',
+
+  /* --- runtimes --- */
+  '.nvmrc': 'nodejs', '.node-version': 'nodejs', 'server.js': 'nodejs',
+  'deno.json': 'deno', 'deno.jsonc': 'deno', 'deno.lock': 'deno',
+  'bun.lockb': 'bun', 'bun.lock': 'bun', 'bunfig.toml': 'bun',
+
+  /* --- frameworks --- */
+  'angular.json': 'angular', '.angular-cli.json': 'angular', 'ng-package.json': 'angular',
+  'next.config.js': 'nextjs', 'next.config.mjs': 'nextjs', 'next.config.ts': 'nextjs',
+  'nuxt.config.js': 'nuxt', 'nuxt.config.ts': 'nuxt',
+  'tailwind.config.js': 'tailwind', 'tailwind.config.ts': 'tailwind', 'tailwind.config.cjs': 'tailwind',
+  'postcss.config.js': 'postcss', 'postcss.config.cjs': 'postcss', 'postcss.config.mjs': 'postcss',
+  'manage.py': 'django', 'artisan': 'laravel',
+  'pubspec.yaml': 'flutter', 'pubspec.lock': 'flutter',
+  'electron.vite.config.ts': 'electron', 'tauri.conf.json': 'tauri',
+
+  /* --- build, package and workspace --- */
+  'build.gradle': 'gradle', 'build.gradle.kts': 'gradle', 'settings.gradle': 'gradle',
+  'gradle.properties': 'gradle', 'gradlew': 'gradle',
+  'pom.xml': 'maven', 'mvnw': 'maven',
+  'composer.json': 'composer', 'composer.lock': 'composer',
+  'poetry.lock': 'poetry', 'nuget.config': 'nuget', 'packages.config': 'nuget',
+  'environment.yml': 'conda', 'environment.yaml': 'conda',
+  'turbo.json': 'turborepo', 'nx.json': 'nx', 'lerna.json': 'lerna',
+
+  /* --- test runners --- */
+  'cypress.config.js': 'cypress', 'cypress.config.ts': 'cypress', 'cypress.json': 'cypress',
+  'playwright.config.js': 'playwright', 'playwright.config.ts': 'playwright',
+  'vitest.config.js': 'vitest', 'vitest.config.ts': 'vitest',
+  '.mocharc.json': 'mocha', '.mocharc.yml': 'mocha', '.mocharc.js': 'mocha',
+  '.storybook': 'storybook', 'main.stories.ts': 'storybook',
+
+  /* --- infrastructure --- */
+  'chart.yaml': 'helm', 'values.yaml': 'helm',
+  'kustomization.yaml': 'kubernetes', 'kustomization.yml': 'kubernetes', 'skaffold.yaml': 'kubernetes',
+  'ansible.cfg': 'ansible', 'playbook.yml': 'ansible', 'playbook.yaml': 'ansible',
+  'netlify.toml': 'netlify', 'vercel.json': 'vercel', 'now.json': 'vercel',
+  'wrangler.toml': 'cloudflare', 'wrangler.jsonc': 'cloudflare', '_headers': 'cloudflare', '_redirects': 'cloudflare',
+  'pulumi.yaml': 'pulumi', 'serverless.yml': 'serverless', 'serverless.yaml': 'serverless',
+
+  /* --- data stores --- */
+  'schema.prisma': 'prisma',
+  'firebase.json': 'firebase', '.firebaserc': 'firebase', 'firestore.rules': 'firebase',
+  'ormconfig.json': 'postgresql', 'my.cnf': 'mysql', 'redis.conf': 'redis',
+
+  /* --- schemas and API descriptions --- */
+  'openapi.yaml': 'openapi', 'openapi.yml': 'openapi', 'openapi.json': 'openapi',
+  'swagger.yaml': 'swagger', 'swagger.yml': 'swagger', 'swagger.json': 'swagger',
+
+  /* --- assistant and prompt files --- */
+  '.cursorrules': 'ai', 'claude.md': 'ai', 'agents.md': 'ai',
+  'copilot-instructions.md': 'ai', '.aider.conf.yml': 'ai',
+
+  /* --- Nix, which names its files rather than extending them --- */
+  'flake.nix': 'nix', 'flake.lock': 'nix', 'shell.nix': 'nix', 'default.nix': 'nix',
 } satisfies Record<string, FileIcon>;
 
 /* VS Code language id -> file icon, for files with no recognisable extension. */
-const languageIds = {
+const languageIdToIcon = {
   javascript: 'javascript', javascriptreact: 'jsx', typescript: 'typescript', typescriptreact: 'jsx',
   python: 'python', ruby: 'ruby', go: 'go', rust: 'rust', java: 'java', kotlin: 'kotlin', swift: 'swift',
   c: 'c', cpp: 'cpp', csharp: 'csharp', fsharp: 'fsharp', php: 'php', sql: 'sql',
@@ -182,67 +290,102 @@ const languageIds = {
   ini: 'ini', properties: 'ini', diff: 'diff', makefile: 'makefile', plaintext: 'text',
   log: 'log', vb: 'vbnet', coffeescript: 'coffeescript', handlebars: 'handlebars', pug: 'pug',
   terraform: 'terraform', jupyter: 'jupyter', 'jupyter-notebook': 'jupyter',
+  elm: 'elm', haxe: 'haxe', ocaml: 'ocaml', fortran: 'fortran', 'fortran-free-form': 'fortran',
+  racket: 'racket', purescript: 'purescript', gleam: 'gleam', nix: 'nix',
+  wat: 'webassembly', wasm: 'webassembly', latex: 'latex', tex: 'latex',
+  bibtex: 'latex', asciidoc: 'asciidoc', 'git-commit': 'git', 'git-rebase': 'git',
+  ignore: 'git', csv: 'csv', tsv: 'csv',
 } satisfies Record<string, FileIcon>;
 
 export type BuildThemeOptions = {
   /** The file icons the build just wrote. */
-  files: FileIcon[];
+  fileIcons: FileIcon[];
   /** The folder icons the build just wrote. */
-  folders: FolderIcon[];
+  folderIcons: FolderIcon[];
   /** Absolute path of the manifest to emit. */
-  out: string;
+  manifestPath: string;
   /** Directory under icons/ the variant's SVGs live in. */
-  svgDir: string;
+  svgDirectory: string;
 };
 
-type IconDefinitions = Record<string, { iconPath: string }>;
-type IconMap = Record<string, string>;
+type IconDefinitionMap = Record<string, { iconPath: string }>;
+type NameToIconKey = Record<string, string>;
 
-export default function buildTheme({ files, folders, out, svgDir }: BuildThemeOptions): void {
-  const fileSet: Set<string> = new Set(files);
-  const folderSet: Set<string> = new Set(folders);
+export default function buildTheme({
+  fileIcons,
+  folderIcons,
+  manifestPath,
+  svgDirectory,
+}: BuildThemeOptions): void {
+  const writtenFileIcons: Set<string> = new Set(fileIcons);
+  const writtenFolderIcons: Set<string> = new Set(folderIcons);
 
-  const iconDefinitions: IconDefinitions = {};
-  for (const name of files) iconDefinitions[F(name)] = { iconPath: `../${svgDir}/file-${name}.svg` };
-  iconDefinitions._folder = { iconPath: `../${svgDir}/folder.svg` };
-  iconDefinitions._folder_open = { iconPath: `../${svgDir}/folder-open.svg` };
-  for (const name of folders) {
-    iconDefinitions[D(name)] = { iconPath: `../${svgDir}/folder-${name}.svg` };
-    iconDefinitions[`${D(name)}_open`] = { iconPath: `../${svgDir}/folder-${name}-open.svg` };
+  const iconDefinitions: IconDefinitionMap = {};
+  for (const iconName of fileIcons) {
+    iconDefinitions[fileIconKey(iconName)] = {
+      iconPath: `../${svgDirectory}/file-${iconName}.svg`,
+    };
+  }
+  iconDefinitions._folder = { iconPath: `../${svgDirectory}/folder.svg` };
+  iconDefinitions._folder_open = { iconPath: `../${svgDirectory}/folder-open.svg` };
+  for (const iconName of folderIcons) {
+    iconDefinitions[folderIconKey(iconName)] = {
+      iconPath: `../${svgDirectory}/folder-${iconName}.svg`,
+    };
+    iconDefinitions[`${folderIconKey(iconName)}_open`] = {
+      iconPath: `../${svgDirectory}/folder-${iconName}-open.svg`,
+    };
   }
 
-  const mapFiles = (table: Record<string, string>, what: string): IconMap => {
-    const out: IconMap = {};
-    for (const [k, v] of Object.entries(table)) {
-      if (!fileSet.has(v)) throw new Error(`${what}["${k}"] points at missing file icon "${v}"`);
-      out[k] = F(v);
+  const mapNamesToFileIconKeys = (
+    table: Record<string, string>,
+    tableName: string
+  ): NameToIconKey => {
+    const mapped: NameToIconKey = {};
+    for (const [name, iconName] of Object.entries(table)) {
+      if (!writtenFileIcons.has(iconName)) {
+        throw new Error(`${tableName}["${name}"] points at missing file icon "${iconName}"`);
+      }
+      mapped[name] = fileIconKey(iconName);
     }
-    return out;
+    return mapped;
   };
 
-  const folderMap: IconMap = {};
-  const folderMapOpen: IconMap = {};
-  for (const [k, v] of Object.entries(folderNames)) {
-    if (!folderSet.has(v)) throw new Error(`folderNames["${k}"] points at missing folder icon "${v}"`);
-    folderMap[k] = D(v);
-    folderMapOpen[k] = `${D(v)}_open`;
+  const closedFolders: NameToIconKey = {};
+  const openFolders: NameToIconKey = {};
+  for (const [folderName, iconName] of Object.entries(folderNameToIcon)) {
+    if (!writtenFolderIcons.has(iconName)) {
+      throw new Error(`folderNameToIcon["${folderName}"] points at missing folder icon "${iconName}"`);
+    }
+    closedFolders[folderName] = folderIconKey(iconName);
+    openFolders[folderName] = `${folderIconKey(iconName)}_open`;
   }
 
+  /*
+   * The keys below are VS Code's, not ours. `folderNames`, `fileExtensions`,
+   * `fileNames` and `languageIds` are the icon-theme manifest schema — renaming
+   * them to match the tables they are built from would emit a file the editor
+   * reads as empty, and it would do it silently: an unknown key is ignored, so
+   * every icon would simply stop resolving with no error anywhere.
+   */
   const theme = {
     iconDefinitions,
     folder: '_folder',
     folderExpanded: '_folder_open',
     rootFolder: '_folder',
     rootFolderExpanded: '_folder_open',
-    file: F('text'),
-    folderNames: folderMap,
-    folderNamesExpanded: folderMapOpen,
-    fileExtensions: mapFiles(fileExtensions, 'fileExtensions'),
-    fileNames: mapFiles(fileNames, 'fileNames'),
-    languageIds: mapFiles(languageIds, 'languageIds'),
+    file: fileIconKey('text'),
+    folderNames: closedFolders,
+    folderNamesExpanded: openFolders,
+    fileExtensions: mapNamesToFileIconKeys(extensionToIcon, 'extensionToIcon'),
+    fileNames: mapNamesToFileIconKeys(fileNameToIcon, 'fileNameToIcon'),
+    languageIds: mapNamesToFileIconKeys(languageIdToIcon, 'languageIdToIcon'),
   };
 
-  fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, JSON.stringify(theme, null, 2) + '\n', 'utf8');
-  console.log(`       wrote icons/theme/${path.basename(out)} (${Object.keys(iconDefinitions).length} definitions)`);
+  fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
+  fs.writeFileSync(manifestPath, JSON.stringify(theme, null, 2) + '\n', 'utf8');
+  console.log(
+    `       wrote icons/theme/${path.basename(manifestPath)} ` +
+      `(${Object.keys(iconDefinitions).length} definitions)`
+  );
 }

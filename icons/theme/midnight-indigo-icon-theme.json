@@ -114,6 +114,24 @@
     "_file_protobuf": {
       "iconPath": "../svg/file-protobuf.svg"
     },
+    "_file_angular": {
+      "iconPath": "../svg/file-angular.svg"
+    },
+    "_file_nextjs": {
+      "iconPath": "../svg/file-nextjs.svg"
+    },
+    "_file_nuxt": {
+      "iconPath": "../svg/file-nuxt.svg"
+    },
+    "_file_bootstrap": {
+      "iconPath": "../svg/file-bootstrap.svg"
+    },
+    "_file_tailwind": {
+      "iconPath": "../svg/file-tailwind.svg"
+    },
+    "_file_postcss": {
+      "iconPath": "../svg/file-postcss.svg"
+    },
     "_file_html": {
       "iconPath": "../svg/file-html.svg"
     },
@@ -162,11 +180,23 @@
     "_file_mdx": {
       "iconPath": "../svg/file-mdx.svg"
     },
+    "_file_asciidoc": {
+      "iconPath": "../svg/file-asciidoc.svg"
+    },
+    "_file_latex": {
+      "iconPath": "../svg/file-latex.svg"
+    },
     "_file_csv": {
       "iconPath": "../svg/file-csv.svg"
     },
     "_file_sql": {
       "iconPath": "../svg/file-sql.svg"
+    },
+    "_file_openapi": {
+      "iconPath": "../svg/file-openapi.svg"
+    },
+    "_file_swagger": {
+      "iconPath": "../svg/file-swagger.svg"
     },
     "_file_python": {
       "iconPath": "../svg/file-python.svg"
@@ -258,6 +288,33 @@
     "_file_assembly": {
       "iconPath": "../svg/file-assembly.svg"
     },
+    "_file_elm": {
+      "iconPath": "../svg/file-elm.svg"
+    },
+    "_file_fortran": {
+      "iconPath": "../svg/file-fortran.svg"
+    },
+    "_file_gleam": {
+      "iconPath": "../svg/file-gleam.svg"
+    },
+    "_file_haxe": {
+      "iconPath": "../svg/file-haxe.svg"
+    },
+    "_file_nix": {
+      "iconPath": "../svg/file-nix.svg"
+    },
+    "_file_ocaml": {
+      "iconPath": "../svg/file-ocaml.svg"
+    },
+    "_file_purescript": {
+      "iconPath": "../svg/file-purescript.svg"
+    },
+    "_file_racket": {
+      "iconPath": "../svg/file-racket.svg"
+    },
+    "_file_webassembly": {
+      "iconPath": "../svg/file-webassembly.svg"
+    },
     "_file_shell": {
       "iconPath": "../svg/file-shell.svg"
     },
@@ -315,14 +372,77 @@
     "_file_jenkins": {
       "iconPath": "../svg/file-jenkins.svg"
     },
-    "_file_ci": {
-      "iconPath": "../svg/file-ci.svg"
+    "_file_githubactions": {
+      "iconPath": "../svg/file-githubactions.svg"
+    },
+    "_file_travis": {
+      "iconPath": "../svg/file-travis.svg"
+    },
+    "_file_circleci": {
+      "iconPath": "../svg/file-circleci.svg"
+    },
+    "_file_bitbucket": {
+      "iconPath": "../svg/file-bitbucket.svg"
     },
     "_file_gitlabci": {
       "iconPath": "../svg/file-gitlabci.svg"
     },
     "_file_azure": {
       "iconPath": "../svg/file-azure.svg"
+    },
+    "_file_renovate": {
+      "iconPath": "../svg/file-renovate.svg"
+    },
+    "_file_kubernetes": {
+      "iconPath": "../svg/file-kubernetes.svg"
+    },
+    "_file_helm": {
+      "iconPath": "../svg/file-helm.svg"
+    },
+    "_file_ansible": {
+      "iconPath": "../svg/file-ansible.svg"
+    },
+    "_file_packer": {
+      "iconPath": "../svg/file-packer.svg"
+    },
+    "_file_pulumi": {
+      "iconPath": "../svg/file-pulumi.svg"
+    },
+    "_file_serverless": {
+      "iconPath": "../svg/file-serverless.svg"
+    },
+    "_file_netlify": {
+      "iconPath": "../svg/file-netlify.svg"
+    },
+    "_file_vercel": {
+      "iconPath": "../svg/file-vercel.svg"
+    },
+    "_file_cloudflare": {
+      "iconPath": "../svg/file-cloudflare.svg"
+    },
+    "_file_mongodb": {
+      "iconPath": "../svg/file-mongodb.svg"
+    },
+    "_file_postgresql": {
+      "iconPath": "../svg/file-postgresql.svg"
+    },
+    "_file_mysql": {
+      "iconPath": "../svg/file-mysql.svg"
+    },
+    "_file_redis": {
+      "iconPath": "../svg/file-redis.svg"
+    },
+    "_file_sqlite": {
+      "iconPath": "../svg/file-sqlite.svg"
+    },
+    "_file_prisma": {
+      "iconPath": "../svg/file-prisma.svg"
+    },
+    "_file_firebase": {
+      "iconPath": "../svg/file-firebase.svg"
+    },
+    "_file_supabase": {
+      "iconPath": "../svg/file-supabase.svg"
     },
     "_file_npm": {
       "iconPath": "../svg/file-npm.svg"
@@ -369,6 +489,78 @@
     "_file_editorconfig": {
       "iconPath": "../svg/file-editorconfig.svg"
     },
+    "_file_nodejs": {
+      "iconPath": "../svg/file-nodejs.svg"
+    },
+    "_file_deno": {
+      "iconPath": "../svg/file-deno.svg"
+    },
+    "_file_bun": {
+      "iconPath": "../svg/file-bun.svg"
+    },
+    "_file_esbuild": {
+      "iconPath": "../svg/file-esbuild.svg"
+    },
+    "_file_turborepo": {
+      "iconPath": "../svg/file-turborepo.svg"
+    },
+    "_file_nx": {
+      "iconPath": "../svg/file-nx.svg"
+    },
+    "_file_lerna": {
+      "iconPath": "../svg/file-lerna.svg"
+    },
+    "_file_electron": {
+      "iconPath": "../svg/file-electron.svg"
+    },
+    "_file_tauri": {
+      "iconPath": "../svg/file-tauri.svg"
+    },
+    "_file_storybook": {
+      "iconPath": "../svg/file-storybook.svg"
+    },
+    "_file_cypress": {
+      "iconPath": "../svg/file-cypress.svg"
+    },
+    "_file_vitest": {
+      "iconPath": "../svg/file-vitest.svg"
+    },
+    "_file_mocha": {
+      "iconPath": "../svg/file-mocha.svg"
+    },
+    "_file_playwright": {
+      "iconPath": "../svg/file-playwright.svg"
+    },
+    "_file_gradle": {
+      "iconPath": "../svg/file-gradle.svg"
+    },
+    "_file_maven": {
+      "iconPath": "../svg/file-maven.svg"
+    },
+    "_file_nuget": {
+      "iconPath": "../svg/file-nuget.svg"
+    },
+    "_file_composer": {
+      "iconPath": "../svg/file-composer.svg"
+    },
+    "_file_poetry": {
+      "iconPath": "../svg/file-poetry.svg"
+    },
+    "_file_conda": {
+      "iconPath": "../svg/file-conda.svg"
+    },
+    "_file_django": {
+      "iconPath": "../svg/file-django.svg"
+    },
+    "_file_laravel": {
+      "iconPath": "../svg/file-laravel.svg"
+    },
+    "_file_spring": {
+      "iconPath": "../svg/file-spring.svg"
+    },
+    "_file_flutter": {
+      "iconPath": "../svg/file-flutter.svg"
+    },
     "_file_text": {
       "iconPath": "../svg/file-text.svg"
     },
@@ -410,6 +602,84 @@
     },
     "_file_pdf": {
       "iconPath": "../svg/file-pdf.svg"
+    },
+    "_file_email": {
+      "iconPath": "../svg/file-email.svg"
+    },
+    "_file_calendar": {
+      "iconPath": "../svg/file-calendar.svg"
+    },
+    "_file_contact": {
+      "iconPath": "../svg/file-contact.svg"
+    },
+    "_file_geo": {
+      "iconPath": "../svg/file-geo.svg"
+    },
+    "_file_vector": {
+      "iconPath": "../svg/file-vector.svg"
+    },
+    "_file_model3d": {
+      "iconPath": "../svg/file-model3d.svg"
+    },
+    "_file_subtitle": {
+      "iconPath": "../svg/file-subtitle.svg"
+    },
+    "_file_ebook": {
+      "iconPath": "../svg/file-ebook.svg"
+    },
+    "_file_diskimage": {
+      "iconPath": "../svg/file-diskimage.svg"
+    },
+    "_file_shortcut": {
+      "iconPath": "../svg/file-shortcut.svg"
+    },
+    "_file_debug": {
+      "iconPath": "../svg/file-debug.svg"
+    },
+    "_file_dataset": {
+      "iconPath": "../svg/file-dataset.svg"
+    },
+    "_file_math": {
+      "iconPath": "../svg/file-math.svg"
+    },
+    "_file_capture": {
+      "iconPath": "../svg/file-capture.svg"
+    },
+    "_file_game": {
+      "iconPath": "../svg/file-game.svg"
+    },
+    "_file_torrent": {
+      "iconPath": "../svg/file-torrent.svg"
+    },
+    "_file_raw": {
+      "iconPath": "../svg/file-raw.svg"
+    },
+    "_file_package": {
+      "iconPath": "../svg/file-package.svg"
+    },
+    "_file_temp": {
+      "iconPath": "../svg/file-temp.svg"
+    },
+    "_file_ai": {
+      "iconPath": "../svg/file-ai.svg"
+    },
+    "_file_arduino": {
+      "iconPath": "../svg/file-arduino.svg"
+    },
+    "_file_blender": {
+      "iconPath": "../svg/file-blender.svg"
+    },
+    "_file_figma": {
+      "iconPath": "../svg/file-figma.svg"
+    },
+    "_file_godot": {
+      "iconPath": "../svg/file-godot.svg"
+    },
+    "_file_qt": {
+      "iconPath": "../svg/file-qt.svg"
+    },
+    "_file_unity": {
+      "iconPath": "../svg/file-unity.svg"
     },
     "_file_word": {
       "iconPath": "../svg/file-word.svg"
@@ -1184,9 +1454,10 @@
     "webp": "_file_image",
     "ico": "_file_image",
     "bmp": "_file_image",
-    "svg": "_file_image",
     "avif": "_file_image",
     "tiff": "_file_image",
+    "tif": "_file_image",
+    "heic": "_file_image",
     "ttf": "_file_font",
     "otf": "_file_font",
     "woff": "_file_font",
@@ -1198,11 +1469,22 @@
     "ogg": "_file_audio",
     "m4a": "_file_audio",
     "aac": "_file_audio",
+    "wma": "_file_audio",
+    "opus": "_file_audio",
+    "aiff": "_file_audio",
+    "mid": "_file_audio",
+    "midi": "_file_audio",
     "mp4": "_file_video",
     "mov": "_file_video",
     "avi": "_file_video",
     "mkv": "_file_video",
     "webm": "_file_video",
+    "wmv": "_file_video",
+    "flv": "_file_video",
+    "m4v": "_file_video",
+    "mpeg": "_file_video",
+    "mpg": "_file_video",
+    "ogv": "_file_video",
     "zip": "_file_archive",
     "tar": "_file_archive",
     "gz": "_file_archive",
@@ -1210,28 +1492,201 @@
     "7z": "_file_archive",
     "bz2": "_file_archive",
     "xz": "_file_archive",
+    "tgz": "_file_archive",
+    "zst": "_file_archive",
+    "lz": "_file_archive",
+    "lzma": "_file_archive",
+    "cab": "_file_archive",
+    "arj": "_file_archive",
     "pdf": "_file_pdf",
     "doc": "_file_word",
     "docx": "_file_word",
     "rtf": "_file_word",
+    "odt": "_file_word",
+    "dot": "_file_word",
+    "dotx": "_file_word",
     "xls": "_file_excel",
     "xlsx": "_file_excel",
     "csv": "_file_csv",
     "tsv": "_file_csv",
     "ppt": "_file_powerpoint",
     "pptx": "_file_powerpoint",
+    "ods": "_file_excel",
+    "xlsm": "_file_excel",
+    "odp": "_file_powerpoint",
     "exe": "_file_binary",
     "dll": "_file_binary",
     "so": "_file_binary",
     "dylib": "_file_binary",
     "bin": "_file_binary",
     "o": "_file_binary",
-    "wasm": "_file_binary",
+    "a": "_file_binary",
+    "lib": "_file_binary",
+    "elf": "_file_binary",
+    "com": "_file_binary",
     "vim": "_file_vim",
     "diff": "_file_diff",
     "patch": "_file_diff",
     "txt": "_file_text",
     "lock": "_file_lock",
+    "elm": "_file_elm",
+    "hx": "_file_haxe",
+    "hxml": "_file_haxe",
+    "ml": "_file_ocaml",
+    "mli": "_file_ocaml",
+    "f": "_file_fortran",
+    "f90": "_file_fortran",
+    "f95": "_file_fortran",
+    "f03": "_file_fortran",
+    "for": "_file_fortran",
+    "rkt": "_file_racket",
+    "purs": "_file_purescript",
+    "gleam": "_file_gleam",
+    "nix": "_file_nix",
+    "wasm": "_file_webassembly",
+    "wat": "_file_webassembly",
+    "tex": "_file_latex",
+    "sty": "_file_latex",
+    "cls": "_file_latex",
+    "bib": "_file_latex",
+    "adoc": "_file_asciidoc",
+    "asciidoc": "_file_asciidoc",
+    "ino": "_file_arduino",
+    "blend": "_file_blender",
+    "fig": "_file_figma",
+    "gd": "_file_godot",
+    "tscn": "_file_godot",
+    "tres": "_file_godot",
+    "godot": "_file_godot",
+    "unity": "_file_unity",
+    "prefab": "_file_unity",
+    "asset": "_file_unity",
+    "unitypackage": "_file_unity",
+    "ui": "_file_qt",
+    "qml": "_file_qt",
+    "pro": "_file_qt",
+    "qrc": "_file_qt",
+    "prisma": "_file_prisma",
+    "eml": "_file_email",
+    "msg": "_file_email",
+    "mbox": "_file_email",
+    "emlx": "_file_email",
+    "ics": "_file_calendar",
+    "ical": "_file_calendar",
+    "ifb": "_file_calendar",
+    "vcf": "_file_contact",
+    "vcard": "_file_contact",
+    "geojson": "_file_geo",
+    "kml": "_file_geo",
+    "kmz": "_file_geo",
+    "gpx": "_file_geo",
+    "topojson": "_file_geo",
+    "shp": "_file_geo",
+    "svg": "_file_vector",
+    "ai": "_file_vector",
+    "eps": "_file_vector",
+    "sketch": "_file_vector",
+    "afdesign": "_file_vector",
+    "obj": "_file_model3d",
+    "fbx": "_file_model3d",
+    "gltf": "_file_model3d",
+    "glb": "_file_model3d",
+    "stl": "_file_model3d",
+    "dae": "_file_model3d",
+    "3ds": "_file_model3d",
+    "ply": "_file_model3d",
+    "usdz": "_file_model3d",
+    "srt": "_file_subtitle",
+    "vtt": "_file_subtitle",
+    "sub": "_file_subtitle",
+    "ass": "_file_subtitle",
+    "ssa": "_file_subtitle",
+    "epub": "_file_ebook",
+    "mobi": "_file_ebook",
+    "azw": "_file_ebook",
+    "azw3": "_file_ebook",
+    "fb2": "_file_ebook",
+    "djvu": "_file_ebook",
+    "iso": "_file_diskimage",
+    "dmg": "_file_diskimage",
+    "img": "_file_diskimage",
+    "vhd": "_file_diskimage",
+    "vhdx": "_file_diskimage",
+    "vmdk": "_file_diskimage",
+    "qcow2": "_file_diskimage",
+    "toast": "_file_diskimage",
+    "lnk": "_file_shortcut",
+    "url": "_file_shortcut",
+    "webloc": "_file_shortcut",
+    "desktop": "_file_shortcut",
+    "pdb": "_file_debug",
+    "dmp": "_file_debug",
+    "mdmp": "_file_debug",
+    "stackdump": "_file_debug",
+    "core": "_file_debug",
+    "parquet": "_file_dataset",
+    "avro": "_file_dataset",
+    "orc": "_file_dataset",
+    "arrow": "_file_dataset",
+    "feather": "_file_dataset",
+    "hdf5": "_file_dataset",
+    "h5": "_file_dataset",
+    "npy": "_file_dataset",
+    "npz": "_file_dataset",
+    "nb": "_file_math",
+    "sage": "_file_math",
+    "mac": "_file_math",
+    "mt": "_file_math",
+    "gp": "_file_math",
+    "pcap": "_file_capture",
+    "pcapng": "_file_capture",
+    "cap": "_file_capture",
+    "har": "_file_capture",
+    "sav": "_file_game",
+    "rom": "_file_game",
+    "nes": "_file_game",
+    "gba": "_file_game",
+    "gbc": "_file_game",
+    "n64": "_file_game",
+    "z64": "_file_game",
+    "smc": "_file_game",
+    "sfc": "_file_game",
+    "torrent": "_file_torrent",
+    "magnet": "_file_torrent",
+    "raw": "_file_raw",
+    "cr2": "_file_raw",
+    "cr3": "_file_raw",
+    "nef": "_file_raw",
+    "arw": "_file_raw",
+    "dng": "_file_raw",
+    "orf": "_file_raw",
+    "rw2": "_file_raw",
+    "raf": "_file_raw",
+    "deb": "_file_package",
+    "rpm": "_file_package",
+    "apk": "_file_package",
+    "ipa": "_file_package",
+    "msi": "_file_package",
+    "pkg": "_file_package",
+    "appimage": "_file_package",
+    "snap": "_file_package",
+    "flatpak": "_file_package",
+    "vsix": "_file_package",
+    "crx": "_file_package",
+    "xpi": "_file_package",
+    "whl": "_file_package",
+    "egg": "_file_package",
+    "nupkg": "_file_package",
+    "gem": "_file_package",
+    "war": "_file_java",
+    "ear": "_file_java",
+    "bak": "_file_temp",
+    "tmp": "_file_temp",
+    "temp": "_file_temp",
+    "swp": "_file_temp",
+    "swo": "_file_temp",
+    "old": "_file_temp",
+    "orig": "_file_temp",
     "spec.ts": "_file_typescript_spec",
     "test.ts": "_file_typescript_test",
     "d.ts": "_file_typescript_d",
@@ -1324,7 +1779,7 @@
     "webpack.common.js": "_file_webpack",
     "vite.config.js": "_file_vite",
     "vite.config.ts": "_file_vite",
-    "vitest.config.ts": "_file_vite",
+    "vite.config.mts": "_file_vite",
     "rollup.config.js": "_file_rollup",
     "rollup.config.mjs": "_file_rollup",
     "tsconfig.json": "_file_tsconfig",
@@ -1352,12 +1807,14 @@
     "vagrantfile": "_file_vagrant",
     ".browserslistrc": "_file_browserslist",
     "jenkinsfile": "_file_jenkins",
-    ".travis.yml": "_file_ci",
-    ".circleci": "_file_ci",
+    ".travis.yml": "_file_travis",
+    ".circleci": "_file_circleci",
     ".gitlab-ci.yml": "_file_gitlabci",
+    "bitbucket-pipelines.yml": "_file_bitbucket",
+    "renovate.json": "_file_renovate",
+    ".renovaterc": "_file_renovate",
     "azure-pipelines.yml": "_file_azure",
     ".vimrc": "_file_vim",
-    ".nvmrc": "_file_text",
     ".env": "_file_env",
     ".env.local": "_file_env",
     ".env.development": "_file_env",
@@ -1371,8 +1828,104 @@
     "rakefile": "_file_ruby",
     "requirements.txt": "_file_python",
     "pyproject.toml": "_file_python",
-    "composer.json": "_file_php",
-    "composer.lock": "_file_php"
+    ".nvmrc": "_file_nodejs",
+    ".node-version": "_file_nodejs",
+    "server.js": "_file_nodejs",
+    "deno.json": "_file_deno",
+    "deno.jsonc": "_file_deno",
+    "deno.lock": "_file_deno",
+    "bun.lockb": "_file_bun",
+    "bun.lock": "_file_bun",
+    "bunfig.toml": "_file_bun",
+    "angular.json": "_file_angular",
+    ".angular-cli.json": "_file_angular",
+    "ng-package.json": "_file_angular",
+    "next.config.js": "_file_nextjs",
+    "next.config.mjs": "_file_nextjs",
+    "next.config.ts": "_file_nextjs",
+    "nuxt.config.js": "_file_nuxt",
+    "nuxt.config.ts": "_file_nuxt",
+    "tailwind.config.js": "_file_tailwind",
+    "tailwind.config.ts": "_file_tailwind",
+    "tailwind.config.cjs": "_file_tailwind",
+    "postcss.config.js": "_file_postcss",
+    "postcss.config.cjs": "_file_postcss",
+    "postcss.config.mjs": "_file_postcss",
+    "manage.py": "_file_django",
+    "artisan": "_file_laravel",
+    "pubspec.yaml": "_file_flutter",
+    "pubspec.lock": "_file_flutter",
+    "electron.vite.config.ts": "_file_electron",
+    "tauri.conf.json": "_file_tauri",
+    "build.gradle": "_file_gradle",
+    "build.gradle.kts": "_file_gradle",
+    "settings.gradle": "_file_gradle",
+    "gradle.properties": "_file_gradle",
+    "gradlew": "_file_gradle",
+    "pom.xml": "_file_maven",
+    "mvnw": "_file_maven",
+    "composer.json": "_file_composer",
+    "composer.lock": "_file_composer",
+    "poetry.lock": "_file_poetry",
+    "nuget.config": "_file_nuget",
+    "packages.config": "_file_nuget",
+    "environment.yml": "_file_conda",
+    "environment.yaml": "_file_conda",
+    "turbo.json": "_file_turborepo",
+    "nx.json": "_file_nx",
+    "lerna.json": "_file_lerna",
+    "cypress.config.js": "_file_cypress",
+    "cypress.config.ts": "_file_cypress",
+    "cypress.json": "_file_cypress",
+    "playwright.config.js": "_file_playwright",
+    "playwright.config.ts": "_file_playwright",
+    "vitest.config.js": "_file_vitest",
+    "vitest.config.ts": "_file_vitest",
+    ".mocharc.json": "_file_mocha",
+    ".mocharc.yml": "_file_mocha",
+    ".mocharc.js": "_file_mocha",
+    ".storybook": "_file_storybook",
+    "main.stories.ts": "_file_storybook",
+    "chart.yaml": "_file_helm",
+    "values.yaml": "_file_helm",
+    "kustomization.yaml": "_file_kubernetes",
+    "kustomization.yml": "_file_kubernetes",
+    "skaffold.yaml": "_file_kubernetes",
+    "ansible.cfg": "_file_ansible",
+    "playbook.yml": "_file_ansible",
+    "playbook.yaml": "_file_ansible",
+    "netlify.toml": "_file_netlify",
+    "vercel.json": "_file_vercel",
+    "now.json": "_file_vercel",
+    "wrangler.toml": "_file_cloudflare",
+    "wrangler.jsonc": "_file_cloudflare",
+    "_headers": "_file_cloudflare",
+    "_redirects": "_file_cloudflare",
+    "pulumi.yaml": "_file_pulumi",
+    "serverless.yml": "_file_serverless",
+    "serverless.yaml": "_file_serverless",
+    "schema.prisma": "_file_prisma",
+    "firebase.json": "_file_firebase",
+    ".firebaserc": "_file_firebase",
+    "firestore.rules": "_file_firebase",
+    "ormconfig.json": "_file_postgresql",
+    "my.cnf": "_file_mysql",
+    "redis.conf": "_file_redis",
+    "openapi.yaml": "_file_openapi",
+    "openapi.yml": "_file_openapi",
+    "openapi.json": "_file_openapi",
+    "swagger.yaml": "_file_swagger",
+    "swagger.yml": "_file_swagger",
+    "swagger.json": "_file_swagger",
+    ".cursorrules": "_file_ai",
+    "claude.md": "_file_ai",
+    "agents.md": "_file_ai",
+    "copilot-instructions.md": "_file_ai",
+    ".aider.conf.yml": "_file_ai",
+    "flake.nix": "_file_nix",
+    "flake.lock": "_file_nix",
+    "shell.nix": "_file_nix",
+    "default.nix": "_file_nix"
   },
   "languageIds": {
     "javascript": "_file_javascript",
@@ -1437,6 +1990,26 @@
     "pug": "_file_pug",
     "terraform": "_file_terraform",
     "jupyter": "_file_jupyter",
-    "jupyter-notebook": "_file_jupyter"
+    "jupyter-notebook": "_file_jupyter",
+    "elm": "_file_elm",
+    "haxe": "_file_haxe",
+    "ocaml": "_file_ocaml",
+    "fortran": "_file_fortran",
+    "fortran-free-form": "_file_fortran",
+    "racket": "_file_racket",
+    "purescript": "_file_purescript",
+    "gleam": "_file_gleam",
+    "nix": "_file_nix",
+    "wat": "_file_webassembly",
+    "wasm": "_file_webassembly",
+    "latex": "_file_latex",
+    "tex": "_file_latex",
+    "bibtex": "_file_latex",
+    "asciidoc": "_file_asciidoc",
+    "git-commit": "_file_git",
+    "git-rebase": "_file_git",
+    "ignore": "_file_git",
+    "csv": "_file_csv",
+    "tsv": "_file_csv"
   }
 }

@@ -9,7 +9,7 @@ An ultra-dark theme for Visual Studio Code in eight colors, bundled with a match
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
-![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/hero.png)
+![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/hero.png)
 
 The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
@@ -22,7 +22,7 @@ This is a single extension. Install once, then pick a color theme and turn on th
 | | |
 | --- | --- |
 | **Midnight Indigo**, **Purple**, **Pink**, **Red**, **Orange**, **Green**, **Cyan**, **Blue** | Eight color themes — each 129 workbench colors, 39 TextMate rules and 34 semantic token rules |
-| **Midnight Icons** | File icon theme — 222 SVG icons: 140 file/language icons and 40 contextual folder icons with open/closed variants. Shared by all eight themes |
+| **Midnight Icons** | File icon theme — 312 SVG icons: 230 file/language icons and 40 contextual folder icons with open/closed variants, matched to 401 extensions and 202 exact filenames. Shared by all eight themes |
 
 Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
 
@@ -37,17 +37,17 @@ Every screenshot on this page is generated from this repository's own theme file
 
 The same code in all eight, so the differences are the generator's rather than a photographer's:
 
-![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/palettes.png)
+![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/palettes.png)
 
 ### The icon set
 
-All 140 file and language icons:
+All 230 file and language icons:
 
-![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/icons-files.png)
+![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-files.png)
 
 All 40 folder icons, closed and open:
 
-![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/icons-folders.png)
+![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-folders.png)
 
 ### Syntax
 
@@ -57,19 +57,19 @@ Highlighting goes through the same TextMate grammars VS Code ships, including th
 
 ### TypeScript
 
-![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/typescript.png)
+![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/typescript.png)
 
 ### React / TSX
 
-![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/tsx.png)
+![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/tsx.png)
 
 ### C\#
 
-![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/csharp.png)
+![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/csharp.png)
 
 ### Python
 
-![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889/docs/preview/python.png)
+![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/python.png)
 
 ## Install
 
@@ -176,12 +176,21 @@ The set is built around one rule: an icon has to be identifiable at the 16px VS 
 - **Flat, with a shadow.** Every mark casts a soft offset shadow in a darkened tint of its own color. Black would be invisible on a `#040208` ground, so the shadow is the mark's color taken down in lightness — enough depth to sit on the background rather than float above it, at a weight that survives being 16 pixels tall.
 - **Holes are holes.** Anything cut out of a shape is genuinely transparent, so an icon still reads on the file explorer's hover and selection backgrounds. Marks whose letters are cut out of a solid block — TypeScript, npm, Swift — get the letters painted back in the color the logo has them in, instead of coming out as a solid blob.
 - **Pictograms are duotone.** Everything with no logo of its own — the flask, the cog, the book, the terminal — is drawn in the icon's color plus a lighter tint of the same hue, derived rather than specified. The tint is the surface and full strength is what sits on it: glass and liquid, page and print, screen and prompt. One flat silhouette has to say everything with its outline, which at 16px means a cluster of slots that close up; two tones carry the structure instead.
+- **Nothing our own is pointed.** Every corner of every pictogram is rounded, and it is enforced by construction rather than by care: polygons go through `roundPolyD`, which rounds convex and reflex corners alike and clamps the radius per corner, straight runs are capsules, and arcs are stroked with round caps. There is no way left to draw a point by accident. It matters twice over next to imported marks that are nearly all curves, and because at 16px a bare vertex aliases into a grey fringe — so the old star, play triangle and arrowheads did not read as sharp, they read as dirty. The only hard corners left in the set belong to logos, where the geometry is not ours to soften.
 - **Folders are solid.** A filled folder in the category's accent color with the pictogram sunk into the body in a darker tone of that same accent, so files and folders never read as the same object. The open state keeps the whole folder as its back and swings a front panel out over it.
-- **Text is only text.** A format whose logo is a wordmark, or has no logo at all, is set as bare letters with nothing behind them — `YAML` in its own red, `ERL`, `PDF`, `ASM`, `INI`. Each string is set as large as it can be without overrunning the icon.
+- **Text is only text, and it is a last resort.** A format with no logo at all is set as bare letters with nothing behind them — `PDF`, `ASM`, `INI`, `BAT`, `EJS`, `OC`. Each string is set as large as it can be without overrunning the icon. Twelve icons out of 230 are lettered now, against far more before: most of what used to be lettering had a real mark waiting to be imported.
+- **A logo earns its place at 16px, or it does not get used.** Less, Stylus, EditorConfig, JSON, MySQL, Travis and Composer all have official marks, all were imported, and all were put back — each is a logotype, a line-art mascot or a plain ring, and at the size the explorer draws a file icon none of them says anything. They keep their lettering or take one of our pictograms in the brand's own color, and the reason is recorded next to each entry in `tools/icon-spec.ts` so the gap does not get "fixed" a third time.
 - **No badges.** File name patterns get their own icon rather than a marker pasted onto a base one: `*.spec.ts` is a flask, `*.module.ts` is a set of blocks, `*.service.ts` a cog, `*.guard.ts` a shield, `*.dto.ts` a pair of arrows. The color stays the language's, so you read the language and the role at the same time.
 
 - **40 contextual folder icons**, each with an open and closed variant, matching several name synonyms per category: `components`, `hooks`, `functions`, `utils`, `helpers`, `services`, `controllers`, `models`, `views/pages`, `layouts`, `store/redux`, `context/providers`, `middleware`, `guards`, `routes`, `api`, `config`, `scripts/cli`, `tests/spec/e2e`, `mocks/fixtures`, `assets`, `images`, `icons`, `fonts`, `styles/themes`, `public`, `build/dist`, `docs`, `database/migrations`, `types/interfaces`, `constants/enums`, `core/lib`, `plugins/features`, `i18n`, `directives/pipes/decorators`, `validators`, `docker/kubernetes`, `workflows/.github`, `server`, `shared/common`, `security/auth`.
-- **140 file and language icons** covering JS/TS/JSX/TSX, HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Shell/Zsh/Fish/PowerShell/Batch, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, Vue, Svelte, Astro, GraphQL, Docker, Terraform, Jupyter, images, fonts, audio, video, archives, certificates, PDF/Office documents, and well-known config files (`package.json`, `.eslintrc`, `.prettierrc`, `tsconfig.json`, `webpack`/`vite`/`rollup`, `Dockerfile`, `Makefile`, `.gitignore`, `nginx.conf`, CI files).
+- **230 file and language icons**, matched to **401 extensions** and **202 exact filenames**:
+
+  - **Languages** — JS/TS/JSX/TSX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, and — new in 8.0 — Elm, OCaml, Fortran, Racket, PureScript, Gleam, Haxe, Nix, WebAssembly.
+  - **Markup, styles and data** — HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, AsciiDoc, LaTeX, CSV, OpenAPI and Swagger.
+  - **Frameworks and runtimes** — Vue, Svelte, Astro, Angular, Next.js, Nuxt, Tailwind, Bootstrap, PostCSS, Node, Deno, Bun, Electron, Tauri, Flutter, Django, Laravel, Spring.
+  - **Build, test and CI** — webpack, Vite, Rollup, esbuild, Turborepo, Nx, Lerna, Gradle, Maven, NuGet, Poetry, Conda, Jest, Vitest, Cypress, Playwright, Mocha, Storybook, GitHub Actions, CircleCI, Travis, Bitbucket, GitLab CI, Azure, Jenkins, Renovate.
+  - **Infrastructure and data stores** — Docker, Kubernetes, Helm, Terraform, Ansible, Packer, Pulumi, Serverless, Netlify, Vercel, Cloudflare, MongoDB, PostgreSQL, MySQL, Redis, SQLite, Prisma, Firebase, Supabase.
+  - **Everything else a folder actually contains** — images, RAW photographs, vector artwork, fonts, audio, video, subtitles, archives, installers, disk images, e-books, certificates, PDF and Office documents, 3D meshes, CAD and game-engine scenes, mail, calendars, contacts, geodata, packet captures, datasets, crash dumps, torrents, shortcuts, backups and scratch files.
 - **Filename-pattern variants**, each a dedicated icon: `*.spec.ts(x)`, `*.test.ts(x)`, `*.d.ts`, `*.module.ts/scss/css`, `*.component.ts(x)`, `*.service.ts`, `*.stories.ts(x)`, `*.config.ts/js`, `*.min.js`, `*.guard.ts`, `*.pipe.ts`, `*.directive.ts`, `*.controller.ts`, `*.model.ts`, `*.dto.ts`, `*.entity.ts`.
 
 The icons keep the languages' own colors in every theme. A Python file is `#3776AB` and `#FFD43B` whether the editor around it is indigo or green — the mark is the language's identity, not the theme's, and tinting it to match the chrome would cost the one thing the icon set is for.
@@ -226,8 +235,8 @@ Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) a
 | [`tools/theme-palette.ts`](tools/theme-palette.ts) | The role table, and the eight per-family designs: their hues, their saturation, and the floor that keeps the tokens apart |
 | [`tools/build-color-themes.ts`](tools/build-color-themes.ts) | The theme structure, written once against role names, plus every check the build makes |
 | [`tools/indigo-baseline.json`](tools/indigo-baseline.json) | The theme as it shipped. The build refuses to write if indigo no longer reproduces it |
-| [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the two rules everything obeys: fill only, and holes are cut with `evenodd` rather than painted |
-| [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — the shapes that are ours. Each is drawn inside a 24×24 box centred on `(0,0)` |
+| [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the three rules everything obeys: fill only, holes cut with `evenodd` rather than painted, and no bare vertices — `roundedPolygonPath` rounds every corner it is given |
+| [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — the 76 shapes that are ours. Each is drawn inside a 24×24 box centred on `(0,0)`, in an identity tone and a derived tint |
 | [`tools/marks.ts`](tools/marks.ts) | The language and tool marks: official palettes over imported geometry, plus the ones drawn by hand |
 | [`tools/import-marks.ts`](tools/import-marks.ts) | Fetches the official artwork and writes [`tools/mark-paths.ts`](tools/mark-paths.ts). Only re-run when adding a mark |
 | [`tools/icon-spec.ts`](tools/icon-spec.ts) | Which mark, pictogram or string each icon gets, and in which colours |

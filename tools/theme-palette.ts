@@ -78,7 +78,7 @@
  * assumed here: no two roles that have to be told apart may sit closer than it.
  */
 
-import { arc, hex, wrap, type Colour } from './color.ts';
+import { signedHueDelta, hexFromOklch, wrapDegrees, type Colour } from './color.ts';
 
 /* -------------------------------------------------------------- *
  * The families
@@ -134,18 +134,18 @@ type Band = 'ground' | 'chrome' | 'accent' | 'pole' | 'semantic';
  */
 type Role = { l: number; c: number; h: number; band: Band; from?: string };
 
-const ground = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'ground' });
-const chrome = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'chrome' });
-const brand = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'accent' });
+const groundRole = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'ground' });
+const chromeRole = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'chrome' });
+const accentRole = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'accent' });
 
 /**
  * A signature or semantic role. `from` names the base a `*Bright` terminal
  * colour follows: each bright is its base at another lightness, so it rides
  * along with wherever the base was placed instead of being specified twice.
  */
-const pole = (l: number, c: number, h: number, from?: string): Role =>
+const signatureRole = (l: number, c: number, h: number, from?: string): Role =>
   ({ l, c, h, band: 'pole', from });
-const sem = (l: number, c: number, h: number, from?: string): Role =>
+const semanticRole = (l: number, c: number, h: number, from?: string): Role =>
   ({ l, c, h, band: 'semantic', from });
 
 /*
@@ -155,56 +155,56 @@ const sem = (l: number, c: number, h: number, from?: string): Role =>
  */
 const ROLES = {
   /* --- grounds --- */
-  bg: ground(0.083, 0.0297, -0.4), //          #020108  editor, gutter, terminal
-  bgDeep: ground(0.096, 0.025, 0.6), //        #030209  title bar, activity bar
-  bgSide: ground(0.098, 0.023, 12.1), //       #040208  side bar, panel, tab strip
-  ansiBlack: ground(0.114, 0.0342, 0.1), //    #050310  terminal.ansiBlack
-  bgLine: ground(0.131, 0.0346, 2.1), //       #080514  current-line highlight
-  bgLift: ground(0.143, 0.0327, 1.7), //       #0A0716  widgets, status bar, inputs
-  bgTab: ground(0.144, 0.0328, 4.9), //        #0B0716  active tab, list hover
+  bg: groundRole(0.083, 0.0297, -0.4), //          #020108  editor, gutter, terminal
+  bgDeep: groundRole(0.096, 0.025, 0.6), //        #030209  title bar, activity bar
+  bgSide: groundRole(0.098, 0.023, 12.1), //       #040208  side bar, panel, tab strip
+  ansiBlack: groundRole(0.114, 0.0342, 0.1), //    #050310  terminal.ansiBlack
+  bgLine: groundRole(0.131, 0.0346, 2.1), //       #080514  current-line highlight
+  bgLift: groundRole(0.143, 0.0327, 1.7), //       #0A0716  widgets, status bar, inputs
+  bgTab: groundRole(0.144, 0.0328, 4.9), //        #0B0716  active tab, list hover
 
   /* --- lines and selection --- */
-  line: ground(0.195, 0.0562, -0.3), //        #150F2C  borders, indent guides
-  selDim: ground(0.231, 0.0801, -3.3), //      #1C1440  word highlight, list focus
-  sel: ground(0.268, 0.0975, -4.1), //         #241A52  selection
-  whitespace: ground(0.286, 0.0828, -1.1), //  #2A2150  rendered whitespace
-  border: ground(0.326, 0.0891, 0.3), //       #352A5E  input and dropdown borders
+  line: groundRole(0.195, 0.0562, -0.3), //        #150F2C  borders, indent guides
+  selDim: groundRole(0.231, 0.0801, -3.3), //      #1C1440  word highlight, list focus
+  sel: groundRole(0.268, 0.0975, -4.1), //         #241A52  selection
+  whitespace: groundRole(0.286, 0.0828, -1.1), //  #2A2150  rendered whitespace
+  border: groundRole(0.326, 0.0891, 0.3), //       #352A5E  input and dropdown borders
 
   /* --- the accent pair --- */
-  accentDim: brand(0.423, 0.1316, 286.5), //   #4B3E91  badges, widget borders
-  accent: brand(0.568, 0.2021, 283.1), //      #6C5CE7  focus, buttons, active tab
+  accentDim: accentRole(0.423, 0.1316, 286.5), //   #4B3E91  badges, widget borders
+  accent: accentRole(0.568, 0.2021, 283.1), //      #6C5CE7  focus, buttons, active tab
 
   /* --- the foreground ramp --- */
-  fgFaint: chrome(0.412, 0.0743, 0.9), //      #4B4370  line numbers, dimmed icons
-  fgMuted: chrome(0.524, 0.0703, 0.9), //      #6A6390  comments, placeholders
-  fgDim: chrome(0.634, 0.0523, 2.7), //        #8B85A8  side bar, status bar
-  fg: chrome(0.681, 0.0543, 2.3), //           #9993B8  editor foreground
-  fgBright: chrome(0.745, 0.0488, 3.3), //     #ADA7C9  active tab, selected row
-  cursor: chrome(0.737, 0.0909, 10.5), //      #B39DDB  caret, active line number
-  fgWhite: chrome(0.943, 0.0176, 6.6), //      #EDEAF7  terminal.ansiBrightWhite
+  fgFaint: chromeRole(0.412, 0.0743, 0.9), //      #4B4370  line numbers, dimmed icons
+  fgMuted: chromeRole(0.524, 0.0703, 0.9), //      #6A6390  comments, placeholders
+  fgDim: chromeRole(0.634, 0.0523, 2.7), //        #8B85A8  side bar, status bar
+  fg: chromeRole(0.681, 0.0543, 2.3), //           #9993B8  editor foreground
+  fgBright: chromeRole(0.745, 0.0488, 3.3), //     #ADA7C9  active tab, selected row
+  cursor: chromeRole(0.737, 0.0909, 10.5), //      #B39DDB  caret, active line number
+  fgWhite: chromeRole(0.943, 0.0176, 6.6), //      #EDEAF7  terminal.ansiBrightWhite
 
   /* --- syntax that is family --- */
-  variable: chrome(0.781, 0.0553, 2.1), //     #B8B2D9  variables, parameters
-  property: chrome(0.751, 0.1344, 9.5), //     #BB9AF7  properties, JSON keys
-  operator: chrome(0.705, 0.1642, -1.8), //    #9D8CFF  operators
+  variable: chromeRole(0.781, 0.0553, 2.1), //     #B8B2D9  variables, parameters
+  property: chromeRole(0.751, 0.1344, 9.5), //     #BB9AF7  properties, JSON keys
+  operator: chromeRole(0.705, 0.1642, -1.8), //    #9D8CFF  operators
 
   /* --- the signature pole: keywords and punctuation --- */
-  keyword: pole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation
-  keywordBright: pole(0.789, 0.1549, 344.9, 'keyword'), //     #FF8FD1  terminal.ansiBrightRed
-  generic: pole(0.531, 0.2015, 5.6), //                        #C2185B  type parameters
-  genericBright: pole(0.642, 0.1877, 356.7, 'generic'), //     #E0508F  terminal.ansiBrightMagenta
+  keyword: signatureRole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation
+  keywordBright: signatureRole(0.789, 0.1549, 344.9, 'keyword'), //     #FF8FD1  terminal.ansiBrightRed
+  generic: signatureRole(0.531, 0.2015, 5.6), //                        #C2185B  type parameters
+  genericBright: signatureRole(0.642, 0.1877, 356.7, 'generic'), //     #E0508F  terminal.ansiBrightMagenta
 
   /* --- syntax that means something outside this theme --- */
-  string: sem(0.803, 0.0984, 150.8), //                    #8FD19E  strings, added lines
-  stringBright: sem(0.869, 0.0946, 150.8, 'string'), //    #A6E6B4  terminal.ansiBrightGreen
-  func: sem(0.745, 0.1388, 247.3), //                      #5CB3FF  functions, modified lines
-  funcBright: sem(0.82, 0.0962, 245.5, 'func'), //         #8FCBFF  terminal.ansiBrightBlue
-  number: sem(0.843, 0.11, 74.6), //                       #F6C177  numbers, decorators
-  type: sem(0.812, 0.1071, 185.5), //                      #64D8CB  classes, types, headings
-  typeBright: sem(0.884, 0.0918, 184.5, 'type'), //        #8FEDE0  terminal.ansiBrightCyan
-  enumMember: sem(0.811, 0.1242, 55.1), //                 #FFAB70  enum members, inline code
-  iface: sem(0.885, 0.1738, 115.1), //                     #D6E64B  interfaces, enums
-  ifaceBright: sem(0.926, 0.1363, 112.4, 'iface'), //      #E8F080  terminal.ansiBrightYellow
+  string: semanticRole(0.803, 0.0984, 150.8), //                    #8FD19E  strings, added lines
+  stringBright: semanticRole(0.869, 0.0946, 150.8, 'string'), //    #A6E6B4  terminal.ansiBrightGreen
+  func: semanticRole(0.745, 0.1388, 247.3), //                      #5CB3FF  functions, modified lines
+  funcBright: semanticRole(0.82, 0.0962, 245.5, 'func'), //         #8FCBFF  terminal.ansiBrightBlue
+  number: semanticRole(0.843, 0.11, 74.6), //                       #F6C177  numbers, decorators
+  type: semanticRole(0.812, 0.1071, 185.5), //                      #64D8CB  classes, types, headings
+  typeBright: semanticRole(0.884, 0.0918, 184.5, 'type'), //        #8FEDE0  terminal.ansiBrightCyan
+  enumMember: semanticRole(0.811, 0.1242, 55.1), //                 #FFAB70  enum members, inline code
+  iface: semanticRole(0.885, 0.1738, 115.1), //                     #D6E64B  interfaces, enums
+  ifaceBright: semanticRole(0.926, 0.1363, 112.4, 'iface'), //      #E8F080  terminal.ansiBrightYellow
 } satisfies Record<string, Role>;
 
 export type RoleName = keyof typeof ROLES;
@@ -235,9 +235,9 @@ type Variant = {
    * warm grey. Cold families have the opposite problem and are given room to
    * take what little their hue can hold.
    */
-  ground: number;
-  chrome: number;
-  ink: number;
+  groundChroma: number;
+  chromeChroma: number;
+  inkChroma: number;
   /** The accent, outright: hue, chroma, and the lightness white must read on. */
   accent: { h: number; c: number; l: number };
   /** Where each named role sits on the wheel in this family. */
@@ -250,7 +250,7 @@ type Variant = {
  * the two, so the pair stays a pair in every family and a variant has one
  * accent to decide instead of two that could drift apart.
  */
-const DIM_HUE = arc(ROLES.accent.h, ROLES.accentDim.h); //     +3.4
+const DIM_HUE = signedHueDelta(ROLES.accent.h, ROLES.accentDim.h); //     +3.4
 const DIM_CHROMA = ROLES.accentDim.c / ROLES.accent.c; //      0.651
 const DIM_LIGHT = ROLES.accentDim.l - ROLES.accent.l; //      -0.145
 
@@ -263,7 +263,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   indigo: {
     hue: BASE_HUE,
-    ground: 1, chrome: 1, ink: 1,
+    groundChroma: 1, chromeChroma: 1, inkChroma: 1,
     accent: { h: ROLES.accent.h, c: ROLES.accent.c, l: ROLES.accent.l },
     hues: {
       keyword: ROLES.keyword.h, generic: ROLES.generic.h,
@@ -284,7 +284,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   purple: {
     hue: 320,
-    ground: 0.95, chrome: 0.95, ink: 0.98,
+    groundChroma: 0.95, chromeChroma: 0.95, inkChroma: 0.98,
     accent: { h: 311, c: 0.2, l: 0.566 },
     hues: {
       keyword: 15, generic: 350,
@@ -312,7 +312,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   pink: {
     hue: 350,
-    ground: 0.9, chrome: 0.92, ink: 1.05,
+    groundChroma: 0.9, chromeChroma: 0.92, inkChroma: 1.05,
     accent: { h: 342, c: 0.2, l: 0.576 },
     hues: {
       keyword: 302, generic: 330,
@@ -337,7 +337,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   red: {
     hue: 27,
-    ground: 0.72, chrome: 0.85, ink: 0.92,
+    groundChroma: 0.72, chromeChroma: 0.85, inkChroma: 0.92,
     accent: { h: 20, c: 0.185, l: 0.576 },
     hues: {
       keyword: 337, generic: 300,
@@ -360,7 +360,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   orange: {
     hue: 60,
-    ground: 0.68, chrome: 0.8, ink: 0.95,
+    groundChroma: 0.68, chromeChroma: 0.8, inkChroma: 0.95,
     accent: { h: 52, c: 0.155, l: 0.586 },
     hues: {
       keyword: 316, generic: 285,
@@ -397,7 +397,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   green: {
     hue: 150,
-    ground: 1.1, chrome: 1.05, ink: 1.12,
+    groundChroma: 1.1, chromeChroma: 1.05, inkChroma: 1.12,
     accent: { h: 155, c: 0.16, l: 0.566 },
     hues: {
       keyword: 326, generic: 290,
@@ -420,7 +420,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   cyan: {
     hue: 200,
-    ground: 1.15, chrome: 1.1, ink: 1.05,
+    groundChroma: 1.15, chromeChroma: 1.1, inkChroma: 1.05,
     accent: { h: 205, c: 0.135, l: 0.576 },
     hues: {
       keyword: 345, generic: 295,
@@ -445,7 +445,7 @@ const VARIANTS: Record<Family, Variant> = {
    */
   blue: {
     hue: 258,
-    ground: 1.05, chrome: 1, ink: 1.02,
+    groundChroma: 1.05, chromeChroma: 1, inkChroma: 1.02,
     accent: { h: 255, c: 0.19, l: 0.566 },
     hues: {
       keyword: 310, generic: 340,
@@ -468,7 +468,7 @@ export const FAMILIES = Object.fromEntries(
  *
  * It is a floor now, where the previous version had a ceiling, and the swap is
  * the whole difference between a table that is designed and a table that is
- * relaxed. A ceiling was what a rotation needed: hues arrived wherever the turn
+ * relaxed. A ceiling was what a rotation separationOwed: hues arrived wherever the turn
  * put them and the machinery asked for as much clearance as it could get away
  * with before over-constraining the arc. Named hues arrive where they were put,
  * so the only thing left to state is the minimum below which two roles start
@@ -477,7 +477,7 @@ export const FAMILIES = Object.fromEntries(
  * neighbour, the build says which pair and in which family, and writes nothing.
  *
  * 22 rather than a rounder number because that is what the shipped theme's own
- * tightest pair costs: indigo puts enum members and numbers 19.5 degrees apart
+ * the closest pair pair costs: indigo puts enum members and numbers 19.5 degrees apart
  * and interfaces and strings 35.7, telling the close pair apart by lightness
  * and chroma instead. A floor that condemned the original theme would be the
  * wrong floor, so the check exempts indigo's own arrangement and holds the
@@ -498,7 +498,7 @@ const CONTESTED: Named[] = ['enumMember', 'number', 'iface', 'string', 'type', '
  * band, at L 0.53 against 0.75 to 0.89, so nothing can be confused with it
  * whatever the hues do.
  */
-export function tightest(family: Family): { a: string; b: string; deg: number } {
+export function closestPair(family: Family): { a: string; b: string; deg: number } {
   const v = VARIANTS[family];
   const points: [string, number][] = [
     ['family', v.hue],
@@ -509,7 +509,7 @@ export function tightest(family: Family): { a: string; b: string; deg: number } 
   let worst = { a: '', b: '', deg: 360 };
   for (let i = 0; i < points.length; i++) {
     for (let j = i + 1; j < points.length; j++) {
-      const deg = Math.abs(arc(points[i][1], points[j][1]));
+      const deg = Math.abs(signedHueDelta(points[i][1], points[j][1]));
       if (deg < worst.deg) worst = { a: points[i][0], b: points[j][0], deg };
     }
   }
@@ -545,8 +545,8 @@ export function tightest(family: Family): { a: string; b: string; deg: number } 
 const LIFT_PEAK = 95; // the hue that needs it most
 const LIFT_MAX = 0.09; // and how much, in OKLCH lightness
 
-function lift(hue: number): number {
-  const away = Math.abs(arc(LIFT_PEAK, hue));
+function hueLightnessLift(hue: number): number {
+  const away = Math.abs(signedHueDelta(LIFT_PEAK, hue));
   if (away >= 90) return 0;
   const t = Math.cos((away * Math.PI) / 180);
   return LIFT_MAX * t * t;
@@ -572,7 +572,7 @@ function lift(hue: number): number {
 const LIFT_FROM = 0.4;
 const LIFT_FULL = 0.62;
 
-function liftGate(lightness: number): number {
+function liftShareAtLightness(lightness: number): number {
   const t = Math.max(0, Math.min(1, (lightness - LIFT_FROM) / (LIFT_FULL - LIFT_FROM)));
   return t * t * (3 - 2 * t); // smoothstep, so nothing changes abruptly mid-ramp
 }
@@ -584,10 +584,10 @@ function liftGate(lightness: number): number {
 export type Palette = Record<RoleName, Colour>;
 
 /** Where a role sits when the family is indigo — the reference for everything. */
-function homeHue(name: RoleName): number {
+function indigoHueOf(name: RoleName): number {
   const role = ROLES[name];
-  if (role.band === 'ground' || role.band === 'chrome') return wrap(BASE_HUE + role.h);
-  return wrap(role.h);
+  if (role.band === 'ground' || role.band === 'chrome') return wrapDegrees(BASE_HUE + role.h);
+  return wrapDegrees(role.h);
 }
 
 /** The hue each role lands on in a given variant. */
@@ -604,16 +604,16 @@ export function huesFor(family: Family): Record<RoleName, number> {
      */
     if (role.from) {
       const base = role.from as RoleName;
-      out[key] = wrap(out[base] + arc(homeHue(base), role.h));
+      out[key] = wrapDegrees(out[base] + signedHueDelta(indigoHueOf(base), role.h));
       continue;
     }
 
     out[key] =
       role.band === 'ground' || role.band === 'chrome'
-        ? wrap(v.hue + role.h)
+        ? wrapDegrees(v.hue + role.h)
         : role.band === 'accent'
-          ? wrap(v.accent.h + (key === 'accentDim' ? DIM_HUE : 0))
-          : wrap(v.hues[key as Named]);
+          ? wrapDegrees(v.accent.h + (key === 'accentDim' ? DIM_HUE : 0))
+          : wrapDegrees(v.hues[key as Named]);
   }
 
   return out;
@@ -652,17 +652,17 @@ export function huesFor(family: Family): Record<RoleName, number> {
  * the tint those hues can carry at L 0.08 is simply smaller, and taking all of
  * it is the most colour there is to take.
  */
-function chromaFor(name: RoleName, v: Variant): number {
+function chromaOf(name: RoleName, variant: Variant): number {
   const role = ROLES[name];
   switch (role.band) {
     case 'ground':
-      return role.c * v.ground;
+      return role.c * variant.groundChroma;
     case 'chrome':
-      return role.c * v.chrome;
+      return role.c * variant.chromeChroma;
     case 'accent':
-      return v.accent.c * (name === 'accentDim' ? DIM_CHROMA : 1);
+      return variant.accent.c * (name === 'accentDim' ? DIM_CHROMA : 1);
     default:
-      return role.c * v.ink;
+      return role.c * variant.inkChroma;
   }
 }
 
@@ -686,9 +686,9 @@ export function paletteFor(family: Family): Palette {
     const l =
       role.band === 'accent'
         ? v.accent.l + (name === 'accentDim' ? DIM_LIGHT : 0)
-        : Math.min(0.99, role.l + liftGate(role.l) * (lift(h) - lift(homeHue(name))));
+        : Math.min(0.99, role.l + liftShareAtLightness(role.l) * (hueLightnessLift(h) - hueLightnessLift(indigoHueOf(name))));
 
-    out[name] = hex({ l, c: chromaFor(name, v), h });
+    out[name] = hexFromOklch({ l, c: chromaOf(name, v), h });
   }
 
   return out;

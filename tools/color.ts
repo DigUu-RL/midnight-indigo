@@ -33,7 +33,7 @@ export type Oklch = { l: number; c: number; h: number };
  * sRGB
  * -------------------------------------------------------------- */
 
-const clamp01 = (v: number): number => Math.max(0, Math.min(1, v));
+const clampToUnit = (v: number): number => Math.max(0, Math.min(1, v));
 
 export function hexToRgb(colour: Colour): [number, number, number] {
   const m = colour.replace('#', '');
@@ -46,7 +46,7 @@ export const rgbToHex = (r: number, g: number, b: number): Colour =>
   '#' +
   [r, g, b]
     .map((c) =>
-      Math.round(clamp01(c) * 255)
+      Math.round(clampToUnit(c) * 255)
         .toString(16)
         .padStart(2, '0')
         .toUpperCase()
@@ -54,24 +54,24 @@ export const rgbToHex = (r: number, g: number, b: number): Colour =>
     .join('');
 
 // sRGB transfer function, both directions.
-const toLinear = (c: number): number =>
+const srgbChannelToLinear = (c: number): number =>
   c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-const toGamma = (c: number): number =>
+const linearChannelToSrgb = (c: number): number =>
   c <= 0.0031308 ? c * 12.92 : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
 
 /* -------------------------------------------------------------- *
  * Contrast
  * -------------------------------------------------------------- */
 
-/** WCAG relative luminance. */
-export function luminance(colour: Colour): number {
-  const [r, g, b] = hexToRgb(colour).map(toLinear);
+/** WCAG relative relativeLuminance. */
+export function relativeLuminance(colour: Colour): number {
+  const [r, g, b] = hexToRgb(colour).map(srgbChannelToLinear);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-/** WCAG contrast ratio, 1..21. */
-export function contrast(a: Colour, b: Colour): number {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+/** WCAG contrastRatio ratio, 1..21. */
+export function contrastRatio(a: Colour, b: Colour): number {
+  const [hi, lo] = [relativeLuminance(a), relativeLuminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }
 
@@ -80,7 +80,7 @@ export function contrast(a: Colour, b: Colour): number {
  * -------------------------------------------------------------- */
 
 function rgbToOklab(r: number, g: number, b: number): [number, number, number] {
-  const [lr, lg, lb] = [r, g, b].map(toLinear);
+  const [lr, lg, lb] = [r, g, b].map(srgbChannelToLinear);
   const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
   const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
   const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
@@ -96,13 +96,13 @@ function oklabToRgb(L: number, A: number, B: number): [number, number, number] {
   const m = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
   const s = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
   return [
-    toGamma(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
-    toGamma(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
-    toGamma(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+    linearChannelToSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    linearChannelToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    linearChannelToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
   ];
 }
 
-export function oklch(colour: Colour): Oklch {
+export function oklchFromHex(colour: Colour): Oklch {
   const [L, A, B] = rgbToOklab(...hexToRgb(colour));
   const c = Math.hypot(A, B);
   // A colour with no chroma has no meaningful hue; report 0 rather than the
@@ -111,10 +111,10 @@ export function oklch(colour: Colour): Oklch {
   return { l: L, c, h };
 }
 
-const IN_GAMUT = (rgb: number[]): boolean => rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
+const isInGamut = (rgb: number[]): boolean => rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
 
 /**
- * OKLCH back to a hex, reducing chroma until the colour fits in sRGB.
+ * OKLCH back to a hexFromOklch, reducing chroma until the colour fits in sRGB.
  *
  * Letting the channels clip instead would be simpler and wrong: clipping moves
  * the hue, so a rotation that was supposed to land on "the same colour, 40°
@@ -123,7 +123,7 @@ const IN_GAMUT = (rgb: number[]): boolean => rgb.every((v) => v >= -1e-4 && v <=
  * places it was generated to be consistent. Chroma is the axis with the least
  * to say, so chroma is what gives.
  */
-const atChroma = (l: number, h: number, chroma: number): [number, number, number] => {
+const rgbAtChroma = (l: number, h: number, chroma: number): [number, number, number] => {
   const rad = (h * Math.PI) / 180;
   return oklabToRgb(l, Math.cos(rad) * chroma, Math.sin(rad) * chroma);
 };
@@ -138,28 +138,28 @@ const atChroma = (l: number, h: number, chroma: number): [number, number, number
  * not reusing one *decision*: it lands mid-range in violet and clipped flat in
  * green, and the green comes out looking dead rather than saturated.
  *
- * Measured against the true boundary rather than a round-trip through a hex,
+ * Measured against the true boundary rather than a round-trip through a hexFromOklch,
  * because 8-bit quantisation is coarser than the search at low lightness — a
  * near-black never converges, and the answer comes back as zero.
  */
-export function maxChroma(l: number, h: number): number {
-  const L = clamp01(l);
+export function maxChromaAt(l: number, h: number): number {
+  const L = clampToUnit(l);
   let lo = 0;
   let hi = 0.5;
   for (let i = 0; i < 28; i++) {
     const mid = (lo + hi) / 2;
-    if (IN_GAMUT(atChroma(L, h, mid))) lo = mid;
+    if (isInGamut(rgbAtChroma(L, h, mid))) lo = mid;
     else hi = mid;
   }
   return lo;
 }
 
-export function hex({ l, c, h }: Oklch): Colour {
-  const L = clamp01(l);
-  let rgb = atChroma(L, h, c);
+export function hexFromOklch({ l, c, h }: Oklch): Colour {
+  const L = clampToUnit(l);
+  let rgb = rgbAtChroma(L, h, c);
   // Reduce chroma rather than let the channels clip: clipping shifts hue, and
   // only for the colours that happen to be out of gamut.
-  if (!IN_GAMUT(rgb)) rgb = atChroma(L, h, maxChroma(L, h));
+  if (!isInGamut(rgb)) rgb = rgbAtChroma(L, h, maxChromaAt(L, h));
   return rgbToHex(...rgb);
 }
 
@@ -167,18 +167,18 @@ export function hex({ l, c, h }: Oklch): Colour {
  * Operations
  * -------------------------------------------------------------- */
 
-export const wrap = (deg: number): number => ((deg % 360) + 360) % 360;
+export const wrapDegrees = (deg: number): number => ((deg % 360) + 360) % 360;
 
 /** Signed shortest angular distance from `a` to `b`, in -180..180. */
-export const arc = (a: number, b: number): number => {
-  const d = wrap(b - a);
+export const signedHueDelta = (a: number, b: number): number => {
+  const d = wrapDegrees(b - a);
   return d > 180 ? d - 360 : d;
 };
 
 /** Rotates a colour's hue, holding perceived lightness and chroma. */
 export const rotate = (colour: Colour, degrees: number): Colour => {
-  const p = oklch(colour);
-  return p.c < 1e-4 ? colour : hex({ ...p, h: wrap(p.h + degrees) });
+  const p = oklchFromHex(colour);
+  return p.c < 1e-4 ? colour : hexFromOklch({ ...p, h: wrapDegrees(p.h + degrees) });
 };
 
 /** Mixes two colours in OKLab, where a midpoint looks like a midpoint. */
@@ -189,10 +189,10 @@ export function mix(a: Colour, b: Colour, t = 0.5): Colour {
   return rgbToHex(...oklabToRgb(at(l1, l2), at(a1, a2), at(b1, b2)));
 }
 
-/** Appends an 8-bit alpha to a hex, the way VS Code's theme colours take it. */
+/** Appends an 8-bit alpha to a hexFromOklch, the way VS Code's theme colours take it. */
 export const alpha = (colour: Colour, a: number): Colour =>
   colour +
-  Math.round(clamp01(a) * 255)
+  Math.round(clampToUnit(a) * 255)
     .toString(16)
     .padStart(2, '0')
     .toUpperCase();

@@ -45,10 +45,33 @@ import { fileURLToPath } from 'node:url';
 const SIMPLE_ICONS = '16.29.0';
 const DEVICON = 'v2.17.0';
 
-const si = (slug: string): string =>
-  `https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS}/icons/${slug}.svg`;
+const SI_ICON = `https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS}/icons/`;
+
+/*
+ * simple-icons ships the brand's official colour next to its geometry, and this
+ * reads it rather than asking anyone to copy it across.
+ *
+ * The two halves of a mark used to come from different places: the outline was
+ * imported, and the hex beside it in tools/marks.ts was typed in by hand from
+ * the brand's guidelines. That is fine for a dozen marks and is not fine for a
+ * hundred and forty — a wrong digit is invisible in review, survives every
+ * check the build makes, and ships an icon in a colour the project does not
+ * use. So a single-colour mark now declares no palette at all and takes the
+ * hex the artwork came with.
+ *
+ * The multi-colour marks still name their slots in tools/marks.ts, because
+ * there is no single official colour to read: what those need is a decision
+ * about which of the brand's colours goes in which slot.
+ */
+const SI_DATA = `https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS}/data/simple-icons.json`;
+
+const si = (slug: string): string => `${SI_ICON}${slug}.svg`;
 const dv = (name: string, variant = 'original'): string =>
   `https://cdn.jsdelivr.net/gh/devicons/devicon@${DEVICON}/icons/${name}/${name}-${variant}.svg`;
+
+/** The simple-icons slug a URL refers to, if it is a simple-icons URL at all. */
+const slugOf = (url: string): string | undefined =>
+  url.startsWith(SI_ICON) ? url.slice(SI_ICON.length).replace(/\.svg$/, '') : undefined;
 
 /**
  * One mark to import. `fills` is only needed for the multi-colour sources: it
@@ -123,6 +146,112 @@ const SOURCES: Record<string, Source> = {
   yarn: { url: si('yarn') },
   zig: { url: si('zig') },
   zsh: { url: si('zsh') },
+
+  /* --- the logos the set used to letter, and that survive being lettered --- *
+   *
+   * Both of these had a real mark all along and the set was lettering them
+   * anyway. Their neighbours in that audit did not make it: Less, Stylus,
+   * EditorConfig, JSON, MySQL, Travis and Composer were all imported, drawn at
+   * 16px, and put back as lettering or as one of our pictograms, because each
+   * of those logos is a logotype, a line-art mascot or a ring. They are named
+   * here so the next person to notice the gap does not import them a third
+   * time — the rule at the top of this file is what decided it, and the
+   * reasons are recorded next to each entry in tools/icon-spec.ts.
+   */
+  erlang: { url: si('erlang') },
+  yaml: { url: si('yaml') },
+
+  /* --- CI, which was one lettered "CI" for three different services --- */
+  bitbucket: { url: si('bitbucket') },
+  circleci: { url: si('circleci') },
+  githubactions: { url: si('githubactions') },
+  renovate: { url: si('renovate') },
+
+  /* --- frameworks and runtimes --- */
+  angular: { url: si('angular') },
+  bootstrap: { url: si('bootstrap') },
+  bun: { url: si('bun') },
+  deno: { url: si('deno') },
+  django: { url: si('django') },
+  electron: { url: si('electron') },
+  flutter: { url: si('flutter') },
+  laravel: { url: si('laravel') },
+  nextdotjs: { url: si('nextdotjs') },
+  nodedotjs: { url: si('nodedotjs') },
+  nuxt: { url: si('nuxt') },
+  spring: { url: si('spring') },
+  tailwindcss: { url: si('tailwindcss') },
+  tauri: { url: si('tauri') },
+
+  /* --- build, package and workspace tooling --- */
+  anaconda: { url: si('anaconda') },
+  apachemaven: { url: si('apachemaven') },
+  esbuild: { url: si('esbuild') },
+  gradle: { url: si('gradle') },
+  lerna: { url: si('lerna') },
+  nuget: { url: si('nuget') },
+  nx: { url: si('nx') },
+  poetry: { url: si('poetry') },
+  postcss: { url: si('postcss') },
+  turborepo: { url: si('turborepo') },
+
+  /* --- test runners --- */
+  cypress: { url: si('cypress') },
+  mocha: { url: si('mocha') },
+  storybook: { url: si('storybook') },
+  vitest: { url: si('vitest') },
+
+  /* --- infrastructure and hosting --- */
+  ansible: { url: si('ansible') },
+  cloudflare: { url: si('cloudflare') },
+  helm: { url: si('helm') },
+  kubernetes: { url: si('kubernetes') },
+  netlify: { url: si('netlify') },
+  packer: { url: si('packer') },
+  pulumi: { url: si('pulumi') },
+  serverless: { url: si('serverless') },
+  vercel: { url: si('vercel') },
+
+  /* --- data stores --- */
+  firebase: { url: si('firebase') },
+  mongodb: { url: si('mongodb') },
+  postgresql: { url: si('postgresql') },
+  prisma: { url: si('prisma') },
+  redis: { url: si('redis') },
+  sqlite: { url: si('sqlite') },
+  supabase: { url: si('supabase') },
+
+  /* --- more languages --- */
+  elm: { url: si('elm') },
+  fortran: { url: si('fortran') },
+  gleam: { url: si('gleam') },
+  haxe: { url: si('haxe') },
+  nixos: { url: si('nixos') },
+  ocaml: { url: si('ocaml') },
+  purescript: { url: si('purescript') },
+  racket: { url: si('racket') },
+  webassembly: { url: si('webassembly') },
+
+  /* --- documents, schemas and design --- */
+  asciidoctor: { url: si('asciidoctor') },
+  latex: { url: si('latex') },
+  openapiinitiative: { url: si('openapiinitiative') },
+  swagger: { url: si('swagger') },
+
+  /* --- formats from outside the web stack, which is the point --- *
+   *
+   * A 3D scene, a CAD sketch, a game scene, a sketchboard and a microcontroller
+   * sketch are not what most repositories hold, and that is exactly why they
+   * were missing: an icon set grows around the files its author happens to
+   * open. These are the ones with a real mark; the rest of that world is
+   * covered by the pictograms.
+   */
+  arduino: { url: si('arduino') },
+  blender: { url: si('blender') },
+  figma: { url: si('figma') },
+  godotengine: { url: si('godotengine') },
+  qt: { url: si('qt') },
+  unity: { url: si('unity') },
 
   /* --- devicon: the marks that are two-tone by nature --- */
   python: {
@@ -205,15 +334,48 @@ const HERE = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(HERE, 'mark-paths.ts');
 
 const names = Object.keys(SOURCES).sort();
-const imported: Record<string, { box: number; parts: Part[]; url: string; note?: string }> = {};
+const imported: Record<
+  string,
+  { box: number; parts: Part[]; url: string; note?: string; hex?: string }
+> = {};
+
+/** slug -> official hex, from simple-icons' own metadata. */
+const brandHex = new Map<string, string>();
+{
+  const res = await fetch(SI_DATA);
+  if (!res.ok) throw new Error(`simple-icons metadata: ${res.status} ${SI_DATA}`);
+  const data = (await res.json()) as { icons?: unknown[] } | unknown[];
+  const rows = (Array.isArray(data) ? data : data.icons || []) as {
+    title: string;
+    slug?: string;
+    hex: string;
+  }[];
+  // simple-icons only stores `slug` when it differs from the slugified title.
+  const slugify = (t: string): string =>
+    t
+      .toLowerCase()
+      .replace(/\+/g, 'plus')
+      .replace(/\./g, 'dot')
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]/g, '');
+  for (const row of rows) brandHex.set(row.slug || slugify(row.title), `#${row.hex}`);
+  console.log(`  brand colours: ${brandHex.size} from simple-icons ${SIMPLE_ICONS}\n`);
+}
 
 for (const name of names) {
   const src = SOURCES[name];
   const res = await fetch(src.url);
   if (!res.ok) throw new Error(`${name}: ${res.status} ${src.url}`);
   const svg = await res.text();
-  imported[name] = { ...extract(name, src, svg), url: src.url, note: src.note };
-  process.stdout.write(`  ${name.padEnd(14)} ${imported[name].parts.length} path(s)\n`);
+
+  const slug = slugOf(src.url);
+  const hex = slug ? brandHex.get(slug) : undefined;
+  if (slug && !hex) throw new Error(`${name}: no brand colour for simple-icons slug "${slug}"`);
+
+  imported[name] = { ...extract(name, src, svg), url: src.url, note: src.note, hex };
+  process.stdout.write(
+    `  ${name.padEnd(18)} ${String(imported[name].parts.length).padStart(2)} path(s)  ${hex ?? '(multi-colour)'}\n`
+  );
 }
 
 const body = names
@@ -224,7 +386,9 @@ const body = names
       .join('\n');
     return (
       `  // ${m.url}${m.note ? `\n  // ${m.note}` : ''}\n` +
-      `  ${name}: {\n    box: ${m.box},\n    parts: [\n${parts}\n    ],\n  },`
+      `  ${name}: {\n    box: ${m.box},\n` +
+      (m.hex ? `    hex: '${m.hex}',\n` : '') +
+      `    parts: [\n${parts}\n    ],\n  },`
     );
   })
   .join('\n');
@@ -239,12 +403,16 @@ fs.writeFileSync(
  *   devicon ${DEVICON} (MIT)          https://github.com/devicons/devicon
  *
  * \`box\` is the source viewBox's edge length; \`c\` indexes the colour slot the
- * part is painted with. tools/marks.ts scales each mark into the 24x24 glyph
- * box and decides what those slots are painted with in each variant.
+ * part is painted with. \`hex\` is the brand's official colour as simple-icons
+ * records it, present for every single-colour mark — tools/marks.ts uses it as
+ * the default palette, so those marks declare no colour of their own. The
+ * multi-colour marks have none: which brand colour goes in which slot is a
+ * decision, and it is made there. tools/marks.ts scales each mark into the
+ * 24x24 glyph box and decides what the slots are painted with in each variant.
  */
 
 export type MarkPart = { c: number; d: string };
-export type MarkArt = { box: number; parts: readonly MarkPart[] };
+export type MarkArt = { box: number; hex?: string; parts: readonly MarkPart[] };
 
 export const markPaths = {
 ${body}

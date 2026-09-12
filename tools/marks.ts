@@ -27,29 +27,29 @@
  *   from the official artwork, in the same flat style as everything else.
  */
 
-import { markPaths, type ImportedMark } from './mark-paths.ts';
+import { markPaths, type ImportedMark, type MarkArt } from './mark-paths.ts';
 import { INK_DARK, WHITE } from './palette.ts';
 import {
-  C,
-  G,
-  R,
-  circD,
-  cut,
-  path,
-  polyD,
-  rectD,
-  ringE,
-  rot,
-  rrD,
+  circle,
+  circlePath,
+  ellipticalRing,
+  filledPath,
+  pathWithHoles,
+  polygon,
+  polygonPath,
+  rectanglePath,
+  rotated,
+  roundedRectangle,
+  roundedRectanglePath,
   type Colour,
-  type Ink,
+  type InkPalette,
 } from './shapes.ts';
 
 /** A brand mark: its official colours, and how to draw it with them. */
 export type Mark = {
   /** Official colours, in the slot order the artwork references. */
   palette: readonly Colour[];
-  draw: (ink: Ink) => string;
+  draw: (ink: InkPalette) => string;
 };
 
 /* -------------------------------------------------------------- *
@@ -69,17 +69,33 @@ type Plate = { d: string; c: number };
  */
 const usedImports = new Set<ImportedMark>();
 
-function imported(name: ImportedMark, palette: readonly Colour[], plate?: Plate): Mark {
-  const art = markPaths[name];
+/**
+ * A mark from imported geometry.
+ *
+ * `palette` is optional, and leaving it out is the normal case: a single-colour
+ * simple-icons mark carries its brand hex with the artwork, so there is nothing
+ * to state. Pass one only when the mark has more than one slot to fill, or when
+ * the icon deliberately departs from the official colour — which, on this
+ * ground, mostly means giving a knocked-out logo a plate to sit on.
+ */
+function imported(name: ImportedMark, palette?: readonly Colour[], plate?: Plate): Mark {
+  // Widened to the declared shape: `markPaths` is a literal, so indexing it
+  // gives a union in which `hex` is present on some members and not others.
+  const art: MarkArt = markPaths[name];
   usedImports.add(name);
+  if (!palette) {
+    if (!art.hex) throw new Error(`${name}: multi-colour art must name its palette`);
+    palette = [art.hex];
+  }
   const s = 24 / art.box;
+  const slots = palette;
   return {
-    palette,
+    palette: slots,
     draw: (ink) => {
       const paint = (i: number): Colour => ink[i] ?? ink[0];
       const body =
-        (plate ? path(plate.d, paint(plate.c)) : '') +
-        art.parts.map((p) => path(p.d, paint(p.c))).join('');
+        (plate ? filledPath(plate.d, paint(plate.c)) : '') +
+        art.parts.map((p) => filledPath(p.d, paint(p.c))).join('');
       return `<g transform="translate(-12 -12) scale(${Number(s.toFixed(5))})">${body}</g>`;
     },
   };
@@ -87,7 +103,7 @@ function imported(name: ImportedMark, palette: readonly Colour[], plate?: Plate)
 
 /** A plate shaped like the whole source box — the usual case. */
 const boxPlate = (name: ImportedMark, rx: number, c = 0): Plate => ({
-  d: rrD(0, 0, markPaths[name].box, markPaths[name].box, rx),
+  d: roundedRectanglePath(0, 0, markPaths[name].box, markPaths[name].box, rx),
   c,
 });
 
@@ -95,7 +111,7 @@ const boxPlate = (name: ImportedMark, rx: number, c = 0): Plate => ({
  * Hand-drawn marks
  * -------------------------------------------------------------- */
 
-const hand = (palette: readonly Colour[], draw: (ink: Ink) => string): Mark => ({ palette, draw });
+const hand = (palette: readonly Colour[], draw: (ink: InkPalette) => string): Mark => ({ palette, draw });
 
 /*
  * The Microsoft Office marks. Microsoft's artwork is not redistributable, so
@@ -106,7 +122,7 @@ const hand = (palette: readonly Colour[], draw: (ink: Ink) => string): Mark => (
  * lettered icon in the set.
  */
 const officeTile = (dark: Colour, light: Colour): Mark =>
-  hand([dark, light], ([d, l]) => R(-11.6, -11.6, 23.2, 23.2, 3.4, d) + R(-3.4, -11.6, 15, 23.2, 3.4, l ?? d));
+  hand([dark, light], ([d, l]) => roundedRectangle(-11.6, -11.6, 23.2, 23.2, 3.4, d) + roundedRectangle(-3.4, -11.6, 15, 23.2, 3.4, l ?? d));
 
 export const marks = {
   /* ---------------- JavaScript / TypeScript ---------------- */
@@ -114,7 +130,7 @@ export const marks = {
   // The letters are cut out of the square, and the logo has them in black — so
   // the plate is dark rather than absent, and the mark holds up on a selected
   // row where the ground is no longer near-black.
-  javascript: imported('javascript', ['#F7DF1E', INK_DARK], { d: rectD(0, 0, 24, 24), c: 1 }),
+  javascript: imported('javascript', ['#F7DF1E', INK_DARK], { d: rectanglePath(0, 0, 24, 24), c: 1 }),
   typescript: imported('typescript', ['#3178C6', WHITE], boxPlate('typescript', 1.125, 1)),
   react: imported('react', ['#61DAFB']),
 
@@ -138,7 +154,7 @@ export const marks = {
   /* ---------------- data and config ---------------- */
 
   toml: imported('toml', ['#9C4121']),
-  dotenv: imported('dotenv', ['#ECD53F', INK_DARK], { d: rectD(0, 0, 24, 24), c: 1 }),
+  dotenv: imported('dotenv', ['#ECD53F', INK_DARK], { d: rectanglePath(0, 0, 24, 24), c: 1 }),
   markdown: imported('markdown', ['#F2F0FA']),
   mdx: imported('mdx', ['#FCB32C']),
 
@@ -175,12 +191,12 @@ export const marks = {
    * a gradient would be the only one in a flat set.
    */
   kotlin: hand(['#E44857', '#7F52FF'], ([a, b]) =>
-    G([[-12, -12], [12, -12], [0, 0], [-12, 0]], a) + G([[-12, 0], [0, 0], [12, 12], [-12, 12]], b ?? a)
+    polygon([[-12, -12], [12, -12], [0, 0], [-12, 0]], a) + polygon([[-12, 0], [0, 0], [12, 12], [-12, 12]], b ?? a)
   ),
 
   // Julia — the three dots, in the language's red, green and purple.
   julia: hand(['#CB3C33', '#389826', '#9558B2'], ([a, b, c]) =>
-    C(-6.4, 5.4, 6, a) + C(0, -6.2, 6, b ?? a) + C(6.4, 5.4, 6, c ?? a)
+    circle(-6.4, 5.4, 6, a) + circle(0, -6.2, 6, b ?? a) + circle(6.4, 5.4, 6, c ?? a)
   ),
 
   /*
@@ -190,9 +206,9 @@ export const marks = {
    * the sphere, the orbit seen edge-on, and the satellite riding it.
    */
   lua: hand(['#000080', '#F2F0FA'], ([a, b]) =>
-    C(-1.6, 1.6, 8, a) +
-    rot(-36, ringE(-1.6, 1.6, 11.9, 5.9, 1.5, b ?? a)) +
-    C(7.8, -7.8, 3.1, a)
+    circle(-1.6, 1.6, 8, a) +
+    rotated(-36, ellipticalRing(-1.6, 1.6, 11.9, 5.9, 1.5, b ?? a)) +
+    circle(7.8, -7.8, 3.1, a)
   ),
 
   /*
@@ -208,7 +224,7 @@ export const marks = {
       const r = i % 2 === 0 ? 11.8 : 6.4;
       pts.push([Math.cos(t) * r, Math.sin(t) * r * 0.86]);
     }
-    return cut(a, polyD(pts), circD(-3.4, -0.8, 1.9), circD(3.4, -0.8, 1.9));
+    return pathWithHoles(a, polygonPath(pts), circlePath(-3.4, -0.8, 1.9), circlePath(3.4, -0.8, 1.9));
   }),
 
   // Erlang's mark is its wordmark; at icon size the letters close up, so the
@@ -223,10 +239,10 @@ export const marks = {
   // Vim — the diamond with the V cut out of it. Upstream sets "Vim" across the
   // diamond in a face that is illegible at icon size.
   vim: hand(['#019833'], ([a]) =>
-    cut(
+    pathWithHoles(
       a,
-      polyD([[0, -11.8], [11.8, 0], [0, 11.8], [-11.8, 0]]),
-      polyD([[-5.4, -4.6], [-2.2, -4.6], [0, 1.6], [2.2, -4.6], [5.4, -4.6], [1.5, 6.2], [-1.5, 6.2]])
+      polygonPath([[0, -11.8], [11.8, 0], [0, 11.8], [-11.8, 0]]),
+      polygonPath([[-5.4, -4.6], [-2.2, -4.6], [0, 1.6], [2.2, -4.6], [5.4, -4.6], [1.5, 6.2], [-1.5, 6.2]])
     )
   ),
 
@@ -236,19 +252,22 @@ export const marks = {
    * caret rule on a blue console panel.
    */
   powershell: hand(['#2C6FBB', '#FFFFFF'], ([a, b]) =>
-    R(-11.8, -9.4, 23.6, 18.8, 2.6, a) +
-    path(
+    roundedRectangle(-11.8, -9.4, 23.6, 18.8, 2.6, a) +
+    filledPath(
       'M-7.4 -5.2 -5.1 -7.2 1.9 -0.9a1.4 1.4 0 0 1 0 2.1L-5.1 7.4-7.4 5.4-1.5 0.1Z',
       b ?? a
     ) +
-    R(1.4, 4.4, 8.4, 2.6, 1.3, b ?? a)
+    roundedRectangle(1.4, 4.4, 8.4, 2.6, 1.3, b ?? a)
   ),
 
   /* ---------------- infrastructure ---------------- */
 
   docker: imported('docker', ['#2496ED']),
   terraform: imported('terraform', ['#844FBA']),
-  jupyter: imported('jupyter', ['#F37726']),
+  // Was #F37726 here against #F37626 upstream — one digit, typed in by hand,
+  // invisible in review, and exactly what carrying the brand hex with the
+  // artwork is for. Takes the official colour now.
+  jupyter: imported('jupyter'),
   git: imported('git', ['#F03C2E']),
   nginx: imported('nginx', ['#009639']),
   apache: imported('apache', ['#D22128']),
@@ -261,12 +280,12 @@ export const marks = {
    * with the eyes and the bow tie cut out of it.
    */
   jenkins: hand(['#D24939'], ([a]) =>
-    cut(
+    pathWithHoles(
       a,
       'M0 -12a7.6 7.6 0 0 1 7.6 7.6c0 3.4-1.4 5.7-3.1 7l0.6 2.2 5.1 2a4.1 4.1 0 0 1 2.5 3.7V12h-25.4v-1.5a4.1 4.1 0 0 1 2.5-3.7l5.1-2 0.6-2.2c-1.7-1.3-3.1-3.6-3.1-7A7.6 7.6 0 0 1 0 -12Z',
-      circD(-2.9, -5.2, 1.6),
-      circD(2.9, -5.2, 1.6),
-      polyD([[0, 5.4], [4.5, 8], [0, 11.4], [-4.5, 8]])
+      circlePath(-2.9, -5.2, 1.6),
+      circlePath(2.9, -5.2, 1.6),
+      polygonPath([[0, 5.4], [4.5, 8], [0, 11.4], [-4.5, 8]])
     )
   ),
 
@@ -274,9 +293,9 @@ export const marks = {
 
   // CMake — the pyramid, in the three colours of its faces over a dark base.
   cmake: hand(['#00A94F', '#3D7EBB', '#E1231A'], ([a, b, c]) =>
-    G([[0, -11.8], [-11.6, 10.6], [-0.6, 3.4]], a) +
-    G([[0, -11.8], [11.6, 10.6], [0.6, 3.4]], b ?? a) +
-    G([[-11.6, 10.6], [11.6, 10.6], [0, 1.6]], c ?? a)
+    polygon([[0, -11.8], [-11.6, 10.6], [-0.6, 3.4]], a) +
+    polygon([[0, -11.8], [11.6, 10.6], [0.6, 3.4]], b ?? a) +
+    polygon([[-11.6, 10.6], [11.6, 10.6], [0, 1.6]], c ?? a)
   ),
 
   /* ---------------- JS ecosystem tooling ---------------- */
@@ -285,24 +304,25 @@ export const marks = {
   // a compact single-letter glyph that reads as an unrelated shape once it is
   // no longer next to the word "npm"; the icon spec sets the word itself over
   // this tile, the way the logo does.
-  npm: hand(['#CB3837'], ([a]) => R(-11.8, -11.8, 23.6, 23.6, 1.8, a)),
-  yarn: imported('yarn', ['#2C8EBB', WHITE], { d: circD(12, 12, 12), c: 1 }),
+  npm: hand(['#CB3837'], ([a]) => roundedRectangle(-11.8, -11.8, 23.6, 23.6, 1.8, a)),
+  yarn: imported('yarn', ['#2C8EBB', WHITE], { d: circlePath(12, 12, 12), c: 1 }),
   pnpm: imported('pnpm', ['#F69220']),
   eslint: imported('eslint', ['#4B32C3']),
   stylelint: imported('stylelint', ['#263238']),
   babel: imported('babel', ['#F9DC3E']),
   webpack: imported('webpack', ['#8DD6F9']),
-  vite: imported('vite', ['#BD34FE']),
+  // Vite's purple moved to #9135FF; this used to pin the old #BD34FE.
+  vite: imported('vite'),
   rollup: imported('rollup', ['#EC4A3F']),
 
   // Jest — the wizard hat. Upstream draws the whole wizard in line art, which
   // is unreadable at icon size; the hat is the half of it that carries the mark.
   jest: hand(['#C21325'], ([a]) =>
-    cut(
+    pathWithHoles(
       a,
       'M-1.2 -12 8.4 4.4-6.8 6.2Z' +
         'M-11.8 6 9.4 3.4l1 3.3a1.7 1.7 0 0 1-1.3 2.1L-8.6 11.8a1.7 1.7 0 0 1-2-1.3Z',
-      polyD([[2.4, -3.6], [3.5, -1.4], [5.8, -1], [4.1, 0.7], [4.5, 3], [2.4, 1.9], [0.3, 3], [0.7, 0.7], [-1, -1], [1.3, -1.4]])
+      polygonPath([[2.4, -3.6], [3.5, -1.4], [5.8, -1], [4.1, 0.7], [4.5, 3], [2.4, 1.9], [0.3, 3], [0.7, 0.7], [-1, -1], [1.3, -1.4]])
     )
   ),
 
@@ -312,7 +332,7 @@ export const marks = {
       let out = '';
       let x = -11.4;
       for (const [w, i] of segs) {
-        out += R(x, y, w, 5.6, 2.3, ink[i] ?? ink[0]);
+        out += roundedRectangle(x, y, w, 5.6, 2.3, ink[i] ?? ink[0]);
         x += w + 1.9;
       }
       return out;
@@ -329,6 +349,105 @@ export const marks = {
   excel: officeTile('#107C41', '#21A366'),
   word: officeTile('#185ABD', '#2B7CD3'),
   powerpoint: officeTile('#C43E1C', '#ED6C47'),
+
+  /* ---------------------------------------------------------------- *
+   * The marks the set was missing.
+   *
+   * Every one below is a single-colour import, so none of them names a
+   * palette: the brand's own hex came in with the geometry. That is the whole
+   * reason this many could be added at once and be trusted — the alternative
+   * was ninety hand-copied hexes, where a wrong digit is invisible in review
+   * and ships an icon in a colour the project does not use.
+   * ---------------------------------------------------------------- */
+
+  /* --- logos the set used to letter or approximate --- */
+  erlang: imported('erlang'),
+  yaml: imported('yaml'),
+
+  /* --- CI, which used to be one lettered "CI" for three services --- */
+  bitbucket: imported('bitbucket'),
+  circleci: imported('circleci'),
+  githubactions: imported('githubactions'),
+  renovate: imported('renovate'),
+
+  /* --- frameworks and runtimes --- */
+  angular: imported('angular'),
+  bootstrap: imported('bootstrap'),
+  bun: imported('bun'),
+  deno: imported('deno'),
+  django: imported('django'),
+  electron: imported('electron'),
+  flutter: imported('flutter'),
+  laravel: imported('laravel'),
+  nextjs: imported('nextdotjs'),
+  nodejs: imported('nodedotjs'),
+  nuxt: imported('nuxt'),
+  spring: imported('spring'),
+  tailwind: imported('tailwindcss'),
+  tauri: imported('tauri'),
+
+  /* --- build, package and workspace tooling --- */
+  anaconda: imported('anaconda'),
+  esbuild: imported('esbuild'),
+  gradle: imported('gradle'),
+  lerna: imported('lerna'),
+  maven: imported('apachemaven'),
+  nuget: imported('nuget'),
+  nx: imported('nx'),
+  poetry: imported('poetry'),
+  postcss: imported('postcss'),
+  turborepo: imported('turborepo'),
+
+  /* --- test runners --- */
+  cypress: imported('cypress'),
+  mocha: imported('mocha'),
+  storybook: imported('storybook'),
+  vitest: imported('vitest'),
+
+  /* --- infrastructure and hosting --- */
+  ansible: imported('ansible'),
+  cloudflare: imported('cloudflare'),
+  helm: imported('helm'),
+  kubernetes: imported('kubernetes'),
+  netlify: imported('netlify'),
+  packer: imported('packer'),
+  pulumi: imported('pulumi'),
+  serverless: imported('serverless'),
+  vercel: imported('vercel'),
+
+  /* --- data stores --- */
+  firebase: imported('firebase'),
+  mongodb: imported('mongodb'),
+  postgresql: imported('postgresql'),
+  prisma: imported('prisma'),
+  redis: imported('redis'),
+  sqlite: imported('sqlite'),
+  supabase: imported('supabase'),
+
+  /* --- more languages --- */
+  elm: imported('elm'),
+  fortran: imported('fortran'),
+  gleam: imported('gleam'),
+  haxe: imported('haxe'),
+  nix: imported('nixos'),
+  ocaml: imported('ocaml'),
+  purescript: imported('purescript'),
+  racket: imported('racket'),
+  webassembly: imported('webassembly'),
+
+  /* --- documents, schemas and design --- */
+  asciidoctor: imported('asciidoctor'),
+  latex: imported('latex'),
+  openapi: imported('openapiinitiative'),
+  swagger: imported('swagger'),
+
+  /* --- formats from outside the web stack --- */
+  arduino: imported('arduino'),
+  blender: imported('blender'),
+  figma: imported('figma'),
+  godot: imported('godotengine'),
+  qt: imported('qt'),
+  unity: imported('unity'),
 } satisfies Record<string, Mark>;
 
 export type MarkName = keyof typeof marks;

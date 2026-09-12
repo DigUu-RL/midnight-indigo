@@ -4,6 +4,42 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.0.0]
+
+The icon set: 90 more icons, every pictogram redrawn, and the brand marks the set had been lettering instead of using.
+
+**If you use the themes, nothing changes.** All eight colour themes are byte-for-byte what 7.0.0 shipped. **If you use the icons, most of them look different** — every shape that is ours was redrawn, and a great many files that used to fall through to the plain-text page now have an icon of their own.
+
+### Added
+
+- **90 more file icons — 230, up from 140 — matched to 401 extensions and 202 exact filenames** (up from roughly 180 and 90).
+
+  - **76 brand marks the set was missing**, imported from the projects' own artwork: Angular, Next.js, Nuxt, Tailwind, Bootstrap, PostCSS, Node, Deno, Bun, Electron, Tauri, Flutter, Django, Laravel, Spring, Gradle, Maven, NuGet, Poetry, Anaconda, esbuild, Turborepo, Nx, Lerna, Cypress, Vitest, Mocha, Storybook, Kubernetes, Helm, Ansible, Packer, Pulumi, Serverless, Netlify, Vercel, Cloudflare, MongoDB, PostgreSQL, Redis, SQLite, Prisma, Firebase, Supabase, GitHub Actions, CircleCI, Bitbucket, Renovate, Elm, OCaml, Fortran, Racket, PureScript, Gleam, Haxe, Nix, WebAssembly, LaTeX, AsciiDoc, OpenAPI, Swagger, Arduino, Blender, Figma, Godot, Qt, Unity, and Erlang and YAML, which were being set as `ERL` and `YAML`.
+  - **20 new pictograms for the formats an icon set does not usually reach**: mail, calendars, contacts, geodata, vector artwork, 3D meshes, subtitles, e-books, disk images, shortcuts, crash dumps, datasets, maths notebooks, packet captures, saved games, torrents, RAW photographs, installers, scratch files, and assistant/prompt files. Every one of those used to resolve to the plain-text page.
+  - **CI is four icons instead of one.** `.travis.yml`, `.circleci`, `bitbucket-pipelines.yml` and `.github` used to share a lettered `CI`.
+
+- **`roundedPolygonPath` in [`tools/shapes.ts`](tools/shapes.ts)** — rounds every corner of a polygon, convex and reflex alike, clamping per corner so a tight corner rounds as far as it can instead of turning the path inside out. It is what makes "nothing of ours is pointed" a property of the code rather than a thing to remember.
+
+- **Brand colours now travel with the geometry.** [`tools/import-marks.ts`](tools/import-marks.ts) reads each hex from simple-icons' own metadata and writes it into `mark-paths.ts`, so a single-colour mark declares no palette at all. Ninety hand-copied hexes was not a thing to add: a wrong digit is invisible in review, passes every check, and ships an icon in a colour the project does not use. The audit that came with it found two: Jupyter was `#F37726` against `#F37626` upstream, and Vite still had its pre-rebrand purple.
+
+### Changed
+
+- **Every pictogram was redrawn.** Not only the pointed ones.
+
+  The obvious half was the points: the star's five needles, the play triangle's spike, the arrowheads on the route and flow charts, the apex of the letter A, the ghost's hem. Those sat next to imported logos that are nearly all curves, and at 16px a bare vertex aliases into a grey fringe — so they did not read as sharp, they read as dirty.
+
+  The quieter half was that a third of the library was bars. Plain text was four capsules, the log icon three dots beside three more capsules, the checklist three ticks beside three more — the same drawing three times in a file tree. They are objects now: a page with a dog-ear, a panel of timestamped rows, a clipboard. Along the way the spanner stopped being two thin horns on a stick, the cog went from six teeth to eight (six reads as a flower), the terminal's cursor became a block an underscore could not be at 16px, the browser got a capsule address bar to tell it apart from the terminal, the picture got a second hill, the server rack a third unit, and `braces` — the one pictogram painted in a single tone — started spending the tint it was being handed.
+
+- **A logo has to survive 16px, and seven did not.** Less, Stylus, EditorConfig, JSON, MySQL, Travis and Composer all have official marks; all seven were imported, drawn at the size the file explorer actually uses, and put back. Each is a logotype, a line-art mascot or a plain ring. They keep their lettering or take one of our pictograms in the brand's own colour, and the reason sits next to each entry in `tools/icon-spec.ts` so the gap does not get "fixed" a third time.
+
+- **Names across the build tools are explicit.** `C`, `R`, `G`, `P`, `bar`, `cut`, `rrD`, `circD`, `rot`, `mir` and the rest are now `circle`, `roundedRectangle`, `polygon`, `roundedPolygon`, `capsule`, `pathWithHoles`, `roundedRectanglePath`, `circlePath`, `rotated`, `mirroredHorizontally`; `hex`/`oklch`/`arc`/`wrap` are `hexFromOklch`/`oklchFromHex`/`signedHueDelta`/`wrapDegrees`; `readable`/`tint`/`shade` are `readableOnGround`/`lighterTint`/`darkened`; a pictogram's two tones are `ink` and `tint` rather than `a` and `b`. The three per-family chroma multipliers are `groundChroma`, `chromeChroma` and `inkChroma`.
+
+- **`.obj` is a 3D mesh rather than a compiled object file**, on the grounds that the mesh is the one someone is more likely to be looking at in an editor.
+
+### Removed
+
+- **The lettered `CI` icon**, replaced by the four services it used to stand for.
+
 ## [7.0.0]
 
 The seven color variants are redesigned. Every color in all seven changed.

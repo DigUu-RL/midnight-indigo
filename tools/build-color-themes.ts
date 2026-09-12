@@ -26,13 +26,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { contrast } from './color.ts';
+import { contrastRatio } from './color.ts';
 import {
   FAMILY_ORDER,
   SEPARATION,
   WHITE,
   paletteFor,
-  tightest,
+  closestPair,
   type Family,
   type Palette,
 } from './theme-palette.ts';
@@ -631,7 +631,7 @@ function themeFor(family: Family, p: Palette): Theme {
 /*
  * The roles that have to stay readable as text on the editor ground, and the
  * ground they are read against. Chrome colours are left out: a border is not
- * text, and holding it to a text contrast ratio would only force it brighter
+ * text, and holding it to a text contrastRatio ratio would only force it brighter
  * than the theme wants it.
  */
 const TOKENS = [
@@ -646,7 +646,7 @@ const UI_TEXT = ['fg', 'fgDim', 'fgBright', 'fgMuted'] as const;
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
  * already caught something: the baseline caught a guard rule that quietly
- * restyled the shipped theme, and the contrast floor caught what gamut
+ * restyled the shipped theme, and the contrastRatio floor caught what gamut
  * clipping does to a colour whose chroma does not exist at its new hue.
  */
 function check(): string[] {
@@ -696,15 +696,15 @@ function check(): string[] {
     const p = paletteFor(family);
 
     for (const role of TOKENS) {
-      const got = contrast(p[role], p.bg);
+      const got = contrastRatio(p[role], p.bg);
       if (got < AAA) {
         problems.push(`${family}: ${role} reads at ${got.toFixed(2)}:1, under AAA (${AAA}:1)`);
       }
     }
 
     for (const role of UI_TEXT) {
-      const want = contrast(base[role], base.bg);
-      const got = contrast(p[role], p.bg);
+      const want = contrastRatio(base[role], base.bg);
+      const got = contrastRatio(p[role], p.bg);
       if (got < Math.max(UI_FLOOR, want * UI_SLACK)) {
         problems.push(
           `${family}: ${role} reads at ${got.toFixed(2)}:1 against the ground, ` +
@@ -716,7 +716,7 @@ function check(): string[] {
     if (family === 'indigo') continue;
 
     // 3. White on the accent, which is the one pairing the palette cannot move.
-    const onAccent = contrast(WHITE, p.accent);
+    const onAccent = contrastRatio(WHITE, p.accent);
     if (onAccent < 3) {
       problems.push(`${family}: white on the accent is only ${onAccent.toFixed(2)}:1`);
     }
@@ -733,7 +733,7 @@ function check(): string[] {
      * predates the floor and sits under it on purpose: its enum members and
      * numbers are 19.5 degrees apart and are told apart by lightness instead.
      */
-    const near = tightest(family);
+    const near = closestPair(family);
     if (near.deg < SEPARATION) {
       problems.push(
         `${family}: ${near.a} and ${near.b} are only ${near.deg.toFixed(1)}° apart, ` +
@@ -787,9 +787,9 @@ for (const family of FAMILY_ORDER) {
     JSON.stringify(themeFor(family, palette), null, 2) + '\n',
     'utf8'
   );
-  // How much room the family's tightest pair has, so a design edit that walks
+  // How much room the family's closestPair pair has, so a design edit that walks
   // two roles toward each other is visible before it reaches the floor.
-  const near = tightest(family);
+  const near = closestPair(family);
   console.log(
     `  ${labelFor(family).padEnd(16)} -> themes/${file}` +
       `  (closest: ${near.a}/${near.b} ${near.deg.toFixed(0)}°)`
