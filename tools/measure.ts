@@ -36,7 +36,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { glyphs, type GlyphName } from './glyphs.ts';
 import { marks, type MarkName } from './marks.ts';
-import { FONT, WEIGHT, textRuns, textKey } from './icon-spec.ts';
+import { FONT_STACK, FONT_WEIGHT, letteringRuns, textMetricsKey } from './icon-spec.ts';
 
 /** The two shapes this script writes out. */
 type Bounds = { cx: number; cy: number; w: number; h: number };
@@ -68,7 +68,7 @@ const WHITE: string[] = Array(8).fill('#fff');
 
 const glyphNames = Object.keys(glyphs) as GlyphName[];
 const markNames = Object.keys(marks) as MarkName[];
-const runs = textRuns();
+const runs = letteringRuns();
 
 /*
  * Measured on a canvas comfortably larger than the nominal box in both cases:
@@ -94,13 +94,13 @@ const jobs = [
   ...markNames.map((n) => artJob('mark', n, marks[n].draw(WHITE))),
   ...runs.map((r) => ({
     kind: 'text',
-    id: textKey(r.str, r.size, r.track),
+    id: textMetricsKey(r.str, r.size, r.track),
     span: TEXT_SPAN,
     svg:
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-TEXT_SPAN / 2} ${-TEXT_SPAN / 2} ${TEXT_SPAN} ${TEXT_SPAN}">` +
       `<rect x="${-TEXT_SPAN / 2}" y="${-TEXT_SPAN / 2}" width="${TEXT_SPAN}" height="${TEXT_SPAN}" fill="#000"/>` +
-      `<text x="0" y="0" text-anchor="middle" font-family="${FONT.replace(/"/g, '&quot;')}" ` +
-      `font-weight="${WEIGHT}" font-size="${r.size}" letter-spacing="${r.track}" fill="#fff">` +
+      `<text x="0" y="0" text-anchor="middle" font-family="${FONT_STACK.replace(/"/g, '&quot;')}" ` +
+      `font-weight="${FONT_WEIGHT}" font-size="${r.size}" letter-spacing="${r.track}" fill="#fff">` +
       r.str.replace(/&/g, '&amp;').replace(/</g, '&lt;') +
       `</text></svg>`,
   })),
@@ -175,7 +175,7 @@ const missingArt = [
   ...glyphNames.map((n) => `glyph:${n}`),
   ...markNames.map((n) => `mark:${n}`),
 ].filter((k) => !artBounds[k]);
-const missingText = runs.filter((r) => !textMetrics[textKey(r.str, r.size, r.track)]);
+const missingText = runs.filter((r) => !textMetrics[textMetricsKey(r.str, r.size, r.track)]);
 if (missingArt.length) throw new Error(`no bounds measured for: ${missingArt.join(', ')}`);
 if (missingText.length) throw new Error(`no bounds measured for text: ${missingText.map((r) => r.str).join(', ')}`);
 

@@ -50,11 +50,11 @@ export type FolderSpec = {
 };
 
 /** What `label()` and the measuring pass need to set one string. */
-export type TextOpts = { size?: number; track?: number };
+export type LetteringOptions = { size?: number; track?: number };
 
-export const FONT =
+export const FONT_STACK =
   '"Segoe UI Semibold","Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif';
-export const WEIGHT = 700;
+export const FONT_WEIGHT = 700;
 
 /*
  * Text is the weak spot of any icon set, and V2 took the tile away — so a
@@ -66,14 +66,14 @@ export const WEIGHT = 700;
  * the box. Setting a size that the widest string just fits would leave the
  * narrow ones ("INI", "CI") looking half-drawn next to the marks.
  */
-const TEXT_SIZE: Record<number, number> = { 1: 24, 2: 20, 3: 16, 4: 13 };
-const TEXT_TRACK: Record<number, number> = { 1: 0, 2: -0.8, 3: -0.6, 4: -0.4 };
+const FONT_SIZE_BY_LENGTH: Record<number, number> = { 1: 24, 2: 20, 3: 16, 4: 13 };
+const LETTER_SPACING_BY_LENGTH: Record<number, number> = { 1: 0, 2: -0.8, 3: -0.6, 4: -0.4 };
 
-export const sizeFor = (str: string, opts: TextOpts = {}): number =>
-  opts.size || TEXT_SIZE[Math.min([...str].length, 4)] || 10.4;
-export const trackFor = (str: string, opts: TextOpts = {}): number =>
-  opts.track !== undefined ? opts.track : TEXT_TRACK[Math.min([...str].length, 4)] || -0.4;
-export const textKey = (str: string, size: number, track: number): string => `${str}|${size}|${track}`;
+export const fontSizeFor = (str: string, opts: LetteringOptions = {}): number =>
+  opts.size || FONT_SIZE_BY_LENGTH[Math.min([...str].length, 4)] || 10.4;
+export const letterSpacingFor = (str: string, opts: LetteringOptions = {}): number =>
+  opts.track !== undefined ? opts.track : LETTER_SPACING_BY_LENGTH[Math.min([...str].length, 4)] || -0.4;
+export const textMetricsKey = (str: string, size: number, track: number): string => `${str}|${size}|${track}`;
 
 const WHITE: Colour = '#FFFFFF';
 
@@ -82,7 +82,7 @@ const JS: Colour = '#F7DF1E';
 const TS: Colour = '#3178C6';
 const REACT: Colour = '#61DAFB';
 
-export const files = {
+export const fileIcons = {
   /* --- JavaScript / TypeScript family --- */
   javascript: { mark: 'javascript' },
   typescript: { mark: 'typescript' },
@@ -128,7 +128,14 @@ export const files = {
   ejs: { text: 'EJS', colors: ['#B4CA65'] },
   twig: { glyph: 'leaf', colors: ['#78C043'] },
   graphql: { mark: 'graphql' },
+  // Protocol Buffers has no mark in simple-icons, so this stays lettered.
   protobuf: { text: 'PB', colors: ['#4285F4'] },
+  angular: { mark: 'angular' },
+  nextjs: { mark: 'nextjs' },
+  nuxt: { mark: 'nuxt' },
+  bootstrap: { mark: 'bootstrap' },
+  tailwind: { mark: 'tailwind' },
+  postcss: { mark: 'postcss' },
 
   /* --- Markup and styles --- */
   html: { mark: 'html5' },
@@ -136,26 +143,39 @@ export const files = {
   // Sass is one brand with two syntaxes, so .scss and .sass carry one mark.
   scss: { mark: 'sass' },
   sass: { mark: 'sass' },
-  // Both logos are logotypes set in a script face that closes up at 16px, so
-  // they are set as text instead, in the brand's own colour.
+  /*
+   * Both marks were imported and both were put back as lettering, which is
+   * worth recording so nobody imports them a third time. Neither project has a
+   * symbol: the official artwork for each IS the logotype, Less's braces around
+   * a lowercase word and Stylus's script signature. Rendered at 16px they are a
+   * navy smudge and a pale squiggle. The set's rule is that a logo earns its
+   * place by surviving that size, and these do not.
+   */
   less: { text: 'LESS', colors: ['#1D365D'] },
   stylus: { text: 'ST', colors: ['#333333'] },
   'scss-module': { glyph: 'braces', colors: ['#CC6699'] },
   'css-module': { glyph: 'braces', colors: ['#1572B6'] },
 
   /* --- Data and config formats --- */
-  // JSON's mark is a pair of braces closed into a ring, which at icon size is a
-  // ring and nothing else. The braces themselves are what say JSON.
+  // JSON's official mark is a pair of braces closed into a ring, and at icon
+  // size it is a ring and nothing else — imported, measured, put back. The
+  // braces on their own are what say JSON.
   json: { glyph: 'braces', colors: ['#F2C94C'] },
   xml: { glyph: 'angles', colors: ['#005FAD'] },
-  yaml: { text: 'YAML', colors: ['#CB171E'] },
+  yaml: { mark: 'yaml' },
   toml: { mark: 'toml' },
+  // No logo exists for either: an INI file is a Windows convention rather than
+  // a project, and CSV is a shape rather than a format anyone owns.
   ini: { text: 'INI', colors: ['#7C8794'] },
   env: { mark: 'dotenv' },
   markdown: { mark: 'markdown' },
   mdx: { mark: 'mdx' },
+  asciidoc: { mark: 'asciidoctor' },
+  latex: { mark: 'latex' },
   csv: { glyph: 'grid', colors: ['#22A06B'] },
   sql: { glyph: 'cylinder', colors: ['#E38C00'] },
+  openapi: { mark: 'openapi' },
+  swagger: { mark: 'swagger' },
 
   /* --- Languages --- */
   python: { mark: 'python' },
@@ -180,8 +200,7 @@ export const files = {
   clojure: { mark: 'clojure' },
   haskell: { mark: 'haskell' },
   elixir: { mark: 'elixir' },
-  // Erlang's logo is its wordmark, and its letters close up at icon size.
-  erlang: { text: 'ERL', colors: ['#A90533'] },
+  erlang: { mark: 'erlang' },
   lua: { mark: 'lua' },
   perl: { mark: 'perl' },
   r: { mark: 'r' },
@@ -190,7 +209,18 @@ export const files = {
   crystal: { mark: 'crystal' },
   zig: { mark: 'zig' },
   solidity: { mark: 'solidity' },
+  // No logo: assembly is not a project, and Objective-C never had a mark of
+  // its own beyond Apple's.
   assembly: { text: 'ASM', colors: ['#B08B4F'] },
+  elm: { mark: 'elm' },
+  fortran: { mark: 'fortran' },
+  gleam: { mark: 'gleam' },
+  haxe: { mark: 'haxe' },
+  nix: { mark: 'nix' },
+  ocaml: { mark: 'ocaml' },
+  purescript: { mark: 'purescript' },
+  racket: { mark: 'racket' },
+  webassembly: { mark: 'webassembly' },
 
   /* --- Shells --- */
   shell: { mark: 'gnubash' },
@@ -214,9 +244,45 @@ export const files = {
   makefile: { glyph: 'hammer', colors: ['#6D8086'] },
   cmake: { mark: 'cmake' },
   jenkins: { mark: 'jenkins' },
-  ci: { text: 'CI', colors: ['#3EAAAF'] },
+  /*
+   * These four used to be one icon: a lettered "CI" that Travis, CircleCI and
+   * anything else with a pipeline all resolved to. Each of them has a mark, and
+   * an icon set whose job is to tell fileIcons apart at a glance should not be
+   * answering three different services with the same two letters.
+   */
+  githubactions: { mark: 'githubactions' },
+  // Travis's mark is its mascot, drawn in line art that closes up at 16px, so
+  // this is a pipeline in the service's own teal instead. CircleCI's mark is a
+  // solid dot-and-ring and survives the size, so it keeps its logo.
+  travis: { glyph: 'flow', colors: ['#3EAAAF'] },
+  circleci: { mark: 'circleci' },
+  bitbucket: { mark: 'bitbucket' },
   gitlabci: { mark: 'gitlab' },
   azure: { mark: 'azure' },
+  renovate: { mark: 'renovate' },
+
+  /* --- containers, clusters and clouds --- */
+  kubernetes: { mark: 'kubernetes' },
+  helm: { mark: 'helm' },
+  ansible: { mark: 'ansible' },
+  packer: { mark: 'packer' },
+  pulumi: { mark: 'pulumi' },
+  serverless: { mark: 'serverless' },
+  netlify: { mark: 'netlify' },
+  vercel: { mark: 'vercel' },
+  cloudflare: { mark: 'cloudflare' },
+
+  /* --- data stores --- */
+  mongodb: { mark: 'mongodb' },
+  postgresql: { mark: 'postgresql' },
+  // MySQL's mark is its wordmark with a dolphin over it — unreadable small, so
+  // this is the database shape in MySQL's blue.
+  mysql: { glyph: 'cylinder', colors: ['#4479A1'] },
+  redis: { mark: 'redis' },
+  sqlite: { mark: 'sqlite' },
+  prisma: { mark: 'prisma' },
+  firebase: { mark: 'firebase' },
+  supabase: { mark: 'supabase' },
 
   /* --- JS ecosystem tooling --- */
   npm: { mark: 'npm', text: 'npm', textFill: WHITE, size: 9.6, dy: 0.3 },
@@ -233,7 +299,45 @@ export const files = {
   tsconfig: { glyph: 'wrench', colors: [TS] },
   jsconfig: { glyph: 'wrench', colors: [JS] },
   browserslist: { glyph: 'browser', colors: ['#FFD539'] },
+  // EditorConfig's mark is a line-art mouse; at 16px it is a faint outline.
   editorconfig: { text: 'EC', colors: ['#DCE6E6'] },
+
+  /* --- runtimes, bundlers and workspaces --- */
+  nodejs: { mark: 'nodejs' },
+  deno: { mark: 'deno' },
+  bun: { mark: 'bun' },
+  esbuild: { mark: 'esbuild' },
+  turborepo: { mark: 'turborepo' },
+  nx: { mark: 'nx' },
+  lerna: { mark: 'lerna' },
+  electron: { mark: 'electron' },
+  tauri: { mark: 'tauri' },
+  storybook: { mark: 'storybook' },
+
+  /* --- test runners --- */
+  cypress: { mark: 'cypress' },
+  vitest: { mark: 'vitest' },
+  mocha: { mark: 'mocha' },
+  // Playwright has no mark in simple-icons; a checklist in its green says the
+  // same thing as its logo does, which is "these are the passing runs".
+  playwright: { glyph: 'listCheck', colors: ['#2EAD33'] },
+
+  /* --- other ecosystems' package managers --- */
+  gradle: { mark: 'gradle' },
+  maven: { mark: 'maven' },
+  nuget: { mark: 'nuget' },
+  // Composer's mark is a line-art figure; the parcel says the same thing and
+  // survives 16px. Its fileIcons used to resolve to PHP's elephant, which said
+  // which language it was and nothing about what the file did.
+  composer: { glyph: 'install', colors: ['#885630'] },
+  poetry: { mark: 'poetry' },
+  conda: { mark: 'anaconda' },
+
+  /* --- frameworks outside the JS world --- */
+  django: { mark: 'django' },
+  laravel: { mark: 'laravel' },
+  spring: { mark: 'spring' },
+  flutter: { mark: 'flutter' },
 
   /* --- Documents and generic assets --- */
   text: { glyph: 'lines', colors: ['#94A3B8'] },
@@ -251,13 +355,55 @@ export const files = {
   archive: { glyph: 'zip', colors: ['#F59E0B'] },
   // Adobe's mark is not ours to ship, and a PDF badge is its letters anyway.
   pdf: { text: 'PDF', colors: ['#E5252A'] },
+
+  /* ---------------------------------------------------------------- *
+   * The formats an icon set does not usually reach.
+   *
+   * Every one of these used to fall through to the plain-text page, which is
+   * the icon that means "no idea". They are not what most repositories hold —
+   * a calendar export, a packet capture, a saved game, a CAD sketch — and that
+   * is precisely why they were missing: a set grows around the files its author
+   * happens to open. None of them has a logo to import, so each is one of our
+   * own pictograms in a colour picked to sit apart from its neighbours in a
+   * file list.
+   * ---------------------------------------------------------------- */
+  email: { glyph: 'envelope', colors: ['#7FA8D4'] },
+  calendar: { glyph: 'calendar', colors: ['#E0574A'] },
+  contact: { glyph: 'contactCard', colors: ['#4EA1D3'] },
+  geo: { glyph: 'mapPin', colors: ['#34A853'] },
+  vector: { glyph: 'vector', colors: ['#FF8A3D'] },
+  model3d: { glyph: 'model3d', colors: ['#9B7BD4'] },
+  subtitle: { glyph: 'subtitle', colors: ['#8FB8DE'] },
+  ebook: { glyph: 'ebook', colors: ['#C08457'] },
+  diskimage: { glyph: 'disk', colors: ['#A0AEC0'] },
+  shortcut: { glyph: 'link', colors: ['#8AB4F8'] },
+  debug: { glyph: 'bug', colors: ['#E06C75'] },
+  dataset: { glyph: 'chart', colors: ['#4FD1C5'] },
+  math: { glyph: 'pi', colors: ['#F2A65A'] },
+  capture: { glyph: 'signal', colors: ['#6EC1E4'] },
+  game: { glyph: 'gamepad', colors: ['#A78BFA'] },
+  torrent: { glyph: 'magnet', colors: ['#5C7CFA'] },
+  raw: { glyph: 'camera', colors: ['#D9822B'] },
+  package: { glyph: 'install', colors: ['#C2712F'] },
+  temp: { glyph: 'trash', colors: ['#78716C'] },
+  // Assistant rules and prompt fileIcons, which are recent enough that no
+  // convention has settled on a shape for them yet.
+  ai: { glyph: 'sparkle', colors: ['#C084FC'] },
+
+  /* --- formats from outside the web stack, with marks of their own --- */
+  arduino: { mark: 'arduino' },
+  blender: { mark: 'blender' },
+  figma: { mark: 'figma' },
+  godot: { mark: 'godot' },
+  qt: { mark: 'qt' },
+  unity: { mark: 'unity' },
   // The Office marks are the app's tile with its initial set over it.
   word: { mark: 'word', text: 'W', textFill: WHITE, size: 15, dy: 0.2 },
   excel: { mark: 'excel', text: 'X', textFill: WHITE, size: 15, dy: 0.2 },
   powerpoint: { mark: 'powerpoint', text: 'P', textFill: WHITE, size: 15, dy: 0.2 },
 } satisfies Record<string, FileSpec>;
 
-export const folders = {
+export const folderIcons = {
   components: { accent: '#C084FC', glyph: 'puzzle' },
   hooks: { accent: '#22D3EE', glyph: 'hook' },
   functions: { accent: '#FBBF24', glyph: 'fx' },
@@ -301,19 +447,19 @@ export const folders = {
 } satisfies Record<string, FolderSpec>;
 
 /** The icon names the two literals above actually define. */
-export type FileIcon = keyof typeof files;
-export type FolderIcon = keyof typeof folders;
+export type FileIcon = keyof typeof fileIcons;
+export type FolderIcon = keyof typeof folderIcons;
 
-export type TextRun = { str: string; size: number; track: number };
+export type LetteringRun = { str: string; size: number; track: number };
 
 /** Every distinct (string, size, tracking) that gets set anywhere in the set. */
-export function textRuns(): TextRun[] {
-  const seen = new Map<string, TextRun>();
-  for (const spec of Object.values(files) as FileSpec[]) {
+export function letteringRuns(): LetteringRun[] {
+  const seen = new Map<string, LetteringRun>();
+  for (const spec of Object.values(fileIcons) as FileSpec[]) {
     if (!spec.text) continue;
-    const size = sizeFor(spec.text, spec);
-    const track = trackFor(spec.text, spec);
-    seen.set(textKey(spec.text, size, track), { str: spec.text, size, track });
+    const size = fontSizeFor(spec.text, spec);
+    const track = letterSpacingFor(spec.text, spec);
+    seen.set(textMetricsKey(spec.text, size, track), { str: spec.text, size, track });
   }
   return [...seen.values()];
 }

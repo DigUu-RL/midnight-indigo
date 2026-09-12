@@ -27,7 +27,7 @@ import type { Colour } from './glyphs.ts';
 
 /** themes/midnight-indigo-color-theme.json -> sideBar.background. */
 export const GROUND: Colour = '#040208';
-export const LIGHT: Colour = '#F2F0FA'; // what a black wordmark becomes
+export const LIGHT_INK: Colour = '#F2F0FA'; // what a black wordmark becomes
 export const DARK: Colour = '#0A0716';
 
 /** The folder body, and the accent the plain folder is drawn in. */
@@ -66,7 +66,7 @@ export const INK_DARK: Colour = '#0F0B1E';
 const STRUCTURAL: ReadonlySet<Colour> = new Set([WHITE, INK_DARK]);
 
 /** Whether a colour is structure rather than identity, and so must not move. */
-export const structural = (hex: Colour): boolean => STRUCTURAL.has(hex);
+export const isStructuralColour = (hex: Colour): boolean => STRUCTURAL.has(hex);
 
 /* -------------------------------------------------------------- *
  * Colour maths
@@ -90,14 +90,14 @@ const rgbToHex = (...rgb: number[]): Colour =>
     .join('');
 
 // WCAG relative luminance.
-export function luminance(hex: Colour): number {
+export function relativeLuminance(hex: Colour): number {
   const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
   const [r, g, b] = hexToRgb(hex);
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
 }
 
-export function contrast(a: Colour, b: Colour): number {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+export function contrastRatio(a: Colour, b: Colour): number {
+  const [hi, lo] = [relativeLuminance(a), relativeLuminance(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }
 
@@ -134,8 +134,8 @@ function hslToHex(h: number, s: number, l: number): Colour {
  * The classic derivation: official colour -> visible ink
  * -------------------------------------------------------------- */
 
-const MIN_CONTRAST = 4.2;
-const MAX_L = 0.86;
+const MIN_CONTRAST_ON_GROUND = 4.2;
+const MAX_LIFTED_LIGHTNESS = 0.86;
 
 /*
  * Lifts an official colour until it can be read as ink on the theme's ground,
@@ -144,17 +144,17 @@ const MAX_L = 0.86;
  * A logo whose official colour is black or near-black (Rust, Crystal, Markdown,
  * JSON, Handlebars, Solidity...) is not lifted to grey: every one of those marks
  * ships a white version for dark backgrounds, and that is the one this set is
- * really using, so it goes straight to LIGHT. Lifting the lightness instead
+ * really using, so it goes straight to LIGHT_INK. Lifting the lightness instead
  * would produce a muddy charcoal that reads as "broken" rather than "reversed".
  */
-export function readable(hex: Colour): Colour {
-  if (structural(hex)) return hex;
+export function readableOnGround(hex: Colour): Colour {
+  if (isStructuralColour(hex)) return hex;
   const [h, s, l0] = hexToHsl(hex);
-  if (s < 0.2 && l0 < 0.3) return LIGHT;
+  if (s < 0.2 && l0 < 0.3) return LIGHT_INK;
   let l = l0;
   let out = hslToHex(h, s, l);
-  while (l < MAX_L && contrast(out, GROUND) < MIN_CONTRAST) {
-    l = Math.min(MAX_L, l + 0.01);
+  while (l < MAX_LIFTED_LIGHTNESS && contrastRatio(out, GROUND) < MIN_CONTRAST_ON_GROUND) {
+    l = Math.min(MAX_LIFTED_LIGHTNESS, l + 0.01);
     out = hslToHex(h, s, l);
   }
   return out;
@@ -171,7 +171,7 @@ export function readable(hex: Colour): Colour {
  * identity colour gets the second tone repainted with it, keeping the two tones
  * the same distance apart under any paint.
  */
-export function tint(hex: Colour): Colour {
+export function lighterTint(hex: Colour): Colour {
   const [h, s, l] = hexToHsl(hex);
   return hslToHex(h, Math.max(0.22, s * 0.7), Math.min(0.88, l + 0.27));
 }
@@ -185,7 +185,7 @@ export function tint(hex: Colour): Colour {
  * against the ground. The floor is what keeps the shadow of an already-dark
  * mark (a deep blue, a maroon) from disappearing.
  */
-export function shade(hex: Colour, amount = 0.62): Colour {
+export function darkened(hex: Colour, amount = 0.62): Colour {
   const [h, s, l] = hexToHsl(hex);
   return hslToHex(h, Math.min(1, s * 1.08), Math.max(0.1, l * (1 - amount)));
 }
