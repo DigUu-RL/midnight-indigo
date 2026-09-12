@@ -13,7 +13,7 @@ An ultra-dark theme for Visual Studio Code in eight colors, bundled with a match
 
 The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
-The eight palettes are not eight themes. They are one theme at eight hues: the same lightnesses, the same contrast, the same rules, generated from a single source so that switching color never means switching to something that behaves differently. **Midnight Indigo** is the original, and it is unchanged.
+The eight palettes are one theme in eight colors: the same structure, the same rules, the same legibility floor, so switching color never means switching to something that behaves differently. Each palette is designed for its own hue rather than rotated from the others — a string is green where the family leaves room for green, and something deliberate where it does not. **Midnight Indigo** is the original, and it is unchanged.
 
 ## What's included
 
@@ -101,41 +101,62 @@ One icon set serves all eight themes, so changing color theme leaves the icons a
 
 ## How the eight palettes work
 
-They are generated, from one theme and one number per color. [`tools/theme-palette.ts`](tools/theme-palette.ts) holds the whole design; the notes below are the short version.
+Each one is a design, written down, and [`tools/theme-palette.ts`](tools/theme-palette.ts) holds all eight of them. The notes below are the short version.
 
 ### The theme was already one hue
 
-Measured in [OKLCH](https://bottosson.github.io/posts/oklab/), 30 of the theme's 39 colors land inside a 19-degree band around hue 290. The grounds, the borders, the selection, the accent, the foreground ramp and four of the syntax roles — variables, properties, operators, comments — are not thirty independent decisions. They are one hue seen at thirty lightnesses. The pink the keywords are set in sits at a fixed offset from it, and its darker partner further round; a relationship rather than a coordinate.
+Measured in [OKLCH](https://bottosson.github.io/posts/oklab/), 30 of the theme's 39 colors land inside a 19-degree band around hue 290. The grounds, the borders, the selection, the foreground ramp and four of the syntax roles — variables, properties, operators, comments — are not thirty independent decisions. They are one hue seen at thirty lightnesses.
 
-All of that rotates together. What is left — strings, functions, types, numbers — means something outside this theme, and moves less.
+So that much *is* shared: give a variant its hue and the whole workbench follows from it. What does not follow is everything that carries an identity of its own — the accent, the keywords and their darker partner, and the six semantic roles. Those are named per family, because they are the palette.
+
+### A variant used to be a rotation, and that was the problem
+
+The previous generator moved every color by one angle: the family band by the full turn, the semantic roles by a capped fraction of it, with lightness and chroma held byte-identical across all eight. It was carefully built, and dumping the eight palettes side by side showed exactly what it produced — every ground at `indigo + Δ`, every string at `indigo + drift`, the `L` and `C` columns the same down all eight rows. A rotation of everything by the same angle is what `hue-rotate()` is. No tuning inside that scheme could produce a palette indigo had not already decided.
+
+It also broke down at the far side of the wheel. Because the family turned fully and the semantics only drifted, green, cyan and blue landed *inside* the arc their own semantic roles occupy: the green variant came out with chrome at hue 150 and strings at 124, types at 176, interfaces at 75 — a code area collapsed onto the chrome hue, which is the one thing a syntax palette must not be.
+
+Now each family names its own hues, so that cannot happen: no variant is asked to fit its semantics into the arc its family sits in. The machinery that used to arrange the crowded ones — a weighted isotonic regression shoving roles apart inside a window that was too small — is gone, replaced by a floor the build checks.
+
+### Conventions kept where there is room, and re-decided where there is not
+
+A string is green in every editor anyone has used, a function is blue, a number is warm. Purple, pink, red and blue can honor all of that, and do.
+
+Where the family owns a role's home, the role moves, and the move is a decision rather than a nudge:
+
+- **Orange** owns the amber band, so its numbers are warm red and its enum members rose — across the wheel's zero from the chrome, with the family's 60 degrees left empty behind them.
+- **Green** owns green. Not because of the background — the grounds are near-black at every hue and a string clears them by 20:1 — but because of the variables, which are family by definition and sit at hue 152 and `L` 0.78 right where a green string would be. Clearing them means staying under 130 or going past 174, and the far side is the types', so the strings are yellow-green at 125 and the interfaces give up lime for gold.
+- **Cyan** owns teal, so its types cross to the *other* side of its strings — jade at 168, with the strings at 135 between them and the greens.
+- **Blue** sits on the functions, which step to azure-cyan at 215: still unmistakably blue, 43 degrees clear of the chrome, with the types dropping back to teal to make the room.
 
 ### Why OKLCH and not HSL
 
-Because HSL's `L` is not lightness. It is the midpoint of the largest and smallest channel, which says nothing about how bright a color looks: hue 60 and hue 240 at identical `S` and `L` are a headlight and a bruise. Rotate a theme in HSL and the yellow variant blows out while the blue one goes muddy, from the same numbers. OKLCH's `L` *is* perceived lightness, so rotating hue is as close as arithmetic gets to "the same color, somewhere else on the wheel" — which is the entire premise here.
+Because HSL's `L` is not lightness. It is the midpoint of the largest and smallest channel, which says nothing about how bright a color looks: hue 60 and hue 240 at identical `S` and `L` are a headlight and a bruise. OKLCH's `L` *is* perceived lightness, which is what makes one role table usable at eight hues.
 
-Chroma stays absolute for the same reason. It is tempting to store it as a fraction of what each hue can hold, since sRGB carries far more chroma at magenta than at green — but OKLCH chroma is *already* the perceptually comparable quantity, and normalizing it against the gamut undoes the thing OKLCH was chosen for. Tried, it produced `#FF53F7` keywords in the red variant. It was also built on a false premise: indigo's own operators, keywords, calls and enum members already sit at 100% of their hue's chroma, so "reuse the fraction" meant "sit on the gamut edge everywhere", and the edge is a long way out in magenta.
+Chroma stays absolute within a band for a related reason. It is tempting to store it as a fraction of what each hue can hold, since sRGB carries far more chroma at magenta than at green — but OKLCH chroma is *already* the perceptually comparable quantity, and normalizing it against the gamut undoes the thing OKLCH was chosen for. Tried, it produced `#FF53F7` keywords in the red variant. It was also built on a false premise: indigo's own operators, keywords, calls and enum members already sit at 100% of their hue's chroma, so "reuse the fraction" meant "sit on the gamut edge everywhere", and the edge is a long way out in magenta.
 
-### A variant is rebuilt, not tinted
+### Saturation is the other half of the design
 
-The first version of this held lightness and chroma fixed and rotated only the family hue, and every variant came out looking like the original under colored glass. Measuring said why: the semantic layer — most of what is actually on a screen — sat **0.009 to 0.035** away from indigo in OKLab. It had not moved at all.
+Three multipliers per family — one for the grounds, one for the foreground ramp and family syntax, one for the ink — and they are what stop the eight from being one palette even where the hues are handled well.
 
-Three things fix that, and each is in the generator for this reason:
+Indigo's numbers do not mean the same thing at hue 27 as they do at 290. Red's ground at indigo's chroma is a visible maroon rather than a near-black with a hint in it, and its foreground ramp is salmon rather than a warm grey; orange is worse, because amber is where sRGB is widest and a tinted near-black there turns brown before it turns orange. Both run well under 1. Cyan and green have the opposite problem — cyan is the pinch in sRGB, with barely half the chroma available at the accent's lightness that violet has — and are given room to take what little their hue can hold.
 
-- **Every token takes some of the rotation.** The share is weighted by how much convention is behind a role, but it has a floor: freezing the roles with the strongest conventions meant freezing strings and function calls, which are the two that cover the most screen.
-- **The drift saturates instead of clamping.** A hard cap hands the same answer to every family past the limit, so red (97° from indigo) and orange (130°) were given an identical semantic layer — the same strings, the same types, in two themes that are supposed to be different colors. Green and cyan collapsed together the same way.
-- **A hue gets the lightness it needs.** OKLCH holds perceived lightness across hue and that is still not the whole story: a saturated hue near 100 at `L` 0.73 reads as khaki, not as yellow-green. The theme knew this before the generator existed — its warm roles all sit high, lime interfaces at 0.885 and amber numbers at 0.843, while its cool ones sit low. That correction is applied as a *difference* between where a role's hue was and where it moved to, so a role that stays put gets nothing and indigo is untouched.
+That is also what lets two variants differ in *saturation and interval* rather than only in where the wheel was turned to, which is the difference between eight palettes and one palette photographed through eight gels.
 
-  It applies only where a color is bright enough to be read as a color. There is no khaki at `L` 0.08 — there is near-black with a hint of hue in it — and correcting it there does not rescue anything, it just makes the theme paler: ungated, this took the orange variant's editor background from `L` 0.083 to 0.143 and its side bar to 0.176, a brownish grey rather than the near-black the theme is built on. All eight grounds now sit within 0.008 of indigo's.
+### A hue gets the lightness it needs
 
-### A string still stays green
+OKLCH holds perceived lightness across hue and that is still not the whole story: a saturated hue near 100 at `L` 0.73 reads as khaki, not as yellow-green. The theme knew this before the generator existed — its warm roles all sit high, lime interfaces at 0.885 and amber numbers at 0.843, while its cool ones sit low.
 
-Crowded is not a metaphor. In the green, cyan and blue variants the family hue lands inside the arc the semantic roles occupy, and something has to move. The generator solves that arrangement — keeping the roles in their cyclic order, so warm stays warm — instead of nudging colors apart until they look separated, and it reports any variant it had to squeeze.
+The correction is applied as a *difference* between where a role's hue sits in indigo and where this family put it, so a role that has not moved gets nothing and indigo is untouched. It is why the green variant's gold interfaces and the orange variant's red numbers arrive at a sensible brightness without either being written down.
 
-### The separations are the theme's own
+It applies only where a color is bright enough to be read as a color. There is no khaki at `L` 0.08 — there is near-black with a hint of hue in it — and correcting it there does not rescue anything, it just makes the theme paler: ungated, this took the orange variant's editor background from `L` 0.083 to 0.143 and its side bar to 0.176, a brownish grey rather than the near-black the theme is built on.
 
-There is no rule that two token colors must be some fixed number of degrees apart, because the theme does not obey one: enum members and numbers sit 19 degrees apart on purpose, told apart by lightness and chroma. So each pair is owed *whatever it already had*, under a ceiling. The generator cannot make anything better separated than the author made it; it can only stop a rotation from making it worse.
+### The separations are checked, not arranged
 
-Legibility is held to an absolute standard rather than to indigo's, because the variants are meant to differ: every code token clears WCAG AAA at 7:1, which the shipped theme already did — its dimmest token being the operators at 7.55:1 — so no variant can trade legibility for color. Chrome text is held to its own indigo value with slack, since that ramp is deliberately graded and the bottom of it, the comments at 3.76:1, sits below AA on purpose.
+No two roles that have to be told apart may sit closer than 22 degrees, and the build says which pair and in which family if a hue is ever edited into its neighbour. It is a floor now where the old generator had a ceiling, and the swap is the whole difference between a table that is designed and one that is relaxed: hues that arrive where they were put need a minimum stated, not a maximum negotiated.
+
+Indigo is exempt, because it predates the floor and sits under it on purpose — its enum members and numbers are 19.5 degrees apart and are told apart by lightness instead.
+
+Legibility is absolute rather than measured against indigo, because the variants are *meant* to differ: every code token clears WCAG AAA at 7:1, which the shipped theme already did — its dimmest token being the operators at 7.55:1 — so no variant can trade legibility for color. Chrome text is held to its own indigo value with slack, since that ramp is deliberately graded and the bottom of it, the comments at 3.76:1, sits below AA on purpose. White on the accent clears 3:1 in all eight.
 
 ### The original cannot move
 
@@ -201,8 +222,8 @@ Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) a
 
 | | |
 | --- | --- |
-| [`tools/color.ts`](tools/color.ts) | Colour-space maths — sRGB, WCAG contrast, and the OKLCH conversion the palettes rotate in |
-| [`tools/theme-palette.ts`](tools/theme-palette.ts) | The eight families, the role table, and the rules that keep the tokens apart |
+| [`tools/color.ts`](tools/color.ts) | Colour-space maths — sRGB, WCAG contrast, and the gamut-safe OKLCH conversion the palettes are built in |
+| [`tools/theme-palette.ts`](tools/theme-palette.ts) | The role table, and the eight per-family designs: their hues, their saturation, and the floor that keeps the tokens apart |
 | [`tools/build-color-themes.ts`](tools/build-color-themes.ts) | The theme structure, written once against role names, plus every check the build makes |
 | [`tools/indigo-baseline.json`](tools/indigo-baseline.json) | The theme as it shipped. The build refuses to write if indigo no longer reproduces it |
 | [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the two rules everything obeys: fill only, and holes are cut with `evenodd` rather than painted |
@@ -228,7 +249,7 @@ The icon build fails if a mapping points at an icon that does not exist, and the
 
 Both sets are byte-for-byte reproducible, so `git diff` after a build is the regression test: a change that was meant to touch two icons and touches nine has said so before it is committed.
 
-**Adding a colour** is one line — a name and an OKLCH hue in `FAMILIES` — plus its entry in `contributes.themes`. Everything else follows: the role table, the separations and the checks are shared, and the build will tell you if the new hue leaves the wheel too crowded to give every token the separation the original had.
+**Adding a colour** is an entry in `VARIANTS` — a family hue, three saturation multipliers, an accent, and where the keywords and the six semantic roles sit on the wheel — plus its name in `Family`, `FAMILY_ORDER`, `TITLE` and `contributes.themes`. It is more than one line on purpose: a variant is a design, and the parts that carry an identity are the parts worth deciding rather than deriving. Everything else follows, and the build will tell you if any two roles ended up closer than the 22-degree floor, if a token drops under AAA, or if the manifest and the themes disagree.
 
 ### Centring
 

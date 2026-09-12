@@ -1,49 +1,81 @@
 /*
  * The eight palettes.
  *
- * A variant is the same theme at a different hue, and that sentence is doing
- * more work than it looks. The theme was never "indigo plus a rainbow": every
- * one of its 39 colours sits at one of two kinds of place on the wheel.
+ * WHAT CHANGED, AND WHY IT HAD TO.
  *
- *   FAMILY colours are indigo *by definition*. Measured in OKLCH, the grounds,
- *   the borders, the selection, the accent, the foreground ramp and four of the
- *   syntax roles (variables, properties, operators, comments) all land inside
- *   a 19-degree band around hue 290. They are not thirty independent decisions;
- *   they are one hue seen at thirty lightnesses. The signature pole the
- *   keywords are painted in sits at a fixed +57 from it, and its darker partner
- *   at +76 — a relationship, not a coordinate. All of that ROTATES.
+ * The previous version of this file generated the seven non-indigo variants by
+ * rotation: every colour kept indigo's lightness and chroma exactly, and only
+ * its hue moved — the family band by the full turn, the semantic roles by a
+ * capped fraction of it. It was carefully built and it produced, measurably, a
+ * filter. Dumping the eight palettes side by side showed it plainly: every
+ * ground sat at `indigo + Δ` for one Δ per family, every semantic role at
+ * `indigo + drift` for one drift per family, and the L and C columns were
+ * identical down all eight. A rotation of every colour by the same angle is
+ * what `hue-rotate()` is. No amount of tuning inside that scheme could produce
+ * a palette that had not already been decided by indigo.
  *
- *   SEMANTIC colours mean something outside this theme. A string is green in
- *   every editor anyone has used; a function is blue, a number is warm. Rotate
- *   those with the family and the orange variant ends up with magenta strings,
- *   which is not "the same theme in orange", it is a different theme.
+ * It also broke down at the far side of the wheel. Because the family turned
+ * fully and the semantics only drifted, the green, cyan and blue families
+ * landed *inside* the arc their own semantic roles occupy: the green variant
+ * came out with chrome at hue 150 and strings at 124, types at 176 and
+ * interfaces at 75 — a code area collapsed onto the chrome hue, which is the
+ * one thing a syntax palette must not be. The old `arrange()` — a weighted
+ * isotonic regression over the crowded arc — existed to fight that, and it
+ * fought it by shoving roles a few degrees apart inside a window that was
+ * fundamentally too small. It is gone, along with the drift, the pull and the
+ * guard ceilings that fed it. The crowding it managed cannot happen now,
+ * because no variant is asked to fit its semantics into the arc its family sits
+ * in: each one is given the arc it should use.
  *
- * So the family rotates fully and the semantics rotate by PULL — enough that
- * each variant reads as one deliberate palette rather than a rainbow dropped on
- * a tinted chrome, not so much that a string stops being green.
+ * WHAT THIS DOES INSTEAD. A variant is a design, written down. `VARIANTS` below
+ * holds, per family, the hue of every colour that carries an identity of its
+ * own — the family, the accent, the signature pole and its dark partner, and
+ * each of the six semantic roles — chosen for that family rather than derived
+ * from indigo's. Alongside them sit three chroma multipliers, and those are
+ * what stop the eight from being one palette even where the hues are handled
+ * well: a hot family at indigo's chroma makes every line of body text look
+ * sunburnt, and a cold one at indigo's chroma cannot reach it at all. Red and
+ * orange therefore run a quieter ground and a quieter foreground ramp than
+ * indigo does; cyan and green run a louder one. Two variants can now differ in
+ * saturation and in the *intervals* between their roles, not only in where the
+ * whole wheel was turned to, which is the difference between eight palettes and
+ * one palette photographed through eight gels.
  *
- * A VARIANT IS REBUILT, NOT TINTED. That distinction is the reason for three
- * of the things below, and it was learned the hard way: the first version of
- * this held lightness and chroma fixed and moved only the family's hue, and
- * every variant came out looking like the original seen through coloured glass.
- * Measuring said why — the semantic layer, which is most of what is on a
- * screen, sat 0.009 to 0.035 away from indigo in OKLab, which is to say it had
- * not moved. Hence `share`, which gives every token some of the rotation
- * instead of freezing the ones with the strongest conventions; `driftFor`,
- * which saturates rather than clamps so that two families never land on the
- * same answer; and `lift`, which gives a role the altitude its new hue needs.
+ * WHAT STAYED. The three things that were right.
  *
- * WHAT ACTUALLY COLLIDES. Not the ground: chrome sits at L 0.08-0.42 and syntax
- * at L 0.52-0.93, so a green string on a green sidebar is separated by 20:1 of
- * contrast and reads perfectly. What collides is two TOKENS at the same
- * lightness whose hues have drifted together — and that is a real risk here,
- * because in the green, cyan and blue variants the family hue lands inside the
- * arc the semantic roles occupy. `arrange()` below is what keeps them apart.
+ *   OKLCH, because L is perceived lightness and rotating in anything else makes
+ *   the yellows blow out and the blues go muddy from the same numbers.
  *
- * Everything is expressed relative to the theme as it shipped, so the indigo
- * variant regenerates the original file exactly. build-color-themes.ts asserts
- * that, and the assertion is the whole safety net: it is what says a change to
- * the maths here did not quietly restyle the theme people already use.
+ *   `lift`, which gives a role the altitude its hue needs — a saturated hue
+ *   near 100 at L 0.73 reads as khaki, not as bright yellow-green — gated so
+ *   that it touches ink and never touches the near-black grounds. Ungated it
+ *   turned the orange variant's editor background into a brownish grey, and an
+ *   ultra-dark theme that is ultra-dark in six of its eight colours is not the
+ *   same theme.
+ *
+ *   The baseline. Indigo's row is its measured values and every one of its
+ *   multipliers is 1, so `paletteFor('indigo')` reproduces the shipped theme
+ *   exactly; build-color-themes.ts asserts it key for key. That assertion is
+ *   the safety net that let this file be rewritten at all — it is what says the
+ *   theme thousands of editors already have open did not move.
+ *
+ * HOW THE SEMANTIC HUES WERE CHOSEN. Two rules, applied in this order.
+ *
+ *   A role keeps its convention where the family leaves room. A string is green
+ *   in every editor anyone has used, a function is blue, a number is warm; the
+ *   purple, pink, red and blue variants can honour all of that and do.
+ *
+ *   Where the family occupies a role's home, that role moves, and the move is a
+ *   decision rather than a nudge. The orange family owns the amber band, so its
+ *   numbers are warm red and its enum members rose. The green family owns
+ *   green, so its strings are yellow-green — still the greenest thing on the
+ *   screen after the chrome — and its interfaces gold. The cyan family owns
+ *   teal, so its types are jade, on the far side of its strings. Every one of
+ *   those is a palette a person could have drawn, which is exactly what the
+ *   rotation could never produce.
+ *
+ * The floor under all of it is `SEPARATION`, checked by the build rather than
+ * assumed here: no two roles that have to be told apart may sit closer than it.
  */
 
 import { arc, hex, wrap, type Colour } from './color.ts';
@@ -53,94 +85,446 @@ import { arc, hex, wrap, type Colour } from './color.ts';
  * -------------------------------------------------------------- */
 
 /*
- * The hue the shipped theme is built around — the centre of that 19-degree
- * band, not any single colour in it. Every `fam` offset below is measured from
- * here, so INDIGO's entry being exactly this number is what makes the indigo
- * variant reproduce byte for byte.
+ * The hue the shipped theme is built around — the centre of the 19-degree band
+ * its chrome occupies, not any single colour in it. Every `fam` offset in the
+ * role table is measured from here, so indigo's `hue` being exactly this number
+ * is what makes the indigo variant reproduce byte for byte.
  */
 const BASE_HUE = 290;
 
-/**
- * OKLCH hue per variant. Picked for even spacing where the names allow it: the
- * tight pairs (red/orange at 33 degrees, indigo/purple at 30) are as far apart
- * as those names can be pulled without one of them stopping being the colour it
- * is called.
- */
-export const FAMILIES = {
-  red: 27,
-  orange: 60,
-  green: 150,
-  cyan: 200,
-  blue: 258,
-  indigo: BASE_HUE,
-  purple: 320,
-  pink: 350,
-} as const satisfies Record<string, number>;
+export type Family =
+  | 'indigo' | 'purple' | 'pink' | 'red' | 'orange' | 'green' | 'cyan' | 'blue';
 
-export type Family = keyof typeof FAMILIES;
-
-/** Listing order, for the manifest and the docs: warm to cool, indigo home. */
+/** Listing order, for the manifest and the docs: indigo home, then round. */
 export const FAMILY_ORDER: Family[] = [
   'indigo', 'purple', 'pink', 'red', 'orange', 'green', 'cyan', 'blue',
 ];
 
 /* -------------------------------------------------------------- *
- * How far the semantics follow
+ * The role table — indigo, measured
  * -------------------------------------------------------------- */
 
 /*
- * The fraction of the family's rotation that the semantic roles take on.
+ * Five kinds of colour, and the band decides both where a role's hue comes from
+ * and which chroma multiplier it is scaled by.
  *
- * At 0 the variants share one rainbow and only the chrome changes — and that is
- * not a hypothetical, it is what the first version of this did. Measured as
- * OKLab distance from indigo, its semantic layer moved by 0.009 to 0.035 across
- * all seven other variants: the tokens were, to the eye, the same colours.
- * Since the tokens are most of what is on the screen, the variants read as one
- * theme with a tint laid over it rather than as eight palettes.
- *
- * At 1 the semantics are just more family, and a string is whatever the wheel
- * says. Half way is enough for the whole code area to arrive somewhere new
- * while a string is still recognisably a string.
+ *   ground   the near-blacks, the lines and the selection. Rotates with the
+ *            family; `h` is an offset from it.
+ *   chrome   the foreground ramp and the three syntax roles that are family by
+ *            definition. Also an offset from the family, scaled separately —
+ *            a ground can carry a tint the body text cannot.
+ *   accent   focus, buttons, the active tab. Given outright per family, because
+ *            it is the one colour a user would call "the theme's colour", and
+ *            it is the only band exempt from `lift`: its lightness is a
+ *            decision, not a correction.
+ *   pole     keywords and type parameters. `h` is indigo's absolute hue; each
+ *            family names its own.
+ *   semantic strings, functions, numbers, types, enum members, interfaces —
+ *            likewise absolute, likewise named per family.
  */
-const PULL = 0.5;
+type Band = 'ground' | 'chrome' | 'accent' | 'pole' | 'semantic';
 
 /*
- * And the most it may amount to, in degrees. PULL alone is a ratio, and the
- * turn it scales reaches 180, which is enough to carry green to red.
+ * Lightness and chroma are indigo's; `h` is an offset or an absolute hue.
  *
- * It saturates rather than clamps, and the difference is not cosmetic. A hard
- * `min(drift, MAX)` gives the same answer to every turn past the limit, so the
- * red variant (97 degrees from indigo) and the orange one (130) were handed an
- * identical drift and came out with an identical semantic layer — the same
- * strings, the same types, the same interfaces, in two themes that are supposed
- * to be different colours. Green and cyan collapsed onto each other the same
- * way. `tanh` is asymptotic instead: it approaches the limit without ever
- * reaching it, so two different turns always produce two different palettes,
- * and small turns still get very nearly the whole of `PULL`.
+ * `from` is a plain string rather than a `RoleName`, which would be the honest
+ * type and is not one TypeScript can have: `RoleName` is `keyof typeof ROLES`,
+ * so naming it here would make the role table's type depend on itself. It is
+ * narrowed at the one place it is read.
  */
-const MAX_DRIFT = 55;
+type Role = { l: number; c: number; h: number; band: Band; from?: string };
 
-const driftFor = (turn: number): number =>
-  MAX_DRIFT * Math.tanh((turn * PULL) / MAX_DRIFT);
+const ground = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'ground' });
+const chrome = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'chrome' });
+const brand = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'accent' });
+
+/**
+ * A signature or semantic role. `from` names the base a `*Bright` terminal
+ * colour follows: each bright is its base at another lightness, so it rides
+ * along with wherever the base was placed instead of being specified twice.
+ */
+const pole = (l: number, c: number, h: number, from?: string): Role =>
+  ({ l, c, h, band: 'pole', from });
+const sem = (l: number, c: number, h: number, from?: string): Role =>
+  ({ l, c, h, band: 'semantic', from });
 
 /*
- * How much of that drift a role takes, from its `hold`.
- *
- * The floor is what changed. It used to be zero — `1 - hold` — which meant the
- * roles with the strongest conventions behind them did not move at all, and
- * those are precisely the ones that cover the most screen: strings and function
- * calls. Freezing them froze the variant. Now every role travels, and `hold`
- * decides how far rather than whether: a string moves not quite half as far as
- * the interfaces do, which is enough to belong to its palette and not so far
- * that it stops being green.
+ * Measured out of the shipped theme with tools/color.ts, one entry per distinct
+ * colour in it. The comment on each line is the indigo variant's output, which
+ * is also the value that was there before any of this existed.
  */
-const share = (hold: number): number => 0.45 + 0.55 * (1 - hold);
+const ROLES = {
+  /* --- grounds --- */
+  bg: ground(0.083, 0.0297, -0.4), //          #020108  editor, gutter, terminal
+  bgDeep: ground(0.096, 0.025, 0.6), //        #030209  title bar, activity bar
+  bgSide: ground(0.098, 0.023, 12.1), //       #040208  side bar, panel, tab strip
+  ansiBlack: ground(0.114, 0.0342, 0.1), //    #050310  terminal.ansiBlack
+  bgLine: ground(0.131, 0.0346, 2.1), //       #080514  current-line highlight
+  bgLift: ground(0.143, 0.0327, 1.7), //       #0A0716  widgets, status bar, inputs
+  bgTab: ground(0.144, 0.0328, 4.9), //        #0B0716  active tab, list hover
+
+  /* --- lines and selection --- */
+  line: ground(0.195, 0.0562, -0.3), //        #150F2C  borders, indent guides
+  selDim: ground(0.231, 0.0801, -3.3), //      #1C1440  word highlight, list focus
+  sel: ground(0.268, 0.0975, -4.1), //         #241A52  selection
+  whitespace: ground(0.286, 0.0828, -1.1), //  #2A2150  rendered whitespace
+  border: ground(0.326, 0.0891, 0.3), //       #352A5E  input and dropdown borders
+
+  /* --- the accent pair --- */
+  accentDim: brand(0.423, 0.1316, 286.5), //   #4B3E91  badges, widget borders
+  accent: brand(0.568, 0.2021, 283.1), //      #6C5CE7  focus, buttons, active tab
+
+  /* --- the foreground ramp --- */
+  fgFaint: chrome(0.412, 0.0743, 0.9), //      #4B4370  line numbers, dimmed icons
+  fgMuted: chrome(0.524, 0.0703, 0.9), //      #6A6390  comments, placeholders
+  fgDim: chrome(0.634, 0.0523, 2.7), //        #8B85A8  side bar, status bar
+  fg: chrome(0.681, 0.0543, 2.3), //           #9993B8  editor foreground
+  fgBright: chrome(0.745, 0.0488, 3.3), //     #ADA7C9  active tab, selected row
+  cursor: chrome(0.737, 0.0909, 10.5), //      #B39DDB  caret, active line number
+  fgWhite: chrome(0.943, 0.0176, 6.6), //      #EDEAF7  terminal.ansiBrightWhite
+
+  /* --- syntax that is family --- */
+  variable: chrome(0.781, 0.0553, 2.1), //     #B8B2D9  variables, parameters
+  property: chrome(0.751, 0.1344, 9.5), //     #BB9AF7  properties, JSON keys
+  operator: chrome(0.705, 0.1642, -1.8), //    #9D8CFF  operators
+
+  /* --- the signature pole: keywords and punctuation --- */
+  keyword: pole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation
+  keywordBright: pole(0.789, 0.1549, 344.9, 'keyword'), //     #FF8FD1  terminal.ansiBrightRed
+  generic: pole(0.531, 0.2015, 5.6), //                        #C2185B  type parameters
+  genericBright: pole(0.642, 0.1877, 356.7, 'generic'), //     #E0508F  terminal.ansiBrightMagenta
+
+  /* --- syntax that means something outside this theme --- */
+  string: sem(0.803, 0.0984, 150.8), //                    #8FD19E  strings, added lines
+  stringBright: sem(0.869, 0.0946, 150.8, 'string'), //    #A6E6B4  terminal.ansiBrightGreen
+  func: sem(0.745, 0.1388, 247.3), //                      #5CB3FF  functions, modified lines
+  funcBright: sem(0.82, 0.0962, 245.5, 'func'), //         #8FCBFF  terminal.ansiBrightBlue
+  number: sem(0.843, 0.11, 74.6), //                       #F6C177  numbers, decorators
+  type: sem(0.812, 0.1071, 185.5), //                      #64D8CB  classes, types, headings
+  typeBright: sem(0.884, 0.0918, 184.5, 'type'), //        #8FEDE0  terminal.ansiBrightCyan
+  enumMember: sem(0.811, 0.1242, 55.1), //                 #FFAB70  enum members, inline code
+  iface: sem(0.885, 0.1738, 115.1), //                     #D6E64B  interfaces, enums
+  ifaceBright: sem(0.926, 0.1363, 112.4, 'iface'), //      #E8F080  terminal.ansiBrightYellow
+} satisfies Record<string, Role>;
+
+export type RoleName = keyof typeof ROLES;
+
+/** Painted the same in every variant: text on the accent, which must be white. */
+export const WHITE: Colour = '#FFFFFF';
+
+/* -------------------------------------------------------------- *
+ * The seven other designs
+ * -------------------------------------------------------------- */
+
+/** The roles a variant names outright, because each carries its own identity. */
+type Named = 'keyword' | 'generic' | 'string' | 'func' | 'number' | 'type' | 'enumMember' | 'iface';
+
+type Variant = {
+  /** The family hue: the chrome, and everything measured as an offset from it. */
+  hue: number;
+  /**
+   * Chroma, relative to indigo's. `ground` tints the near-blacks and the
+   * selection, `chrome` the foreground ramp and the three family syntax roles,
+   * `ink` the pole and the semantic layer.
+   *
+   * These are not a fudge factor, they are the second half of the design. sRGB
+   * holds far more chroma in the warm hues than the cold ones at any given
+   * lightness, so indigo's numbers do not mean the same thing at hue 27 as they
+   * do at 290: red's ground at 1.0 is a visible maroon rather than a near-black
+   * with a hint in it, and its foreground ramp at 1.0 is salmon rather than a
+   * warm grey. Cold families have the opposite problem and are given room to
+   * take what little their hue can hold.
+   */
+  ground: number;
+  chrome: number;
+  ink: number;
+  /** The accent, outright: hue, chroma, and the lightness white must read on. */
+  accent: { h: number; c: number; l: number };
+  /** Where each named role sits on the wheel in this family. */
+  hues: Record<Named, number>;
+};
+
+/*
+ * `accentDim` is the accent's darker partner — badges, widget borders, the
+ * scrollbar. It is derived rather than named, by the step indigo takes between
+ * the two, so the pair stays a pair in every family and a variant has one
+ * accent to decide instead of two that could drift apart.
+ */
+const DIM_HUE = arc(ROLES.accent.h, ROLES.accentDim.h); //     +3.4
+const DIM_CHROMA = ROLES.accentDim.c / ROLES.accent.c; //      0.651
+const DIM_LIGHT = ROLES.accentDim.l - ROLES.accent.l; //      -0.145
+
+const VARIANTS: Record<Family, Variant> = {
+  /*
+   * INDIGO — the shipped theme, and the reference for everything else. Its
+   * numbers are measurements, its multipliers are 1, and neither may change:
+   * build-color-themes.ts asserts that this row still regenerates the theme
+   * people already have selected, key for key.
+   */
+  indigo: {
+    hue: BASE_HUE,
+    ground: 1, chrome: 1, ink: 1,
+    accent: { h: ROLES.accent.h, c: ROLES.accent.c, l: ROLES.accent.l },
+    hues: {
+      keyword: ROLES.keyword.h, generic: ROLES.generic.h,
+      enumMember: ROLES.enumMember.h, number: ROLES.number.h, iface: ROLES.iface.h,
+      string: ROLES.string.h, type: ROLES.type.h, func: ROLES.func.h,
+    },
+  },
+
+  /*
+   * PURPLE — indigo's near neighbour, and so the one variant at real risk of
+   * being indistinguishable from it. What separates them is not the 30 degrees
+   * between the families, it is which way the signature leans: indigo answers
+   * its violet chrome with pink keywords and a crimson partner *below* them on
+   * the wheel, purple answers its magenta chrome with warm rose-red keywords
+   * and puts the partner above, between the keywords and the family. The
+   * chrome runs a shade quieter, because magenta at indigo's chroma makes the
+   * body text read as lilac rather than as text.
+   */
+  purple: {
+    hue: 320,
+    ground: 0.95, chrome: 0.95, ink: 0.98,
+    accent: { h: 311, c: 0.2, l: 0.566 },
+    hues: {
+      keyword: 15, generic: 350,
+      enumMember: 38, number: 68, iface: 108, string: 145, type: 200, func: 258,
+    },
+  },
+
+  /*
+   * PINK — hot chrome, cool code, which is the inverse of indigo's arrangement
+   * and the reason the two do not read as the same theme. Rose grounds with a
+   * violet signature: the keywords step *back* down the wheel to 302, so the
+   * loudest thing in the editor is cool against a warm workbench. The semantic
+   * body then runs the full warm-to-cool sweep with nothing competing for the
+   * rose end, which is the family's alone, and it runs a little louder than
+   * indigo's — cool ink has to hold its own against hot chrome.
+   *
+   * The type parameters do NOT follow the keywords down. Dragging them to the
+   * far side of the pole put them on 268, which is a perfectly good indigo and
+   * a bad answer, because this role is `terminal.ansiMagenta` and the function
+   * colour is `ansiBlue`: two blues, one of them named magenta. So they sit at
+   * 330 instead, between the pole and the family — close to both in hue and
+   * nowhere near either in lightness, at L 0.53 against 0.73 and a near-black.
+   * That is indigo's own arrangement, and it is the arrangement because the
+   * terminal's sixteen colours have to keep meaning what they are called.
+   */
+  pink: {
+    hue: 350,
+    ground: 0.9, chrome: 0.92, ink: 1.05,
+    accent: { h: 342, c: 0.2, l: 0.576 },
+    hues: {
+      keyword: 302, generic: 330,
+      enumMember: 52, number: 90, iface: 132, string: 165, type: 202, func: 240,
+    },
+  },
+
+  /*
+   * RED — the first family that owns part of the semantic wheel, and so the
+   * first that had to be re-laid rather than turned. Enum members at 55 and
+   * numbers at 75 sit almost on top of a family at 27; both step up and out,
+   * to 62 and 90, which pushes the interfaces to gold and the strings to a
+   * cleaner green than indigo's. The signature goes magenta at 337, because
+   * indigo's own relationship — the family plus 57 — lands on 84, and yellow
+   * keywords on a red theme are mustard.
+   *
+   * Both multipliers are well under 1 and that is the substance of the variant,
+   * not a detail: red is the hue sRGB is most generous with, and matching
+   * indigo's chroma gives a maroon workbench and salmon body text. Quietened,
+   * the grounds go back to being near-black with a warmth in them and the ramp
+   * back to being a warm grey, which is what the ramp is for.
+   */
+  red: {
+    hue: 27,
+    ground: 0.72, chrome: 0.85, ink: 0.92,
+    accent: { h: 20, c: 0.185, l: 0.576 },
+    hues: {
+      keyword: 337, generic: 300,
+      enumMember: 65, number: 95, iface: 140, string: 170, type: 205, func: 252,
+    },
+  },
+
+  /*
+   * ORANGE — the family sits in the middle of the warm band, so the two warm
+   * semantic roles cannot stay warm in the way they were. They cross instead of
+   * crowding: the numbers go to warm red at 22 and the enum members to rose at
+   * 350, on the other side of the wheel's zero from the amber chrome, and the
+   * keywords take the magenta at 316 that the family plus 57 (an olive 117)
+   * could never have been. What is left — lime, green, teal, blue — spreads
+   * across the whole cool half with the family's 60 degrees empty behind it.
+   *
+   * The quietest ground of the eight, for the same reason as red and more so:
+   * amber is where sRGB is widest, and a tinted near-black at this hue turns
+   * brown before it turns orange.
+   */
+  orange: {
+    hue: 60,
+    ground: 0.68, chrome: 0.8, ink: 0.95,
+    accent: { h: 52, c: 0.155, l: 0.586 },
+    hues: {
+      keyword: 316, generic: 285,
+      enumMember: 350, number: 22, iface: 120, string: 152, type: 190, func: 248,
+    },
+  },
+
+  /*
+   * GREEN — the hardest of the eight, because the family owns the one hue with
+   * the strongest convention on it. A string cannot be green here, and the
+   * reason is not the background: the grounds are near-black at every hue, and
+   * a string clears them by 20:1 whatever colour either one is. It is the
+   * variables. They are family by definition, so in this family they sit at
+   * hue 152 and L 0.78, and a green string at 150 and L 0.80 is the same
+   * colour as the identifier beside it.
+   *
+   * That pins the answer more tightly than it looks. Clearing the chrome means
+   * the strings stay under 130 or go past 174, and the far side is already the
+   * types' — so 125, a yellow-green, and still the greenest thing on the
+   * screen after the workbench itself. The interfaces give up lime for gold at
+   * 65 rather than fight them for the band.
+   * Numbers move to warm red and enum members to rose, which empties the whole
+   * warm quarter of anything that could be confused with the chrome, and the
+   * keywords take magenta at 326 — green's complement, the pairing that makes
+   * this variant look deliberate rather than salvaged.
+   *
+   * Types stay cyan at 195: 45 degrees off the family, and cyan against green
+   * separates on chroma as much as on hue, so it holds.
+   *
+   * The loudest ink of the eight, and the strings are why. A yellow-green is
+   * the one hue where `lift` works against itself — the altitude that keeps it
+   * from reading as khaki also drains it toward a pale wheat — so what the
+   * correction costs is given back in chroma.
+   */
+  green: {
+    hue: 150,
+    ground: 1.1, chrome: 1.05, ink: 1.12,
+    accent: { h: 155, c: 0.16, l: 0.566 },
+    hues: {
+      keyword: 326, generic: 290,
+      enumMember: 355, number: 30, iface: 65, string: 125, type: 195, func: 245,
+    },
+  },
+
+  /*
+   * CYAN — the family takes the teal the types were using, so the types cross
+   * to the *other* side of the strings: jade at 168, with the strings at 135
+   * between them and the greens. That is the one place in the eight where a
+   * semantic role changes which side of its neighbour it sits on, and it is
+   * what keeps the cool half from stacking three roles into 60 degrees.
+   * Functions hold their blue at 255, well clear.
+   *
+   * The loudest ink and ground of the set. Cyan is the pinch in sRGB — at the
+   * lightness the accent lives at there is barely half the chroma available
+   * that violet has — so matching indigo's numbers here would mean a variant
+   * that is not so much cyan as pale grey-blue.
+   */
+  cyan: {
+    hue: 200,
+    ground: 1.15, chrome: 1.1, ink: 1.05,
+    accent: { h: 205, c: 0.135, l: 0.576 },
+    hues: {
+      keyword: 345, generic: 295,
+      enumMember: 30, number: 60, iface: 92, string: 135, type: 168, func: 255,
+    },
+  },
+
+  /*
+   * BLUE — the family sits on the functions, which are the one role besides
+   * strings with a convention nobody breaks. They do not break it: they step to
+   * azure-cyan at 215, still unmistakably blue, 43 degrees clear of the chrome
+   * and bold besides, and the types drop back to teal at 180 to make the room.
+   * Everything warm then has the whole other half of the wheel to itself, so
+   * blue is the only crowded family whose numbers, enum members and interfaces
+   * all keep their conventional hues.
+   *
+   * The signature is the one relationship indigo's own arithmetic still gets
+   * nearly right at this hue: family plus 57 lands on 315, and the pole sits a
+   * few degrees under it at 310 so that no two of the eight signatures are the
+   * same colour — the one cross-variant constraint the per-family tables have
+   * to satisfy that none of them can see on its own.
+   */
+  blue: {
+    hue: 258,
+    ground: 1.05, chrome: 1, ink: 1.02,
+    accent: { h: 255, c: 0.19, l: 0.566 },
+    hues: {
+      keyword: 310, generic: 340,
+      enumMember: 15, number: 50, iface: 108, string: 148, type: 180, func: 215,
+    },
+  },
+};
+
+/** The family hue of each variant, for anything that needs to name it. */
+export const FAMILIES = Object.fromEntries(
+  FAMILY_ORDER.map((f) => [f, VARIANTS[f].hue])
+) as Record<Family, number>;
+
+/* -------------------------------------------------------------- *
+ * The separation floor
+ * -------------------------------------------------------------- */
+
+/*
+ * The least hue separation any two roles that must be told apart may have.
+ *
+ * It is a floor now, where the previous version had a ceiling, and the swap is
+ * the whole difference between a table that is designed and a table that is
+ * relaxed. A ceiling was what a rotation needed: hues arrived wherever the turn
+ * put them and the machinery asked for as much clearance as it could get away
+ * with before over-constraining the arc. Named hues arrive where they were put,
+ * so the only thing left to state is the minimum below which two roles start
+ * being mistaken for each other — and the build asserts it rather than this
+ * file arranging around it. If a hue in `VARIANTS` is ever edited into its
+ * neighbour, the build says which pair and in which family, and writes nothing.
+ *
+ * 22 rather than a rounder number because that is what the shipped theme's own
+ * tightest pair costs: indigo puts enum members and numbers 19.5 degrees apart
+ * and interfaces and strings 35.7, telling the close pair apart by lightness
+ * and chroma instead. A floor that condemned the original theme would be the
+ * wrong floor, so the check exempts indigo's own arrangement and holds the
+ * seven designed ones to a bar just above it.
+ */
+export const SEPARATION = 22;
+
+/** The roles held apart: the family cluster, the pole, and the semantic six. */
+const CONTESTED: Named[] = ['enumMember', 'number', 'iface', 'string', 'type', 'func'];
+
+/**
+ * The closest pair of roles in a family, for the build to check.
+ *
+ * The family hue stands in for the whole chrome cluster: variables, properties
+ * and operators sit within 12 degrees of it by design and are told apart by
+ * lightness, so clearing the family clears all three. `generic` is left out for
+ * the opposite reason — it is the one signature colour well below the syntax
+ * band, at L 0.53 against 0.75 to 0.89, so nothing can be confused with it
+ * whatever the hues do.
+ */
+export function tightest(family: Family): { a: string; b: string; deg: number } {
+  const v = VARIANTS[family];
+  const points: [string, number][] = [
+    ['family', v.hue],
+    ['keyword', v.hues.keyword],
+    ...CONTESTED.map((n) => [n, v.hues[n]] as [string, number]),
+  ];
+
+  let worst = { a: '', b: '', deg: 360 };
+  for (let i = 0; i < points.length; i++) {
+    for (let j = i + 1; j < points.length; j++) {
+      const deg = Math.abs(arc(points[i][1], points[j][1]));
+      if (deg < worst.deg) worst = { a: points[i][0], b: points[j][0], deg };
+    }
+  }
+  return worst;
+}
+
+/* -------------------------------------------------------------- *
+ * Lightness the hue asks for
+ * -------------------------------------------------------------- */
 
 /*
  * The lightness a hue needs on top of its own to stop looking like mud.
  *
- * OKLCH holds *perceived* lightness across hue, which is exactly what a
- * rotation needs and is still not the whole story: a saturated hue near 100 at
+ * OKLCH holds *perceived* lightness across hue, which is exactly what this
+ * palette needs and is still not the whole story: a saturated hue near 100 at
  * L 0.73 does not read as a bright yellow-green, it reads as khaki. Yellows
  * need altitude in a way violets do not.
  *
@@ -150,10 +534,13 @@ const share = (hold: number): number => 0.45 + 0.55 * (1 - hold);
  * That is not a coincidence about those roles, it is the same correction, made
  * by hand, one colour at a time.
  *
- * So it is applied as a DIFFERENCE between where a role's hue was and where it
- * has moved to. A role that stays put gets nothing, which is what keeps indigo
- * exact; a role rotated into the yellow band is lifted by as much as the theme
- * would have lifted it, and one rotated out of it drops back down.
+ * So it is applied as a DIFFERENCE between where a role's hue sits in indigo
+ * and where this family put it. A role that has not moved gets nothing, which
+ * is what keeps indigo exact; one placed in the yellow band is lifted by as
+ * much as the theme would have lifted it, and one placed out of it drops back
+ * down. It is why the green variant's gold interfaces and the orange variant's
+ * red numbers arrive at a sensible brightness without either being written
+ * down: `VARIANTS` names hues, and this decides what those hues cost.
  */
 const LIFT_PEAK = 95; // the hue that needs it most
 const LIFT_MAX = 0.09; // and how much, in OKLCH lightness
@@ -175,16 +562,12 @@ function lift(hue: number): number {
  * not rescue anything, it just makes the theme paler. Ungated, this took the
  * orange variant's editor background from L 0.083 to 0.143 and its side bar to
  * 0.176 — `#120701` and `#170F05`, a brownish grey rather than the near-black
- * the whole theme is built on. An ultra-dark theme that is only ultra-dark in
- * six of its eight colours is not the same theme.
+ * the whole theme is built on.
  *
  * So the lift fades in across the band where the theme stops making grounds and
  * starts making ink. Grounds, borders and selection get none of it; the tokens
- * get all of it; the accent, which sits between the two, gets most.
- *
- * It is keyed to the role's own lightness rather than its hue, which is what
- * keeps indigo exact: the same factor multiplies both ends of the difference,
- * so a role that has not moved still gets nothing.
+ * get all of it. The accent is exempt outright — its lightness is named per
+ * family, so there is nothing to correct.
  */
 const LIFT_FROM = 0.4;
 const LIFT_FULL = 0.62;
@@ -194,418 +577,50 @@ function liftGate(lightness: number): number {
   return t * t * (3 - 2 * t); // smoothstep, so nothing changes abruptly mid-ramp
 }
 
-/*
- * The arc the signature pole refuses to land in.
- *
- * The pole is 57 degrees around from the family — the relationship that gives
- * indigo its pink keywords — and taking that step clockwise from an
- * already-warm family lands in the yellow-green trough: red's keywords came out
- * `#D59F00` mustard and orange's `#A2B500` olive. So the pole takes its 57
- * degrees in whichever direction stays out of this arc, which flips the answer
- * for exactly those two families and leaves the other six alone. Indigo's is
- * unchanged, which it has to be.
- *
- * WHY THIS AND `lift` BOTH EXIST, since they are aimed at the same trough: the
- * lift raises a role that has moved into the yellows, and for the keywords
- * alone that would nearly be enough — red's would come out `#F7B900`, a
- * defensible gold. It is not enough for `generic`, the pole's darker partner,
- * because that role's whole job is to sit low, at L 0.53. A dark yellow is
- * olive at any altitude and lifting it out of the trough would cost it the
- * darkness it exists for; without the flip it comes out `#958800` in red and
- * `#479000` in orange. The lift fixes hues that pass through the trough. The
- * flip keeps the theme's signature from setting up camp in it.
- */
-const YELLOW: readonly [number, number] = [58, 150];
-
-const poleSign = (family: number): number =>
-  wrap(family + ROLES.keyword.h) >= YELLOW[0] && wrap(family + ROLES.keyword.h) <= YELLOW[1] ? -1 : 1;
-
-/*
- * The most hue separation any pair of tokens will be asked for.
- *
- * It is a ceiling, not a floor, and that distinction is the whole design. A
- * flat "no two tokens closer than N degrees" sounds right and is wrong here,
- * because the shipped theme does not obey it: enum members and numbers sit 19
- * degrees apart, interfaces and strings 36. Those are not oversights — they are
- * a warm pair and a cool pair, told apart by lightness and chroma rather than
- * by hue, and a rule that "fixed" them would restyle the theme people already
- * have.
- *
- * So every pair's requirement is whatever it already was in the shipped theme,
- * capped here. The rule cannot make any pair better separated than the author
- * made it; it can only stop a rotation from making one worse. Which is also why
- * the indigo variant is a fixed point: nothing in it violates a requirement
- * derived from itself, so `arrange()` leaves it alone and the original file
- * comes back out.
- *
- * There are two ceilings because there are two kinds of neighbour. Against
- * another semantic role, or against the family's own syntax colours, hue is
- * most of what tells them apart: they are all plain text at much the same
- * lightness. Against the keyword pole it is not — keywords are set bold italic
- * and carry half again the chroma of anything near them, so they stay
- * unmistakable at a separation that would be too close for a pair of plain
- * identifiers.
- *
- * THE NUMBER IS LOW ON PURPOSE, and this was the hardest thing here to get
- * right. Order is preserved around the wheel, so a requirement is not paid once
- * — it is paid by every role behind it. In the orange variant the enum members
- * start out sitting almost exactly on the family hue, and asking 34 degrees of
- * clearance there did not move the enum members 34 degrees, it moved the whole
- * warm chain behind them and pushed the strings out to teal. Dropping the
- * ceiling to 26 costs a few degrees between roles that were never confusable
- * anyway, and buys back the strings: the worst any variant now drags one is 19
- * degrees, against 31 at a ceiling of 34.
- */
-const GUARD = 26;
-const GUARD_KEYWORD = 22;
-
-/* -------------------------------------------------------------- *
- * The role table
- * -------------------------------------------------------------- */
-
-type Band = 'family' | 'signature' | 'semantic';
-
-/** Lightness and chroma are absolute; what `h` means depends on the band. */
-type Role = { l: number; c: number; h: number; band: Band; hold: number };
-
-/** A family role: `h` is the offset from the variant's hue. */
-const fam = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'family', hold: 1 });
-
-/**
- * A signature role: the keyword pole, `h` degrees around from the family — in
- * whichever direction `poleSign` sends it. See YELLOW below for why the
- * direction is not simply "positive".
- */
-const sig = (l: number, c: number, h: number): Role => ({ l, c, h, band: 'signature', hold: 1 });
-
-/**
- * A semantic role: `h` is its own hue, and `hold` is how hard it fights to keep
- * it when the wheel gets crowded — 1 for a convention nobody may break, down
- * toward 0 for a hue that is only this theme's own preference.
- *
- * Weighting these is what makes the crowded variants work. Green, cyan and blue
- * put the family hue right in the middle of the arc the semantic roles occupy,
- * so something has to move; without weights the relaxation picks its victim by
- * accident, and the green variant comes out with brown strings. With them, the
- * displacement flows to the roles that can afford it: a string stays green and
- * an interface — lime because this theme decided so, not because anything says
- * interfaces are lime — is what slides out of the way.
- */
-const sem = (l: number, c: number, h: number, hold: number): Role => ({
-  l, c, h, band: 'semantic', hold,
-});
-
-/*
- * Measured out of the shipped theme with tools/color.ts, one entry per distinct
- * colour in it. The comment on each line is the indigo variant's output, which
- * is also the value that was there before any of this existed.
- */
-const ROLES = {
-  /* --- grounds --- */
-  bg: fam(0.083, 0.0297, -0.4), //             #020108  editor, gutter, terminal
-  bgDeep: fam(0.096, 0.025, 0.6), //           #030209  title bar, activity bar
-  bgSide: fam(0.098, 0.023, 12.1), //          #040208  side bar, panel, tab strip
-  ansiBlack: fam(0.114, 0.0342, 0.1), //       #050310  terminal.ansiBlack
-  bgLine: fam(0.131, 0.0346, 2.1), //          #080514  current-line highlight
-  bgLift: fam(0.143, 0.0327, 1.7), //          #0A0716  widgets, status bar, inputs
-  bgTab: fam(0.144, 0.0328, 4.9), //           #0B0716  active tab, list hover
-
-  /* --- lines and selection --- */
-  line: fam(0.195, 0.0562, -0.3), //           #150F2C  borders, indent guides
-  selDim: fam(0.231, 0.0801, -3.3), //         #1C1440  word highlight, list focus
-  sel: fam(0.268, 0.0975, -4.1), //            #241A52  selection
-  whitespace: fam(0.286, 0.0828, -1.1), //     #2A2150  rendered whitespace
-  border: fam(0.326, 0.0891, 0.3), //          #352A5E  input and dropdown borders
-  accentDim: fam(0.423, 0.1316, -3.5), //      #4B3E91  badges, widget borders
-  accent: fam(0.568, 0.2021, -6.9), //         #6C5CE7  focus, buttons, active tab
-
-  /* --- the foreground ramp --- */
-  fgFaint: fam(0.412, 0.0743, 0.9), //         #4B4370  line numbers, dimmed icons
-  fgMuted: fam(0.524, 0.0703, 0.9), //         #6A6390  comments, placeholders
-  fgDim: fam(0.634, 0.0523, 2.7), //           #8B85A8  side bar, status bar
-  fg: fam(0.681, 0.0543, 2.3), //              #9993B8  editor foreground
-  fgBright: fam(0.745, 0.0488, 3.3), //        #ADA7C9  active tab, selected row
-  cursor: fam(0.737, 0.0909, 10.5), //         #B39DDB  caret, active line number
-  fgWhite: fam(0.943, 0.0176, 6.6), //         #EDEAF7  terminal.ansiBrightWhite
-
-  /* --- syntax that is family --- */
-  variable: fam(0.781, 0.0553, 2.1), //        #B8B2D9  variables, parameters
-  property: fam(0.751, 0.1344, 9.5), //        #BB9AF7  properties, JSON keys
-  operator: fam(0.705, 0.1642, -1.8), //       #9D8CFF  operators
-
-  /* --- the signature pole: keywords and punctuation --- */
-  keyword: sig(0.734, 0.2024, 57.1), //        #FF6AC1  keywords, punctuation
-  keywordBright: sig(0.789, 0.1549, 54.9), //  #FF8FD1  terminal.ansiBrightRed
-  generic: sig(0.531, 0.2015, 75.6), //        #C2185B  type parameters
-  genericBright: sig(0.642, 0.1877, 66.7), //  #E0508F  terminal.ansiBrightMagenta
-
-  /* ---------------------------------------------------------------- *
-   * Syntax that means something outside this theme.
-   *
-   * The `hold` column, in order: a string is green and a function is blue in
-   * every editor anyone has used, so those two barely move. Numbers being warm
-   * is a weaker convention. Classes being cyan is this theme's reading of "a
-   * type is cool"; enum members being orange, and interfaces lime, are its own
-   * inventions and are the first to give way.
-   * ---------------------------------------------------------------- */
-  string: sem(0.803, 0.0984, 150.8, 1.0), //       #8FD19E  strings, added lines
-  stringBright: sem(0.869, 0.0946, 150.8, 1.0), // #A6E6B4  terminal.ansiBrightGreen
-  func: sem(0.745, 0.1388, 247.3, 0.9), //         #5CB3FF  functions, modified lines
-  funcBright: sem(0.82, 0.0962, 245.5, 0.9), //    #8FCBFF  terminal.ansiBrightBlue
-  number: sem(0.843, 0.11, 74.6, 0.6), //          #F6C177  numbers, decorators
-  type: sem(0.812, 0.1071, 185.5, 0.45), //        #64D8CB  classes, types, headings
-  typeBright: sem(0.884, 0.0918, 184.5, 0.45), //  #8FEDE0  terminal.ansiBrightCyan
-  enumMember: sem(0.811, 0.1242, 55.1, 0.35), //   #FFAB70  enum members, inline code
-  iface: sem(0.885, 0.1738, 115.1, 0.25), //       #D6E64B  interfaces, enums
-  ifaceBright: sem(0.926, 0.1363, 112.4, 0.25), // #E8F080  terminal.ansiBrightYellow
-} satisfies Record<string, Role>;
-
-export type RoleName = keyof typeof ROLES;
-
-/** Painted the same in every variant: text on the accent, which must be white. */
-export const WHITE: Colour = '#FFFFFF';
-
-/*
- * The semantic roles that carry a distinct meaning, and so have to stay
- * distinguishable from each other. The `*Bright` terminal colours are left out
- * on purpose: each one is its base role at another lightness, so it follows
- * whatever the base is moved to rather than competing for its own slot.
- */
-const CONTESTED: RoleName[] = ['enumMember', 'number', 'iface', 'string', 'type', 'func'];
-
-/** Which bright follows which base, so the pair never drifts apart. */
-const FOLLOWS: Partial<Record<RoleName, RoleName>> = {
-  stringBright: 'string',
-  funcBright: 'func',
-  typeBright: 'type',
-  ifaceBright: 'iface',
-};
-
-/* -------------------------------------------------------------- *
- * Keeping the tokens apart
- * -------------------------------------------------------------- */
-
-/** Separation to require of a pair: what it already had, under a ceiling. */
-const needed = (a: number, b: number, cap = GUARD): number => Math.min(cap, Math.abs(arc(a, b)));
-
-/**
- * Weighted isotonic regression: the nearest non-decreasing sequence to `v`,
- * by pool-adjacent-violators. Each block that violates the order is replaced by
- * its weighted mean, repeatedly, until nothing is out of order.
- */
-function isotonic(v: number[], w: number[]): number[] {
-  const val: number[] = [];
-  const wt: number[] = [];
-  const len: number[] = [];
-
-  for (let i = 0; i < v.length; i++) {
-    val.push(v[i]);
-    wt.push(w[i]);
-    len.push(1);
-    // Absorb backwards while the block before this one sits higher.
-    while (val.length > 1 && val[val.length - 2] > val[val.length - 1]) {
-      const [v2, w2, l2] = [val.pop()!, wt.pop()!, len.pop()!];
-      const [v1, w1, l1] = [val.pop()!, wt.pop()!, len.pop()!];
-      val.push((v1 * w1 + v2 * w2) / (w1 + w2));
-      wt.push(w1 + w2);
-      len.push(l1 + l2);
-    }
-  }
-
-  const out: number[] = [];
-  for (let b = 0; b < val.length; b++) for (let k = 0; k < len[b]; k++) out.push(val[b]);
-  return out;
-}
-
-/**
- * Places the movable hues around the wheel so that every neighbouring pair
- * clears the gap it is owed, as close as possible to where each wanted to be.
- *
- * This started life as a relaxation — shove any two hues that are too close,
- * add a spring home, iterate — and that turned out to be the wrong tool twice
- * over. It cannot tell an over-constrained arc from a merely crowded one, so
- * when the orange variant asked for 76 degrees of clearance inside a 57-degree
- * window it did not fail, it quietly squeezed two roles into a gap of one
- * degree and emitted the palette. And a local shove can never move a role past
- * an obstacle, so a role that belongs on the far side of the keyword pole stays
- * trapped against it however long the loop runs.
- *
- * So the arrangement is solved instead of approximated. Two facts make that
- * easy. The roles keep their cyclic order — warm stays warm, cool stays cool,
- * which is what makes the eight variants recognisably one theme — and once
- * order is fixed, only *neighbouring* pairs can collide, so the whole
- * constraint set is a chain. The obstacles pin the chain at known points and
- * cut the circle into independent arcs, and each arc is then a weighted
- * isotonic regression: the closest ordered placement to what the roles asked
- * for, with the weights deciding who gives way.
- *
- * An arc whose gaps cannot fit has them scaled down together, so it degrades
- * evenly instead of starving whichever role the loop happened to reach last —
- * and `shortfall` reports it, so the build can say which variant is tight
- * rather than leaving it to be noticed in the editor.
- */
-function arrange(
-  targets: number[],
-  hold: number[],
-  obstacles: number[],
-  gapPair: number[][],
-  gapFixed: number[][]
-): { hues: number[]; shortfall: number } {
-  const hues = [...targets];
-  let shortfall = 0;
-
-  // Unroll the circle from the first obstacle so ordering is plain arithmetic.
-  const pins = obstacles.map((o, i) => ({ at: o, i })).sort((a, b) => a.at - b.at);
-  const origin = pins[0].at;
-  const un = (h: number): number => origin + wrap(h - origin);
-
-  for (let p = 0; p < pins.length; p++) {
-    const A = pins[p];
-    const B = pins[(p + 1) % pins.length];
-    const lo = un(A.at);
-    const hi = p + 1 === pins.length ? origin + 360 : un(B.at);
-
-    // The roles that fall in this arc, in order. A role sitting exactly on the
-    // opening pin belongs to this arc, not the one before it.
-    const here = targets
-      .map((t, i) => ({ i, at: un(t) }))
-      .filter((r) => r.at >= lo && r.at < hi)
-      .sort((a, b) => a.at - b.at);
-    if (!here.length) continue;
-
-    const idx = here.map((r) => r.i);
-    const first = idx[0];
-    const last = idx[idx.length - 1];
-
-    // The gaps to honour: pin to first, each neighbour to the next, last to pin.
-    let gaps = [
-      gapFixed[first][A.i],
-      ...idx.slice(1).map((n, k) => gapPair[idx[k]][n]),
-      gapFixed[last][B.i],
-    ];
-
-    // If they cannot fit the arc, everything in it gives way in proportion.
-    const span = hi - lo;
-    const total = gaps.reduce((a, b) => a + b, 0);
-    if (total > span) {
-      shortfall = Math.max(shortfall, total - span);
-      gaps = gaps.map((g) => (g * span) / total);
-    }
-
-    /*
-     * Substituting out the minimum offsets turns "each at least `gap` past the
-     * one before" into "non-decreasing", which is what isotonic regression
-     * solves. `at` is the running minimum position of each role.
-     */
-    const at: number[] = [];
-    let run = lo;
-    for (let k = 0; k < idx.length; k++) {
-      run += gaps[k];
-      at.push(run);
-    }
-    const ceiling = hi - gaps[gaps.length - 1] - at[at.length - 1] + lo;
-
-    const y = isotonic(
-      here.map((r, k) => r.at - at[k] + lo),
-      idx.map((i) => hold[i])
-    );
-
-    // Clamping a non-decreasing sequence elementwise keeps it non-decreasing.
-    for (let k = 0; k < idx.length; k++) {
-      hues[idx[k]] = wrap(Math.min(Math.max(y[k], lo), ceiling) + at[k] - lo);
-    }
-  }
-
-  return { hues, shortfall };
-}
-
 /* -------------------------------------------------------------- *
  * Building a palette
  * -------------------------------------------------------------- */
 
 export type Palette = Record<RoleName, Colour>;
 
-/** Where every role landed, and by how much the wheel came up short. */
-export type Layout = { hues: Record<RoleName, number>; shortfall: number };
-
-/** The hue each role lands on in a given variant, before it becomes a colour. */
-export function huesFor(family: Family): Layout {
-  const F = FAMILIES[family];
-  const turn = arc(BASE_HUE, F);
-
-  /*
-   * The tilt the semantic roles take on. A plain fraction of the turn is not
-   * enough on its own: the turn runs to 180 degrees, so even a third of it
-   * would carry a green string to orange in the variants furthest from indigo.
-   * Capping the drift is what keeps "the same theme, tilted" from becoming a
-   * different palette at the far end of the wheel.
-   */
-  const drift = driftFor(turn);
-
-  const pole = poleSign(F);
-
-  const out = {} as Record<RoleName, number>;
-  for (const [name, role] of Object.entries(ROLES) as [RoleName, Role][]) {
-    out[name] =
-      role.band === 'family'
-        ? wrap(F + role.h)
-        : role.band === 'signature'
-          ? wrap(F + role.h * pole)
-          : wrap(role.h + drift * share(role.hold));
-  }
-
-  /*
-   * The obstacles a semantic role has to clear: the family cluster, and the
-   * keyword pole. The cluster is one position rather than three — variables,
-   * properties and operators sit within 12 degrees of the family hue by design
-   * and are told apart by lightness, so clearing the group clears all of them.
-   *
-   * `generic` is not an obstacle. It is the one signature colour that sits well
-   * below the syntax band (L 0.53 against 0.75-0.89), so no semantic role can
-   * be confused with it whatever their hues do, and treating it as one only
-   * over-constrains a wheel that is already crowded.
-   */
-  const obstacles = [F, out.keyword];
-
-  /*
-   * What each pair is owed, measured off the shipped theme rather than
-   * asserted. `base` is where these hues sit when the family is indigo, which
-   * is the arrangement the theme was designed with.
-   */
-  const base = CONTESTED.map((n) => ROLES[n].h);
-  const hold = CONTESTED.map((n) => ROLES[n].hold);
-  const caps = [GUARD, GUARD_KEYWORD];
-  const baseObstacles = [BASE_HUE, BASE_HUE + ROLES.keyword.h];
-  const wantPair = base.map((a) => base.map((b) => needed(a, b)));
-  const wantFixed = base.map((a) => baseObstacles.map((o, k) => needed(a, o, caps[k])));
-
-  const { hues, shortfall } = arrange(
-    CONTESTED.map((n) => out[n]),
-    hold,
-    obstacles,
-    wantPair,
-    wantFixed
-  );
-  CONTESTED.forEach((n, i) => (out[n] = hues[i]));
-
-  // The brights ride along with whatever their base ended up as.
-  for (const [bright, of] of Object.entries(FOLLOWS) as [RoleName, RoleName][]) {
-    out[bright] = wrap(out[of] + arc(ROLES[of].h, ROLES[bright].h));
-  }
-
-  return { hues: out, shortfall };
+/** Where a role sits when the family is indigo — the reference for everything. */
+function homeHue(name: RoleName): number {
+  const role = ROLES[name];
+  if (role.band === 'ground' || role.band === 'chrome') return wrap(BASE_HUE + role.h);
+  return wrap(role.h);
 }
 
-/* -------------------------------------------------------------- *
- * From a hue to a colour
- * -------------------------------------------------------------- */
+/** The hue each role lands on in a given variant. */
+export function huesFor(family: Family): Record<RoleName, number> {
+  const v = VARIANTS[family];
+  const out = {} as Record<RoleName, number>;
 
-/** Where a role sits when the family is indigo — the reference for everything. */
-const homeHue = (role: Role): number =>
-  role.band === 'semantic' ? wrap(role.h) : wrap(BASE_HUE + role.h);
+  for (const [key, role] of Object.entries(ROLES) as [RoleName, Role][]) {
+    /*
+     * A `*Bright` terminal colour is its base at another lightness, so it takes
+     * the base's new hue plus whatever gap indigo put between the two — which
+     * is a degree or three, and keeping it is what stops the pair from reading
+     * as two different colours in a terminal.
+     */
+    if (role.from) {
+      const base = role.from as RoleName;
+      out[key] = wrap(out[base] + arc(homeHue(base), role.h));
+      continue;
+    }
+
+    out[key] =
+      role.band === 'ground' || role.band === 'chrome'
+        ? wrap(v.hue + role.h)
+        : role.band === 'accent'
+          ? wrap(v.accent.h + (key === 'accentDim' ? DIM_HUE : 0))
+          : wrap(v.hues[key as Named]);
+  }
+
+  return out;
+}
 
 /*
- * CHROMA IS ABSOLUTE, and that is a decision worth recording because the
+ * CHROMA IS ABSOLUTE WITHIN A BAND, and that is worth recording because the
  * obvious alternative is wrong in an interesting way.
  *
  * sRGB is not a cylinder. It holds far more chroma at magenta than at green, so
@@ -629,28 +644,54 @@ const homeHue = (role: Role): number =>
  * meant "sit on the edge at every hue", and the edge is a long way out in
  * magenta.
  *
- * So the chroma in the role table is the chroma, everywhere. Where a hue cannot
- * hold it, `hex()` reduces it to the most that hue can — which for the near
- * black grounds is not a defect but the best available answer: the tint those
- * hues can carry at L 0.08 is simply smaller, and taking all of it is the
- * most colour there is to take.
+ * So chroma is indigo's number, scaled by one multiplier for the whole band —
+ * a judgement made once per family about how loud its grounds, its chrome and
+ * its ink should be, rather than a formula applied per colour. Where a hue
+ * cannot hold the result, `hex()` reduces it to the most that hue can, which
+ * for the near-black grounds is not a defect but the best available answer:
+ * the tint those hues can carry at L 0.08 is simply smaller, and taking all of
+ * it is the most colour there is to take.
  */
+function chromaFor(name: RoleName, v: Variant): number {
+  const role = ROLES[name];
+  switch (role.band) {
+    case 'ground':
+      return role.c * v.ground;
+    case 'chrome':
+      return role.c * v.chrome;
+    case 'accent':
+      return v.accent.c * (name === 'accentDim' ? DIM_CHROMA : 1);
+    default:
+      return role.c * v.ink;
+  }
+}
 
 /** The 38 colours of one variant. */
 export function paletteFor(family: Family): Palette {
-  const { hues } = huesFor(family);
+  const v = VARIANTS[family];
+  const hues = huesFor(family);
   const out = {} as Palette;
 
-  for (const [name, role] of Object.entries(ROLES) as [RoleName, Role][]) {
+  for (const name of Object.keys(ROLES) as RoleName[]) {
+    const role = ROLES[name];
     const h = hues[name];
-    // Lightness: the role's own, plus whatever its new hue needs and its old
-    // one did not — and only as much of that as a role this bright is owed.
-    // A role that has not moved gets exactly its own.
-    const l = Math.min(0.99, role.l + liftGate(role.l) * (lift(h) - lift(homeHue(role))));
-    out[name] = hex({ l, c: role.c, h });
+
+    /*
+     * Lightness: the accent's is named by the family and taken as given. Every
+     * other role gets its own, plus whatever its new hue needs and its old one
+     * did not — and only as much of that as a role this bright is owed. A role
+     * that has not moved gets exactly its own, which is what keeps indigo the
+     * theme it already was.
+     */
+    const l =
+      role.band === 'accent'
+        ? v.accent.l + (name === 'accentDim' ? DIM_LIGHT : 0)
+        : Math.min(0.99, role.l + liftGate(role.l) * (lift(h) - lift(homeHue(name))));
+
+    out[name] = hex({ l, c: chromaFor(name, v), h });
   }
 
   return out;
 }
 
-export { BASE_HUE, CONTESTED, GUARD, PULL, ROLES };
+export { BASE_HUE, CONTESTED, ROLES, VARIANTS };

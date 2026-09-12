@@ -29,9 +29,10 @@ import { fileURLToPath } from 'node:url';
 import { contrast } from './color.ts';
 import {
   FAMILY_ORDER,
+  SEPARATION,
   WHITE,
-  huesFor,
   paletteFor,
+  tightest,
   type Family,
   type Palette,
 } from './theme-palette.ts';
@@ -713,15 +714,36 @@ function check(): string[] {
     }
 
     if (family === 'indigo') continue;
+
     // 3. White on the accent, which is the one pairing the palette cannot move.
     const onAccent = contrast(WHITE, p.accent);
     if (onAccent < 3) {
       problems.push(`${family}: white on the accent is only ${onAccent.toFixed(2)}:1`);
     }
+
+    /*
+     * 4. No two roles that have to be told apart sit on top of each other.
+     *
+     * This replaces the machinery that used to *arrange* the crowded variants —
+     * a rotation delivered its hues wherever the turn happened to put them, so
+     * something had to shuffle them afterwards, and in the green and orange
+     * families that meant squeezing roles into whatever gap was left. The hues
+     * are now written down per family, so the only thing worth asserting is
+     * that nobody edits one into its neighbour. Indigo is exempt because it
+     * predates the floor and sits under it on purpose: its enum members and
+     * numbers are 19.5 degrees apart and are told apart by lightness instead.
+     */
+    const near = tightest(family);
+    if (near.deg < SEPARATION) {
+      problems.push(
+        `${family}: ${near.a} and ${near.b} are only ${near.deg.toFixed(1)}° apart, ` +
+          `under the ${SEPARATION}° floor`
+      );
+    }
   }
 
   /*
-   * 4. package.json declares exactly what this build writes.
+   * 5. package.json declares exactly what this build writes.
    *
    * A theme VS Code is not told about is a file on disk and nothing else, and
    * the failure is silent in both directions — a variant missing from the
@@ -759,21 +781,18 @@ if (problems.length) {
 fs.mkdirSync(THEMES, { recursive: true });
 for (const family of FAMILY_ORDER) {
   const palette = paletteFor(family);
-  const { shortfall } = huesFor(family);
   const file = fileFor(family);
   fs.writeFileSync(
     path.join(THEMES, file),
     JSON.stringify(themeFor(family, palette), null, 2) + '\n',
     'utf8'
   );
-  /*
-   * A shortfall means the wheel could not give that variant every separation
-   * the shipped theme had — the family hue landed inside the arc the semantic
-   * roles occupy and something had to be shared. It is printed rather than
-   * thrown because it is a fact about the hue, not a mistake: green, red and
-   * orange are crowded and no arrangement makes them otherwise.
-   */
-  const note = shortfall > 1 ? `  (crowded: ${Math.round(shortfall)}° short)` : '';
-  console.log(`  ${labelFor(family).padEnd(16)} -> themes/${file}${note}`);
+  // How much room the family's tightest pair has, so a design edit that walks
+  // two roles toward each other is visible before it reaches the floor.
+  const near = tightest(family);
+  console.log(
+    `  ${labelFor(family).padEnd(16)} -> themes/${file}` +
+      `  (closest: ${near.a}/${near.b} ${near.deg.toFixed(0)}°)`
+  );
 }
 console.log(`\nwrote ${FAMILY_ORDER.length} themes`);
