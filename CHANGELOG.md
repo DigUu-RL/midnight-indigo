@@ -4,6 +4,45 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.0.0]
+
+The seven color variants are redesigned. Every color in all seven changed.
+
+**If you use Midnight Indigo, nothing changes.** It is still byte-for-byte the theme 5.0.0 shipped, and the build still asserts it and refuses to write anything if that ever stops being true. **If you use one of the other seven, it will look different** — that is the release. No theme was renamed, added or removed, so `workbench.colorTheme` keeps working; the colors behind the name are new.
+
+### Changed
+
+- **A variant is no longer a rotation of indigo.** 6.0.0 generated the seven by moving every color by one angle — the family band by the full turn, the semantic roles by a capped fraction of it — with lightness and chroma held byte-identical across all eight. It was carefully built, and dumping the eight palettes side by side showed what it actually produced: every ground at `indigo + Δ`, every string at `indigo + drift`, and the `L` and `C` columns the same down all eight rows. A rotation of everything by the same angle is what `hue-rotate()` is, which is why the variants read as one theme behind colored glass no matter how the rotation was tuned. 6.0.0's release notes claimed each variant was "rebuilt rather than tinted"; measured, that was not true, and this release is the correction.
+
+  [`tools/theme-palette.ts`](tools/theme-palette.ts) now holds eight designs instead of one plus a formula. Each family names the hue of every color that carries an identity of its own — the family, the accent, the keywords and their darker partner, and each of the six semantic roles — chosen for that hue rather than derived from indigo's.
+
+- **Saturation is now part of the design, not a constant.** Three multipliers per family: one for the grounds, one for the foreground ramp and family syntax, one for the ink. Indigo's chroma does not mean the same thing at hue 27 as at 290 — red's ground at indigo's numbers is a visible maroon rather than a near-black with a hint in it, and its foreground ramp is salmon rather than a warm grey; orange is worse, since amber is where sRGB is widest. Both now run well under indigo. Cyan and green have the opposite problem — cyan is the pinch in sRGB, with barely half the chroma available at the accent's lightness that violet has — and take more.
+
+  This is what lets two variants differ in saturation and in the intervals between their roles, rather than only in where the wheel was turned to.
+
+- **The accent is chosen per family** — hue, chroma and lightness — instead of being the family hue at indigo's lightness. Green's was a traffic-light `#009D11`; it is now a deeper emerald, and every family's accent still clears 3:1 against the white text that sits on it.
+
+- **The crowded families are re-laid rather than squeezed.** Because 6.0.0 turned the family fully and the semantics only partly, green, cyan and blue landed *inside* the arc their own semantic roles occupy: the green variant shipped with chrome at hue 150 and strings at 124, types at 176 and interfaces at 75 — a code area collapsed onto the chrome hue. Now:
+
+  - **Orange** owns the amber band, so its numbers are warm red and its enum members rose, across the wheel's zero from the chrome.
+  - **Green** owns green. The reason a string cannot be green here is not the background — the grounds are near-black at every hue and a string clears them by 20:1 — it is the variables, which are family by definition and sit at hue 152 and `L` 0.78 exactly where a green string would be. Strings are yellow-green at 125, and the interfaces give up lime for gold.
+  - **Cyan** owns teal, so its types cross to the other side of its strings: jade at 168, strings at 135.
+  - **Blue** sits on the functions, which move to azure-cyan at 215 — still unmistakably blue, 43 degrees clear of the chrome — with the types dropping back to teal to make the room.
+
+  Purple, pink and red have room to keep every convention, and do: green strings, blue functions, warm numbers.
+
+- **Conventions are kept by choice now, not by a formula.** The old `PULL`, `MAX_DRIFT` and `share()` decided how far a role was *allowed* to follow the rotation, which is a different question from where the role should be. A string is green where the family leaves room for green, and something deliberate where it does not.
+
+- **The separation rule is a floor the build checks, not a ceiling it arranges around.** No two roles that must be told apart may sit closer than 22 degrees; the build names the pair and the family and writes nothing if one is ever edited into its neighbour. Indigo is exempt, because it predates the floor and sits under it on purpose — its enum members and numbers are 19.5 degrees apart, told apart by lightness instead.
+
+- **Every legibility check from 6.0.0 still holds** — all eight variants clear WCAG AAA at 7:1 for every code token, chrome text clears its indigo value with slack, white clears 3:1 on every accent — and the grounds are still ultra-dark: the `lift` correction remains gated so it never touches a near-black.
+
+- **`docs/preview/palettes.png` and the language screenshots are regenerated** from the new theme files.
+
+### Removed
+
+- **`arrange()` and the machinery around it.** The weighted isotonic regression that packed the crowded variants' hues into whatever arc was left, along with `PULL`, `MAX_DRIFT`, `driftFor()`, `share()`, `poleSign()`, the `hold` weights and the `GUARD` ceilings. None of it has anything to arrange now: no variant is asked to fit its semantics into the arc its family sits in. The build no longer reports a "crowded" shortfall because no family has one; it prints each family's closest pair instead.
+
 ## [6.0.0]
 
 Seven new color themes, one icon theme removed, and a bug fix that had been making two file icons unreadable.

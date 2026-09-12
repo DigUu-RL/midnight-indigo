@@ -61,7 +61,7 @@ const TMP = path.join(os.tmpdir(), 'midnight-indigo-preview');
  * reminder: it fetches every image the docs reference and fails on any that
  * does not resolve.
  */
-const IMAGE_REF = 'd57c1e5dd621f6dcef2db035175cc571da78b27a';
+const IMAGE_REF = '5fd96238600b6cbe6c7ca11cd31ed13dc5c7f889';
 
 /*
  * The hero and the language cards are shot in one variant — indigo unless a
