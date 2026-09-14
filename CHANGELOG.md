@@ -38,6 +38,8 @@ The pictograms are somebody else's drawings now, the folders are facades with li
 - **`.psd` and the other layered design documents** get a design pictogram instead of falling through to plain text; Adobe's marks are not in simple-icons, so no logo is claimed.
 - **`schemas`, `themes`, `packages` and `jobs` are their own folder icons** rather than aliases of `database`, `styles`, `core` and `validators`.
 
+- **Every screenshot is regenerated and repinned.** The two icon galleries, the hero — which draws its file tree with the real SVGs — and the JSON and SQL language cards, whose tab strips carry an icon that changed. The README and [`docs/PREVIEW.md`](docs/PREVIEW.md) pin their images to a commit rather than to a branch so a Marketplace listing is never served a screenshot the published extension does not match, and that pin moves with them.
+
 ### Removed
 
 - **The hand-drawing primitives that existed only for the old pictograms** — `roundedPolygonPath`, `roundedPolygon`, `starPath`, `star`, `capsulePath`, `capsule`, `strokedPath`, `ellipse`, `ring`, `roundedFrame` and `mirroredHorizontally`. [`tools/shapes.ts`](tools/shapes.ts) has one consumer left: the dozen logos with no redistributable source, which are still drawn by hand.
