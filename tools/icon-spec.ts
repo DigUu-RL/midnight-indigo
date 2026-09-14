@@ -87,18 +87,18 @@ export const fileIcons = {
   javascript: { mark: 'javascript' },
   typescript: { mark: 'typescript' },
   jsx: { mark: 'react' },
-  mjs: { glyph: 'cubes', colors: [JS] },
+  mjs: { glyph: 'squares', colors: [JS] },
 
   'javascript-spec': { glyph: 'flask', colors: [JS] },
   'javascript-test': { glyph: 'listCheck', colors: [JS] },
   'javascript-config': { glyph: 'wrench', colors: [JS] },
   'javascript-min': { glyph: 'compress', colors: [JS] },
-  'javascript-module': { glyph: 'cubes', colors: [JS] },
+  'javascript-module': { glyph: 'squares', colors: [JS] },
 
   'typescript-spec': { glyph: 'flask', colors: [TS] },
   'typescript-test': { glyph: 'listCheck', colors: [TS] },
   'typescript-d': { glyph: 'tag', colors: [TS] },
-  'typescript-module': { glyph: 'cubes', colors: [TS] },
+  'typescript-module': { glyph: 'squares', colors: [TS] },
   'typescript-component': { glyph: 'puzzle', colors: [TS] },
   'typescript-service': { glyph: 'gear', colors: [TS] },
   'typescript-stories': { glyph: 'book', colors: [TS] },
@@ -318,9 +318,10 @@ export const fileIcons = {
   cypress: { mark: 'cypress' },
   vitest: { mark: 'vitest' },
   mocha: { mark: 'mocha' },
-  // Playwright has no mark in simple-icons; a checklist in its green says the
-  // same thing as its logo does, which is "these are the passing runs".
-  playwright: { glyph: 'listCheck', colors: ['#2EAD33'] },
+  // Playwright has no mark in simple-icons. The test tube rather than the
+  // checklist: the checklist is what the validators and the .test files wear,
+  // and a runner's config is the apparatus, not the results.
+  playwright: { glyph: 'testTube', colors: ['#2EAD33'] },
 
   /* --- other ecosystems' package managers --- */
   gradle: { mark: 'gradle' },
@@ -329,7 +330,7 @@ export const fileIcons = {
   // Composer's mark is a line-art figure; the parcel says the same thing and
   // survives 16px. Its fileIcons used to resolve to PHP's elephant, which said
   // which language it was and nothing about what the file did.
-  composer: { glyph: 'install', colors: ['#885630'] },
+  composer: { glyph: 'package', colors: ['#885630'] },
   poetry: { mark: 'poetry' },
   conda: { mark: 'anaconda' },
 
@@ -342,16 +343,16 @@ export const fileIcons = {
   /* --- Documents and generic assets --- */
   text: { glyph: 'lines', colors: ['#94A3B8'] },
   log: { glyph: 'logLines', colors: ['#A8A29E'] },
-  license: { glyph: 'seal', colors: ['#C9A227'] },
+  license: { glyph: 'certificate', colors: ['#C9A227'] },
   changelog: { glyph: 'history', colors: ['#A855F7'] },
   lock: { glyph: 'padlock', colors: ['#94A3B8'] },
   cert: { glyph: 'key', colors: ['#10B981'] },
-  diff: { glyph: 'plusMinus', colors: ['#8B5CF6'] },
-  binary: { text: '10', colors: ['#8A8580'] },
+  diff: { glyph: 'gitDiff', colors: ['#8B5CF6'] },
+  binary: { glyph: 'binary', colors: ['#8A8580'] },
   image: { glyph: 'picture', colors: ['#26A69A'] },
   font: { glyph: 'typeA', colors: ['#6366F1'] },
-  audio: { glyph: 'note', colors: ['#EC4899'] },
-  video: { glyph: 'play', colors: ['#38BDF8'] },
+  audio: { glyph: 'musicNote', colors: ['#EC4899'] },
+  video: { glyph: 'film', colors: ['#38BDF8'] },
   archive: { glyph: 'zip', colors: ['#F59E0B'] },
   // Adobe's mark is not ours to ship, and a PDF badge is its letters anyway.
   pdf: { text: 'PDF', colors: ['#E5252A'] },
@@ -371,20 +372,20 @@ export const fileIcons = {
   calendar: { glyph: 'calendar', colors: ['#E0574A'] },
   contact: { glyph: 'contactCard', colors: ['#4EA1D3'] },
   geo: { glyph: 'mapPin', colors: ['#34A853'] },
-  vector: { glyph: 'vector', colors: ['#FF8A3D'] },
-  model3d: { glyph: 'model3d', colors: ['#9B7BD4'] },
+  vector: { glyph: 'vectorPen', colors: ['#FF8A3D'] },
+  model3d: { glyph: 'mesh', colors: ['#9B7BD4'] },
   subtitle: { glyph: 'subtitle', colors: ['#8FB8DE'] },
   ebook: { glyph: 'ebook', colors: ['#C08457'] },
   diskimage: { glyph: 'disk', colors: ['#A0AEC0'] },
   shortcut: { glyph: 'link', colors: ['#8AB4F8'] },
   debug: { glyph: 'bug', colors: ['#E06C75'] },
-  dataset: { glyph: 'chart', colors: ['#4FD1C5'] },
-  math: { glyph: 'pi', colors: ['#F2A65A'] },
-  capture: { glyph: 'signal', colors: ['#6EC1E4'] },
+  dataset: { glyph: 'scatter', colors: ['#4FD1C5'] },
+  math: { glyph: 'math', colors: ['#F2A65A'] },
+  capture: { glyph: 'network', colors: ['#6EC1E4'] },
   game: { glyph: 'gamepad', colors: ['#A78BFA'] },
   torrent: { glyph: 'magnet', colors: ['#5C7CFA'] },
   raw: { glyph: 'camera', colors: ['#D9822B'] },
-  package: { glyph: 'install', colors: ['#C2712F'] },
+  package: { glyph: 'package', colors: ['#C2712F'] },
   temp: { glyph: 'trash', colors: ['#78716C'] },
   // Assistant rules and prompt fileIcons, which are recent enough that no
   // convention has settled on a shape for them yet.
@@ -401,11 +402,114 @@ export const fileIcons = {
   word: { mark: 'word', text: 'W', textFill: WHITE, size: 15, dy: 0.2 },
   excel: { mark: 'excel', text: 'X', textFill: WHITE, size: 15, dy: 0.2 },
   powerpoint: { mark: 'powerpoint', text: 'P', textFill: WHITE, size: 15, dy: 0.2 },
+
+  /* ---------------------------------------------------------------- *
+   * V4: the rest of the file system.
+   *
+   * The set has always grown around the files its author opens, and the
+   * previous pass admitted that about calendars and packet captures. This one
+   * goes further out: the languages nobody starts a new project in but plenty
+   * of people maintain, the hardware and scientific formats, the dozen small
+   * files a repository keeps in its root that are not source and not
+   * documentation either.
+   *
+   * The test each of these had to pass is the same one as everywhere else: is
+   * there a DIFFERENT thing to say about this file than the icon it currently
+   * falls through to says? A COBOL source and a Prolog source both used to be
+   * the plain-text page, and neither of them is plain text.
+   * ---------------------------------------------------------------- */
+
+  /* --- languages a set usually stops before --- */
+  cobol: { text: 'CBL', colors: ['#005CA5'] },
+  pascal: { text: 'PAS', colors: ['#E3F171'] },
+  ada: { text: 'ADA', colors: ['#02F88C'] },
+  tcl: { text: 'TCL', colors: ['#C3B091'] },
+  abap: { text: 'ABAP', colors: ['#0FAAFF'] },
+  // The Lisps are the one family whose SYNTAX is the logo: everything else here
+  // is named after what the file does, and this is named after how it looks.
+  lisp: { glyph: 'parens', colors: ['#9A5BA0'] },
+  scheme: { glyph: 'parens', colors: ['#4E7EDB'] },
+  prolog: { glyph: 'brain', colors: ['#C05A5A'] },
+  // sed and awk are not languages anyone ships a logo for; they are the shell.
+  awk: { glyph: 'terminal', colors: ['#A3B18A'] },
+  applescript: { glyph: 'command', colors: ['#A0AEC0'] },
+  autohotkey: { glyph: 'keyboard', colors: ['#5C9ACF'] },
+
+  /* --- hardware, graphics and science --- */
+  // Verilog and VHDL describe circuits rather than programs, and they are told
+  // apart here the way the rest of the set tells two roles apart: same shape,
+  // different colour.
+  verilog: { glyph: 'circuit', colors: ['#4CC38A'] },
+  vhdl: { glyph: 'circuit', colors: ['#6B8EE8'] },
+  // A waveform dump is the OUTPUT of the two above — the signal, not the design.
+  waveform: { glyph: 'wave', colors: ['#B48EE8'] },
+  pcb: { glyph: 'circuit', colors: ['#D98E3A'] },
+  shader: { glyph: 'gpu', colors: ['#F06A38'] },
+  cuda: { glyph: 'gpu', colors: ['#76B900'] },
+  matlab: { glyph: 'math', colors: ['#E16737'] },
+  statistics: { glyph: 'scatter', colors: ['#3B82F6'] },
+  // Weights and traced graphs — .onnx, .pt, .safetensors, .gguf. Not datasets:
+  // a dataset is rows, and a model is what was learned from them.
+  mlmodel: { glyph: 'brain', colors: ['#EE7752'] },
+  cad: { glyph: 'compass', colors: ['#C77D3E'] },
+  gcode: { glyph: 'printer', colors: ['#5FC0A0'] },
+
+  /* --- templating dialects with no mark of their own --- */
+  liquid: { glyph: 'drop', colors: ['#4CA4DB'] },
+  jinja: { glyph: 'braces', colors: ['#B41717'] },
+
+  /* --- the small files in a repository's root --- */
+  http: { glyph: 'send', colors: ['#4FB8AC'] },
+  sitemap: { glyph: 'treeStructure', colors: ['#5B8DEF'] },
+  feed: { glyph: 'rss', colors: ['#F26522'] },
+  sourcemap: { glyph: 'mapFold', colors: ['#7C8DB5'] },
+  keymap: { glyph: 'keyboard', colors: ['#9CA3AF'] },
+  colortheme: { glyph: 'palette', colors: ['#C084FC'] },
+  diagram: { glyph: 'diagram', colors: ['#6BA8F5'] },
+  design: { glyph: 'shapes', colors: ['#F06292'] },
+  schedule: { glyph: 'timer', colors: ['#8B9DC3'] },
+  unitfile: { glyph: 'gearFine', colors: ['#A3A3A3'] },
+  hosts: { glyph: 'network', colors: ['#77A0C7'] },
+  // Not the same file as a certificate: a certificate is public by design and
+  // these are the ones that must never be committed.
+  secrets: { glyph: 'fingerprint', colors: ['#E0A458'] },
+  codeowners: { glyph: 'users', colors: ['#8AB4F8'] },
+  securitypolicy: { glyph: 'shieldWarning', colors: ['#F87171'] },
+  issuetemplate: { glyph: 'chat', colors: ['#A78BFA'] },
+  prtemplate: { glyph: 'gitPullRequest', colors: ['#7EE787'] },
+  commitconfig: { glyph: 'gitCommit', colors: ['#7FB3D5'] },
+  husky: { glyph: 'dog', colors: ['#F0C674'] },
+  devcontainer: { glyph: 'container', colors: ['#4FC3F7'] },
+  workspace: { glyph: 'folders', colors: ['#B39DDB'] },
+  notice: { glyph: 'scroll', colors: ['#D6C08A'] },
+  backup: { glyph: 'floppy', colors: ['#94A3B8'] },
+  cloudconfig: { glyph: 'cloud', colors: ['#8ECAE6'] },
+
+  /* --- creative project files, which are not their exports --- */
+  audioproject: { glyph: 'waveform', colors: ['#F472B6'] },
+  videoproject: { glyph: 'clapper', colors: ['#A5B4FC'] },
+  bi: { glyph: 'pie', colors: ['#F2C811'] },
+
+  /* --- formats from outside the web stack, with marks of their own --- */
+  // Adobe's marks are not in simple-icons — the project drops trademarks whose
+  // owners ask it to — so a Photoshop document is `design` like the rest of the
+  // layered-artwork formats, and an .ai file keeps the vector pen.
+  xcode: { mark: 'xcode' },
+  postman: { mark: 'postman' },
+  grafana: { mark: 'grafana' },
+  prometheus: { mark: 'prometheus' },
+  sentry: { mark: 'sentry' },
+  sonarqube: { mark: 'sonarqube' },
+  bazel: { mark: 'bazel' },
+  unreal: { mark: 'unreal' },
+  cocoapods: { mark: 'cocoapods' },
+  homebrew: { mark: 'homebrew' },
+  vault: { mark: 'vault' },
 } satisfies Record<string, FileSpec>;
 
 export const folderIcons = {
   components: { accent: '#C084FC', glyph: 'puzzle' },
-  hooks: { accent: '#22D3EE', glyph: 'hook' },
+  hooks: { accent: '#22D3EE', glyph: 'anchor' },
   functions: { accent: '#FBBF24', glyph: 'fx' },
   utils: { accent: '#A3E635', glyph: 'wrench' },
   helpers: { accent: '#34D399', glyph: 'lifebuoy' },
@@ -414,7 +518,7 @@ export const folderIcons = {
   models: { accent: '#F59E0B', glyph: 'grid' },
   views: { accent: '#38BDF8', glyph: 'eye' },
   layouts: { accent: '#A78BFA', glyph: 'layout' },
-  store: { accent: '#FB923C', glyph: 'box' },
+  store: { accent: '#FB923C', glyph: 'archiveTray' },
   context: { accent: '#67E8F9', glyph: 'atom' },
   middleware: { accent: '#F87171', glyph: 'layers' },
   routes: { accent: '#4ADE80', glyph: 'route' },
@@ -425,15 +529,16 @@ export const folderIcons = {
   mocks: { accent: '#D8B4FE', glyph: 'ghost' },
   assets: { accent: '#F0ABFC', glyph: 'cube' },
   images: { accent: '#2DD4BF', glyph: 'picture' },
+  media: { accent: '#F9A8D4', glyph: 'film' },
   icons: { accent: '#FDE047', glyph: 'star' },
   fonts: { accent: '#818CF8', glyph: 'typeA' },
   styles: { accent: '#F9A8D4', glyph: 'brush' },
   public: { accent: '#5EEAD4', glyph: 'globe' },
   build: { accent: '#94A3B8', glyph: 'hammer' },
-  docs: { accent: '#93C5FD', glyph: 'book' },
+  docs: { accent: '#93C5FD', glyph: 'books' },
   database: { accent: '#FBBF24', glyph: 'cylinder' },
   types: { accent: '#60A5FA', glyph: 'tag' },
-  constants: { accent: '#FCA5A5', glyph: 'padlock' },
+  constants: { accent: '#FCA5A5', glyph: 'lockSimple' },
   core: { accent: '#C4B5FD', glyph: 'chip' },
   plugins: { accent: '#A5B4FC', glyph: 'plug' },
   i18n: { accent: '#4ADE80', glyph: 'translate' },
@@ -444,6 +549,22 @@ export const folderIcons = {
   server: { accent: '#7DD3FC', glyph: 'serverRack' },
   shared: { accent: '#F472B6', glyph: 'share' },
   security: { accent: '#FB7185', glyph: 'shield' },
+
+  /* --- V4: the directories a repository grows that the set never named --- */
+  logs: { accent: '#A8A29E', glyph: 'logLines' },
+  temp: { accent: '#78716C', glyph: 'trash' },
+  archive: { accent: '#B7A98B', glyph: 'archiveTray' },
+  packages: { accent: '#DDA15E', glyph: 'folders' },
+  schemas: { accent: '#7DD3FC', glyph: 'treeStructure' },
+  themes: { accent: '#E879F9', glyph: 'palette' },
+  keys: { accent: '#FDE68A', glyph: 'key' },
+  benchmarks: { accent: '#FDBA74', glyph: 'speedometer' },
+  jobs: { accent: '#93C5FD', glyph: 'timer' },
+  design: { accent: '#F0ABFC', glyph: 'shapes' },
+  audio: { accent: '#F9A8D4', glyph: 'musicNote' },
+  // Assistant rules, prompts and the .claude / .cursor directories — a folder
+  // that did not exist when this set was started.
+  ai: { accent: '#C4B5FD', glyph: 'sparkle' },
 } satisfies Record<string, FolderSpec>;
 
 /** The icon names the two literals above actually define. */

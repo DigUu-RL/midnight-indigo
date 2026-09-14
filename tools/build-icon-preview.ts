@@ -185,7 +185,7 @@ shoot(
   browser,
   gallery(
     `${fileIcons.length} file and language icons`,
-    'each drawn from the language\'s own logo',
+    'the project\'s own logo where there is one, an imported pictogram where there is not',
     FILE_COLS,
     fileIcons.map((n) => cell(icon(n), label(n)))
   ),

@@ -4,6 +4,44 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.0]
+
+The pictograms are somebody else's drawings now, the folders are facades with light on them, and the set finally reaches the rest of the file system.
+
+**If you use the themes, nothing changes.** All eight colour themes are byte-for-byte what 8.0.0 shipped. **If you use the icons, every folder and every icon that is not a brand logo looks different** — the whole pictogram library was replaced, the folder geometry was redrawn, and 61 more file icons were added.
+
+### Added
+
+- **The pictograms come from [Iconify](https://iconify.design).** [`tools/import-pictograms.ts`](tools/import-pictograms.ts) fetches them, resolves their duotone into this set's two colour slots and writes a checked-in [`tools/pictogram-paths.ts`](tools/pictogram-paths.ts) — the same arrangement the brand marks have had since 8.0, and building the icons still never touches the network. The library is one family, [Phosphor](https://phosphoricons.com) (MIT), at its `duotone` weight; two icons come from Fluent (MIT) and MingCute (Apache-2.0) where Phosphor's drawing does not survive 16px, and the brackets take Phosphor's `bold` weight for the same reason. See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+- **61 more file icons — 291, up from 230 — matched to 526 extensions and 243 exact filenames** (up from 401 and 202).
+
+  - **The languages a set usually stops before**: COBOL, Pascal/Delphi, Ada, Tcl, ABAP, Lisp, Scheme, Prolog, AppleScript, AutoHotkey, awk and sed.
+  - **Hardware, graphics and science**: Verilog, VHDL, waveform dumps, PCB layouts, shaders (GLSL/HLSL/WGSL/Metal), CUDA, MATLAB, statistics packages, machine-learning weights, CAD drawings and G-code.
+  - **The small files a repository keeps in its root**, almost none of which have an extension and all of which used to resolve to the plain-text page: `CODEOWNERS`, `SECURITY.md`, issue and pull-request templates, commit and release config, Husky hooks, dev containers, `hosts`, crontabs, systemd units, sitemaps, feeds, source maps, keymaps, colour themes, workspaces, credentials, notices and backups.
+  - **Creative project files as distinct from their exports**: DAW sessions, editing timelines, BI documents, layered design documents.
+  - **Eleven brand marks whose file IS the tool**: Xcode, Postman, Bazel, CocoaPods, Homebrew, Grafana, Prometheus, Sentry, SonarQube, Vault and Unreal Engine.
+  - **13 more folder icons — 53, up from 40**: `logs`, `temp/cache`, `archive/legacy`, `packages/apps`, `schemas/proto`, `themes/palettes`, `keys/certs`, `benchmarks/perf`, `jobs/queues/cron`, `design/mockups`, `audio`, `media/video` and `ai/.claude/prompts`.
+
+- **A build warning for pictograms nothing draws**, matching the one that already existed for imported marks. An imported library grows by adding a line, so the only thing that keeps it from filling up with shapes the set decided against is being told.
+
+### Changed
+
+- **Every pictogram was replaced.** 8.0 redrew the hand-made library and defended it at length; the rules it followed were right and the drawings were still the weakest half of the set — a hand-drawn flask, clipboard and terminal are three sketches by one person, sitting beside a hundred and fifty logos drawn by the people whose job that was. What stays is the treatment, which was always the part worth keeping: the box, the measured centring, the duotone split, the shadow, and the decision about which drawing means which file.
+
+- **Folders are facades with a beam of light across them.** The tabbed wallet-in-perspective is gone. A folder is now one flat panel square to the viewer, with its pictogram sunk into it and a hard-edged beam crossing at 40° — clipped to the panel, drawn over the pictogram as well as the body, because light falls on everything in front of it. The open state drops the front wall away and shows the body behind it in a darker tone, instead of faking a second sheet of card. It is the one place in the set that spends opacity, and it can: it is blending with the folder's own accent rather than with the near-black ground.
+
+- **Lettered icons have a rule under them, with the same light at 45°.** `PDF`, `ASM`, `INI`, `BAT` and the rest were the only icons in the set with no object in them, and three characters alone in a box read as a label for an icon that had failed to load. Each string is now fitted to the height the rule leaves it rather than nudged, so a tall single letter shrinks instead of running out of the canvas.
+
+- **`.exe`, `.dll` and friends** take the binary pictogram rather than a lettered `10`.
+- **`.vhd` is VHDL source rather than a virtual hard disk**, on the grounds that in an editor it is the source; the disk image keeps `.vhdx`, `.vmdk` and the rest.
+- **`.psd` and the other layered design documents** get a design pictogram instead of falling through to plain text; Adobe's marks are not in simple-icons, so no logo is claimed.
+- **`schemas`, `themes`, `packages` and `jobs` are their own folder icons** rather than aliases of `database`, `styles`, `core` and `validators`.
+
+### Removed
+
+- **The hand-drawing primitives that existed only for the old pictograms** — `roundedPolygonPath`, `roundedPolygon`, `starPath`, `star`, `capsulePath`, `capsule`, `strokedPath`, `ellipse`, `ring`, `roundedFrame` and `mirroredHorizontally`. [`tools/shapes.ts`](tools/shapes.ts) has one consumer left: the dozen logos with no redistributable source, which are still drawn by hand.
+
 ## [8.0.0]
 
 The icon set: 90 more icons, every pictogram redrawn, and the brand marks the set had been lettering instead of using.

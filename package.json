@@ -1,8 +1,8 @@
 {
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
-    "description": "An ultra-dark theme in eight colours — indigo, purple, pink, red, orange, green, cyan and blue — each palette designed for its own hue rather than tinted, with a 230-icon file set built on the languages' own official logos and semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "8.0.0",
+    "description": "An ultra-dark theme in eight colours — indigo, purple, pink, red, orange, green, cyan and blue — each palette designed for its own hue rather than tinted, with a 291-icon file set built on the languages' own official logos, folders drawn as lit facades, and semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
+    "version": "9.0.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
@@ -42,6 +42,7 @@
         "typecheck": "tsc",
         "measure:glyphs": "node tools/measure.ts",
         "import:marks": "node tools/import-marks.ts",
+        "import:pictograms": "node tools/import-pictograms.ts",
         "build:icons": "node tools/build-icons.ts",
         "build:themes": "node tools/build-color-themes.ts",
         "build": "npm run build:themes && npm run build:icons",

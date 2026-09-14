@@ -690,6 +690,189 @@
     "_file_powerpoint": {
       "iconPath": "../svg/file-powerpoint.svg"
     },
+    "_file_cobol": {
+      "iconPath": "../svg/file-cobol.svg"
+    },
+    "_file_pascal": {
+      "iconPath": "../svg/file-pascal.svg"
+    },
+    "_file_ada": {
+      "iconPath": "../svg/file-ada.svg"
+    },
+    "_file_tcl": {
+      "iconPath": "../svg/file-tcl.svg"
+    },
+    "_file_abap": {
+      "iconPath": "../svg/file-abap.svg"
+    },
+    "_file_lisp": {
+      "iconPath": "../svg/file-lisp.svg"
+    },
+    "_file_scheme": {
+      "iconPath": "../svg/file-scheme.svg"
+    },
+    "_file_prolog": {
+      "iconPath": "../svg/file-prolog.svg"
+    },
+    "_file_awk": {
+      "iconPath": "../svg/file-awk.svg"
+    },
+    "_file_applescript": {
+      "iconPath": "../svg/file-applescript.svg"
+    },
+    "_file_autohotkey": {
+      "iconPath": "../svg/file-autohotkey.svg"
+    },
+    "_file_verilog": {
+      "iconPath": "../svg/file-verilog.svg"
+    },
+    "_file_vhdl": {
+      "iconPath": "../svg/file-vhdl.svg"
+    },
+    "_file_waveform": {
+      "iconPath": "../svg/file-waveform.svg"
+    },
+    "_file_pcb": {
+      "iconPath": "../svg/file-pcb.svg"
+    },
+    "_file_shader": {
+      "iconPath": "../svg/file-shader.svg"
+    },
+    "_file_cuda": {
+      "iconPath": "../svg/file-cuda.svg"
+    },
+    "_file_matlab": {
+      "iconPath": "../svg/file-matlab.svg"
+    },
+    "_file_statistics": {
+      "iconPath": "../svg/file-statistics.svg"
+    },
+    "_file_mlmodel": {
+      "iconPath": "../svg/file-mlmodel.svg"
+    },
+    "_file_cad": {
+      "iconPath": "../svg/file-cad.svg"
+    },
+    "_file_gcode": {
+      "iconPath": "../svg/file-gcode.svg"
+    },
+    "_file_liquid": {
+      "iconPath": "../svg/file-liquid.svg"
+    },
+    "_file_jinja": {
+      "iconPath": "../svg/file-jinja.svg"
+    },
+    "_file_http": {
+      "iconPath": "../svg/file-http.svg"
+    },
+    "_file_sitemap": {
+      "iconPath": "../svg/file-sitemap.svg"
+    },
+    "_file_feed": {
+      "iconPath": "../svg/file-feed.svg"
+    },
+    "_file_sourcemap": {
+      "iconPath": "../svg/file-sourcemap.svg"
+    },
+    "_file_keymap": {
+      "iconPath": "../svg/file-keymap.svg"
+    },
+    "_file_colortheme": {
+      "iconPath": "../svg/file-colortheme.svg"
+    },
+    "_file_diagram": {
+      "iconPath": "../svg/file-diagram.svg"
+    },
+    "_file_design": {
+      "iconPath": "../svg/file-design.svg"
+    },
+    "_file_schedule": {
+      "iconPath": "../svg/file-schedule.svg"
+    },
+    "_file_unitfile": {
+      "iconPath": "../svg/file-unitfile.svg"
+    },
+    "_file_hosts": {
+      "iconPath": "../svg/file-hosts.svg"
+    },
+    "_file_secrets": {
+      "iconPath": "../svg/file-secrets.svg"
+    },
+    "_file_codeowners": {
+      "iconPath": "../svg/file-codeowners.svg"
+    },
+    "_file_securitypolicy": {
+      "iconPath": "../svg/file-securitypolicy.svg"
+    },
+    "_file_issuetemplate": {
+      "iconPath": "../svg/file-issuetemplate.svg"
+    },
+    "_file_prtemplate": {
+      "iconPath": "../svg/file-prtemplate.svg"
+    },
+    "_file_commitconfig": {
+      "iconPath": "../svg/file-commitconfig.svg"
+    },
+    "_file_husky": {
+      "iconPath": "../svg/file-husky.svg"
+    },
+    "_file_devcontainer": {
+      "iconPath": "../svg/file-devcontainer.svg"
+    },
+    "_file_workspace": {
+      "iconPath": "../svg/file-workspace.svg"
+    },
+    "_file_notice": {
+      "iconPath": "../svg/file-notice.svg"
+    },
+    "_file_backup": {
+      "iconPath": "../svg/file-backup.svg"
+    },
+    "_file_cloudconfig": {
+      "iconPath": "../svg/file-cloudconfig.svg"
+    },
+    "_file_audioproject": {
+      "iconPath": "../svg/file-audioproject.svg"
+    },
+    "_file_videoproject": {
+      "iconPath": "../svg/file-videoproject.svg"
+    },
+    "_file_bi": {
+      "iconPath": "../svg/file-bi.svg"
+    },
+    "_file_xcode": {
+      "iconPath": "../svg/file-xcode.svg"
+    },
+    "_file_postman": {
+      "iconPath": "../svg/file-postman.svg"
+    },
+    "_file_grafana": {
+      "iconPath": "../svg/file-grafana.svg"
+    },
+    "_file_prometheus": {
+      "iconPath": "../svg/file-prometheus.svg"
+    },
+    "_file_sentry": {
+      "iconPath": "../svg/file-sentry.svg"
+    },
+    "_file_sonarqube": {
+      "iconPath": "../svg/file-sonarqube.svg"
+    },
+    "_file_bazel": {
+      "iconPath": "../svg/file-bazel.svg"
+    },
+    "_file_unreal": {
+      "iconPath": "../svg/file-unreal.svg"
+    },
+    "_file_cocoapods": {
+      "iconPath": "../svg/file-cocoapods.svg"
+    },
+    "_file_homebrew": {
+      "iconPath": "../svg/file-homebrew.svg"
+    },
+    "_file_vault": {
+      "iconPath": "../svg/file-vault.svg"
+    },
     "_folder": {
       "iconPath": "../svg/folder.svg"
     },
@@ -822,6 +1005,12 @@
     "_folder_images_open": {
       "iconPath": "../svg/folder-images-open.svg"
     },
+    "_folder_media": {
+      "iconPath": "../svg/folder-media.svg"
+    },
+    "_folder_media_open": {
+      "iconPath": "../svg/folder-media-open.svg"
+    },
     "_folder_icons": {
       "iconPath": "../svg/folder-icons.svg"
     },
@@ -935,6 +1124,78 @@
     },
     "_folder_security_open": {
       "iconPath": "../svg/folder-security-open.svg"
+    },
+    "_folder_logs": {
+      "iconPath": "../svg/folder-logs.svg"
+    },
+    "_folder_logs_open": {
+      "iconPath": "../svg/folder-logs-open.svg"
+    },
+    "_folder_temp": {
+      "iconPath": "../svg/folder-temp.svg"
+    },
+    "_folder_temp_open": {
+      "iconPath": "../svg/folder-temp-open.svg"
+    },
+    "_folder_archive": {
+      "iconPath": "../svg/folder-archive.svg"
+    },
+    "_folder_archive_open": {
+      "iconPath": "../svg/folder-archive-open.svg"
+    },
+    "_folder_packages": {
+      "iconPath": "../svg/folder-packages.svg"
+    },
+    "_folder_packages_open": {
+      "iconPath": "../svg/folder-packages-open.svg"
+    },
+    "_folder_schemas": {
+      "iconPath": "../svg/folder-schemas.svg"
+    },
+    "_folder_schemas_open": {
+      "iconPath": "../svg/folder-schemas-open.svg"
+    },
+    "_folder_themes": {
+      "iconPath": "../svg/folder-themes.svg"
+    },
+    "_folder_themes_open": {
+      "iconPath": "../svg/folder-themes-open.svg"
+    },
+    "_folder_keys": {
+      "iconPath": "../svg/folder-keys.svg"
+    },
+    "_folder_keys_open": {
+      "iconPath": "../svg/folder-keys-open.svg"
+    },
+    "_folder_benchmarks": {
+      "iconPath": "../svg/folder-benchmarks.svg"
+    },
+    "_folder_benchmarks_open": {
+      "iconPath": "../svg/folder-benchmarks-open.svg"
+    },
+    "_folder_jobs": {
+      "iconPath": "../svg/folder-jobs.svg"
+    },
+    "_folder_jobs_open": {
+      "iconPath": "../svg/folder-jobs-open.svg"
+    },
+    "_folder_design": {
+      "iconPath": "../svg/folder-design.svg"
+    },
+    "_folder_design_open": {
+      "iconPath": "../svg/folder-design-open.svg"
+    },
+    "_folder_audio": {
+      "iconPath": "../svg/folder-audio.svg"
+    },
+    "_folder_audio_open": {
+      "iconPath": "../svg/folder-audio-open.svg"
+    },
+    "_folder_ai": {
+      "iconPath": "../svg/folder-ai.svg"
+    },
+    "_folder_ai_open": {
+      "iconPath": "../svg/folder-ai-open.svg"
     }
   },
   "folder": "_folder",
@@ -1024,8 +1285,16 @@
     "images": "_folder_images",
     "img": "_folder_images",
     "imgs": "_folder_images",
-    "media": "_folder_images",
     "pictures": "_folder_images",
+    "media": "_folder_media",
+    "video": "_folder_media",
+    "videos": "_folder_media",
+    "movies": "_folder_media",
+    "audio": "_folder_audio",
+    "sounds": "_folder_audio",
+    "sound": "_folder_audio",
+    "music": "_folder_audio",
+    "sfx": "_folder_audio",
     "icons": "_folder_icons",
     "icon": "_folder_icons",
     "svg": "_folder_icons",
@@ -1037,8 +1306,10 @@
     "css": "_folder_styles",
     "scss": "_folder_styles",
     "sass": "_folder_styles",
-    "themes": "_folder_styles",
-    "theme": "_folder_styles",
+    "themes": "_folder_themes",
+    "theme": "_folder_themes",
+    "palettes": "_folder_themes",
+    "skins": "_folder_themes",
     "public": "_folder_public",
     "www": "_folder_public",
     "web": "_folder_public",
@@ -1059,8 +1330,10 @@
     "seeders": "_folder_database",
     "seeder": "_folder_database",
     "seeds": "_folder_database",
-    "schemas": "_folder_database",
-    "schema": "_folder_database",
+    "schemas": "_folder_schemas",
+    "schema": "_folder_schemas",
+    "proto": "_folder_schemas",
+    "protos": "_folder_schemas",
     "types": "_folder_types",
     "type": "_folder_types",
     "interfaces": "_folder_types",
@@ -1079,7 +1352,10 @@
     "libs": "_folder_core",
     "vendor": "_folder_core",
     "node_modules": "_folder_core",
-    "packages": "_folder_core",
+    "packages": "_folder_packages",
+    "apps": "_folder_packages",
+    "workspaces": "_folder_packages",
+    "monorepo": "_folder_packages",
     "plugins": "_folder_plugins",
     "plugin": "_folder_plugins",
     "modules": "_folder_plugins",
@@ -1105,10 +1381,13 @@
     "validation": "_folder_validators",
     "events": "_folder_validators",
     "listeners": "_folder_validators",
-    "jobs": "_folder_validators",
-    "queues": "_folder_validators",
-    "tasks": "_folder_validators",
     "notifications": "_folder_validators",
+    "jobs": "_folder_jobs",
+    "queues": "_folder_jobs",
+    "tasks": "_folder_jobs",
+    "cron": "_folder_jobs",
+    "scheduler": "_folder_jobs",
+    "workers": "_folder_jobs",
     "docker": "_folder_docker",
     "kubernetes": "_folder_docker",
     "k8s": "_folder_docker",
@@ -1129,7 +1408,37 @@
     "security": "_folder_security",
     "auth": "_folder_security",
     "admin": "_folder_security",
-    "permissions": "_folder_security"
+    "permissions": "_folder_security",
+    "logs": "_folder_logs",
+    "log": "_folder_logs",
+    "temp": "_folder_temp",
+    "tmp": "_folder_temp",
+    "cache": "_folder_temp",
+    ".cache": "_folder_temp",
+    "trash": "_folder_temp",
+    "archive": "_folder_archive",
+    "archived": "_folder_archive",
+    "legacy": "_folder_archive",
+    "deprecated": "_folder_archive",
+    "keys": "_folder_keys",
+    "certs": "_folder_keys",
+    "certificates": "_folder_keys",
+    "ssl": "_folder_keys",
+    "secrets": "_folder_keys",
+    "benchmarks": "_folder_benchmarks",
+    "bench": "_folder_benchmarks",
+    "perf": "_folder_benchmarks",
+    "performance": "_folder_benchmarks",
+    "design": "_folder_design",
+    "designs": "_folder_design",
+    "mockups": "_folder_design",
+    "wireframes": "_folder_design",
+    "ai": "_folder_ai",
+    ".claude": "_folder_ai",
+    ".cursor": "_folder_ai",
+    "prompts": "_folder_ai",
+    "agents": "_folder_ai",
+    "llm": "_folder_ai"
   },
   "folderNamesExpanded": {
     "components": "_folder_components_open",
@@ -1213,8 +1522,16 @@
     "images": "_folder_images_open",
     "img": "_folder_images_open",
     "imgs": "_folder_images_open",
-    "media": "_folder_images_open",
     "pictures": "_folder_images_open",
+    "media": "_folder_media_open",
+    "video": "_folder_media_open",
+    "videos": "_folder_media_open",
+    "movies": "_folder_media_open",
+    "audio": "_folder_audio_open",
+    "sounds": "_folder_audio_open",
+    "sound": "_folder_audio_open",
+    "music": "_folder_audio_open",
+    "sfx": "_folder_audio_open",
     "icons": "_folder_icons_open",
     "icon": "_folder_icons_open",
     "svg": "_folder_icons_open",
@@ -1226,8 +1543,10 @@
     "css": "_folder_styles_open",
     "scss": "_folder_styles_open",
     "sass": "_folder_styles_open",
-    "themes": "_folder_styles_open",
-    "theme": "_folder_styles_open",
+    "themes": "_folder_themes_open",
+    "theme": "_folder_themes_open",
+    "palettes": "_folder_themes_open",
+    "skins": "_folder_themes_open",
     "public": "_folder_public_open",
     "www": "_folder_public_open",
     "web": "_folder_public_open",
@@ -1248,8 +1567,10 @@
     "seeders": "_folder_database_open",
     "seeder": "_folder_database_open",
     "seeds": "_folder_database_open",
-    "schemas": "_folder_database_open",
-    "schema": "_folder_database_open",
+    "schemas": "_folder_schemas_open",
+    "schema": "_folder_schemas_open",
+    "proto": "_folder_schemas_open",
+    "protos": "_folder_schemas_open",
     "types": "_folder_types_open",
     "type": "_folder_types_open",
     "interfaces": "_folder_types_open",
@@ -1268,7 +1589,10 @@
     "libs": "_folder_core_open",
     "vendor": "_folder_core_open",
     "node_modules": "_folder_core_open",
-    "packages": "_folder_core_open",
+    "packages": "_folder_packages_open",
+    "apps": "_folder_packages_open",
+    "workspaces": "_folder_packages_open",
+    "monorepo": "_folder_packages_open",
     "plugins": "_folder_plugins_open",
     "plugin": "_folder_plugins_open",
     "modules": "_folder_plugins_open",
@@ -1294,10 +1618,13 @@
     "validation": "_folder_validators_open",
     "events": "_folder_validators_open",
     "listeners": "_folder_validators_open",
-    "jobs": "_folder_validators_open",
-    "queues": "_folder_validators_open",
-    "tasks": "_folder_validators_open",
     "notifications": "_folder_validators_open",
+    "jobs": "_folder_jobs_open",
+    "queues": "_folder_jobs_open",
+    "tasks": "_folder_jobs_open",
+    "cron": "_folder_jobs_open",
+    "scheduler": "_folder_jobs_open",
+    "workers": "_folder_jobs_open",
     "docker": "_folder_docker_open",
     "kubernetes": "_folder_docker_open",
     "k8s": "_folder_docker_open",
@@ -1318,7 +1645,37 @@
     "security": "_folder_security_open",
     "auth": "_folder_security_open",
     "admin": "_folder_security_open",
-    "permissions": "_folder_security_open"
+    "permissions": "_folder_security_open",
+    "logs": "_folder_logs_open",
+    "log": "_folder_logs_open",
+    "temp": "_folder_temp_open",
+    "tmp": "_folder_temp_open",
+    "cache": "_folder_temp_open",
+    ".cache": "_folder_temp_open",
+    "trash": "_folder_temp_open",
+    "archive": "_folder_archive_open",
+    "archived": "_folder_archive_open",
+    "legacy": "_folder_archive_open",
+    "deprecated": "_folder_archive_open",
+    "keys": "_folder_keys_open",
+    "certs": "_folder_keys_open",
+    "certificates": "_folder_keys_open",
+    "ssl": "_folder_keys_open",
+    "secrets": "_folder_keys_open",
+    "benchmarks": "_folder_benchmarks_open",
+    "bench": "_folder_benchmarks_open",
+    "perf": "_folder_benchmarks_open",
+    "performance": "_folder_benchmarks_open",
+    "design": "_folder_design_open",
+    "designs": "_folder_design_open",
+    "mockups": "_folder_design_open",
+    "wireframes": "_folder_design_open",
+    "ai": "_folder_ai_open",
+    ".claude": "_folder_ai_open",
+    ".cursor": "_folder_ai_open",
+    "prompts": "_folder_ai_open",
+    "agents": "_folder_ai_open",
+    "llm": "_folder_ai_open"
   },
   "fileExtensions": {
     "js": "_file_javascript",
@@ -1610,7 +1967,6 @@
     "iso": "_file_diskimage",
     "dmg": "_file_diskimage",
     "img": "_file_diskimage",
-    "vhd": "_file_diskimage",
     "vhdx": "_file_diskimage",
     "vmdk": "_file_diskimage",
     "qcow2": "_file_diskimage",
@@ -1687,6 +2043,144 @@
     "swo": "_file_temp",
     "old": "_file_temp",
     "orig": "_file_temp",
+    "cbl": "_file_cobol",
+    "cob": "_file_cobol",
+    "cpy": "_file_cobol",
+    "pas": "_file_pascal",
+    "pp": "_file_pascal",
+    "dpr": "_file_pascal",
+    "dfm": "_file_pascal",
+    "adb": "_file_ada",
+    "ads": "_file_ada",
+    "tcl": "_file_tcl",
+    "tk": "_file_tcl",
+    "abap": "_file_abap",
+    "lisp": "_file_lisp",
+    "lsp": "_file_lisp",
+    "cl": "_file_lisp",
+    "el": "_file_lisp",
+    "asd": "_file_lisp",
+    "scm": "_file_scheme",
+    "ss": "_file_scheme",
+    "sld": "_file_scheme",
+    "awk": "_file_awk",
+    "sed": "_file_awk",
+    "applescript": "_file_applescript",
+    "scpt": "_file_applescript",
+    "ahk": "_file_autohotkey",
+    "v": "_file_verilog",
+    "sv": "_file_verilog",
+    "svh": "_file_verilog",
+    "vh": "_file_verilog",
+    "vhd": "_file_vhdl",
+    "vhdl": "_file_vhdl",
+    "vcd": "_file_waveform",
+    "kicad_pcb": "_file_pcb",
+    "kicad_sch": "_file_pcb",
+    "sch": "_file_pcb",
+    "brd": "_file_pcb",
+    "gbr": "_file_pcb",
+    "glsl": "_file_shader",
+    "hlsl": "_file_shader",
+    "wgsl": "_file_shader",
+    "metal": "_file_shader",
+    "frag": "_file_shader",
+    "vert": "_file_shader",
+    "comp": "_file_shader",
+    "geom": "_file_shader",
+    "shader": "_file_shader",
+    "cu": "_file_cuda",
+    "cuh": "_file_cuda",
+    "mlx": "_file_matlab",
+    "mat": "_file_matlab",
+    "sas": "_file_statistics",
+    "dta": "_file_statistics",
+    "sps": "_file_statistics",
+    "onnx": "_file_mlmodel",
+    "pt": "_file_mlmodel",
+    "pth": "_file_mlmodel",
+    "pkl": "_file_mlmodel",
+    "safetensors": "_file_mlmodel",
+    "gguf": "_file_mlmodel",
+    "ggml": "_file_mlmodel",
+    "tflite": "_file_mlmodel",
+    "dwg": "_file_cad",
+    "dxf": "_file_cad",
+    "step": "_file_cad",
+    "stp": "_file_cad",
+    "iges": "_file_cad",
+    "igs": "_file_cad",
+    "sldprt": "_file_cad",
+    "sldasm": "_file_cad",
+    "f3d": "_file_cad",
+    "skp": "_file_cad",
+    "gcode": "_file_gcode",
+    "ngc": "_file_gcode",
+    "liquid": "_file_liquid",
+    "j2": "_file_jinja",
+    "jinja": "_file_jinja",
+    "jinja2": "_file_jinja",
+    "http": "_file_http",
+    "rest": "_file_http",
+    "postman_collection.json": "_file_postman",
+    "map": "_file_sourcemap",
+    "keymap": "_file_keymap",
+    "kbd": "_file_keymap",
+    "tmtheme": "_file_colortheme",
+    "itermcolors": "_file_colortheme",
+    "mmd": "_file_diagram",
+    "mermaid": "_file_diagram",
+    "puml": "_file_diagram",
+    "plantuml": "_file_diagram",
+    "gv": "_file_diagram",
+    "drawio": "_file_diagram",
+    "excalidraw": "_file_diagram",
+    "bpmn": "_file_diagram",
+    "psd": "_file_design",
+    "psb": "_file_design",
+    "xd": "_file_design",
+    "afphoto": "_file_design",
+    "afpub": "_file_design",
+    "procreate": "_file_design",
+    "cdr": "_file_design",
+    "cron": "_file_schedule",
+    "service": "_file_unitfile",
+    "socket": "_file_unitfile",
+    "timer": "_file_unitfile",
+    "mount": "_file_unitfile",
+    "target": "_file_unitfile",
+    "rss": "_file_feed",
+    "atom": "_file_feed",
+    "bkp": "_file_backup",
+    "backup": "_file_backup",
+    "code-workspace": "_file_workspace",
+    "als": "_file_audioproject",
+    "flp": "_file_audioproject",
+    "logicx": "_file_audioproject",
+    "aup": "_file_audioproject",
+    "aup3": "_file_audioproject",
+    "ptx": "_file_audioproject",
+    "rpp": "_file_audioproject",
+    "prproj": "_file_videoproject",
+    "veg": "_file_videoproject",
+    "kdenlive": "_file_videoproject",
+    "fcpxml": "_file_videoproject",
+    "aep": "_file_videoproject",
+    "pbix": "_file_bi",
+    "pbit": "_file_bi",
+    "twb": "_file_bi",
+    "twbx": "_file_bi",
+    "xcodeproj": "_file_xcode",
+    "pbxproj": "_file_xcode",
+    "xcworkspace": "_file_xcode",
+    "xcconfig": "_file_xcode",
+    "xcscheme": "_file_xcode",
+    "uproject": "_file_unreal",
+    "uasset": "_file_unreal",
+    "umap": "_file_unreal",
+    "podspec": "_file_cocoapods",
+    "bzl": "_file_bazel",
+    "bazel": "_file_bazel",
     "spec.ts": "_file_typescript_spec",
     "test.ts": "_file_typescript_test",
     "d.ts": "_file_typescript_d",
@@ -1925,7 +2419,60 @@
     "flake.nix": "_file_nix",
     "flake.lock": "_file_nix",
     "shell.nix": "_file_nix",
-    "default.nix": "_file_nix"
+    "default.nix": "_file_nix",
+    "sitemap.xml": "_file_sitemap",
+    "hosts": "_file_hosts",
+    "crontab": "_file_schedule",
+    "codeowners": "_file_codeowners",
+    "security.md": "_file_securitypolicy",
+    "issue_template.md": "_file_issuetemplate",
+    "pull_request_template.md": "_file_prtemplate",
+    "commitlint.config.js": "_file_commitconfig",
+    ".commitlintrc": "_file_commitconfig",
+    ".commitlintrc.json": "_file_commitconfig",
+    ".releaserc": "_file_commitconfig",
+    "release.config.js": "_file_commitconfig",
+    ".versionrc": "_file_commitconfig",
+    ".huskyrc": "_file_husky",
+    "pre-commit": "_file_husky",
+    "commit-msg": "_file_husky",
+    "pre-push": "_file_husky",
+    "devcontainer.json": "_file_devcontainer",
+    ".devcontainer.json": "_file_devcontainer",
+    "notice": "_file_notice",
+    "notice.md": "_file_notice",
+    "notice.txt": "_file_notice",
+    "authors": "_file_notice",
+    "authors.md": "_file_notice",
+    "contributors": "_file_notice",
+    "maintainers": "_file_notice",
+    ".netrc": "_file_secrets",
+    ".htpasswd": "_file_secrets",
+    "credentials": "_file_secrets",
+    ".secrets": "_file_secrets",
+    "secrets.json": "_file_secrets",
+    ".vault-token": "_file_secrets",
+    "cloud-init.yml": "_file_cloudconfig",
+    "cloud-init.yaml": "_file_cloudconfig",
+    "cloudformation.yml": "_file_cloudconfig",
+    "cloudformation.yaml": "_file_cloudconfig",
+    "brewfile": "_file_homebrew",
+    "brewfile.lock.json": "_file_homebrew",
+    "podfile": "_file_cocoapods",
+    "podfile.lock": "_file_cocoapods",
+    "build.bazel": "_file_bazel",
+    "workspace.bazel": "_file_bazel",
+    ".bazelrc": "_file_bazel",
+    "module.bazel": "_file_bazel",
+    "workspace": "_file_bazel",
+    "grafana.ini": "_file_grafana",
+    "prometheus.yml": "_file_prometheus",
+    "prometheus.yaml": "_file_prometheus",
+    "alertmanager.yml": "_file_prometheus",
+    ".sentryclirc": "_file_sentry",
+    "sentry.properties": "_file_sentry",
+    "sonar-project.properties": "_file_sonarqube",
+    "vault.hcl": "_file_vault"
   },
   "languageIds": {
     "javascript": "_file_javascript",
@@ -2010,6 +2557,28 @@
     "git-rebase": "_file_git",
     "ignore": "_file_git",
     "csv": "_file_csv",
-    "tsv": "_file_csv"
+    "tsv": "_file_csv",
+    "prolog": "_file_prolog",
+    "lisp": "_file_lisp",
+    "common-lisp": "_file_lisp",
+    "scheme": "_file_scheme",
+    "tcl": "_file_tcl",
+    "cobol": "_file_cobol",
+    "pascal": "_file_pascal",
+    "objectpascal": "_file_pascal",
+    "ada": "_file_ada",
+    "abap": "_file_abap",
+    "matlab": "_file_matlab",
+    "applescript": "_file_applescript",
+    "ahk": "_file_autohotkey",
+    "verilog": "_file_verilog",
+    "systemverilog": "_file_verilog",
+    "vhdl": "_file_vhdl",
+    "shaderlab": "_file_shader",
+    "hlsl": "_file_shader",
+    "glsl": "_file_shader",
+    "cuda-cpp": "_file_cuda",
+    "awk": "_file_awk",
+    "http": "_file_http"
   }
 }
