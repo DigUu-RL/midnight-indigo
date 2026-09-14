@@ -4,6 +4,20 @@ All notable changes to the Midnight Indigo extension are documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.1]
+
+The listing was showing 8.0's icons next to 9.0's description.
+
+**Nothing in the extension changed** — the themes, the icons and the manifest are what 9.0.0 published. This release is the pictures of them.
+
+### Fixed
+
+- **The screenshots the README and the Marketplace listing use were stale.** 9.0.0 regenerated the two icon galleries and nothing else: `hero.png` draws its file tree with the real icon SVGs, so it still showed the tabbed folders and the hand-drawn pictograms, and the JSON and SQL language cards carry a file icon in their tab strip that had changed underneath them. All three are regenerated from the current SVGs.
+
+- **Nothing was pointing at the new images.** The README and [`docs/PREVIEW.md`](docs/PREVIEW.md) pin every screenshot to a commit rather than to a branch, so a listing can never be served a screenshot the published extension does not match — and that pin was still 8.0's commit, which is why 9.0.0 shipped a page describing one icon set and showing another. All 27 URLs move to the commit that carries the regenerated PNGs, and `IMAGE_REF` in [`tools/build-theme-preview.ts`](tools/build-theme-preview.ts) moves with them so the next `npm run preview:theme` does not write the old ref back into the gallery.
+
+- **`npm run check:images` returned 127 when it passed.** It called `process.exit(0)` with `fetch`'s keep-alive sockets still closing, which on Windows is an assertion failure inside libuv rather than an exit — so the one check that would have caught the stale pin looked like a crash whenever it succeeded. It sets `process.exitCode` now.
+
 ## [9.0.0]
 
 The pictograms are somebody else's drawings now, the folders are facades with light on them, and the set finally reaches the rest of the file system.
@@ -37,8 +51,6 @@ The pictograms are somebody else's drawings now, the folders are facades with li
 - **`.vhd` is VHDL source rather than a virtual hard disk**, on the grounds that in an editor it is the source; the disk image keeps `.vhdx`, `.vmdk` and the rest.
 - **`.psd` and the other layered design documents** get a design pictogram instead of falling through to plain text; Adobe's marks are not in simple-icons, so no logo is claimed.
 - **`schemas`, `themes`, `packages` and `jobs` are their own folder icons** rather than aliases of `database`, `styles`, `core` and `validators`.
-
-- **Every screenshot is regenerated and repinned.** The two icon galleries, the hero — which draws its file tree with the real SVGs — and the JSON and SQL language cards, whose tab strips carry an icon that changed. The README and [`docs/PREVIEW.md`](docs/PREVIEW.md) pin their images to a commit rather than to a branch so a Marketplace listing is never served a screenshot the published extension does not match, and that pin moves with them.
 
 ### Removed
 
