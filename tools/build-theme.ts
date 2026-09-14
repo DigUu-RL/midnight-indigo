@@ -44,31 +44,45 @@ const folderNameToIcon = {
   tests: 'tests', test: 'tests', __tests__: 'tests', spec: 'tests', specs: 'tests', e2e: 'tests', coverage: 'tests',
   mocks: 'mocks', mock: 'mocks', fixtures: 'mocks', fixture: 'mocks', __mocks__: 'mocks', stubs: 'mocks',
   assets: 'assets', asset: 'assets', static: 'assets', resources: 'assets',
-  images: 'images', img: 'images', imgs: 'images', media: 'images', pictures: 'images',
+  images: 'images', img: 'images', imgs: 'images', pictures: 'images',
+  media: 'media', video: 'media', videos: 'media', movies: 'media',
+  audio: 'audio', sounds: 'audio', sound: 'audio', music: 'audio', sfx: 'audio',
   icons: 'icons', icon: 'icons', svg: 'icons',
   fonts: 'fonts', font: 'fonts', typography: 'fonts',
-  styles: 'styles', style: 'styles', css: 'styles', scss: 'styles', sass: 'styles', themes: 'styles', theme: 'styles',
+  styles: 'styles', style: 'styles', css: 'styles', scss: 'styles', sass: 'styles',
+  themes: 'themes', theme: 'themes', palettes: 'themes', skins: 'themes',
   public: 'public', www: 'public', web: 'public', client: 'public',
   build: 'build', dist: 'build', out: 'build', output: 'build', generated: 'build', target: 'build',
   docs: 'docs', doc: 'docs', documentation: 'docs',
   database: 'database', db: 'database', migrations: 'database', migration: 'database',
-  seeders: 'database', seeder: 'database', seeds: 'database', schemas: 'database', schema: 'database',
+  seeders: 'database', seeder: 'database', seeds: 'database',
+  schemas: 'schemas', schema: 'schemas', proto: 'schemas', protos: 'schemas',
   types: 'types', type: 'types', interfaces: 'types', interface: 'types', typings: 'types', '@types': 'types',
   dto: 'types', dtos: 'types',
   constants: 'constants', constant: 'constants', consts: 'constants', enums: 'constants', enum: 'constants',
-  core: 'core', lib: 'core', libs: 'core', vendor: 'core', node_modules: 'core', packages: 'core',
+  core: 'core', lib: 'core', libs: 'core', vendor: 'core', node_modules: 'core',
+  packages: 'packages', apps: 'packages', workspaces: 'packages', monorepo: 'packages',
   plugins: 'plugins', plugin: 'plugins', modules: 'plugins', features: 'plugins', feature: 'plugins', extensions: 'plugins',
   i18n: 'i18n', locales: 'i18n', locale: 'i18n', lang: 'i18n', languages: 'i18n', translations: 'i18n',
   guards: 'guards', guard: 'guards', directives: 'guards', directive: 'guards',
   pipes: 'guards', pipe: 'guards', decorators: 'guards', decorator: 'guards',
   validators: 'validators', validator: 'validators', validation: 'validators',
-  events: 'validators', listeners: 'validators', jobs: 'validators', queues: 'validators',
-  tasks: 'validators', notifications: 'validators',
+  events: 'validators', listeners: 'validators', notifications: 'validators',
+  jobs: 'jobs', queues: 'jobs', tasks: 'jobs', cron: 'jobs', scheduler: 'jobs', workers: 'jobs',
   docker: 'docker', kubernetes: 'docker', k8s: 'docker', deploy: 'docker', deployment: 'docker', infra: 'docker',
   workflows: 'workflows', '.github': 'workflows', ci: 'workflows', pipelines: 'workflows', '.gitlab': 'workflows',
   server: 'server', backend: 'server', api_server: 'server',
   shared: 'shared', common: 'shared', global: 'shared',
   security: 'security', auth: 'security', admin: 'security', permissions: 'security',
+
+  /* --- V4: the directories a repository grows that the set never named --- */
+  logs: 'logs', log: 'logs',
+  temp: 'temp', tmp: 'temp', cache: 'temp', '.cache': 'temp', trash: 'temp',
+  archive: 'archive', archived: 'archive', legacy: 'archive', deprecated: 'archive',
+  keys: 'keys', certs: 'keys', certificates: 'keys', ssl: 'keys', secrets: 'keys',
+  benchmarks: 'benchmarks', bench: 'benchmarks', perf: 'benchmarks', performance: 'benchmarks',
+  design: 'design', designs: 'design', mockups: 'design', wireframes: 'design',
+  ai: 'ai', '.claude': 'ai', '.cursor': 'ai', prompts: 'ai', agents: 'ai', llm: 'ai',
 } satisfies Record<string, FolderIcon>;
 
 /* Extension -> file icon. Compound keys such as "spec.ts" win over "ts". */
@@ -146,7 +160,9 @@ const extensionToIcon = {
   dae: 'model3d', '3ds': 'model3d', ply: 'model3d', usdz: 'model3d',
   srt: 'subtitle', vtt: 'subtitle', sub: 'subtitle', ass: 'subtitle', ssa: 'subtitle',
   epub: 'ebook', mobi: 'ebook', azw: 'ebook', azw3: 'ebook', fb2: 'ebook', djvu: 'ebook',
-  iso: 'diskimage', dmg: 'diskimage', img: 'diskimage', vhd: 'diskimage',
+  // .vhd is a virtual hard disk and it is VHDL source; in an editor it is the
+  // source, so the disk image keeps .vhdx and the language takes .vhd.
+  iso: 'diskimage', dmg: 'diskimage', img: 'diskimage',
   vhdx: 'diskimage', vmdk: 'diskimage', qcow2: 'diskimage', toast: 'diskimage',
   lnk: 'shortcut', url: 'shortcut', webloc: 'shortcut', desktop: 'shortcut',
   pdb: 'debug', dmp: 'debug', mdmp: 'debug', stackdump: 'debug', core: 'debug',
@@ -164,6 +180,69 @@ const extensionToIcon = {
   vsix: 'package', crx: 'package', xpi: 'package', whl: 'package', egg: 'package',
   nupkg: 'package', gem: 'package', war: 'java', ear: 'java',
   bak: 'temp', tmp: 'temp', temp: 'temp', swp: 'temp', swo: 'temp', old: 'temp', orig: 'temp',
+
+  /* ---------------------------------------------------------------- *
+   * V4: the rest of the file system.
+   *
+   * Compound keys matter more here than anywhere else in this table: VS Code
+   * matches the LONGEST extension after the first dot, so
+   * `MyApi.postman_collection.json` reaches Postman rather than JSON without
+   * needing a file-name rule for every collection anyone ever exports.
+   * ---------------------------------------------------------------- */
+
+  /* --- languages a set usually stops before --- */
+  cbl: 'cobol', cob: 'cobol', cpy: 'cobol',
+  pas: 'pascal', pp: 'pascal', dpr: 'pascal', dfm: 'pascal',
+  adb: 'ada', ads: 'ada', tcl: 'tcl', tk: 'tcl', abap: 'abap',
+  lisp: 'lisp', lsp: 'lisp', cl: 'lisp', el: 'lisp', asd: 'lisp',
+  scm: 'scheme', ss: 'scheme', sld: 'scheme',
+  awk: 'awk', sed: 'awk',
+  applescript: 'applescript', scpt: 'applescript', ahk: 'autohotkey',
+
+  /* --- hardware, graphics and science --- */
+  v: 'verilog', sv: 'verilog', svh: 'verilog', vh: 'verilog',
+  vhd: 'vhdl', vhdl: 'vhdl', vcd: 'waveform',
+  kicad_pcb: 'pcb', kicad_sch: 'pcb', sch: 'pcb', brd: 'pcb', gbr: 'pcb',
+  glsl: 'shader', hlsl: 'shader', wgsl: 'shader', metal: 'shader',
+  frag: 'shader', vert: 'shader', comp: 'shader', geom: 'shader', shader: 'shader',
+  cu: 'cuda', cuh: 'cuda',
+  mlx: 'matlab', mat: 'matlab',
+  sas: 'statistics', dta: 'statistics', sps: 'statistics',
+  onnx: 'mlmodel', pt: 'mlmodel', pth: 'mlmodel', pkl: 'mlmodel',
+  safetensors: 'mlmodel', gguf: 'mlmodel', ggml: 'mlmodel', tflite: 'mlmodel',
+  dwg: 'cad', dxf: 'cad', step: 'cad', stp: 'cad', iges: 'cad', igs: 'cad',
+  sldprt: 'cad', sldasm: 'cad', f3d: 'cad', skp: 'cad',
+  gcode: 'gcode', ngc: 'gcode',
+
+  /* --- templating dialects --- */
+  liquid: 'liquid', j2: 'jinja', jinja: 'jinja', jinja2: 'jinja',
+
+  /* --- the small files in a repository's root --- */
+  http: 'http', rest: 'http', 'postman_collection.json': 'postman',
+  map: 'sourcemap', keymap: 'keymap', kbd: 'keymap',
+  tmtheme: 'colortheme', itermcolors: 'colortheme',
+  mmd: 'diagram', mermaid: 'diagram', puml: 'diagram', plantuml: 'diagram',
+  gv: 'diagram', drawio: 'diagram', excalidraw: 'diagram', bpmn: 'diagram',
+  psd: 'design', psb: 'design', xd: 'design',
+  afphoto: 'design', afpub: 'design', procreate: 'design', cdr: 'design',
+  cron: 'schedule',
+  service: 'unitfile', socket: 'unitfile', timer: 'unitfile', mount: 'unitfile', target: 'unitfile',
+  rss: 'feed', atom: 'feed',
+  bkp: 'backup', backup: 'backup',
+  'code-workspace': 'workspace',
+
+  /* --- creative project files --- */
+  als: 'audioproject', flp: 'audioproject', logicx: 'audioproject',
+  aup: 'audioproject', aup3: 'audioproject', ptx: 'audioproject', rpp: 'audioproject',
+  prproj: 'videoproject', veg: 'videoproject', kdenlive: 'videoproject',
+  fcpxml: 'videoproject', aep: 'videoproject',
+  pbix: 'bi', pbit: 'bi', twb: 'bi', twbx: 'bi',
+
+  /* --- tools whose file is the tool --- */
+  xcodeproj: 'xcode', pbxproj: 'xcode', xcworkspace: 'xcode',
+  xcconfig: 'xcode', xcscheme: 'xcode',
+  uproject: 'unreal', uasset: 'unreal', umap: 'unreal',
+  podspec: 'cocoapods', bzl: 'bazel', bazel: 'bazel',
 
   'spec.ts': 'typescript-spec', 'test.ts': 'typescript-test', 'd.ts': 'typescript-d',
   'module.ts': 'typescript-module', 'component.ts': 'typescript-component',
@@ -274,6 +353,37 @@ const fileNameToIcon = {
 
   /* --- Nix, which names its files rather than extending them --- */
   'flake.nix': 'nix', 'flake.lock': 'nix', 'shell.nix': 'nix', 'default.nix': 'nix',
+
+  /* ---------------------------------------------------------------- *
+   * V4: the files a repository keeps in its root that are neither source
+   * nor documentation. Most of these have no extension at all, which is
+   * why they all used to resolve to the plain-text page.
+   * ---------------------------------------------------------------- */
+  'sitemap.xml': 'sitemap', hosts: 'hosts', crontab: 'schedule',
+  codeowners: 'codeowners', 'security.md': 'securitypolicy',
+  'issue_template.md': 'issuetemplate', 'pull_request_template.md': 'prtemplate',
+  'commitlint.config.js': 'commitconfig', '.commitlintrc': 'commitconfig',
+  '.commitlintrc.json': 'commitconfig', '.releaserc': 'commitconfig',
+  'release.config.js': 'commitconfig', '.versionrc': 'commitconfig',
+  '.huskyrc': 'husky', 'pre-commit': 'husky', 'commit-msg': 'husky', 'pre-push': 'husky',
+  'devcontainer.json': 'devcontainer', '.devcontainer.json': 'devcontainer',
+  notice: 'notice', 'notice.md': 'notice', 'notice.txt': 'notice',
+  authors: 'notice', 'authors.md': 'notice', contributors: 'notice', maintainers: 'notice',
+  '.netrc': 'secrets', '.htpasswd': 'secrets', credentials: 'secrets',
+  '.secrets': 'secrets', 'secrets.json': 'secrets', '.vault-token': 'secrets',
+  'cloud-init.yml': 'cloudconfig', 'cloud-init.yaml': 'cloudconfig',
+  'cloudformation.yml': 'cloudconfig', 'cloudformation.yaml': 'cloudconfig',
+
+  /* --- tools whose file is the tool --- */
+  brewfile: 'homebrew', 'brewfile.lock.json': 'homebrew',
+  podfile: 'cocoapods', 'podfile.lock': 'cocoapods',
+  'build.bazel': 'bazel', 'workspace.bazel': 'bazel', '.bazelrc': 'bazel',
+  'module.bazel': 'bazel', workspace: 'bazel',
+  'grafana.ini': 'grafana',
+  'prometheus.yml': 'prometheus', 'prometheus.yaml': 'prometheus', 'alertmanager.yml': 'prometheus',
+  '.sentryclirc': 'sentry', 'sentry.properties': 'sentry',
+  'sonar-project.properties': 'sonarqube',
+  'vault.hcl': 'vault',
 } satisfies Record<string, FileIcon>;
 
 /* VS Code language id -> file icon, for files with no recognisable extension. */
@@ -295,6 +405,20 @@ const languageIdToIcon = {
   wat: 'webassembly', wasm: 'webassembly', latex: 'latex', tex: 'latex',
   bibtex: 'latex', asciidoc: 'asciidoc', 'git-commit': 'git', 'git-rebase': 'git',
   ignore: 'git', csv: 'csv', tsv: 'csv',
+
+  /* --- V4: the languages whose extension is already spoken for --- *
+   *
+   * Prolog is .pl and .pro, which Perl and Qt got to first; MATLAB is .m,
+   * which Objective-C got to first. The language id is the only place those
+   * can be answered correctly, and it is the better answer anyway: it is what
+   * the editor itself decided the file is.
+   */
+  prolog: 'prolog', lisp: 'lisp', 'common-lisp': 'lisp', scheme: 'scheme',
+  tcl: 'tcl', cobol: 'cobol', pascal: 'pascal', objectpascal: 'pascal',
+  ada: 'ada', abap: 'abap', matlab: 'matlab', applescript: 'applescript', ahk: 'autohotkey',
+  verilog: 'verilog', systemverilog: 'verilog', vhdl: 'vhdl',
+  shaderlab: 'shader', hlsl: 'shader', glsl: 'shader', 'cuda-cpp': 'cuda',
+  awk: 'awk', http: 'http',
 } satisfies Record<string, FileIcon>;
 
 export type BuildThemeOptions = {

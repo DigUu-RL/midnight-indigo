@@ -253,6 +253,28 @@ const SOURCES: Record<string, Source> = {
   qt: { url: si('qt') },
   unity: { url: si('unity') },
 
+  /* --- V4: the tools whose file IS the tool --- *
+   *
+   * A .pbxproj is not "a project file", it is an Xcode project; a Podfile is
+   * not "a manifest", it is CocoaPods. Where the brand is the whole answer to
+   * what a file is, the brand's mark is the icon — the same rule the rest of
+   * this table follows, applied to the files the set had been answering with a
+   * pictogram or with nothing.
+   */
+  bazel: { url: si('bazel') },
+  cocoapods: { url: si('cocoapods') },
+  grafana: { url: si('grafana') },
+  homebrew: { url: si('homebrew') },
+  postman: { url: si('postman') },
+  prometheus: { url: si('prometheus') },
+  sentry: { url: si('sentry') },
+  // simple-icons split SonarQube into its server and cloud products; the server
+  // one is the mark on sonar-project.properties.
+  sonarqubeserver: { url: si('sonarqubeserver') },
+  unrealengine: { url: si('unrealengine') },
+  vault: { url: si('vault') },
+  xcode: { url: si('xcode') },
+
   /* --- devicon: the marks that are two-tone by nature --- */
   python: {
     url: dv('python'),

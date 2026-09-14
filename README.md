@@ -22,7 +22,7 @@ This is a single extension. Install once, then pick a color theme and turn on th
 | | |
 | --- | --- |
 | **Midnight Indigo**, **Purple**, **Pink**, **Red**, **Orange**, **Green**, **Cyan**, **Blue** | Eight color themes — each 129 workbench colors, 39 TextMate rules and 34 semantic token rules |
-| **Midnight Icons** | File icon theme — 312 SVG icons: 230 file/language icons and 40 contextual folder icons with open/closed variants, matched to 401 extensions and 202 exact filenames. Shared by all eight themes |
+| **Midnight Icons** | File icon theme — 399 SVG icons: 291 file/language icons and 53 contextual folder icons with open/closed variants, matched to 526 extensions and 243 exact filenames. Shared by all eight themes |
 
 Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
 
@@ -41,11 +41,11 @@ The same code in all eight, so the differences are the generator's rather than a
 
 ### The icon set
 
-All 230 file and language icons:
+All 291 file and language icons:
 
 ![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-files.png)
 
-All 40 folder icons, closed and open:
+All 53 folder icons, closed and open:
 
 ![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-folders.png)
 
@@ -175,15 +175,15 @@ The set is built around one rule: an icon has to be identifiable at the 16px VS 
 - **The logo is the icon.** There is no tile. Each file icon is the language's or tool's own mark, drawn flat in its official colors and filling the whole icon — the Python snakes in `#3776AB` and `#FFD43B`, the Go wordmark with its three speed lines, the Dart arrow, the C++ letterform, the Java cup under red steam, the Ruby gem with its facets cut clean through. The outlines come from the projects' own artwork rather than from an impression of it; only the treatment is ours.
 - **Flat, with a shadow.** Every mark casts a soft offset shadow in a darkened tint of its own color. Black would be invisible on a `#040208` ground, so the shadow is the mark's color taken down in lightness — enough depth to sit on the background rather than float above it, at a weight that survives being 16 pixels tall.
 - **Holes are holes.** Anything cut out of a shape is genuinely transparent, so an icon still reads on the file explorer's hover and selection backgrounds. Marks whose letters are cut out of a solid block — TypeScript, npm, Swift — get the letters painted back in the color the logo has them in, instead of coming out as a solid blob.
-- **Pictograms are duotone.** Everything with no logo of its own — the flask, the cog, the book, the terminal — is drawn in the icon's color plus a lighter tint of the same hue, derived rather than specified. The tint is the surface and full strength is what sits on it: glass and liquid, page and print, screen and prompt. One flat silhouette has to say everything with its outline, which at 16px means a cluster of slots that close up; two tones carry the structure instead.
-- **Nothing our own is pointed.** Every corner of every pictogram is rounded, and it is enforced by construction rather than by care: polygons go through `roundPolyD`, which rounds convex and reflex corners alike and clamps the radius per corner, straight runs are capsules, and arcs are stroked with round caps. There is no way left to draw a point by accident. It matters twice over next to imported marks that are nearly all curves, and because at 16px a bare vertex aliases into a grey fringe — so the old star, play triangle and arrowheads did not read as sharp, they read as dirty. The only hard corners left in the set belong to logos, where the geometry is not ours to soften.
-- **Folders are solid.** A filled folder in the category's accent color with the pictogram sunk into the body in a darker tone of that same accent, so files and folders never read as the same object. The open state keeps the whole folder as its back and swings a front panel out over it.
-- **Text is only text, and it is a last resort.** A format with no logo at all is set as bare letters with nothing behind them — `PDF`, `ASM`, `INI`, `BAT`, `EJS`, `OC`. Each string is set as large as it can be without overrunning the icon. Twelve icons out of 230 are lettered now, against far more before: most of what used to be lettering had a real mark waiting to be imported.
+- **The pictograms are imported too, and they are duotone.** Everything with no logo of its own — the flask, the cog, the book, the terminal — comes from [Phosphor](https://phosphoricons.com) by way of Iconify, on the same principle as the logos: the drawing is somebody else's, done properly, and only the treatment is ours. Each is painted in the icon's color plus a lighter tint of the same hue, derived rather than specified, because upstream expresses the split as one color at two opacities and a 20% shape on a `#040208` ground is not a lighter shape, it is the ground. The tint is the surface and full strength is what sits on it: glass and liquid, page and print, screen and prompt.
+- **Nothing our own is pointed.** Phosphor is drawn on a 256 grid with round caps and joins, which is most of why it was picked: at 16px a bare vertex aliases into a grey fringe, so a pointed shape does not read as sharp, it reads as dirty. The only hard corners in the set belong to logos, where the geometry is not ours to soften.
+- **Folders are facades, and the light falls on them.** One flat panel square to the viewer — not a cardboard wallet in perspective, which is a shape nobody can read at 16px — with the pictogram sunk into it in a darker tone of the same accent, and a hard-edged beam of light crossing it at 40°. The beam is clipped to the panel and drawn over the pictogram as well as the body, because light falls on everything in front of it. The open state drops the front wall away and shows the body behind it in a darker tone: one face in front of another, which is how a flat set says "in front".
+- **Text is only text, and it is a last resort — but it is still an object.** A format with no logo at all is set as bare letters — `PDF`, `ASM`, `INI`, `BAT`, `TCL`, `ABAP` — over a rule in the same color, with the same beam sweeping across it at 45°. Without the rule they were the only icons in the set with no object in them, and three characters alone in a box read as a label for an icon that had failed to load. Each string is set as large as it can be without overrunning what the rule leaves it. Seventeen icons out of 291 are lettered.
 - **A logo earns its place at 16px, or it does not get used.** Less, Stylus, EditorConfig, JSON, MySQL, Travis and Composer all have official marks, all were imported, and all were put back — each is a logotype, a line-art mascot or a plain ring, and at the size the explorer draws a file icon none of them says anything. They keep their lettering or take one of our pictograms in the brand's own color, and the reason is recorded next to each entry in `tools/icon-spec.ts` so the gap does not get "fixed" a third time.
 - **No badges.** File name patterns get their own icon rather than a marker pasted onto a base one: `*.spec.ts` is a flask, `*.module.ts` is a set of blocks, `*.service.ts` a cog, `*.guard.ts` a shield, `*.dto.ts` a pair of arrows. The color stays the language's, so you read the language and the role at the same time.
 
-- **40 contextual folder icons**, each with an open and closed variant, matching several name synonyms per category: `components`, `hooks`, `functions`, `utils`, `helpers`, `services`, `controllers`, `models`, `views/pages`, `layouts`, `store/redux`, `context/providers`, `middleware`, `guards`, `routes`, `api`, `config`, `scripts/cli`, `tests/spec/e2e`, `mocks/fixtures`, `assets`, `images`, `icons`, `fonts`, `styles/themes`, `public`, `build/dist`, `docs`, `database/migrations`, `types/interfaces`, `constants/enums`, `core/lib`, `plugins/features`, `i18n`, `directives/pipes/decorators`, `validators`, `docker/kubernetes`, `workflows/.github`, `server`, `shared/common`, `security/auth`.
-- **230 file and language icons**, matched to **401 extensions** and **202 exact filenames**:
+- **53 contextual folder icons**, each with an open and closed variant, matching several name synonyms per category: `components`, `hooks`, `functions`, `utils`, `helpers`, `services`, `controllers`, `models`, `views/pages`, `layouts`, `store/redux`, `context/providers`, `middleware`, `guards`, `routes`, `api`, `config`, `scripts/cli`, `tests/spec/e2e`, `mocks/fixtures`, `assets`, `images`, `media/video`, `audio`, `icons`, `fonts`, `styles`, `themes/palettes`, `public`, `build/dist`, `docs`, `database/migrations`, `schemas/proto`, `types/interfaces`, `constants/enums`, `core/lib`, `packages/apps`, `plugins/features`, `i18n`, `directives/pipes/decorators`, `validators`, `jobs/queues/cron`, `docker/kubernetes`, `workflows/.github`, `server`, `shared/common`, `security/auth`, `logs`, `temp/cache`, `archive/legacy`, `keys/certs`, `benchmarks/perf`, `design/mockups`, `ai/.claude/prompts`.
+- **291 file and language icons**, matched to **526 extensions** and **243 exact filenames**:
 
   - **Languages** — JS/TS/JSX/TSX, Python, Ruby, Go, Rust, Java, Kotlin, Swift, C/C++/C#/F#/VB.NET, PHP, SQL, Perl, Lua, Dart, Elixir, Erlang, Haskell, Clojure, Scala, Groovy, R, Julia, Nim, Crystal, Zig, Objective-C, Solidity, Assembly, and — new in 8.0 — Elm, OCaml, Fortran, Racket, PureScript, Gleam, Haxe, Nix, WebAssembly.
   - **Markup, styles and data** — HTML/CSS/SCSS/SASS/LESS/Stylus, JSON/YAML/TOML/INI/XML/ENV, Markdown/MDX, AsciiDoc, LaTeX, CSV, OpenAPI and Swagger.
@@ -191,6 +191,8 @@ The set is built around one rule: an icon has to be identifiable at the 16px VS 
   - **Build, test and CI** — webpack, Vite, Rollup, esbuild, Turborepo, Nx, Lerna, Gradle, Maven, NuGet, Poetry, Conda, Jest, Vitest, Cypress, Playwright, Mocha, Storybook, GitHub Actions, CircleCI, Travis, Bitbucket, GitLab CI, Azure, Jenkins, Renovate.
   - **Infrastructure and data stores** — Docker, Kubernetes, Helm, Terraform, Ansible, Packer, Pulumi, Serverless, Netlify, Vercel, Cloudflare, MongoDB, PostgreSQL, MySQL, Redis, SQLite, Prisma, Firebase, Supabase.
   - **Everything else a folder actually contains** — images, RAW photographs, vector artwork, fonts, audio, video, subtitles, archives, installers, disk images, e-books, certificates, PDF and Office documents, 3D meshes, CAD and game-engine scenes, mail, calendars, contacts, geodata, packet captures, datasets, crash dumps, torrents, shortcuts, backups and scratch files.
+  - **The rest of the file system**, new in 9.0 — the languages a set usually stops before (COBOL, Pascal, Ada, Tcl, ABAP, the Lisps, Prolog, AppleScript, AutoHotkey, awk); hardware and science (Verilog, VHDL, waveform dumps, PCB layouts, shaders, CUDA, MATLAB, statistics, ML weights, CAD, G-code); the templating dialects with no mark of their own (Liquid, Jinja); creative project files as distinct from their exports (DAW sessions, editing timelines, BI documents); and the small files a repository keeps in its root — `CODEOWNERS`, `SECURITY.md`, issue and PR templates, commit and release config, Husky hooks, dev containers, `hosts`, crontabs, systemd units, sitemaps, feeds, source maps, keymaps, workspaces, secrets, notices.
+  - **Tools whose file is the tool** — Xcode, Postman, Bazel, CocoaPods, Homebrew, Grafana, Prometheus, Sentry, SonarQube, Vault, Unreal Engine.
 - **Filename-pattern variants**, each a dedicated icon: `*.spec.ts(x)`, `*.test.ts(x)`, `*.d.ts`, `*.module.ts/scss/css`, `*.component.ts(x)`, `*.service.ts`, `*.stories.ts(x)`, `*.config.ts/js`, `*.min.js`, `*.guard.ts`, `*.pipe.ts`, `*.directive.ts`, `*.controller.ts`, `*.model.ts`, `*.dto.ts`, `*.entity.ts`.
 
 The icons keep the languages' own colors in every theme. A Python file is `#3776AB` and `#FFD43B` whether the editor around it is indigo or green — the mark is the language's identity, not the theme's, and tinting it to match the chrome would cost the one thing the icon set is for.
@@ -205,6 +207,14 @@ A language mark is not ours to invent, so the geometry is imported from the proj
 | [devicon](https://github.com/devicons/devicon) v2.17.0 | MIT. Used where the mark is genuinely multi-color (Python, Java, Dart, Vue, the HTML5 shield, C#, Azure); gradients are flattened to the brand's flat colors |
 
 A logo only earns an import if it survives being drawn at 16px. Several upstream marks do not — Groovy's is an outlined wordmark on a star, Jenkins's and Jest's are line-art portraits, Vim's sets "Vim" inside its diamond, Lua's sets "Lua" inside its sphere. Those are redrawn solid and simplified in [`tools/marks.ts`](tools/marks.ts) from the same official artwork, together with the marks that have no redistributable source at all (PowerShell, the Office trio).
+
+### Where the pictograms come from
+
+Up to 8.0 every pictogram was drawn in this repository by hand, out of capsules, rounded polygons and stroked arcs. The rules that library followed were the right ones and the drawings were still the weakest half of the set: a hand-drawn flask, clipboard and terminal are three sketches by one person who is not an icon designer, sitting beside a hundred and fifty logos drawn by the people whose job that was.
+
+9.0 imports them instead, from [Iconify](https://iconify.design), by [`tools/import-pictograms.ts`](tools/import-pictograms.ts) into a checked-in file — the same arrangement the logos have had since 8.0, and for the same reason. The library is one family, [Phosphor](https://phosphoricons.com) (MIT), at its `duotone` weight, because a pictogram set assembled from five families reads as five sets. Two exceptions are noted at their entries: the brackets take Phosphor's `bold` weight, since a duotone bracket at 16px is a blob with a hairline in it, and two icons come from other collections where Phosphor's drawing does not survive the size.
+
+Which drawing means which file is the part that stays ours, and every one of those choices is written down next to the icon id it resolves to — `dto` is a pair of arrows because a DTO exists to cross a boundary, `husky` is a dog, `devcontainer` is a shipping container, `liquid` is a drop.
 
 ## Customize
 
@@ -236,12 +246,13 @@ Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) a
 | [`tools/build-color-themes.ts`](tools/build-color-themes.ts) | The theme structure, written once against role names, plus every check the build makes |
 | [`tools/indigo-baseline.json`](tools/indigo-baseline.json) | The theme as it shipped. The build refuses to write if indigo no longer reproduces it |
 | [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the three rules everything obeys: fill only, holes cut with `evenodd` rather than painted, and no bare vertices — `roundedPolygonPath` rounds every corner it is given |
-| [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — the 76 shapes that are ours. Each is drawn inside a 24×24 box centred on `(0,0)`, in an identity tone and a derived tint |
+| [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — 115 imported shapes, each scaled into a 24×24 box centred on `(0,0)` and painted in an identity tone plus a derived tint |
+| [`tools/import-pictograms.ts`](tools/import-pictograms.ts) | Fetches the pictograms from Iconify, resolves their duotone into this set’s two colour slots, and writes [`tools/pictogram-paths.ts`](tools/pictogram-paths.ts). Only re-run when adding a pictogram |
 | [`tools/marks.ts`](tools/marks.ts) | The language and tool marks: official palettes over imported geometry, plus the ones drawn by hand |
 | [`tools/import-marks.ts`](tools/import-marks.ts) | Fetches the official artwork and writes [`tools/mark-paths.ts`](tools/mark-paths.ts). Only re-run when adding a mark |
 | [`tools/icon-spec.ts`](tools/icon-spec.ts) | Which mark, pictogram or string each icon gets, and in which colours |
 | [`tools/palette.ts`](tools/palette.ts) | Every colour the icon build paints with, and which of them a variant may not repaint |
-| [`tools/build-icons.ts`](tools/build-icons.ts) | The box, the folder geometry, the drawing, and the paint recipe per variant |
+| [`tools/build-icons.ts`](tools/build-icons.ts) | The box, the folder facade and its light beam, the lettering rule, and the paint recipe per variant |
 | [`tools/build-theme.ts`](tools/build-theme.ts) | The folder-name / extension / filename / language-id → icon mapping |
 
 ```bash
@@ -249,6 +260,7 @@ npm run build                    # themes, then icons
 npm run build:themes             # the eight colour themes
 npm run build:icons              # the icon set
 npm run import:marks             # re-fetch the official logo geometry
+npm run import:pictograms        # re-fetch the pictogram geometry from Iconify
 npm run typecheck                # tsc, no emit
 ```
 

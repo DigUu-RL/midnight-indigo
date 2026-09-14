@@ -448,6 +448,19 @@ export const marks = {
   godot: imported('godotengine'),
   qt: imported('qt'),
   unity: imported('unity'),
+
+  /* --- V4: the tools whose file is the tool --- */
+  bazel: imported('bazel'),
+  cocoapods: imported('cocoapods'),
+  grafana: imported('grafana'),
+  homebrew: imported('homebrew'),
+  postman: imported('postman'),
+  prometheus: imported('prometheus'),
+  sentry: imported('sentry'),
+  sonarqube: imported('sonarqubeserver'),
+  unreal: imported('unrealengine'),
+  vault: imported('vault'),
+  xcode: imported('xcode'),
 } satisfies Record<string, Mark>;
 
 export type MarkName = keyof typeof marks;
