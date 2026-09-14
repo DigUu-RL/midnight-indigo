@@ -67,18 +67,28 @@ for (const r of results.filter((r) => r.ok)) {
   console.log(`  ok   ${short(r.url)}`);
 }
 
-if (!broken.length) {
+if (broken.length) {
+  for (const r of broken) {
+    console.error(`  ${String(r.status || 'ERR').padStart(3)}  ${short(r.url)}   (${r.file})`);
+  }
+  console.error(
+    `\n${broken.length} of ${results.length} image(s) do not resolve.\n` +
+      'If the screenshots were just regenerated, bump IMAGE_REF in ' +
+      'tools/build-theme-preview.ts to the commit that carries them, and update ' +
+      'the URLs in README.md.'
+  );
+} else {
   console.log(`\n${results.length} image(s) resolve.`);
-  process.exit(0);
 }
 
-for (const r of broken) {
-  console.error(`  ${String(r.status || 'ERR').padStart(3)}  ${short(r.url)}   (${r.file})`);
-}
-console.error(
-  `\n${broken.length} of ${results.length} image(s) do not resolve.\n` +
-    'If the screenshots were just regenerated, bump IMAGE_REF in ' +
-    'tools/build-theme-preview.ts to the commit that carries them, and update ' +
-    'the URLs in README.md.'
-);
-process.exit(1);
+/*
+ * `process.exitCode` and not `process.exit()`.
+ *
+ * fetch keeps its connections alive after the last response, and exiting hard
+ * tears the event loop down while those sockets are still closing — which on
+ * Windows is an assertion failure inside libuv rather than a clean exit. The
+ * script printed "31 image(s) resolve." and then returned 127, so a check that
+ * had passed looked to every caller like a check that had crashed. Setting the
+ * code and letting Node finish on its own is the same result without the race.
+ */
+process.exitCode = broken.length ? 1 : 0;
