@@ -9,7 +9,7 @@ An ultra-dark theme for Visual Studio Code in eight colors, bundled with a match
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
-![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/hero.png)
+![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/hero.png)
 
 The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
@@ -37,17 +37,17 @@ Every screenshot on this page is generated from this repository's own theme file
 
 The same code in all eight, so the differences are the generator's rather than a photographer's:
 
-![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/palettes.png)
+![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/palettes.png)
 
 ### The icon set
 
 All 291 file and language icons:
 
-![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-files.png)
+![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/icons-files.png)
 
 All 53 folder icons, closed and open:
 
-![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/icons-folders.png)
+![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/icons-folders.png)
 
 ### Syntax
 
@@ -57,19 +57,19 @@ Highlighting goes through the same TextMate grammars VS Code ships, including th
 
 ### TypeScript
 
-![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/typescript.png)
+![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/typescript.png)
 
 ### React / TSX
 
-![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/tsx.png)
+![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/tsx.png)
 
 ### C\#
 
-![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/csharp.png)
+![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/csharp.png)
 
 ### Python
 
-![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/b223023349e0a090b97870a5f8d5aa9a9fd05c7f/docs/preview/python.png)
+![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/python.png)
 
 ## Install
 

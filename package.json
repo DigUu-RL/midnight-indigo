@@ -2,7 +2,7 @@
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
     "description": "An ultra-dark theme in eight colours — indigo, purple, pink, red, orange, green, cyan and blue — each palette designed for its own hue rather than tinted, with a 291-icon file set built on the languages' own official logos, folders drawn as lit facades, and semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "9.0.0",
+    "version": "9.0.1",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
