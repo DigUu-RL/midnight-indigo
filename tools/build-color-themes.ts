@@ -33,7 +33,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BASELINE, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
+import { BASELINE, amendedBaseline, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
 import { contrastRatio, oklchFromHex, over, relativeLuminance, signedHueDelta } from './color.ts';
 import {
   FAMILY_ORDER,
@@ -399,9 +399,9 @@ function themeFor(family: Family, t: Tokens): Theme {
     'radio.inactiveHoverBackground': derive.hover(s.borderStrong),
     'list.activeSelectionBackground': s.border,
     'list.activeSelectionForeground': x.bright,
-    'list.inactiveSelectionBackground': s.surfaceHover,
+    'list.inactiveSelectionBackground': s.border,
     'list.inactiveSelectionForeground': x.normal,
-    'list.hoverBackground': s.surfaceHover,
+    'list.hoverBackground': overlay(s.surfaceFocus, 'soft'),
     'list.focusBackground': s.surfaceFocus,
     'list.focusOutline': st.focus,
     'list.highlightForeground': k.keyword,
@@ -1007,9 +1007,15 @@ function check(): string[] {
    * went missing. Only `colors` grows. The TextMate and semantic rules are the
    * baseline's in full; changing them is M9's business and needs a baseline
    * change of its own.
+   *
+   * The baseline compared against is the file with AMENDMENTS applied
+   * (tools/baseline.ts): the few shipped values changed on purpose, each with
+   * what it was and why, so the file itself stays the bytes that shipped.
    */
   const { raw, theme } = readBaseline();
-  const baseline = theme as Theme;
+  const amended = amendedBaseline(theme as Theme);
+  problems.push(...amended.problems);
+  const baseline: Theme = { ...(theme as Theme), colors: amended.colors };
   const pinned = sha256(raw);
   if (pinned !== BASELINE.sha256) {
     problems.push(

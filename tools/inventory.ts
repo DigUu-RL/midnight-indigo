@@ -29,7 +29,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BASELINE, sha256 } from './baseline.ts';
+import { AMENDMENTS, BASELINE, sha256 } from './baseline.ts';
 import { FAMILY_ORDER, signalsFor } from './theme-palette.ts';
 import { DOCS, OVERLAY, SIGNAL_TOLERANCE, docOf, flatten, tokensFor, type Group } from './theme-tokens.ts';
 
@@ -330,7 +330,8 @@ line('## Reference');
 line();
 line(
   `- **Baseline:** [\`tools/indigo-baseline.json\`](../tools/indigo-baseline.json) is Midnight Indigo as v${BASELINE.version} shipped it ` +
-    `(commit \`${BASELINE.commit}\`), sha256 \`${short(BASELINE.sha256)}…\`. The build fails if the indigo variant does not serialize to it byte for byte.`
+    `(commit \`${BASELINE.commit}\`), sha256 \`${short(BASELINE.sha256)}…\`. The build fails if the indigo variant does not serialize to it byte for byte, ` +
+    `with the ${AMENDMENTS.length} amendments below applied.`
 );
 line(
   `- **VS Code colour reference:** [microsoft/vscode-docs@${vscode.current.ref.slice(0, 7)}](${vscode.source}) ` +
@@ -339,6 +340,17 @@ line(
 );
 line(`- **Screenshot ref:** the README and PREVIEW.md load their images from \`${imageRef.slice(0, 7)}\` (\`IMAGE_REF\`).`);
 line();
+
+line('### Baseline amendments');
+line();
+line(
+  'Shipped values changed on purpose. The baseline file stays the bytes that shipped; these are applied to it before the comparison, and the build refuses one whose old value is not what the file says.'
+);
+line();
+table(
+  ['Key', 'Was', 'Now', 'By', 'Why'],
+  AMENDMENTS.map((a) => [`\`${a.key}\``, `\`${a.was}\``, `\`${a.now}\``, a.by, a.why])
+);
 
 line('## What the extension contains');
 line();

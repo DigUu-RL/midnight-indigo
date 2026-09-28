@@ -164,6 +164,8 @@ Legibility is absolute rather than measured against indigo, because the variants
 
 The comparison is byte for byte on what the build writes: the baseline and the built indigo are serialized the same way and must produce identical files, so a moved key fails as surely as a moved color. The baseline itself is pinned by its SHA-256 in [`tools/baseline.ts`](tools/baseline.ts) — it is v3.0.0's file, commit `6601ba7`, to the byte — and checked for duplicated keys, the one edit a JSON parse would hide.
 
+When a shipped value has to change, the file is not edited. The change is an entry in `AMENDMENTS` in the same file — the key, what it was, what it is now, and why — applied before the comparison, and refused if its old value is not what the file actually says. Two exist, both from the interaction-state pass: a hovered row that could not be seen on a floating list, and an unfocused selection that looked like a hover. [`docs/INVENTORY.md`](docs/INVENTORY.md) lists them.
+
 ## Language coverage
 
 Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, JSX/TSX, C#, PowerShell, Python, Markdown and JSON.
@@ -289,7 +291,7 @@ Runs, in order and without stopping at the first failure: the type check; the th
 
 Two things stay outside it: `npm run check:images`, because it needs the network, and regenerating the screenshots, because it needs a browser. Run `npm run preview:theme` and `npm run preview:gallery` before a release; on the same machine they reproduce the committed PNGs exactly.
 
-**Tokens.** The theme is not written in colours but in the roles listed in [`docs/TOKENS.md`](docs/TOKENS.md) — `surfaceRaised`, `muted`, `error` and so on, defined in [`tools/theme-tokens.ts`](tools/theme-tokens.ts), each with a sentence saying what it is for. The build refuses a colour that is not a token (or a token at one of the named overlay opacities), a token with no documented role, a surface or text ramp that runs backwards in any family, and a signal that has drifted more than 50° from the colour it stands for. Indigo must still reproduce every key of the v3.0.0 baseline byte for byte; keys the baseline never had may be added around them.
+**Tokens.** The theme is not written in colours but in the roles listed in [`docs/TOKENS.md`](docs/TOKENS.md) — `surfaceRaised`, `muted`, `error` and so on, defined in [`tools/theme-tokens.ts`](tools/theme-tokens.ts), each with a sentence saying what it is for. The build refuses a colour that is not a token (or a token at one of the named overlay opacities), a token with no documented role, a surface or text ramp that runs backwards in any family, and a signal that has drifted more than 50° from the colour it stands for. Indigo must still reproduce every key of the v3.0.0 baseline byte for byte, amendments applied; keys the baseline never had may be added around them.
 
 **Adding a colour** is an entry in `VARIANTS` — a family hue, three saturation multipliers, an accent, where the keywords and the six semantic roles sit on the wheel, and which of those inks plays error, warning, success, info and the two remaining chart colours — plus its name in `Family`, `FAMILY_ORDER`, `TITLE` and `contributes.themes`. It is more than one line on purpose: a variant is a design, and the parts that carry an identity are the parts worth deciding rather than deriving. Everything else follows, and the build will tell you if any two roles ended up closer than the 22-degree floor, if a token drops under AAA, or if the manifest and the themes disagree.
 

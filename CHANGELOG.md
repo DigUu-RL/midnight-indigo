@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
-**Every colour 9.0.1 set is still exactly what it was, in all eight themes.** What changed is that each theme now sets 315 more of VS Code's colours, which until now fell back to VS Code's own defaults — so menus, the command center, notifications, the status bar's warning and error items, buttons, checkboxes, the Settings editor, notebooks, the welcome page, hovers, multi-cursor editing and chart-drawing views will look different. The icons did not change.
+**Two colours 9.0.1 set have changed, on purpose — the row under the pointer and the selection of an unfocused list; every other one is exactly what it was, in all eight themes.** Beyond those, each theme now sets 315 more of VS Code's colours, which until now fell back to VS Code's own defaults — so menus, the command center, notifications, the status bar's warning and error items, buttons, checkboxes, the Settings editor, notebooks, the welcome page, hovers, multi-cursor editing and chart-drawing views will look different. The icons did not change.
 
 ### Added
 
@@ -22,6 +22,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - **`npm run check`** runs every offline check in one command — types, both builds, a second build that must not change a byte, and whether the inventory is current. The inventory pins every screenshot and code sample by hash, so a preview that changed cannot go unnoticed.
 
 ### Changed
+
+- **The row under the pointer can be seen on floating lists, and an unfocused selection no longer looks like a hover.** `list.hoverBackground` was the ground of the suggest widget, the quick pick and the code-action menu, so hovering a row there changed nothing; it is now the focus ground as an overlay (`#0B0716` → `#1C144066` in indigo), which reads in the side bar about as it did. `list.inactiveSelectionBackground` was the same colour as a hovered row; it now keeps the selection ground (`#0B0716` → `#150F2C`), and the focused list is told apart by its focus ring and brighter text.
+- **The baseline can be amended without being edited.** Those two shipped values are recorded in `AMENDMENTS` in [`tools/baseline.ts`](tools/baseline.ts) — key, old value, new value, reason — and applied before the byte-for-byte comparison; the file stays v3.0.0's bytes and its hash does not move, and an amendment whose old value is not what the file says fails the build.
 
 - **The baseline is compared byte for byte, and pinned.** The build used to compare the baseline key by key, which let a reordered key through. It now serializes both the same way and requires identical output, pins the baseline file to its SHA-256 — v3.0.0's file, commit `6601ba7` — and rejects a duplicated key, which `JSON.parse` would otherwise drop silently. Keys the baseline never had are set aside before the comparison, so the theme can grow; every key the baseline does have must still come out byte for byte, in the same order.
 

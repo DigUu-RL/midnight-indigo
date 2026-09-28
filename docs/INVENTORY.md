@@ -7,9 +7,18 @@
 
 ## Reference
 
-- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte.
+- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 2 amendments below applied.
 - **VS Code colour reference:** [microsoft/vscode-docs@4f4413d](https://github.com/microsoft/vscode-docs/blob/4f4413d9a9d3f7e59284da7cdbb21bc3b9f65c48/api/references/theme-color.md) (2026-09-23), against the same page at VS Code 1.60 — the `engines` floor — at `d621fbe` (2021-09-02).
 - **Screenshot ref:** the README and PREVIEW.md load their images from `9c09bab` (`IMAGE_REF`).
+
+### Baseline amendments
+
+Shipped values changed on purpose. The baseline file stays the bytes that shipped; these are applied to it before the comparison, and the build refuses one whose old value is not what the file says.
+
+| Key | Was | Now | By | Why |
+| --- | --- | --- | --- | --- |
+| `list.hoverBackground` | `#0B0716` | `#1C144066` | M3 | the row under the pointer was the ground of every floating list — the suggest widget, the quick pick, the code-action menu — and could not be seen there; it is now the focus ground as an overlay, which shows on every surface |
+| `list.inactiveSelectionBackground` | `#0B0716` | `#150F2C` | M3 | the selection of an unfocused list was the same colour as a hovered row; it now keeps the selection ground, and the focused list is told apart by its focus ring and brighter text |
 
 ## What the extension contains
 
@@ -815,8 +824,8 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/go.png` | `e92ae407ceca` |
 | `docs/preview/hero.png` | `0b18b62cc63a` |
 | `docs/preview/html.png` | `0f0c0d0dbb82` |
-| `docs/preview/icons-files.png` | `bb98da311d4f` |
-| `docs/preview/icons-folders.png` | `072226179121` |
+| `docs/preview/icons-files.png` | `73d1e651c992` |
+| `docs/preview/icons-folders.png` | `ad97c9f4b6ca` |
 | `docs/preview/java.png` | `7319090b002c` |
 | `docs/preview/javascript.png` | `ffabd6d44a64` |
 | `docs/preview/json.png` | `f6a76daec997` |

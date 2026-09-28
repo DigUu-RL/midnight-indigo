@@ -33,6 +33,47 @@ export const BASELINE = {
   version: '3.0.0',
 } as const;
 
+/*
+ * Deliberate changes to what the baseline says.
+ *
+ * The file stays the bytes v3.0.0 shipped — that is what the hash above is for
+ * — and a change to the shipped theme is written here instead: which key, what
+ * it was, what it is now, and the milestone and reason. The build applies these
+ * to the parsed baseline before comparing, and refuses one whose `was` is not
+ * what the file actually says, so an amendment cannot quietly outlive the value
+ * it replaced or be written against a key the baseline never had.
+ */
+export type Amendment = { key: string; was: string; now: string; by: string; why: string };
+
+export const AMENDMENTS: Amendment[] = [
+  {
+    key: 'list.hoverBackground',
+    was: '#0B0716',
+    now: '#1C144066',
+    by: 'M3',
+    why: 'the row under the pointer was the ground of every floating list — the suggest widget, the quick pick, the code-action menu — and could not be seen there; it is now the focus ground as an overlay, which shows on every surface',
+  },
+  {
+    key: 'list.inactiveSelectionBackground',
+    was: '#0B0716',
+    now: '#150F2C',
+    by: 'M3',
+    why: 'the selection of an unfocused list was the same colour as a hovered row; it now keeps the selection ground, and the focused list is told apart by its focus ring and brighter text',
+  },
+];
+
+/** The baseline with its amendments applied, and anything wrong with the amendments themselves. */
+export const amendedBaseline = (theme: { colors: Record<string, string> }): { colors: Record<string, string>; problems: string[] } => {
+  const colors: Record<string, string> = { ...theme.colors };
+  const problems: string[] = [];
+  for (const a of AMENDMENTS) {
+    if (!(a.key in colors)) problems.push(`baseline: amendment to "${a.key}", which the baseline does not set`);
+    else if (colors[a.key] !== a.was) problems.push(`baseline: amendment says "${a.key}" was ${a.was}, the baseline says ${colors[a.key]}`);
+    else colors[a.key] = a.now;
+  }
+  return { colors, problems };
+};
+
 /** The bytes the build writes a theme as. Everything is compared in this form. */
 export const serialize = (theme: unknown): string => JSON.stringify(theme, null, 2) + '\n';
 
