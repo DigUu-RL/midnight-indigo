@@ -38,14 +38,14 @@ The theme sets **129 of the 971** colour IDs VS Code documents (13.3%). **420** 
 
 | Owner | Set | Documented | Coverage | Added since 1.60, unset |
 | --- | ---: | ---: | ---: | ---: |
-| M1 Tokens and surfaces | 3 | 23 | 13.0% | 4 |
-| M2 Workbench | 62 | 345 | 18.0% | 130 |
-| M4 Diagnostics | 0 | 40 | 0.0% | 1 |
-| M5 Editor intelligence | 15 | 116 | 12.9% | 21 |
-| M6 Terminal | 18 | 61 | 29.5% | 37 |
-| M7 Diff, merge and Git | 9 | 82 | 11.0% | 47 |
+| M1 Tokens and surfaces | 14 | 56 | 25.0% | 15 |
+| M2 Workbench | 62 | 382 | 16.2% | 142 |
+| M4 Diagnostics, debug and testing | 0 | 112 | 0.0% | 22 |
+| M5 Editor intelligence | 26 | 174 | 14.9% | 53 |
+| M6 Terminal | 18 | 62 | 29.0% | 37 |
+| M7 Diff, merge and Git | 9 | 94 | 9.6% | 58 |
 | M8 Chat and agents | 0 | 86 | 0.0% | 86 |
-| — No milestone | 22 | 218 | 10.1% | 92 |
+| M9 Syntax | 0 | 5 | 0.0% | 5 |
 
 M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set.
 
@@ -71,9 +71,9 @@ The sections are the colour reference's own.
 | Activity Bar | M2 | 6 | 20 | 10 |
 | Profiles | M2 | 0 | 3 | 3 |
 | Side Bar | M2 | 6 | 14 | 6 |
-| Minimap | M4, M7, — | 0 | 16 | 5 |
+| Minimap | M4, M5, M7 | 0 | 16 | 5 |
 | Editor Groups & Tabs | M2 | 10 | 42 | 9 |
-| Editor colors | M4, M5, M7, M8, — | 31 | 171 | 81 |
+| Editor colors | M1, M4, M5, M7, M8 | 31 | 171 | 81 |
 | Diff editor colors | M7 | 2 | 21 | 15 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
@@ -94,24 +94,24 @@ The sections are the colour reference's own.
 | Keybinding label colors | M2 | 0 | 4 | 0 |
 | Keyboard shortcut table colors | M2 | 0 | 2 | 2 |
 | Integrated Terminal colors | M6 | 18 | 61 | 37 |
-| Debug colors | — | 0 | 18 | 1 |
-| Testing colors | — | 0 | 32 | 20 |
-| Welcome page colors | — | 0 | 8 | 2 |
+| Debug colors | M4 | 0 | 18 | 1 |
+| Testing colors | M4 | 0 | 32 | 20 |
+| Welcome page colors | M2 | 0 | 8 | 2 |
 | Git colors | M7 | 4 | 11 | 1 |
 | Source Control Graph colors | M7 | 0 | 13 | 13 |
 | Settings Editor colors | M2 | 0 | 21 | 3 |
 | Breadcrumbs colors | M2 | 0 | 5 | 0 |
 | Snippets colors | M5 | 0 | 4 | 0 |
 | Symbol Icons colors | M5 | 0 | 33 | 0 |
-| Debug Icons colors | — | 0 | 20 | 0 |
-| Notebook colors | — | 0 | 24 | 3 |
-| Chart colors | — | 0 | 11 | 3 |
-| Ports colors | — | 0 | 1 | 0 |
-| Comments View colors | — | 0 | 2 | 2 |
+| Debug Icons colors | M4 | 0 | 20 | 0 |
+| Notebook colors | M2 | 0 | 24 | 3 |
+| Chart colors | M1 | 0 | 11 | 3 |
+| Ports colors | M6 | 0 | 1 | 0 |
+| Comments View colors | M7 | 0 | 2 | 2 |
 | Action Bar colors | M2 | 0 | 1 | 1 |
 | Simple Find Widget colors | M2 | 0 | 1 | 1 |
-| Gauge colors | — | 0 | 7 | 7 |
-| Markdown | — | 0 | 5 | 5 |
+| Gauge colors | M2 | 0 | 7 | 7 |
+| Markdown | M9 | 0 | 5 | 5 |
 | Agent Session colors | M8 | 0 | 5 | 5 |
 
 ### IDs the theme sets that VS Code no longer documents
@@ -343,22 +343,22 @@ None.
 
 <details><summary>Minimap — 16 unset</summary>
 
-- `minimap.findMatchHighlight` (—)
-- `minimap.selectionHighlight` (—)
+- `minimap.findMatchHighlight` (M5)
+- `minimap.selectionHighlight` (M5)
 - `minimap.errorHighlight` (M4)
 - `minimap.warningHighlight` (M4)
-- `minimap.background` (—)
-- `minimap.selectionOccurrenceHighlight` † (—)
-- `minimap.foregroundOpacity` † (—)
+- `minimap.background` (M5)
+- `minimap.selectionOccurrenceHighlight` † (M5)
+- `minimap.foregroundOpacity` † (M5)
 - `minimap.infoHighlight` † (M4)
-- `minimap.chatEditHighlight` † (—)
-- `minimapSlider.background` (—)
-- `minimapSlider.hoverBackground` (—)
-- `minimapSlider.activeBackground` (—)
+- `minimap.chatEditHighlight` † (M5)
+- `minimapSlider.background` (M5)
+- `minimapSlider.hoverBackground` (M5)
+- `minimapSlider.activeBackground` (M5)
 - `minimapGutter.addedBackground` (M7)
 - `minimapGutter.modifiedBackground` (M7)
 - `minimapGutter.deletedBackground` (M7)
-- `editorMinimap.inlineChatInserted` † (—)
+- `editorMinimap.inlineChatInserted` † (M5)
 
 </details>
 
@@ -401,16 +401,16 @@ None.
 
 <details><summary>Editor colors — 140 unset</summary>
 
-- `editorLineNumber.dimmedForeground` † (—)
-- `editorCursor.background` (—)
-- `editorMultiCursor.primary.foreground` † (—)
-- `editorMultiCursor.primary.background` † (—)
-- `editorMultiCursor.secondary.foreground` † (—)
-- `editorMultiCursor.secondary.background` † (—)
-- `editor.placeholder.foreground` † (—)
-- `editor.compositionBorder` † (—)
-- `editor.selectionForeground` (—)
-- `editor.selectionHighlightBorder` (M5)
+- `editorLineNumber.dimmedForeground` † (M1)
+- `editorCursor.background` (M1)
+- `editorMultiCursor.primary.foreground` † (M1)
+- `editorMultiCursor.primary.background` † (M1)
+- `editorMultiCursor.secondary.foreground` † (M1)
+- `editorMultiCursor.secondary.background` † (M1)
+- `editor.placeholder.foreground` † (M1)
+- `editor.compositionBorder` † (M1)
+- `editor.selectionForeground` (M1)
+- `editor.selectionHighlightBorder` (M1)
 - `editor.wordHighlightBorder` (M5)
 - `editor.wordHighlightStrongBorder` (M5)
 - `editor.wordHighlightTextBackground` † (M5)
@@ -426,54 +426,54 @@ None.
 - `searchEditor.findMatchBorder` (M5)
 - `searchEditor.textInputBorder` (M5)
 - `editor.hoverHighlightBackground` (M5)
-- `editor.inactiveLineHighlightBackground` † (—)
-- `editorUnicodeHighlight.border` † (—)
-- `editorUnicodeHighlight.background` † (—)
-- `editorLink.activeForeground` (—)
+- `editor.inactiveLineHighlightBackground` † (M1)
+- `editorUnicodeHighlight.border` † (M5)
+- `editorUnicodeHighlight.background` † (M5)
+- `editorLink.activeForeground` (M5)
 - `editor.rangeHighlightBackground` (M5)
 - `editor.rangeHighlightBorder` (M5)
 - `editor.symbolHighlightBackground` (M5)
 - `editor.symbolHighlightBorder` (M5)
-- `editorIndentGuide.background` (—)
-- `editorIndentGuide.background2` † (—)
-- `editorIndentGuide.background3` † (—)
-- `editorIndentGuide.background4` † (—)
-- `editorIndentGuide.background5` † (—)
-- `editorIndentGuide.background6` † (—)
-- `editorIndentGuide.activeBackground` (—)
-- `editorIndentGuide.activeBackground2` † (—)
-- `editorIndentGuide.activeBackground3` † (—)
-- `editorIndentGuide.activeBackground4` † (—)
-- `editorIndentGuide.activeBackground5` † (—)
-- `editorIndentGuide.activeBackground6` † (—)
+- `editorIndentGuide.background` (M5)
+- `editorIndentGuide.background2` † (M5)
+- `editorIndentGuide.background3` † (M5)
+- `editorIndentGuide.background4` † (M5)
+- `editorIndentGuide.background5` † (M5)
+- `editorIndentGuide.background6` † (M5)
+- `editorIndentGuide.activeBackground` (M5)
+- `editorIndentGuide.activeBackground2` † (M5)
+- `editorIndentGuide.activeBackground3` † (M5)
+- `editorIndentGuide.activeBackground4` † (M5)
+- `editorIndentGuide.activeBackground5` † (M5)
+- `editorIndentGuide.activeBackground6` † (M5)
 - `editorInlayHint.background` (M5)
 - `editorInlayHint.foreground` (M5)
 - `editorInlayHint.typeForeground` † (M5)
 - `editorInlayHint.typeBackground` † (M5)
 - `editorInlayHint.parameterForeground` † (M5)
 - `editorInlayHint.parameterBackground` † (M5)
-- `editor.linkedEditingBackground` (—)
+- `editor.linkedEditingBackground` (M5)
 - `editorLightBulb.foreground` (M5)
 - `editorLightBulbAutoFix.foreground` (M5)
 - `editorLightBulbAi.foreground` † (M5)
-- `editorBracketMatch.foreground` † (—)
-- `editorBracketHighlight.foreground5` (—)
-- `editorBracketHighlight.foreground6` (—)
-- `editorBracketPairGuide.activeBackground1` † (—)
-- `editorBracketPairGuide.activeBackground2` † (—)
-- `editorBracketPairGuide.activeBackground3` † (—)
-- `editorBracketPairGuide.activeBackground4` † (—)
-- `editorBracketPairGuide.activeBackground5` † (—)
-- `editorBracketPairGuide.activeBackground6` † (—)
-- `editorBracketPairGuide.background1` † (—)
-- `editorBracketPairGuide.background2` † (—)
-- `editorBracketPairGuide.background3` † (—)
-- `editorBracketPairGuide.background4` † (—)
-- `editorBracketPairGuide.background5` † (—)
-- `editorBracketPairGuide.background6` † (—)
-- `editor.foldBackground` (—)
-- `editor.foldPlaceholderForeground` † (—)
-- `editorOverviewRuler.background` (—)
+- `editorBracketMatch.foreground` † (M5)
+- `editorBracketHighlight.foreground5` (M5)
+- `editorBracketHighlight.foreground6` (M5)
+- `editorBracketPairGuide.activeBackground1` † (M5)
+- `editorBracketPairGuide.activeBackground2` † (M5)
+- `editorBracketPairGuide.activeBackground3` † (M5)
+- `editorBracketPairGuide.activeBackground4` † (M5)
+- `editorBracketPairGuide.activeBackground5` † (M5)
+- `editorBracketPairGuide.activeBackground6` † (M5)
+- `editorBracketPairGuide.background1` † (M5)
+- `editorBracketPairGuide.background2` † (M5)
+- `editorBracketPairGuide.background3` † (M5)
+- `editorBracketPairGuide.background4` † (M5)
+- `editorBracketPairGuide.background5` † (M5)
+- `editorBracketPairGuide.background6` † (M5)
+- `editor.foldBackground` (M5)
+- `editor.foldPlaceholderForeground` † (M5)
+- `editorOverviewRuler.background` (M5)
 - `editorOverviewRuler.findMatchForeground` (M5)
 - `editorOverviewRuler.rangeHighlightForeground` (M5)
 - `editorOverviewRuler.selectionHighlightForeground` (M5)
@@ -486,10 +486,10 @@ None.
 - `editorOverviewRuler.errorForeground` (M4)
 - `editorOverviewRuler.warningForeground` (M4)
 - `editorOverviewRuler.infoForeground` (M4)
-- `editorOverviewRuler.bracketMatchForeground` (—)
+- `editorOverviewRuler.bracketMatchForeground` (M5)
 - `editorOverviewRuler.inlineChatInserted` † (M8)
 - `editorOverviewRuler.inlineChatRemoved` † (M8)
-- `editorOverviewRuler.commentDraftForeground` † (—)
+- `editorOverviewRuler.commentDraftForeground` † (M7)
 - `editorError.foreground` (M4)
 - `editorError.border` (M4)
 - `editorError.background` (M4)
@@ -509,18 +509,18 @@ None.
 - `editorGutter.modifiedSecondaryBackground` † (M7)
 - `editorGutter.addedSecondaryBackground` † (M7)
 - `editorGutter.deletedSecondaryBackground` † (M7)
-- `editorGutter.commentRangeForeground` (—)
-- `editorGutter.commentGlyphForeground` † (—)
-- `editorGutter.commentUnresolvedGlyphForeground` † (—)
-- `editorGutter.foldingControlForeground` (—)
-- `editorGutter.itemGlyphForeground` † (—)
-- `editorGutter.itemBackground` † (—)
-- `editorGutter.commentDraftGlyphForeground` † (—)
-- `editorCommentsWidget.resolvedBorder` † (—)
-- `editorCommentsWidget.unresolvedBorder` † (—)
-- `editorCommentsWidget.rangeBackground` † (—)
-- `editorCommentsWidget.rangeActiveBackground` † (—)
-- `editorCommentsWidget.replyInputBackground` † (—)
+- `editorGutter.commentRangeForeground` (M7)
+- `editorGutter.commentGlyphForeground` † (M7)
+- `editorGutter.commentUnresolvedGlyphForeground` † (M7)
+- `editorGutter.foldingControlForeground` (M5)
+- `editorGutter.itemGlyphForeground` † (M5)
+- `editorGutter.itemBackground` † (M5)
+- `editorGutter.commentDraftGlyphForeground` † (M7)
+- `editorCommentsWidget.resolvedBorder` † (M7)
+- `editorCommentsWidget.unresolvedBorder` † (M7)
+- `editorCommentsWidget.rangeBackground` † (M7)
+- `editorCommentsWidget.rangeActiveBackground` † (M7)
+- `editorCommentsWidget.replyInputBackground` † (M7)
 - `inlineEdit.gutterIndicator.primaryBorder` † (M8)
 - `inlineEdit.gutterIndicator.primaryForeground` † (M8)
 - `inlineEdit.gutterIndicator.primaryBackground` † (M8)
@@ -667,8 +667,8 @@ None.
 - `editorStickyScroll.shadow` † (M5)
 - `editorStickyScrollGutter.background` † (M5)
 - `editorStickyScrollHover.background` † (M5)
-- `debugExceptionWidget.background` (M2)
-- `debugExceptionWidget.border` (M2)
+- `debugExceptionWidget.background` (M4)
+- `debugExceptionWidget.border` (M4)
 - `editorMarkerNavigation.background` (M4)
 - `editorMarkerNavigationError.background` (M4)
 - `editorMarkerNavigationWarning.background` (M4)
@@ -933,74 +933,74 @@ None.
 
 <details><summary>Debug colors — 18 unset</summary>
 
-- `debugToolBar.background` (—)
-- `debugToolBar.border` (—)
-- `editor.stackFrameHighlightBackground` (—)
-- `editor.focusedStackFrameHighlightBackground` (—)
-- `editor.inlineValuesForeground` (—)
-- `editor.inlineValuesBackground` (—)
-- `debugView.exceptionLabelForeground` (—)
-- `debugView.exceptionLabelBackground` (—)
-- `debugView.stateLabelForeground` (—)
-- `debugView.stateLabelBackground` (—)
-- `debugView.valueChangedHighlight` (—)
-- `debugTokenExpression.name` (—)
-- `debugTokenExpression.value` (—)
-- `debugTokenExpression.string` (—)
-- `debugTokenExpression.boolean` (—)
-- `debugTokenExpression.number` (—)
-- `debugTokenExpression.error` (—)
-- `debugTokenExpression.type` † (—)
+- `debugToolBar.background` (M4)
+- `debugToolBar.border` (M4)
+- `editor.stackFrameHighlightBackground` (M4)
+- `editor.focusedStackFrameHighlightBackground` (M4)
+- `editor.inlineValuesForeground` (M4)
+- `editor.inlineValuesBackground` (M4)
+- `debugView.exceptionLabelForeground` (M4)
+- `debugView.exceptionLabelBackground` (M4)
+- `debugView.stateLabelForeground` (M4)
+- `debugView.stateLabelBackground` (M4)
+- `debugView.valueChangedHighlight` (M4)
+- `debugTokenExpression.name` (M4)
+- `debugTokenExpression.value` (M4)
+- `debugTokenExpression.string` (M4)
+- `debugTokenExpression.boolean` (M4)
+- `debugTokenExpression.number` (M4)
+- `debugTokenExpression.error` (M4)
+- `debugTokenExpression.type` † (M4)
 
 </details>
 
 <details><summary>Testing colors — 32 unset</summary>
 
-- `testing.runAction` (—)
-- `testing.iconErrored` (—)
-- `testing.iconFailed` (—)
-- `testing.iconPassed` (—)
-- `testing.iconQueued` (—)
-- `testing.iconUnset` (—)
-- `testing.iconSkipped` (—)
-- `testing.iconErrored.retired` † (—)
-- `testing.iconFailed.retired` † (—)
-- `testing.iconPassed.retired` † (—)
-- `testing.iconQueued.retired` † (—)
-- `testing.iconUnset.retired` † (—)
-- `testing.iconSkipped.retired` † (—)
-- `testing.peekBorder` (—)
-- `testing.peekHeaderBackground` (—)
-- `testing.message.error.lineBackground` (—)
-- `testing.message.info.decorationForeground` (—)
-- `testing.message.info.lineBackground` (—)
-- `testing.messagePeekBorder` † (—)
-- `testing.messagePeekHeaderBackground` † (—)
-- `testing.coveredBackground` † (—)
-- `testing.coveredBorder` † (—)
-- `testing.coveredGutterBackground` † (—)
-- `testing.uncoveredBranchBackground` † (—)
-- `testing.uncoveredBackground` † (—)
-- `testing.uncoveredBorder` † (—)
-- `testing.uncoveredGutterBackground` † (—)
-- `testing.coverCountBadgeBackground` † (—)
-- `testing.coverCountBadgeForeground` † (—)
-- `testing.message.error.badgeBackground` † (—)
-- `testing.message.error.badgeBorder` † (—)
-- `testing.message.error.badgeForeground` † (—)
+- `testing.runAction` (M4)
+- `testing.iconErrored` (M4)
+- `testing.iconFailed` (M4)
+- `testing.iconPassed` (M4)
+- `testing.iconQueued` (M4)
+- `testing.iconUnset` (M4)
+- `testing.iconSkipped` (M4)
+- `testing.iconErrored.retired` † (M4)
+- `testing.iconFailed.retired` † (M4)
+- `testing.iconPassed.retired` † (M4)
+- `testing.iconQueued.retired` † (M4)
+- `testing.iconUnset.retired` † (M4)
+- `testing.iconSkipped.retired` † (M4)
+- `testing.peekBorder` (M4)
+- `testing.peekHeaderBackground` (M4)
+- `testing.message.error.lineBackground` (M4)
+- `testing.message.info.decorationForeground` (M4)
+- `testing.message.info.lineBackground` (M4)
+- `testing.messagePeekBorder` † (M4)
+- `testing.messagePeekHeaderBackground` † (M4)
+- `testing.coveredBackground` † (M4)
+- `testing.coveredBorder` † (M4)
+- `testing.coveredGutterBackground` † (M4)
+- `testing.uncoveredBranchBackground` † (M4)
+- `testing.uncoveredBackground` † (M4)
+- `testing.uncoveredBorder` † (M4)
+- `testing.uncoveredGutterBackground` † (M4)
+- `testing.coverCountBadgeBackground` † (M4)
+- `testing.coverCountBadgeForeground` † (M4)
+- `testing.message.error.badgeBackground` † (M4)
+- `testing.message.error.badgeBorder` † (M4)
+- `testing.message.error.badgeForeground` † (M4)
 
 </details>
 
 <details><summary>Welcome page colors — 8 unset</summary>
 
-- `welcomePage.background` (—)
-- `welcomePage.progress.background` (—)
-- `welcomePage.progress.foreground` (—)
-- `welcomePage.tileBackground` (—)
-- `welcomePage.tileHoverBackground` (—)
-- `welcomePage.tileBorder` † (—)
-- `walkThrough.embeddedEditorBackground` (—)
-- `walkthrough.stepTitle.foreground` † (—)
+- `welcomePage.background` (M2)
+- `welcomePage.progress.background` (M2)
+- `welcomePage.progress.foreground` (M2)
+- `welcomePage.tileBackground` (M2)
+- `welcomePage.tileHoverBackground` (M2)
+- `welcomePage.tileBorder` † (M2)
+- `walkThrough.embeddedEditorBackground` (M2)
+- `walkthrough.stepTitle.foreground` † (M2)
 
 </details>
 
@@ -1119,84 +1119,84 @@ None.
 
 <details><summary>Debug Icons colors — 20 unset</summary>
 
-- `debugIcon.breakpointForeground` (—)
-- `debugIcon.breakpointDisabledForeground` (—)
-- `debugIcon.breakpointUnverifiedForeground` (—)
-- `debugIcon.breakpointCurrentStackframeForeground` (—)
-- `debugIcon.breakpointStackframeForeground` (—)
-- `debugIcon.startForeground` (—)
-- `debugIcon.pauseForeground` (—)
-- `debugIcon.stopForeground` (—)
-- `debugIcon.disconnectForeground` (—)
-- `debugIcon.restartForeground` (—)
-- `debugIcon.stepOverForeground` (—)
-- `debugIcon.stepIntoForeground` (—)
-- `debugIcon.stepOutForeground` (—)
-- `debugIcon.continueForeground` (—)
-- `debugIcon.stepBackForeground` (—)
-- `debugConsole.infoForeground` (—)
-- `debugConsole.warningForeground` (—)
-- `debugConsole.errorForeground` (—)
-- `debugConsole.sourceForeground` (—)
-- `debugConsoleInputIcon.foreground` (—)
+- `debugIcon.breakpointForeground` (M4)
+- `debugIcon.breakpointDisabledForeground` (M4)
+- `debugIcon.breakpointUnverifiedForeground` (M4)
+- `debugIcon.breakpointCurrentStackframeForeground` (M4)
+- `debugIcon.breakpointStackframeForeground` (M4)
+- `debugIcon.startForeground` (M4)
+- `debugIcon.pauseForeground` (M4)
+- `debugIcon.stopForeground` (M4)
+- `debugIcon.disconnectForeground` (M4)
+- `debugIcon.restartForeground` (M4)
+- `debugIcon.stepOverForeground` (M4)
+- `debugIcon.stepIntoForeground` (M4)
+- `debugIcon.stepOutForeground` (M4)
+- `debugIcon.continueForeground` (M4)
+- `debugIcon.stepBackForeground` (M4)
+- `debugConsole.infoForeground` (M4)
+- `debugConsole.warningForeground` (M4)
+- `debugConsole.errorForeground` (M4)
+- `debugConsole.sourceForeground` (M4)
+- `debugConsoleInputIcon.foreground` (M4)
 
 </details>
 
 <details><summary>Notebook colors — 24 unset</summary>
 
-- `notebook.editorBackground` † (—)
-- `notebook.cellBorderColor` (—)
-- `notebook.cellHoverBackground` (—)
-- `notebook.cellInsertionIndicator` (—)
-- `notebook.cellStatusBarItemHoverBackground` (—)
-- `notebook.cellToolbarSeparator` (—)
-- `notebook.cellEditorBackground` (—)
-- `notebook.focusedCellBackground` (—)
-- `notebook.focusedCellBorder` (—)
-- `notebook.focusedEditorBorder` (—)
-- `notebook.inactiveFocusedCellBorder` (—)
-- `notebook.inactiveSelectedCellBorder` (—)
-- `notebook.outputContainerBackgroundColor` (—)
-- `notebook.outputContainerBorderColor` † (—)
-- `notebook.selectedCellBackground` (—)
-- `notebook.selectedCellBorder` (—)
-- `notebook.symbolHighlightBackground` (—)
-- `notebookScrollbarSlider.activeBackground` (—)
-- `notebookScrollbarSlider.background` (—)
-- `notebookScrollbarSlider.hoverBackground` (—)
-- `notebookStatusErrorIcon.foreground` (—)
-- `notebookStatusRunningIcon.foreground` (—)
-- `notebookStatusSuccessIcon.foreground` (—)
-- `notebookEditorOverviewRuler.runningCellForeground` † (—)
+- `notebook.editorBackground` † (M2)
+- `notebook.cellBorderColor` (M2)
+- `notebook.cellHoverBackground` (M2)
+- `notebook.cellInsertionIndicator` (M2)
+- `notebook.cellStatusBarItemHoverBackground` (M2)
+- `notebook.cellToolbarSeparator` (M2)
+- `notebook.cellEditorBackground` (M2)
+- `notebook.focusedCellBackground` (M2)
+- `notebook.focusedCellBorder` (M2)
+- `notebook.focusedEditorBorder` (M2)
+- `notebook.inactiveFocusedCellBorder` (M2)
+- `notebook.inactiveSelectedCellBorder` (M2)
+- `notebook.outputContainerBackgroundColor` (M2)
+- `notebook.outputContainerBorderColor` † (M2)
+- `notebook.selectedCellBackground` (M2)
+- `notebook.selectedCellBorder` (M2)
+- `notebook.symbolHighlightBackground` (M2)
+- `notebookScrollbarSlider.activeBackground` (M2)
+- `notebookScrollbarSlider.background` (M2)
+- `notebookScrollbarSlider.hoverBackground` (M2)
+- `notebookStatusErrorIcon.foreground` (M2)
+- `notebookStatusRunningIcon.foreground` (M2)
+- `notebookStatusSuccessIcon.foreground` (M2)
+- `notebookEditorOverviewRuler.runningCellForeground` † (M2)
 
 </details>
 
 <details><summary>Chart colors — 11 unset</summary>
 
-- `charts.foreground` (—)
-- `charts.lines` (—)
-- `charts.red` (—)
-- `charts.blue` (—)
-- `charts.yellow` (—)
-- `charts.orange` (—)
-- `charts.green` (—)
-- `charts.purple` (—)
-- `chart.line` † (—)
-- `chart.axis` † (—)
-- `chart.guide` † (—)
+- `charts.foreground` (M1)
+- `charts.lines` (M1)
+- `charts.red` (M1)
+- `charts.blue` (M1)
+- `charts.yellow` (M1)
+- `charts.orange` (M1)
+- `charts.green` (M1)
+- `charts.purple` (M1)
+- `chart.line` † (M1)
+- `chart.axis` † (M1)
+- `chart.guide` † (M1)
 
 </details>
 
 <details><summary>Ports colors — 1 unset</summary>
 
-- `ports.iconRunningProcessForeground` (—)
+- `ports.iconRunningProcessForeground` (M6)
 
 </details>
 
 <details><summary>Comments View colors — 2 unset</summary>
 
-- `commentsView.resolvedIcon` † (—)
-- `commentsView.unresolvedIcon` † (—)
+- `commentsView.resolvedIcon` † (M7)
+- `commentsView.unresolvedIcon` † (M7)
 
 </details>
 
@@ -1214,23 +1214,23 @@ None.
 
 <details><summary>Gauge colors — 7 unset</summary>
 
-- `gauge.background` † (—)
-- `gauge.foreground` † (—)
-- `gauge.border` † (—)
-- `gauge.warningBackground` † (—)
-- `gauge.warningForeground` † (—)
-- `gauge.errorBackground` † (—)
-- `gauge.errorForeground` † (—)
+- `gauge.background` † (M2)
+- `gauge.foreground` † (M2)
+- `gauge.border` † (M2)
+- `gauge.warningBackground` † (M2)
+- `gauge.warningForeground` † (M2)
+- `gauge.errorBackground` † (M2)
+- `gauge.errorForeground` † (M2)
 
 </details>
 
 <details><summary>Markdown — 5 unset</summary>
 
-- `markdownAlert.note.foreground` † (—)
-- `markdownAlert.tip.foreground` † (—)
-- `markdownAlert.important.foreground` † (—)
-- `markdownAlert.warning.foreground` † (—)
-- `markdownAlert.caution.foreground` † (—)
+- `markdownAlert.note.foreground` † (M9)
+- `markdownAlert.tip.foreground` † (M9)
+- `markdownAlert.important.foreground` † (M9)
+- `markdownAlert.warning.foreground` † (M9)
+- `markdownAlert.caution.foreground` † (M9)
 
 </details>
 

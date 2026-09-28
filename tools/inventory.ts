@@ -89,21 +89,26 @@ const atFloor = new Set(vscode.floorIds);
  * colors" holds the diagnostics, the inlay hints, the sticky scroll and the
  * diff gutter all at once — so the prefixes below are checked first.
  *
- * "—" means no milestone covers it. That is a finding, not a default: those
- * surfaces are real, and the roadmap as written would ship them untouched.
+ * Every ID has an owner. A section VS Code adds later is not silently left to
+ * nobody: the build stops until BY_SECTION names who is responsible for it.
  */
 const MILESTONES: Record<string, string> = {
   M1: 'Tokens and surfaces',
   M2: 'Workbench',
-  M4: 'Diagnostics',
+  M4: 'Diagnostics, debug and testing',
   M5: 'Editor intelligence',
   M6: 'Terminal',
   M7: 'Diff, merge and Git',
   M8: 'Chat and agents',
-  '—': 'No milestone',
+  M9: 'Syntax',
 };
 
 const BY_PREFIX: [RegExp, string][] = [
+  // The editor's own ground: what the M1 surface and text tokens are applied to first.
+  [/^(editor.(background|foreground|selection|inactiveSelection|lineHighlight|inactiveLineHighlight|placeholder|compositionBorder)|editorCursor|editorMultiCursor|editorLineNumber|editorGutter.background)/, 'M1'],
+  [/^(debug|testing|editor.(stackFrame|focusedStackFrame|inlineValues))/, 'M4'],
+  [/^(editorCommentsWidget|editorGutter.comment|editorOverviewRuler.commentDraft|commentsView)/, 'M7'],
+  [/^markdownAlert/, 'M9'],
   [/^(chat|inlineChat|interactive|agent|aiCustomization|inlineEdit)/, 'M8'],
   [/^editorOverviewRuler\.inlineChat/, 'M8'],
   [/^(search\.|searchEditor\.)/, 'M5'],
@@ -153,8 +158,8 @@ const BY_SECTION: Record<string, string> = {
   'Breadcrumbs colors': 'M2',
   'Action Bar colors': 'M2',
   'Simple Find Widget colors': 'M2',
-  'Editor colors': '—',
-  Minimap: '—',
+  'Editor colors': 'M5',
+  Minimap: 'M5',
   'Diff editor colors': 'M7',
   'Merge conflicts colors': 'M7',
   'Git colors': 'M7',
@@ -168,16 +173,16 @@ const BY_SECTION: Record<string, string> = {
   'Symbol Icons colors': 'M5',
   'Snippets colors': 'M5',
   'Integrated Terminal colors': 'M6',
-  'Debug colors': '—',
-  'Debug Icons colors': '—',
-  'Testing colors': '—',
-  'Notebook colors': '—',
-  'Welcome page colors': '—',
-  'Chart colors': '—',
-  'Gauge colors': '—',
-  'Ports colors': '—',
-  'Comments View colors': '—',
-  Markdown: '—',
+  'Debug colors': 'M4',
+  'Debug Icons colors': 'M4',
+  'Testing colors': 'M4',
+  'Notebook colors': 'M2',
+  'Welcome page colors': 'M2',
+  'Chart colors': 'M1',
+  'Gauge colors': 'M2',
+  'Ports colors': 'M6',
+  'Comments View colors': 'M7',
+  Markdown: 'M9',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));
@@ -305,7 +310,7 @@ table(
   ['Owner', 'Set', 'Documented', 'Coverage', `Added since ${vscode.floor.vscode}, unset`],
   Object.entries(MILESTONES).map(([m, name]) => {
     const t = tally(rows.filter((r) => r.owner === m));
-    return [`${m === '—' ? '—' : m} ${name}`, t.set, t.total, pct(t.set, t.total), t.modernUnset];
+    return [`${m} ${name}`, t.set, t.total, pct(t.set, t.total), t.modernUnset];
   })
 );
 line(
