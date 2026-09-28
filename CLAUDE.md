@@ -10,6 +10,7 @@ Rules for anyone (human or agent) working in this repository. The maintainer tal
 ## Code style (TypeScript)
 
 - **Arrow functions wherever possible**: `const f = (x: T): R => …`. Use a conventional `function` only where an arrow cannot work (hoisting is needed, `this` binding, generators).
+- **Descriptive camelCase names for everything declared** — variables, constants, parameters, functions, classes, types, destructured bindings, loop variables and callback parameters. Never a single letter or an abbreviation of initials (`p`, `t`, `st`, `fg`-style shorthands for a whole object): `palette`, `tokens`, `state`. Type parameters and module-level constants follow the conventions of the language (`T`, `SCREAMING_CASE`) but still say what they hold.
 - **Explicit types where the declaration does not already state them**: function return types, and variables when they are created (`const rows: Row[] = …`). Do not repeat a type that is already explicit (an annotated or `satisfies` object, `as const`, a typed parameter).
 
 ## Workflow
