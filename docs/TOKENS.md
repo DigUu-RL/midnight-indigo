@@ -10,6 +10,7 @@ Translucent colours are a token plus one step of this ladder, and no other opaci
 
 | Step | Alpha |
 | --- | ---: |
+| `trace` | `11` (7%) |
 | `tint` | `22` (13%) |
 | `wash` | `33` (20%) |
 | `faint` | `55` (33%) |
@@ -151,10 +152,10 @@ What each state looks like and which channel carries it. The build measures ever
 | `state.warning` | Something to look at. A palette colour of its own: a saturated yellow at the top of the lightness band, clear of the pastel numbers and interfaces. |
 | `state.error` | Something is wrong. A palette colour of its own: a saturated red below the syntax band, never the keyword ink. |
 | `state.hint` | A suggestion, not a problem: the ink the family names as its teal, drawn by VS Code as dots rather than a squiggle. |
-| `state.modified` | A changed file or line. The function colour. |
-| `state.added` | An added file or line. The string colour. |
-| `state.deleted` | A deleted file or line. The keyword colour. |
-| `state.untracked` | A file Git does not know about. The interface colour. |
+| `state.modified` | A changed line, file or setting, a renamed file, moved code: the info ink, the family's blue. |
+| `state.added` | An added line or file, untracked or staged — Git's letter tells those apart, the colour says it is an addition: the success ink, the family's green. |
+| `state.deleted` | A removed line or file: the error red, never the keyword ink code is written in. |
+| `state.conflicting` | A merge conflict still to resolve: the warning amber, the one Git state that asks for attention. |
 | `state.deprecated` | Something that still works and should not be used: muted, to be struck through. |
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
@@ -168,8 +169,8 @@ What each state looks like and which channel carries it. The build measures ever
 | `hint` | `#64D8CB` | `#62D6DC` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
 | `modified` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
 | `added` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `deleted` | `#FF6AC1` | `#FF7988` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
-| `untracked` | `#D6E64B` | `#E7E345` | `#A4EA62` | `#93E780` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
+| `deleted` | `#F84A54` | `#FB4F43` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `conflicting` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
 | `deprecated` | `#6A6390` | `#7C5D82` | `#875B6F` | `#8C5F59` | `#8D6D53` | `#4E7B59` | `#24777C` | `#516B93` |
 
 ## `chart`

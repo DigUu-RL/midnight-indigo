@@ -686,7 +686,89 @@ function themeFor(family: Family, t: Tokens): Theme {
     'gitDecoration.modifiedResourceForeground': st.modified,
     'gitDecoration.addedResourceForeground': st.added,
     'gitDecoration.deletedResourceForeground': st.deleted,
-    'gitDecoration.untrackedResourceForeground': st.untracked,
+    'gitDecoration.untrackedResourceForeground': st.added,
+    'gitDecoration.stageModifiedResourceForeground': st.modified,
+    'gitDecoration.stageDeletedResourceForeground': st.deleted,
+    'gitDecoration.renamedResourceForeground': st.modified,
+    'gitDecoration.conflictingResourceForeground': st.conflicting,
+    'gitDecoration.ignoredResourceForeground': x.muted,
+    'gitDecoration.submoduleResourceForeground': x.normal,
+    'git.blame.editorDecorationForeground': x.muted,
+    'editorGutter.modifiedSecondaryBackground': overlay(st.modified, 'heavy'),
+    'editorGutter.addedSecondaryBackground': overlay(st.added, 'heavy'),
+    'editorGutter.deletedSecondaryBackground': overlay(st.deleted, 'heavy'),
+    'minimapGutter.modifiedBackground': st.modified,
+    'minimapGutter.addedBackground': st.added,
+    'minimapGutter.deletedBackground': st.deleted,
+    'editorOverviewRuler.modifiedForeground': st.modified,
+    'editorOverviewRuler.addedForeground': st.added,
+    'editorOverviewRuler.deletedForeground': st.deleted,
+    'diffEditor.insertedLineBackground': overlay(st.added, 'trace'),
+    'diffEditor.removedLineBackground': overlay(st.deleted, 'trace'),
+    'diffEditorGutter.insertedLineBackground': overlay(st.added, 'trace'),
+    'diffEditorGutter.removedLineBackground': overlay(st.deleted, 'trace'),
+    'diffEditorOverview.insertedForeground': st.added,
+    'diffEditorOverview.removedForeground': st.deleted,
+    'diffEditor.border': s.border,
+    'diffEditor.diagonalFill': s.border,
+    'diffEditor.unchangedRegionBackground': s.surfaceRaised,
+    'diffEditor.unchangedRegionForeground': x.secondary,
+    'diffEditor.unchangedRegionShadow': overlay(s.background, 'heavy'),
+    'diffEditor.unchangedCodeBackground': overlay(s.surfaceFocus, 'faint'),
+    'diffEditor.move.border': s.borderStrong,
+    'diffEditor.moveActive.border': st.modified,
+    'multiDiffEditor.background': s.background,
+    'multiDiffEditor.headerBackground': s.surfaceRaised,
+    'multiDiffEditor.border': s.border,
+    'merge.currentHeaderBackground': overlay(st.hint, 'wash'),
+    'merge.currentContentBackground': overlay(st.hint, 'tint'),
+    'merge.incomingHeaderBackground': overlay(chart.purple, 'wash'),
+    'merge.incomingContentBackground': overlay(chart.purple, 'tint'),
+    'merge.commonHeaderBackground': overlay(x.muted, 'wash'),
+    'merge.commonContentBackground': overlay(x.muted, 'tint'),
+    'editorOverviewRuler.currentContentForeground': st.hint,
+    'editorOverviewRuler.incomingContentForeground': chart.purple,
+    'editorOverviewRuler.commonContentForeground': x.muted,
+    'mergeEditor.change.background': overlay(st.added, 'trace'),
+    'mergeEditor.change.word.background': overlay(st.added, 'tint'),
+    'mergeEditor.changeBase.background': overlay(st.deleted, 'trace'),
+    'mergeEditor.changeBase.word.background': overlay(st.deleted, 'tint'),
+    'mergeEditor.conflict.input1.background': overlay(st.hint, 'tint'),
+    'mergeEditor.conflict.input2.background': overlay(chart.purple, 'tint'),
+    'mergeEditor.conflictingLines.background': overlay(st.conflicting, 'tint'),
+    'mergeEditor.conflict.unhandledFocused.border': st.conflicting,
+    'mergeEditor.conflict.unhandledUnfocused.border': derive.inactive(st.conflicting),
+    'mergeEditor.conflict.handledFocused.border': x.muted,
+    'mergeEditor.conflict.handledUnfocused.border': s.borderStrong,
+    'mergeEditor.conflict.unhandled.minimapOverViewRuler': st.conflicting,
+    'mergeEditor.conflict.handled.minimapOverViewRuler': x.muted,
+    'scmGraph.foreground1': st.hint,
+    'scmGraph.foreground2': chart.yellow,
+    'scmGraph.foreground3': chart.blue,
+    'scmGraph.foreground4': chart.orange,
+    'scmGraph.foreground5': chart.purple,
+    'scmGraph.historyItemRefColor': a.base,
+    'scmGraph.historyItemRemoteRefColor': chart.purple,
+    'scmGraph.historyItemBaseRefColor': chart.orange,
+    'scmGraph.historyItemHoverLabelForeground': s.surface,
+    'scmGraph.historyItemHoverDefaultLabelForeground': a.on,
+    'scmGraph.historyItemHoverDefaultLabelBackground': a.muted,
+    'scmGraph.historyItemHoverAdditionsForeground': st.added,
+    'scmGraph.historyItemHoverDeletionsForeground': st.deleted,
+    'editorCommentsWidget.unresolvedBorder': st.info,
+    'editorCommentsWidget.resolvedBorder': s.borderStrong,
+    'editorCommentsWidget.rangeBackground': overlay(st.info, 'tint'),
+    'editorCommentsWidget.rangeActiveBackground': overlay(st.info, 'wash'),
+    'editorCommentsWidget.replyInputBackground': s.surfaceRaised,
+    'editorGutter.commentRangeForeground': s.borderStrong,
+    'editorGutter.commentGlyphForeground': x.muted,
+    'editorGutter.commentUnresolvedGlyphForeground': st.info,
+    'editorGutter.commentDraftGlyphForeground': st.warning,
+    'editorOverviewRuler.commentForeground': x.muted,
+    'editorOverviewRuler.commentUnresolvedForeground': st.info,
+    'editorOverviewRuler.commentDraftForeground': st.warning,
+    'commentsView.resolvedIcon': x.muted,
+    'commentsView.unresolvedIcon': st.info,
     'peekViewEditor.background': s.background,
     'peekViewResult.background': s.surface,
     'peekView.border': a.muted,
@@ -2016,6 +2098,308 @@ const checkTerminal = (family: Family, colours: Record<string, string>): string[
   return problems;
 };
 
+/* -------------------------------------------------------------- *
+ * Diff, merge and Git
+ * -------------------------------------------------------------- */
+
+type GitState = 'added' | 'modified' | 'deleted' | 'conflicting';
+
+/*
+ * Every ID that says one of the kinds of change, wherever VS Code draws it:
+ * the file in the explorer and the Source Control view, the gutter bar, the
+ * minimap, the overview ruler, the diff and merge editors, the history hover.
+ * Check 15 holds each to its token, so a removal is one red from the explorer
+ * to the diff. The colour says what kind of change it is; the letter Git puts
+ * beside the file — U or A, M or R, staged or not — says the rest.
+ */
+const GIT_IDS: Record<GitState, string[]> = {
+  added: [
+    'gitDecoration.addedResourceForeground',
+    'gitDecoration.untrackedResourceForeground',
+    'editorGutter.addedBackground',
+    'editorGutter.addedSecondaryBackground',
+    'minimapGutter.addedBackground',
+    'editorOverviewRuler.addedForeground',
+    'diffEditor.insertedTextBackground',
+    'diffEditor.insertedLineBackground',
+    'diffEditorGutter.insertedLineBackground',
+    'diffEditorOverview.insertedForeground',
+    'mergeEditor.change.background',
+    'mergeEditor.change.word.background',
+    'scmGraph.historyItemHoverAdditionsForeground',
+  ],
+  modified: [
+    'gitDecoration.modifiedResourceForeground',
+    'gitDecoration.stageModifiedResourceForeground',
+    'gitDecoration.renamedResourceForeground',
+    'editorGutter.modifiedBackground',
+    'editorGutter.modifiedSecondaryBackground',
+    'minimapGutter.modifiedBackground',
+    'editorOverviewRuler.modifiedForeground',
+    'diffEditor.moveActive.border',
+    'tab.activeModifiedBorder',
+    'settings.modifiedItemIndicator',
+  ],
+  deleted: [
+    'gitDecoration.deletedResourceForeground',
+    'gitDecoration.stageDeletedResourceForeground',
+    'editorGutter.deletedBackground',
+    'editorGutter.deletedSecondaryBackground',
+    'minimapGutter.deletedBackground',
+    'editorOverviewRuler.deletedForeground',
+    'diffEditor.removedTextBackground',
+    'diffEditor.removedLineBackground',
+    'diffEditorGutter.removedLineBackground',
+    'diffEditorOverview.removedForeground',
+    'mergeEditor.changeBase.background',
+    'mergeEditor.changeBase.word.background',
+    'scmGraph.historyItemHoverDeletionsForeground',
+  ],
+  conflicting: [
+    'gitDecoration.conflictingResourceForeground',
+    'mergeEditor.conflictingLines.background',
+    'mergeEditor.conflict.unhandledFocused.border',
+    'mergeEditor.conflict.unhandledUnfocused.border',
+    'mergeEditor.conflict.unhandled.minimapOverViewRuler',
+  ],
+};
+
+/** The signal each kind of change is: the roadmap's green, blue, red and amber. */
+const GIT_SIGNAL: Record<GitState, Diagnostic> = {
+  added: 'success',
+  modified: 'info',
+  deleted: 'error',
+  conflicting: 'warning',
+};
+
+/*
+ * How far (ΔE) the four kinds of change keep apart. Low on purpose, for the
+ * reason ANSI_DISTANCE is: in the green and cyan families the added green is a
+ * yellow-green and the conflict amber sits 9 or 10 ΔE from it. They still read
+ * as two colours side by side, and each file carries its letter as well.
+ */
+const GIT_DISTANCE = 9;
+
+/** The file names Git colours in the explorer; ignored files recede, the rest are read. */
+const GIT_NAMES: [id: string, floor: number][] = [
+  ['gitDecoration.addedResourceForeground', 4.5],
+  ['gitDecoration.untrackedResourceForeground', 4.5],
+  ['gitDecoration.modifiedResourceForeground', 4.5],
+  ['gitDecoration.stageModifiedResourceForeground', 4.5],
+  ['gitDecoration.renamedResourceForeground', 4.5],
+  ['gitDecoration.deletedResourceForeground', 4.5],
+  ['gitDecoration.stageDeletedResourceForeground', 4.5],
+  ['gitDecoration.conflictingResourceForeground', 4.5],
+  ['gitDecoration.submoduleResourceForeground', 4.5],
+  ['gitDecoration.ignoredResourceForeground', AUXILIARY_FLOOR],
+];
+
+/** The rows a file name can sit on in the explorer, each over the ground under it. */
+const EXPLORER_ROWS: [id: string, under: string][] = [
+  ['sideBar.background', 'sideBar.background'],
+  ['list.hoverBackground', 'sideBar.background'],
+  ['list.inactiveSelectionBackground', 'sideBar.background'],
+];
+
+/*
+ * Grounds painted behind code to say how it changed. Each is a stack, drawn
+ * in order: changed text sits on its changed line, and a conflict's lines in
+ * the merge editor on the editor. Code has to stay legible on every stack,
+ * and every stack has to show against the one under it.
+ */
+const DIFF_STACKS: string[][] = [
+  ['diffEditor.insertedLineBackground'],
+  ['diffEditor.insertedLineBackground', 'diffEditor.insertedTextBackground'],
+  ['diffEditor.removedLineBackground'],
+  ['diffEditor.removedLineBackground', 'diffEditor.removedTextBackground'],
+  ['mergeEditor.change.background'],
+  ['mergeEditor.change.background', 'mergeEditor.change.word.background'],
+  ['mergeEditor.changeBase.background'],
+  ['mergeEditor.changeBase.background', 'mergeEditor.changeBase.word.background'],
+  ['mergeEditor.conflictingLines.background'],
+  ['mergeEditor.conflict.input1.background'],
+  ['mergeEditor.conflict.input2.background'],
+  ['merge.currentContentBackground'],
+  ['merge.currentHeaderBackground'],
+  ['merge.incomingContentBackground'],
+  ['merge.incomingHeaderBackground'],
+  ['merge.commonContentBackground'],
+  ['merge.commonHeaderBackground'],
+  ['editorCommentsWidget.rangeBackground'],
+  ['editorCommentsWidget.rangeActiveBackground'],
+];
+
+/** Grounds that meet and have to be told apart where they do. */
+const DIFF_PAIRS: [string, string][] = [
+  ['merge.currentContentBackground', 'merge.incomingContentBackground'],
+  ['merge.currentContentBackground', 'merge.commonContentBackground'],
+  ['merge.incomingContentBackground', 'merge.commonContentBackground'],
+  ['merge.currentHeaderBackground', 'merge.currentContentBackground'],
+  ['merge.incomingHeaderBackground', 'merge.incomingContentBackground'],
+  ['merge.commonHeaderBackground', 'merge.commonContentBackground'],
+  ['mergeEditor.conflict.input1.background', 'mergeEditor.conflict.input2.background'],
+  ['editorCommentsWidget.rangeBackground', 'editorCommentsWidget.rangeActiveBackground'],
+];
+
+/** Marks a few pixels wide on the gutter, the ruler or the minimap: each at 3:1 on the editor. */
+const CHANGE_MARKS = [
+  'editorGutter.addedBackground',
+  'editorGutter.modifiedBackground',
+  'editorGutter.deletedBackground',
+  'editorGutter.addedSecondaryBackground',
+  'editorGutter.modifiedSecondaryBackground',
+  'editorGutter.deletedSecondaryBackground',
+  'editorOverviewRuler.addedForeground',
+  'editorOverviewRuler.modifiedForeground',
+  'editorOverviewRuler.deletedForeground',
+  'diffEditorOverview.insertedForeground',
+  'diffEditorOverview.removedForeground',
+  'editorOverviewRuler.currentContentForeground',
+  'editorOverviewRuler.incomingContentForeground',
+  'editorOverviewRuler.commonContentForeground',
+  'mergeEditor.conflict.unhandledFocused.border',
+  'mergeEditor.conflict.unhandledUnfocused.border',
+  'mergeEditor.conflict.handledFocused.border',
+  'mergeEditor.conflict.unhandled.minimapOverViewRuler',
+  'mergeEditor.conflict.handled.minimapOverViewRuler',
+  'diffEditor.moveActive.border',
+  'editorCommentsWidget.unresolvedBorder',
+  'editorGutter.commentGlyphForeground',
+  'editorGutter.commentUnresolvedGlyphForeground',
+  'editorGutter.commentDraftGlyphForeground',
+  'editorOverviewRuler.commentForeground',
+  'editorOverviewRuler.commentUnresolvedForeground',
+  'editorOverviewRuler.commentDraftForeground',
+];
+
+/** Pairs of marks that mean opposite things and sit in the same place. */
+const MARK_PAIRS: [string, string][] = [
+  ['mergeEditor.conflict.unhandledFocused.border', 'mergeEditor.conflict.handledFocused.border'],
+  ['mergeEditor.conflict.unhandledUnfocused.border', 'mergeEditor.conflict.handledUnfocused.border'],
+  ['mergeEditor.conflict.unhandled.minimapOverViewRuler', 'mergeEditor.conflict.handled.minimapOverViewRuler'],
+  ['editorCommentsWidget.unresolvedBorder', 'editorCommentsWidget.resolvedBorder'],
+  ['editorGutter.commentUnresolvedGlyphForeground', 'editorGutter.commentGlyphForeground'],
+  ['editorGutter.commentUnresolvedGlyphForeground', 'editorGutter.commentDraftGlyphForeground'],
+  ['commentsView.unresolvedIcon', 'commentsView.resolvedIcon'],
+  ['diffEditor.move.border', 'diffEditor.moveActive.border'],
+];
+
+/** The Source Control graph's lanes, and the refs drawn as pills in its hover. */
+const GRAPH_LANES = [1, 2, 3, 4, 5].map((lane: number): string => `scmGraph.foreground${lane}`);
+const GRAPH_REFS = ['scmGraph.historyItemRefColor', 'scmGraph.historyItemRemoteRefColor', 'scmGraph.historyItemBaseRefColor'];
+/** How far (ΔE) two lanes of the graph keep apart. */
+const LANE_DISTANCE = 8;
+
+/*
+ * 15. A change says what kind it is, in one colour everywhere.
+ *
+ * Green is an addition, blue a change, red a removal and amber a conflict —
+ * the success, info, error and warning signals, never a syntax ink taken on
+ * its own, so a deleted file is not the keyword colour and a conflict is not
+ * an interface. Every ID in GIT_IDS is its kind's token, and the four kinds
+ * are told apart. The file names Git colours read at AA on every row of the
+ * explorer (ignored files, which recede, at 3:1). Code stays at AA on every
+ * ground a diff, a merge or a comment thread paints behind it; each ground
+ * shows against the editor, changed text against its changed line, and the
+ * grounds that meet — ours and theirs, a header and its block — against each
+ * other. The marks on the gutter, the ruler and the minimap read at 3:1, and
+ * the states that sit in one place — a conflict handled or not, a thread
+ * resolved or not — are told apart. The graph's lanes are told apart, from
+ * each other and from the current branch — a merged branch drawn in the
+ * current one's colour reads as the same branch — and show on the side bar;
+ * a ref's name reads on its pill.
+ */
+const checkDiffAndGit = (family: Family, tokens: Tokens, colours: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const editorGround: string = tokens.surface.background;
+  const stack = (ids: string[]): string => ids.reduce((under: string, id: string): string => over(colours[id], under), editorGround);
+
+  for (const [state, ids] of Object.entries(GIT_IDS) as [GitState, string[]][]) {
+    const token: string = tokens.state[state];
+    const signal: string = tokens.state[GIT_SIGNAL[state]];
+    if (token !== signal) problems.push(`${family}: state.${state} is ${token}, not the ${GIT_SIGNAL[state]} signal ${signal}`);
+    for (const id of ids) {
+      const colour: string | undefined = colours[id];
+      if (!colour) problems.push(`${family}: ${id} is not set, and it is ${state}`);
+      else if (colour.slice(0, 7) !== token) problems.push(`${family}: ${id} is ${colour}, not the ${state} colour ${token}`);
+    }
+  }
+  const states: GitState[] = Object.keys(GIT_IDS) as GitState[];
+  for (const [index, first] of states.entries()) {
+    for (const second of states.slice(index + 1)) {
+      const distance: number = deltaE(tokens.state[first], tokens.state[second]);
+      if (distance < GIT_DISTANCE) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${GIT_DISTANCE}`);
+    }
+  }
+
+  for (const [id, floor] of GIT_NAMES) {
+    for (const [rowId, under] of EXPLORER_ROWS) {
+      const row: string = over(colours[rowId], over(colours[under], editorGround));
+      const ratio: number = contrastRatio(colours[id], row);
+      if (ratio < floor) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on ${rowId}, under ${floor}:1`);
+    }
+  }
+
+  const readInks: [string, string][] = [
+    ...CODE_INKS.filter((ink) => ink !== 'generic').map((ink): [string, string] => [ink, tokens.syntax[ink]]),
+    ['foreground', tokens.text.normal],
+  ];
+  for (const ids of DIFF_STACKS) {
+    const missing: string[] = ids.filter((id: string): boolean => !colours[id]);
+    if (missing.length) {
+      problems.push(`${family}: ${missing.join(', ')} is not set`);
+      continue;
+    }
+    const ground: string = stack(ids);
+    const name: string = ids.join(' over ');
+    for (const [inkName, ink] of readInks) {
+      const ratio: number = contrastRatio(ink, ground);
+      if (ratio < 4.5) problems.push(`${family}: ${inkName} reads at ${ratio.toFixed(2)}:1 on ${name}, under AA`);
+    }
+    const under: string = stack(ids.slice(0, -1));
+    const distance: number = deltaE(ground, under);
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${name} is ${distance.toFixed(1)} ΔE from what it sits on, under ${STATE_FLOOR}`);
+  }
+  for (const [first, second] of DIFF_PAIRS) {
+    const distance: number = deltaE(stack([first]), stack([second]));
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${STATE_FLOOR}`);
+  }
+
+  for (const id of CHANGE_MARKS) {
+    const ratio: number = contrastRatio(stack([id]), editorGround);
+    if (ratio < 3) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on the editor, under 3:1`);
+  }
+  for (const [first, second] of MARK_PAIRS) {
+    const distance: number = deltaE(stack([first]), stack([second]));
+    if (distance < DECORATION_DISTANCE) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${DECORATION_DISTANCE}`);
+  }
+  const sideBar: string = colours['sideBar.background'];
+  for (const id of ['commentsView.resolvedIcon', 'commentsView.unresolvedIcon']) {
+    const ratio: number = contrastRatio(colours[id], sideBar);
+    if (ratio < 3) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on the side bar, under 3:1`);
+  }
+
+  for (const [index, lane] of GRAPH_LANES.entries()) {
+    const ratio: number = contrastRatio(colours[lane], sideBar);
+    if (ratio < 3) problems.push(`${family}: ${lane} reads at ${ratio.toFixed(2)}:1 on the side bar, under 3:1`);
+    for (const other of [...GRAPH_LANES.slice(index + 1), 'scmGraph.historyItemRefColor']) {
+      const distance: number = deltaE(colours[lane], colours[other]);
+      if (distance < LANE_DISTANCE) problems.push(`${family}: ${lane} and ${other} are ${distance.toFixed(1)} ΔE apart, under ${LANE_DISTANCE}`);
+    }
+  }
+  const pillText: string = colours['scmGraph.historyItemHoverLabelForeground'];
+  for (const ref of GRAPH_REFS) {
+    const ratio: number = contrastRatio(pillText, colours[ref]);
+    if (ratio < 3) problems.push(`${family}: a ref's name reads at ${ratio.toFixed(2)}:1 on ${ref}, under 3:1`);
+  }
+  const defaultPill: number = contrastRatio(
+    colours['scmGraph.historyItemHoverDefaultLabelForeground'],
+    over(colours['scmGraph.historyItemHoverDefaultLabelBackground'], colours['editorHoverWidget.background'])
+  );
+  if (defaultPill < 3) problems.push(`${family}: a plain ref's name reads at ${defaultPill.toFixed(2)}:1 on its pill, under 3:1`);
+  return problems;
+};
+
 /**
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
@@ -2279,7 +2663,7 @@ function check(): string[] {
       const got = contrastRatio(colour, s.background);
       if (got < 3) problems.push(`${family}: chart ${series} is ${got.toFixed(2)}:1 against the ground, under 3:1`);
     }
-    const git = [t.state.modified, t.state.added, t.state.deleted, t.state.untracked];
+    const git = [t.state.modified, t.state.added, t.state.deleted, t.state.conflicting];
     if (new Set(git).size !== git.length) problems.push(`${family}: two Git states share a colour`);
 
     /*
@@ -2357,6 +2741,7 @@ function check(): string[] {
     problems.push(...checkDiagnostics(family, t, c));
     problems.push(...checkEditorIntelligence(family, t, c));
     problems.push(...checkTerminal(family, c));
+    problems.push(...checkDiffAndGit(family, t, c));
   }
 
   /*

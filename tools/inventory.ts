@@ -309,6 +309,12 @@ const LEFT_TO_VSCODE: Record<string, string> = {
   'terminalSymbolIcon.stashForeground': 'the same, for a stash',
   'terminalSymbolIcon.pullRequestForeground': 'the same, for a pull request',
   'terminalSymbolIcon.pullRequestDoneForeground': 'the same, for a merged pull request',
+
+  // M7. Changed text is marked by its ground, as a highlight is; a conflict
+  // by its header lines and its grounds.
+  'diffEditor.insertedTextBorder': 'a rim round inserted text, for high-contrast themes; the ground already marks it, and a rim boxes every changed word',
+  'diffEditor.removedTextBorder': 'the same, for removed text',
+  'merge.border': 'a rule round the headers and blocks of an inline conflict, for high-contrast themes; the tinted header lines already mark where each block starts',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));

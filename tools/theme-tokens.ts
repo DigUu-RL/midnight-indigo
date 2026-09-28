@@ -47,12 +47,15 @@ import {
  * under it, which is what lets one highlight work on the editor, a peek view
  * and a diff alike — so the theme's highlights are overlays, and these are
  * the only opacities it uses. They are the ones the shipped theme already
- * had, named, plus `half` for disabled text and `wash` (M4) for the line a
+ * had, named, plus `half` for disabled text, `wash` (M4) for the line a
  * debugger is paused on, which at `tint` mixed with the violet current line
- * into a grey that read as no colour at all.
+ * into a grey that read as no colour at all, and `trace` (M7) for a whole line
+ * a diff changed: the text that changed in it sits on top at `tint`, and at
+ * `tint` under `tint` the two made one band too heavy to read body text on.
  */
 export const OVERLAY = {
-  tint: 0x22, //   13%  a region: an inserted or removed line
+  trace: 0x11, //   7%  a whole line that changed, under the text that changed in it
+  tint: 0x22, //   13%  a region: inserted or removed text, a merge block
   wash: 0x33, //   20%  a line that is where execution is: the paused frame, the selected frame
   faint: 0x55, //  33%  at rest: the scrollbar, a bracket match, find context
   soft: 0x66, //   40%  a match: the word under the cursor, the current find
@@ -230,7 +233,7 @@ export type Tokens = {
     modified: Colour;
     added: Colour;
     deleted: Colour;
-    untracked: Colour;
+    conflicting: Colour;
     deprecated: Colour;
   };
   chart: {
@@ -318,10 +321,10 @@ export const DOCS: Docs = {
     warning: 'Something to look at. A palette colour of its own: a saturated yellow at the top of the lightness band, clear of the pastel numbers and interfaces.',
     error: 'Something is wrong. A palette colour of its own: a saturated red below the syntax band, never the keyword ink.',
     hint: 'A suggestion, not a problem: the ink the family names as its teal, drawn by VS Code as dots rather than a squiggle.',
-    modified: 'A changed file or line. The function colour.',
-    added: 'An added file or line. The string colour.',
-    deleted: 'A deleted file or line. The keyword colour.',
-    untracked: 'A file Git does not know about. The interface colour.',
+    modified: "A changed line, file or setting, a renamed file, moved code: the info ink, the family's blue.",
+    added: "An added line or file, untracked or staged — Git's letter tells those apart, the colour says it is an addition: the success ink, the family's green.",
+    deleted: 'A removed line or file: the error red, never the keyword ink code is written in.',
+    conflicting: 'A merge conflict still to resolve: the warning amber, the one Git state that asks for attention.',
     deprecated: 'Something that still works and should not be used: muted, to be struck through.',
   },
   chart: {
@@ -440,10 +443,10 @@ export function tokensFor(family: Family): Tokens {
       warning: p.warning,
       error: p.error,
       hint: ink('hint'),
-      modified: p.func,
-      added: p.string,
-      deleted: p.keyword,
-      untracked: p.iface,
+      modified: ink('info'),
+      added: ink('success'),
+      deleted: p.error,
+      conflicting: p.warning,
       deprecated: p.fgMuted,
     },
     chart: {

@@ -7,7 +7,7 @@
 
 ## Reference
 
-- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 9 amendments below applied.
+- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 13 amendments below applied.
 - **VS Code colour reference:** [microsoft/vscode-docs@4f4413d](https://github.com/microsoft/vscode-docs/blob/4f4413d9a9d3f7e59284da7cdbb21bc3b9f65c48/api/references/theme-color.md) (2026-09-23), against the same page at VS Code 1.60 — the `engines` floor — at `d621fbe` (2021-09-02).
 - **Screenshot ref:** the README and PREVIEW.md load their images from `9c09bab` (`IMAGE_REF`).
 
@@ -26,13 +26,17 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 | `terminal.ansiMagenta` | `#C2185B` | `#FF6AC1` | M6 | the type-parameter crimson was a second red beside the new one, and at 3.5:1 under AA; the keyword pink that red gave up is the magenta instead |
 | `terminal.ansiBrightMagenta` | `#E0508F` | `#FF8FD1` | M6 | the same, lighter: the pink that was bright red |
 | `terminal.ansiBrightBlack` | `#4B4370` | `#6A6390` | M6 | the grey tools print hints and dimmed output in was the line-number grey at 2.3:1; it is now the comment grey, which recedes the same way and can be read |
+| `editorGutter.deletedBackground` | `#FF6AC1` | `#F84A54` | M7 | a removed line was marked in the keyword pink, the colour code is written in, and in other families a violet; removal is now the error red, as the roadmap reserves red for it |
+| `diffEditor.removedTextBackground` | `#FF6AC122` | `#F84A5422` | M7 | the same, for removed text in the diff editor |
+| `gitDecoration.deletedResourceForeground` | `#FF6AC1` | `#F84A54` | M7 | the same, for a deleted file in the explorer and the Source Control view |
+| `gitDecoration.untrackedResourceForeground` | `#D6E64B` | `#8FD19E` | M7 | an untracked file was the interface lime, a yellow beside the amber that now means a conflict; it is an addition Git has not been told about, so it is the added green, and its letter U tells it from a staged A |
 
 ## What the extension contains
 
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 697 |
+| Workbench colours, per theme | 779 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -48,7 +52,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **697 of the 971** colour IDs VS Code documents (71.8%). **420** of those IDs were added after VS Code 1.60, and the theme sets 228 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **779 of the 971** colour IDs VS Code documents (80.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 286 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -59,7 +63,7 @@ The theme sets **697 of the 971** colour IDs VS Code documents (71.8%). **420** 
 | M4 Diagnostics, debug and testing | 102 | 10 | 112 | 91.1% | 0 |
 | M5 Editor intelligence | 153 | 19 | 172 | 89.0% | 7 |
 | M6 Terminal | 42 | 20 | 62 | 67.7% | 20 |
-| M7 Diff, merge and Git | 9 | 0 | 94 | 9.6% | 58 |
+| M7 Diff, merge and Git | 91 | 3 | 94 | 96.8% | 0 |
 | M8 Chat and agents | 0 | 0 | 88 | 0.0% | 88 |
 | M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
 
@@ -89,17 +93,17 @@ The sections are the colour reference's own.
 | Activity Bar | M2 | 16 | 20 | 2 |
 | Profiles | M2 | 3 | 3 | 0 |
 | Side Bar | M2 | 12 | 14 | 2 |
-| Minimap | M4, M5, M7, M8 | 10 | 16 | 3 |
+| Minimap | M4, M5, M7, M8 | 13 | 16 | 3 |
 | Editor Groups & Tabs | M2 | 36 | 42 | 0 |
-| Editor colors | M1, M4, M5, M7, M8 | 109 | 171 | 39 |
-| Diff editor colors | M7 | 2 | 21 | 15 |
+| Editor colors | M1, M4, M5, M7, M8 | 125 | 171 | 27 |
+| Diff editor colors | M7 | 19 | 21 | 0 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
 | Inline Chat colors | M8 | 0 | 10 | 10 |
 | Panel Chat colors | M8 | 0 | 2 | 2 |
 | Editor widget colors | M2, M4, M5 | 32 | 35 | 1 |
 | Peek view colors | M5 | 15 | 16 | 0 |
-| Merge conflicts colors | M7 | 0 | 25 | 15 |
+| Merge conflicts colors | M7 | 24 | 25 | 0 |
 | Panel colors | M2 | 16 | 20 | 4 |
 | Status Bar colors | M2 | 35 | 35 | 0 |
 | Title Bar colors | M2 | 5 | 5 | 0 |
@@ -115,8 +119,8 @@ The sections are the colour reference's own.
 | Debug colors | M4 | 18 | 18 | 0 |
 | Testing colors | M4 | 31 | 32 | 0 |
 | Welcome page colors | M2 | 7 | 8 | 0 |
-| Git colors | M7 | 4 | 11 | 1 |
-| Source Control Graph colors | M7 | 0 | 13 | 13 |
+| Git colors | M7 | 11 | 11 | 0 |
+| Source Control Graph colors | M7 | 13 | 13 | 0 |
 | Settings Editor colors | M2 | 21 | 21 | 0 |
 | Breadcrumbs colors | M2 | 5 | 5 | 0 |
 | Snippets colors | M5 | 2 | 4 | 0 |
@@ -125,7 +129,7 @@ The sections are the colour reference's own.
 | Notebook colors | M2 | 19 | 24 | 1 |
 | Chart colors | M1 | 11 | 11 | 0 |
 | Ports colors | M6 | 1 | 1 | 0 |
-| Comments View colors | M7 | 0 | 2 | 2 |
+| Comments View colors | M7 | 2 | 2 | 0 |
 | Action Bar colors | M2 | 1 | 1 | 0 |
 | Simple Find Widget colors | M2 | 1 | 1 | 0 |
 | Gauge colors | M2 | 7 | 7 | 0 |
@@ -196,10 +200,13 @@ None.
 | `editorHint.border` | M4 | the same, for hints, whose dots are the mark |
 | `editorUnnecessaryCode.border` | M4 | the same, for unused code, which is already faded |
 | `editorUnnecessaryCode.opacity` | M4 | an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour |
+| `diffEditor.insertedTextBorder` | M7 | a rim round inserted text, for high-contrast themes; the ground already marks it, and a rim boxes every changed word |
+| `diffEditor.removedTextBorder` | M7 | the same, for removed text |
 | `editorWidget.resizeBorder` | M2 | falls back to the widget border, which is what is being dragged |
 | `editorGhostText.border` | M5 | ghost text is marked by its muted colour; a box round it reads as a widget, not as text that is not there yet |
 | `editorGhostText.background` | M5 | the same, as a ground |
 | `peekViewEditor.matchHighlightBorder` | M5 | the same, in the peek editor |
+| `merge.border` | M7 | a rule round the headers and blocks of an inline conflict, for high-contrast themes; the tinted header lines already mark where each block starts |
 | `panelTitle.border` | M2 | the active panel is marked by `panelTitle.activeBorder`; a rule under the whole strip is a second one |
 | `panelStickyScroll.border` | M2 | the same, in the panel |
 | `outputView.background` | M2 | the output view is a read-only editor and takes the editor ground |
@@ -241,36 +248,17 @@ None.
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Minimap — 5 unset</summary>
+<details><summary>Minimap — 2 unset</summary>
 
 - `minimap.chatEditHighlight` † (M8)
-- `minimapGutter.addedBackground` (M7)
-- `minimapGutter.modifiedBackground` (M7)
-- `minimapGutter.deletedBackground` (M7)
 - `editorMinimap.inlineChatInserted` † (M8)
 
 </details>
 
-<details><summary>Editor colors — 38 unset</summary>
+<details><summary>Editor colors — 22 unset</summary>
 
-- `editorOverviewRuler.modifiedForeground` (M7)
-- `editorOverviewRuler.addedForeground` (M7)
-- `editorOverviewRuler.deletedForeground` (M7)
 - `editorOverviewRuler.inlineChatInserted` † (M8)
 - `editorOverviewRuler.inlineChatRemoved` † (M8)
-- `editorOverviewRuler.commentDraftForeground` † (M7)
-- `editorGutter.modifiedSecondaryBackground` † (M7)
-- `editorGutter.addedSecondaryBackground` † (M7)
-- `editorGutter.deletedSecondaryBackground` † (M7)
-- `editorGutter.commentRangeForeground` (M7)
-- `editorGutter.commentGlyphForeground` † (M7)
-- `editorGutter.commentUnresolvedGlyphForeground` † (M7)
-- `editorGutter.commentDraftGlyphForeground` † (M7)
-- `editorCommentsWidget.resolvedBorder` † (M7)
-- `editorCommentsWidget.unresolvedBorder` † (M7)
-- `editorCommentsWidget.rangeBackground` † (M7)
-- `editorCommentsWidget.rangeActiveBackground` † (M7)
-- `editorCommentsWidget.replyInputBackground` † (M7)
 - `inlineEdit.gutterIndicator.primaryBorder` † (M8)
 - `inlineEdit.gutterIndicator.primaryForeground` † (M8)
 - `inlineEdit.gutterIndicator.primaryBackground` † (M8)
@@ -291,30 +279,6 @@ None.
 - `inlineEdit.modifiedBorder` † (M8)
 - `inlineEdit.tabWillAcceptModifiedBorder` † (M8)
 - `inlineEdit.tabWillAcceptOriginalBorder` † (M8)
-
-</details>
-
-<details><summary>Diff editor colors — 19 unset</summary>
-
-- `diffEditor.insertedTextBorder` (M7)
-- `diffEditor.removedTextBorder` (M7)
-- `diffEditor.border` (M7)
-- `diffEditor.diagonalFill` (M7)
-- `diffEditor.insertedLineBackground` † (M7)
-- `diffEditor.removedLineBackground` † (M7)
-- `diffEditorGutter.insertedLineBackground` † (M7)
-- `diffEditorGutter.removedLineBackground` † (M7)
-- `diffEditorOverview.insertedForeground` † (M7)
-- `diffEditorOverview.removedForeground` † (M7)
-- `diffEditor.unchangedRegionBackground` † (M7)
-- `diffEditor.unchangedRegionForeground` † (M7)
-- `diffEditor.unchangedRegionShadow` † (M7)
-- `diffEditor.unchangedCodeBackground` † (M7)
-- `diffEditor.move.border` † (M7)
-- `diffEditor.moveActive.border` † (M7)
-- `multiDiffEditor.headerBackground` † (M7)
-- `multiDiffEditor.background` † (M7)
-- `multiDiffEditor.border` † (M7)
 
 </details>
 
@@ -394,73 +358,6 @@ None.
 
 - `interactive.activeCodeBorder` † (M8)
 - `interactive.inactiveCodeBorder` † (M8)
-
-</details>
-
-<details><summary>Merge conflicts colors — 25 unset</summary>
-
-- `merge.currentHeaderBackground` (M7)
-- `merge.currentContentBackground` (M7)
-- `merge.incomingHeaderBackground` (M7)
-- `merge.incomingContentBackground` (M7)
-- `merge.border` (M7)
-- `merge.commonContentBackground` (M7)
-- `merge.commonHeaderBackground` (M7)
-- `editorOverviewRuler.currentContentForeground` (M7)
-- `editorOverviewRuler.incomingContentForeground` (M7)
-- `editorOverviewRuler.commonContentForeground` (M7)
-- `editorOverviewRuler.commentForeground` † (M7)
-- `editorOverviewRuler.commentUnresolvedForeground` † (M7)
-- `mergeEditor.change.background` † (M7)
-- `mergeEditor.change.word.background` † (M7)
-- `mergeEditor.conflict.unhandledUnfocused.border` † (M7)
-- `mergeEditor.conflict.unhandledFocused.border` † (M7)
-- `mergeEditor.conflict.handledUnfocused.border` † (M7)
-- `mergeEditor.conflict.handledFocused.border` † (M7)
-- `mergeEditor.conflict.handled.minimapOverViewRuler` † (M7)
-- `mergeEditor.conflict.unhandled.minimapOverViewRuler` † (M7)
-- `mergeEditor.conflictingLines.background` † (M7)
-- `mergeEditor.changeBase.background` † (M7)
-- `mergeEditor.changeBase.word.background` † (M7)
-- `mergeEditor.conflict.input1.background` † (M7)
-- `mergeEditor.conflict.input2.background` † (M7)
-
-</details>
-
-<details><summary>Git colors — 7 unset</summary>
-
-- `gitDecoration.renamedResourceForeground` (M7)
-- `gitDecoration.stageModifiedResourceForeground` (M7)
-- `gitDecoration.stageDeletedResourceForeground` (M7)
-- `gitDecoration.ignoredResourceForeground` (M7)
-- `gitDecoration.conflictingResourceForeground` (M7)
-- `gitDecoration.submoduleResourceForeground` (M7)
-- `git.blame.editorDecorationForeground` † (M7)
-
-</details>
-
-<details><summary>Source Control Graph colors — 13 unset</summary>
-
-- `scmGraph.historyItemHoverLabelForeground` † (M7)
-- `scmGraph.foreground1` † (M7)
-- `scmGraph.foreground2` † (M7)
-- `scmGraph.foreground3` † (M7)
-- `scmGraph.foreground4` † (M7)
-- `scmGraph.foreground5` † (M7)
-- `scmGraph.historyItemHoverAdditionsForeground` † (M7)
-- `scmGraph.historyItemHoverDeletionsForeground` † (M7)
-- `scmGraph.historyItemRefColor` † (M7)
-- `scmGraph.historyItemRemoteRefColor` † (M7)
-- `scmGraph.historyItemBaseRefColor` † (M7)
-- `scmGraph.historyItemHoverDefaultLabelForeground` † (M7)
-- `scmGraph.historyItemHoverDefaultLabelBackground` † (M7)
-
-</details>
-
-<details><summary>Comments View colors — 2 unset</summary>
-
-- `commentsView.resolvedIcon` † (M7)
-- `commentsView.unresolvedIcon` † (M7)
 
 </details>
 

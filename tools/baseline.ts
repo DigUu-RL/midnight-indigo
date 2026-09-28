@@ -109,6 +109,34 @@ export const AMENDMENTS: Amendment[] = [
     by: 'M6',
     why: 'the grey tools print hints and dimmed output in was the line-number grey at 2.3:1; it is now the comment grey, which recedes the same way and can be read',
   },
+  {
+    key: 'editorGutter.deletedBackground',
+    was: '#FF6AC1',
+    now: '#F84A54',
+    by: 'M7',
+    why: 'a removed line was marked in the keyword pink, the colour code is written in, and in other families a violet; removal is now the error red, as the roadmap reserves red for it',
+  },
+  {
+    key: 'diffEditor.removedTextBackground',
+    was: '#FF6AC122',
+    now: '#F84A5422',
+    by: 'M7',
+    why: 'the same, for removed text in the diff editor',
+  },
+  {
+    key: 'gitDecoration.deletedResourceForeground',
+    was: '#FF6AC1',
+    now: '#F84A54',
+    by: 'M7',
+    why: 'the same, for a deleted file in the explorer and the Source Control view',
+  },
+  {
+    key: 'gitDecoration.untrackedResourceForeground',
+    was: '#D6E64B',
+    now: '#8FD19E',
+    by: 'M7',
+    why: 'an untracked file was the interface lime, a yellow beside the amber that now means a conflict; it is an addition Git has not been told about, so it is the added green, and its letter U tells it from a staged A',
+  },
 ];
 
 /** The baseline with its amendments applied, and anything wrong with the amendments themselves. */
