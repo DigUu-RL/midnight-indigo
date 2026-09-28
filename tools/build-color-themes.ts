@@ -535,6 +535,108 @@ function themeFor(family: Family, t: Tokens): Theme {
     'peekViewEditor.background': s.background,
     'peekViewResult.background': s.surface,
     'peekView.border': a.muted,
+    'editorError.foreground': st.error,
+    'editorWarning.foreground': st.warning,
+    'editorInfo.foreground': st.info,
+    'editorHint.foreground': st.hint,
+    'editorOverviewRuler.errorForeground': st.error,
+    'editorOverviewRuler.warningForeground': st.warning,
+    'editorOverviewRuler.infoForeground': st.info,
+    'minimap.errorHighlight': derive.inactive(st.error),
+    'minimap.warningHighlight': derive.inactive(st.warning),
+    'minimap.infoHighlight': derive.inactive(st.info),
+    'problemsErrorIcon.foreground': st.error,
+    'problemsWarningIcon.foreground': st.warning,
+    'problemsInfoIcon.foreground': st.info,
+    'list.errorForeground': st.error,
+    'list.warningForeground': st.warning,
+    'inputValidation.errorBackground': s.surfaceRaised,
+    'inputValidation.errorForeground': x.normal,
+    'inputValidation.errorBorder': st.error,
+    'inputValidation.warningBackground': s.surfaceRaised,
+    'inputValidation.warningForeground': x.normal,
+    'inputValidation.warningBorder': st.warning,
+    'inputValidation.infoBackground': s.surfaceRaised,
+    'inputValidation.infoForeground': x.normal,
+    'inputValidation.infoBorder': st.info,
+    'editorMarkerNavigation.background': s.surfaceRaised,
+    'editorMarkerNavigationError.background': st.error,
+    'editorMarkerNavigationError.headerBackground': overlay(st.error, 'tint'),
+    'editorMarkerNavigationWarning.background': st.warning,
+    'editorMarkerNavigationWarning.headerBackground': overlay(st.warning, 'tint'),
+    'editorMarkerNavigationInfo.background': st.info,
+    'editorMarkerNavigationInfo.headerBackground': overlay(st.info, 'tint'),
+    'debugExceptionWidget.background': overlay(st.error, 'tint'),
+    'debugExceptionWidget.border': st.error,
+    'debugToolBar.background': s.surfaceRaised,
+    'debugToolBar.border': s.borderStrong,
+    'editor.stackFrameHighlightBackground': overlay(st.warning, 'wash'),
+    'editor.focusedStackFrameHighlightBackground': overlay(st.success, 'wash'),
+    'editor.inlineValuesForeground': x.secondary,
+    'editor.inlineValuesBackground': rowHover,
+    'debugView.exceptionLabelForeground': x.white,
+    'debugView.exceptionLabelBackground': overlay(st.error, 'faint'),
+    'debugView.stateLabelForeground': x.normal,
+    'debugView.stateLabelBackground': s.border,
+    'debugView.valueChangedHighlight': overlay(st.info, 'soft'),
+    'debugTokenExpression.name': k.property,
+    'debugTokenExpression.value': x.normal,
+    'debugTokenExpression.string': k.string,
+    'debugTokenExpression.boolean': k.keyword,
+    'debugTokenExpression.number': k.number,
+    'debugTokenExpression.error': st.error,
+    'debugTokenExpression.type': k.type,
+    'debugIcon.breakpointForeground': st.error,
+    'debugIcon.breakpointDisabledForeground': x.muted,
+    'debugIcon.breakpointUnverifiedForeground': x.muted,
+    'debugIcon.breakpointCurrentStackframeForeground': st.warning,
+    'debugIcon.breakpointStackframeForeground': st.success,
+    'debugIcon.startForeground': st.success,
+    'debugIcon.pauseForeground': st.info,
+    'debugIcon.stopForeground': st.error,
+    'debugIcon.disconnectForeground': st.error,
+    'debugIcon.restartForeground': st.success,
+    'debugIcon.stepOverForeground': st.info,
+    'debugIcon.stepIntoForeground': st.info,
+    'debugIcon.stepOutForeground': st.info,
+    'debugIcon.continueForeground': st.info,
+    'debugIcon.stepBackForeground': st.info,
+    'debugConsole.infoForeground': st.info,
+    'debugConsole.warningForeground': st.warning,
+    'debugConsole.errorForeground': st.error,
+    'debugConsole.sourceForeground': x.secondary,
+    'debugConsoleInputIcon.foreground': st.active,
+    'testing.runAction': st.success,
+    'testing.iconFailed': st.error,
+    'testing.iconErrored': st.error,
+    'testing.iconPassed': st.success,
+    'testing.iconQueued': st.warning,
+    'testing.iconUnset': x.muted,
+    'testing.iconSkipped': x.muted,
+    'testing.iconFailed.retired': derive.inactive(st.error),
+    'testing.iconErrored.retired': derive.inactive(st.error),
+    'testing.iconPassed.retired': derive.inactive(st.success),
+    'testing.iconQueued.retired': derive.inactive(st.warning),
+    'testing.iconUnset.retired': derive.inactive(x.muted),
+    'testing.iconSkipped.retired': derive.inactive(x.muted),
+    'testing.peekBorder': st.error,
+    'testing.peekHeaderBackground': overlay(st.error, 'tint'),
+    'testing.messagePeekBorder': st.info,
+    'testing.messagePeekHeaderBackground': overlay(st.info, 'tint'),
+    'testing.message.error.lineBackground': overlay(st.error, 'tint'),
+    'testing.message.error.badgeBackground': st.error,
+    'testing.message.error.badgeBorder': st.error,
+    'testing.message.error.badgeForeground': s.background,
+    'testing.message.info.decorationForeground': x.muted,
+    'testing.coveredBackground': overlay(st.success, 'tint'),
+    'testing.coveredBorder': overlay(st.success, 'faint'),
+    'testing.coveredGutterBackground': overlay(st.success, 'tint'),
+    'testing.uncoveredBackground': overlay(st.error, 'wash'),
+    'testing.uncoveredBorder': overlay(st.error, 'faint'),
+    'testing.uncoveredGutterBackground': overlay(st.error, 'wash'),
+    'testing.uncoveredBranchBackground': overlay(st.error, 'faint'),
+    'testing.coverCountBadgeBackground': a.muted,
+    'testing.coverCountBadgeForeground': a.on,
     'charts.foreground': x.normal,
     'charts.lines': s.borderStrong,
     'charts.red': chart.red,
@@ -1237,6 +1339,198 @@ const checkStates = (family: Family, t: Tokens, c: Record<string, string>): stri
   return problems;
 };
 
+/* -------------------------------------------------------------- *
+ * Diagnostics
+ * -------------------------------------------------------------- */
+
+const DIAGNOSTICS = ['error', 'warning', 'info', 'hint', 'success'] as const;
+type Diagnostic = (typeof DIAGNOSTICS)[number];
+
+/*
+ * Every ID that means one of the diagnostics, wherever VS Code draws it: the
+ * squiggle, the ruler, the minimap, the Problems view, the file in the
+ * explorer, the input under validation, the marker widget, the debug console,
+ * the test result, the notification and the status bar. Check 12 holds each to
+ * its token, solid or at a ladder step, so an error is one colour from the
+ * editor to the test explorer rather than whatever each surface's default was.
+ */
+const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
+  error: [
+    'errorForeground',
+    'editorError.foreground',
+    'editorOverviewRuler.errorForeground',
+    'minimap.errorHighlight',
+    'problemsErrorIcon.foreground',
+    'list.errorForeground',
+    'listFilterWidget.noMatchesOutline',
+    'inputValidation.errorBorder',
+    'editorMarkerNavigationError.background',
+    'editorMarkerNavigationError.headerBackground',
+    'notificationsErrorIcon.foreground',
+    'activityErrorBadge.background',
+    'statusBarItem.errorBackground',
+    'gauge.errorForeground',
+    'debugExceptionWidget.background',
+    'debugExceptionWidget.border',
+    'debugView.exceptionLabelBackground',
+    'debugTokenExpression.error',
+    'debugConsole.errorForeground',
+    'debugIcon.breakpointForeground',
+    'debugIcon.stopForeground',
+    'testing.iconFailed',
+    'testing.iconErrored',
+    'testing.peekBorder',
+    'testing.message.error.lineBackground',
+    'testing.message.error.badgeBackground',
+    'testing.uncoveredBackground',
+    'testing.uncoveredGutterBackground',
+  ],
+  warning: [
+    'editorWarning.foreground',
+    'editorOverviewRuler.warningForeground',
+    'minimap.warningHighlight',
+    'problemsWarningIcon.foreground',
+    'list.warningForeground',
+    'inputValidation.warningBorder',
+    'editorMarkerNavigationWarning.background',
+    'notificationsWarningIcon.foreground',
+    'activityWarningBadge.background',
+    'statusBarItem.warningBackground',
+    'gauge.warningForeground',
+    'debugConsole.warningForeground',
+    'editor.stackFrameHighlightBackground',
+    'debugIcon.breakpointCurrentStackframeForeground',
+    'testing.iconQueued',
+  ],
+  info: [
+    'editorInfo.foreground',
+    'editorOverviewRuler.infoForeground',
+    'minimap.infoHighlight',
+    'problemsInfoIcon.foreground',
+    'inputValidation.infoBorder',
+    'editorMarkerNavigationInfo.background',
+    'notificationsInfoIcon.foreground',
+    'banner.iconForeground',
+    'debugConsole.infoForeground',
+    'testing.messagePeekBorder',
+  ],
+  hint: ['editorHint.foreground'],
+  success: [
+    'testing.iconPassed',
+    'testing.runAction',
+    'testing.coveredBackground',
+    'testing.coveredGutterBackground',
+    'notebookStatusSuccessIcon.foreground',
+    'editor.focusedStackFrameHighlightBackground',
+    'debugIcon.breakpointStackframeForeground',
+    'debugIcon.startForeground',
+  ],
+};
+
+/** Grounds painted behind whole lines of code while debugging or testing. */
+const TINTED_LINES = [
+  'editor.stackFrameHighlightBackground',
+  'editor.focusedStackFrameHighlightBackground',
+  'testing.message.error.lineBackground',
+  'testing.coveredBackground',
+  'testing.uncoveredBackground',
+  'debugExceptionWidget.background',
+];
+
+/** The inks that are written in the editor, for measuring what a diagnostic sits among. */
+const CODE_INKS = ['variable', 'property', 'operator', 'keyword', 'generic', 'string', 'function', 'number', 'type', 'interface', 'enumMember'] as const;
+
+/** How far (ΔE) the error and the warning keep from every code ink and the accent. */
+const SIGNAL_CLEARANCE = 7;
+/** How far the three squiggles keep from each other, in ΔE and in lightness alone. */
+const SQUIGGLE_DISTANCE = 20;
+const SQUIGGLE_LIGHTNESS = 0.05;
+
+/*
+ * 12. The diagnostics are one language, told apart by more than hue.
+ *
+ * Every ID in DIAGNOSTIC_IDS is its diagnostic's token. The error and the
+ * warning are their own colours, so they are held clear of every ink the code
+ * is written in and of the accent — a squiggle the colour of the word it
+ * underlines is no squiggle, and an error the colour of the focus ring reads as
+ * focus. Error, warning and info are the three squiggles, drawn in the same
+ * wave, so they differ in lightness as well as in hue: someone who cannot tell
+ * the hues apart still sees three weights. (Hints are dots, a shape of their
+ * own.) Code stays legible on every line a debugger or a test run tints:
+ * each ink at AA over the tint, and the tint itself visible against the
+ * editor and against the cursor's line. And uncovered code is a heavier mark
+ * than covered code, so coverage too reads without its hues.
+ */
+const checkDiagnostics = (family: Family, tokens: Tokens, colours: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const editorGround: string = tokens.surface.background;
+
+  for (const diagnostic of DIAGNOSTICS) {
+    for (const id of DIAGNOSTIC_IDS[diagnostic]) {
+      const colour: string | undefined = colours[id];
+      if (!colour) problems.push(`${family}: ${id} is not set, and it is a ${diagnostic}`);
+      else if (colour.slice(0, 7) !== tokens.state[diagnostic]) {
+        problems.push(`${family}: ${id} is ${colour}, not the ${diagnostic} colour ${tokens.state[diagnostic]}`);
+      }
+    }
+  }
+
+  const neighbours: [string, string][] = [
+    ...CODE_INKS.map((ink): [string, string] => [ink, tokens.syntax[ink]]),
+    ['accent', tokens.accent.base],
+  ];
+  for (const signal of ['error', 'warning'] as const) {
+    for (const [neighbourName, neighbour] of neighbours) {
+      const distance: number = deltaE(tokens.state[signal], neighbour);
+      if (distance < SIGNAL_CLEARANCE) {
+        problems.push(`${family}: ${signal} is ${distance.toFixed(1)} ΔE from ${neighbourName}, under ${SIGNAL_CLEARANCE}`);
+      }
+    }
+  }
+
+  const squiggles = ['error', 'warning', 'info'] as const;
+  for (const [index, first] of squiggles.entries()) {
+    for (const second of squiggles.slice(index + 1)) {
+      const distance: number = deltaE(tokens.state[first], tokens.state[second]);
+      const lightnessGap: number = Math.abs(oklchFromHex(tokens.state[first]).l - oklchFromHex(tokens.state[second]).l);
+      if (distance < SQUIGGLE_DISTANCE) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${SQUIGGLE_DISTANCE}`);
+      if (lightnessGap < SQUIGGLE_LIGHTNESS) {
+        problems.push(`${family}: ${first} and ${second} differ by ${lightnessGap.toFixed(3)} in lightness — told apart by hue alone`);
+      }
+    }
+  }
+
+  // The type parameters are left out, as check 2 leaves them out: they sit
+  // under AA on the bare editor by design, the one ink told apart by darkness.
+  const readInks: [string, string][] = [
+    ...neighbours.filter(([inkName]) => inkName !== 'accent' && inkName !== 'generic'),
+    ['foreground', tokens.text.normal],
+  ];
+  for (const id of TINTED_LINES) {
+    const tint: string = over(colours[id], editorGround);
+    for (const [inkName, ink] of readInks) {
+      const ratio: number = contrastRatio(ink, tint);
+      if (ratio < 4.5) problems.push(`${family}: ${inkName} reads at ${ratio.toFixed(2)}:1 on ${id}, under AA`);
+    }
+    for (const [groundName, ground] of [['editor', editorGround], ['current line', over(colours['editor.lineHighlightBackground'], editorGround)]]) {
+      const distance: number = deltaE(tint, ground);
+      if (distance < STATE_FLOOR) problems.push(`${family}: ${id} is ${distance.toFixed(1)} ΔE from the ${groundName}, under ${STATE_FLOOR}`);
+    }
+  }
+
+  // Coverage: what is not covered is what is looked for, so it is the heavier
+  // mark — told from covered code by weight as well as by red against green.
+  for (const part of ['Background', 'GutterBackground']) {
+    const weight = (id: string): number => deltaE(over(colours[id], editorGround), editorGround);
+    const covered: number = weight(`testing.covered${part}`);
+    const uncovered: number = weight(`testing.uncovered${part}`);
+    if (uncovered <= covered) {
+      problems.push(`${family}: testing.uncovered${part} (${uncovered.toFixed(1)} ΔE) is no heavier than testing.covered${part} (${covered.toFixed(1)})`);
+    }
+  }
+  return problems;
+};
+
 /**
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
@@ -1459,12 +1753,13 @@ function check(): string[] {
      * 8. The signals mean the same thing in every family.
      *
      * Error has to look like an error whether the chrome is violet or amber:
-     * each signal's ink has to land within SIGNAL_TOLERANCE of the hue VS Code
-     * itself uses for it, and no two signals — nor two chart series — may be
-     * the same ink, or a chart would draw two series in one colour. They are
-     * read as text in the problems view and the hovers, so they are held to
-     * AA; the chart series only have to be told from the ground, which is
-     * 3:1 for anything that is not text.
+     * each signal has to land within SIGNAL_TOLERANCE of the hue it stands
+     * for, and no two borrowed signals — nor two chart series — may be the
+     * same ink, or a chart would draw two series in one colour. The
+     * diagnostics are read as text in the Problems view, the debug console and
+     * the hovers, so they are held to AA on every ground those sit on; the
+     * chart series only have to be told from the ground, which is 3:1 for
+     * anything that is not text.
      */
     const signals = signalsFor(family);
     const inks = Object.values(signals);
@@ -1473,20 +1768,27 @@ function check(): string[] {
     }
     const signalColour: Record<Signal, string> = {
       error: t.state.error, warning: t.state.warning, success: t.state.success, info: t.state.info,
-      orange: t.chart.orange, purple: t.chart.purple,
+      hint: t.state.hint, orange: t.chart.orange, purple: t.chart.purple,
     };
     for (const [signal, colour] of Object.entries(signalColour) as [Signal, string][]) {
       const off = Math.abs(signedHueDelta(SIGNAL_HUE[signal], oklchFromHex(colour).h));
       if (off > SIGNAL_TOLERANCE) {
         problems.push(
-          `${family}: ${signal} is ${signals[signal]} (${colour}), ${off.toFixed(0)}° from the hue it stands for — ` +
+          `${family}: ${signal} (${colour}) is ${off.toFixed(0)}° from the hue it stands for — ` +
             `the tolerance is ${SIGNAL_TOLERANCE}°`
         );
       }
     }
-    for (const signal of ['error', 'warning', 'success', 'info'] as const) {
-      const got = contrastRatio(t.state[signal], s.background);
-      if (got < 4.5) problems.push(`${family}: ${signal} reads at ${got.toFixed(2)}:1, under AA`);
+    const readingGrounds: [string, string][] = [
+      ['background', s.background],
+      ['surface', s.surface],
+      ['surfaceRaised', s.surfaceRaised],
+    ];
+    for (const signal of DIAGNOSTICS) {
+      for (const [groundName, ground] of readingGrounds) {
+        const got = contrastRatio(t.state[signal], ground);
+        if (got < 4.5) problems.push(`${family}: ${signal} reads at ${got.toFixed(2)}:1 on ${groundName}, under AA`);
+      }
     }
     for (const [series, colour] of Object.entries(t.chart)) {
       const got = contrastRatio(colour, s.background);
@@ -1539,6 +1841,22 @@ function check(): string[] {
       ['list.inactiveSelectionForeground', 'list.inactiveSelectionBackground', 'sideBar.background', 4.5],
       ['quickInput.foreground', 'list.hoverBackground', 'quickInput.background', 4.5],
       ['tab.selectedForeground', 'tab.selectedBackground', 'editorGroupHeader.tabsBackground', 4.5],
+      ['list.errorForeground', 'sideBar.background', 'sideBar.background', 4.5],
+      ['list.warningForeground', 'sideBar.background', 'sideBar.background', 4.5],
+      ['debugConsole.errorForeground', 'panel.background', 'panel.background', 4.5],
+      ['debugConsole.warningForeground', 'panel.background', 'panel.background', 4.5],
+      ['debugConsole.infoForeground', 'panel.background', 'panel.background', 4.5],
+      ['debugConsole.sourceForeground', 'panel.background', 'panel.background', 4.5],
+      ['inputValidation.errorForeground', 'inputValidation.errorBackground', 'sideBar.background', 4.5],
+      ['inputValidation.warningForeground', 'inputValidation.warningBackground', 'sideBar.background', 4.5],
+      ['inputValidation.infoForeground', 'inputValidation.infoBackground', 'sideBar.background', 4.5],
+      ['editor.foreground', 'editorMarkerNavigation.background', 'editor.background', 4.5],
+      ['editor.foreground', 'debugExceptionWidget.background', 'editor.background', 4.5],
+      ['editor.inlineValuesForeground', 'editor.inlineValuesBackground', 'editor.background', 4.5],
+      ['debugView.exceptionLabelForeground', 'debugView.exceptionLabelBackground', 'sideBar.background', 4.5],
+      ['debugView.stateLabelForeground', 'debugView.stateLabelBackground', 'sideBar.background', 4.5],
+      ['testing.message.error.badgeForeground', 'testing.message.error.badgeBackground', 'editor.background', 3],
+      ['testing.coverCountBadgeForeground', 'testing.coverCountBadgeBackground', 'editor.background', 3],
     ];
     for (const [fg, bg, ground, floor] of TEXT) {
       if (!c[fg] || !c[bg] || !c[ground]) {
@@ -1551,6 +1869,7 @@ function check(): string[] {
     }
 
     problems.push(...checkStates(family, t, c));
+    problems.push(...checkDiagnostics(family, t, c));
   }
 
   /*

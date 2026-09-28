@@ -121,8 +121,12 @@ export const FAMILY_ORDER: Family[] = [
  *            family names its own.
  *   semantic strings, functions, numbers, types, enum members, interfaces —
  *            likewise absolute, likewise named per family.
+ *   signal   error and warning: the two diagnostics no syntax colour can play
+ *            (`signalRole` says why). Absolute hues, named per family, and the
+ *            one band no family scales the chroma of — an error is as loud in
+ *            the quietest variant as in the loudest.
  */
-type Band = 'ground' | 'chrome' | 'accent' | 'pole' | 'semantic';
+type Band = 'ground' | 'chrome' | 'accent' | 'pole' | 'semantic' | 'signal';
 
 /*
  * Lightness and chroma are indigo's; `h` is an offset or an absolute hue.
@@ -147,6 +151,19 @@ const signatureRole = (l: number, c: number, h: number, from?: string): Role =>
   ({ l, c, h, band: 'pole', from });
 const semanticRole = (l: number, c: number, h: number, from?: string): Role =>
   ({ l, c, h, band: 'semantic', from });
+
+/**
+ * A diagnostic with a colour of its own. The other signals borrow a syntax ink
+ * (`Signals`), and these two cannot: an error in the keyword colour is a
+ * squiggle the colour of the word it underlines — and indigo's keywords are the
+ * pink the roadmap rules out for errors — while every ink warm enough to be a
+ * warning is a pastel amber or lime that numbers and interfaces are written in.
+ * So the error is a saturated red darker than the syntax band and the warning a
+ * saturated yellow at its top: set apart from the code by chroma and lightness,
+ * not by hue alone. tools/build-color-themes.ts checks the distance.
+ */
+const signalRole = (lightness: number, chroma: number, hue: number): Role =>
+  ({ l: lightness, c: chroma, h: hue, band: 'signal' });
 
 /*
  * Measured out of the shipped theme with tools/color.ts, one entry per distinct
@@ -205,6 +222,10 @@ const ROLES = {
   enumMember: semanticRole(0.811, 0.1242, 55.1), //                 #FFAB70  enum members, inline code
   iface: semanticRole(0.885, 0.1738, 115.1), //                     #D6E64B  interfaces, enums
   ifaceBright: semanticRole(0.926, 0.1363, 112.4, 'iface'), //      #E8F080  terminal.ansiBrightYellow
+
+  /* --- diagnostics that are not syntax: M4, so not in the shipped theme --- */
+  error: signalRole(0.66, 0.21, 22), //                                     errors, failed tests, breakpoints
+  warning: signalRole(0.83, 0.175, 94), //                                  warnings, the paused frame
 } satisfies Record<string, Role>;
 
 export type RoleName = keyof typeof ROLES;
@@ -223,8 +244,9 @@ type Named = 'keyword' | 'generic' | 'string' | 'func' | 'number' | 'type' | 'en
 export type Ink = Named | 'property' | 'operator';
 
 /**
- * Which ink says "error", "warning", "success" and "info" in a family, and
- * which two finish the six-colour chart series.
+ * Which ink says "success", "info" and "hint" in a family, and which two finish
+ * the six-colour chart series. Error and warning are not here: they are palette
+ * roles of their own, and `signalRole` says why.
  *
  * Borrowed rather than made, because the rule is that the theme does not grow a
  * colour without a role and these already have one: a red that is only ever an
@@ -237,7 +259,10 @@ export type Ink = Named | 'property' | 'operator';
  * tools/build-color-themes.ts checks that each one still lands near the colour
  * it is named for, and that no two share an ink.
  */
-export type Signals = Record<'error' | 'warning' | 'success' | 'info' | 'orange' | 'purple', Ink>;
+export type Signals = Record<'success' | 'info' | 'hint' | 'orange' | 'purple', Ink>;
+
+/** The diagnostics that are palette roles rather than borrowed inks. */
+export type OwnSignal = 'error' | 'warning';
 
 type Variant = {
   /** The family hue: the chrome, and everything measured as an offset from it. */
@@ -262,7 +287,9 @@ type Variant = {
   accent: { h: number; c: number; l: number };
   /** Where each named role sits on the wheel in this family. */
   hues: Record<Named, number>;
-  /** Which of those roles doubles as each signal. */
+  /** Where the error and the warning sit: a red and a yellow, placed clear of this family's inks. */
+  signalHues: Record<OwnSignal, number>;
+  /** Which of those roles doubles as each other signal. */
   signals: Signals;
 };
 
@@ -292,8 +319,9 @@ const VARIANTS: Record<Family, Variant> = {
       enumMember: ROLES.enumMember.h, number: ROLES.number.h, iface: ROLES.iface.h,
       string: ROLES.string.h, type: ROLES.type.h, func: ROLES.func.h,
     },
+    signalHues: { error: 22, warning: 94 },
     signals: {
-      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'property',
     },
   },
@@ -316,8 +344,11 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 15, generic: 350,
       enumMember: 38, number: 68, iface: 108, string: 145, type: 200, func: 258,
     },
+    // The keywords are the rose-red at 15, so the error leans the other way,
+    // toward vermilion, and sits darker and louder than they do.
+    signalHues: { error: 28, warning: 91 },
     signals: {
-      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'operator',
     },
   },
@@ -349,13 +380,13 @@ const VARIANTS: Record<Family, Variant> = {
       enumMember: 52, number: 90, iface: 132, string: 165, type: 202, func: 240,
     },
     /*
-     * The family owns red, so the error is the family's own rose — the one
-     * signal in the eight that is a chrome colour. The alternative was the enum
-     * members, which are orange, and an orange error beside an amber warning is
-     * two warnings.
+     * The family owns rose, so the error steps past it to a true red, darker
+     * and more saturated than the rose chrome. The warning sits between the
+     * straw numbers at 90 and the lime interfaces at 132.
      */
+    signalHues: { error: 22, warning: 109 },
     signals: {
-      error: 'property', warning: 'number', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'keyword',
     },
   },
@@ -384,13 +415,17 @@ const VARIANTS: Record<Family, Variant> = {
       enumMember: 65, number: 95, iface: 140, string: 170, type: 205, func: 252,
     },
     /*
-     * Red is the family, so the error is the magenta keyword rather than the
-     * operators: an error that is the colour of every `=` on the screen is not a
-     * signal. That leaves the type parameters — dark, but past 3:1 — to be the
-     * purple in a chart.
+     * Red is the family, and an error has to be red all the same: a magenta
+     * error is the keyword colour, which the roadmap rules out. So it is the
+     * family's red made loud — far more chroma than the salmon operators, and
+     * lighter than the accent — and it is the one variant where the error is
+     * told from the chrome by weight rather than by hue. The warning is lemon,
+     * between the straw numbers at 95 and the green interfaces at 140. The type
+     * parameters — dark, but past 3:1 — are the purple in a chart.
      */
+    signalHues: { error: 25, warning: 109 },
     signals: {
-      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'generic',
     },
   },
@@ -416,10 +451,12 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 316, generic: 285,
       enumMember: 350, number: 22, iface: 120, string: 152, type: 190, func: 248,
     },
-    // Amber is the family, so the warning steps up to the lime interfaces, and
-    // a chart's orange is the operators — a series is not a signal.
+    // Amber is the family, so the warning steps up to a clean yellow short of
+    // the lime interfaces, and a chart's orange is the operators — a series is
+    // not a signal.
+    signalHues: { error: 22, warning: 94 },
     signals: {
-      error: 'number', warning: 'iface', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'operator', purple: 'keyword',
     },
   },
@@ -459,8 +496,12 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 326, generic: 290,
       enumMember: 355, number: 30, iface: 65, string: 125, type: 195, func: 245,
     },
+    // The warm quarter is empty of chrome here, so both signals keep their
+    // conventional hues; the warning sits between the gold interfaces at 65
+    // and the yellow-green strings at 125.
+    signalHues: { error: 22, warning: 88 },
     signals: {
-      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'number', purple: 'keyword',
     },
   },
@@ -486,8 +527,11 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 345, generic: 295,
       enumMember: 30, number: 60, iface: 92, string: 135, type: 168, func: 255,
     },
+    // The interfaces hold the yellow at 92, so the warning is the lemon past
+    // them, between them and the strings at 135.
+    signalHues: { error: 20, warning: 109 },
     signals: {
-      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'number', purple: 'keyword',
     },
   },
@@ -515,8 +559,12 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 310, generic: 340,
       enumMember: 15, number: 50, iface: 108, string: 148, type: 180, func: 215,
     },
+    // The error clears the rose enum members at 15 by leaning toward
+    // vermilion; the warning is the amber between the peach numbers at 50 and
+    // the lemon interfaces at 108.
+    signalHues: { error: 25, warning: 82 },
     signals: {
-      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      success: 'string', info: 'func', hint: 'type',
       orange: 'number', purple: 'keyword',
     },
   },
@@ -681,7 +729,9 @@ export function huesFor(family: Family): Record<RoleName, number> {
         ? wrapDegrees(v.hue + role.h)
         : role.band === 'accent'
           ? wrapDegrees(v.accent.h + (key === 'accentDim' ? DIM_HUE : 0))
-          : wrapDegrees(v.hues[key as Named]);
+          : role.band === 'signal'
+            ? wrapDegrees(v.signalHues[key as OwnSignal])
+            : wrapDegrees(v.hues[key as Named]);
   }
 
   return out;
@@ -729,12 +779,14 @@ function chromaOf(name: RoleName, variant: Variant): number {
       return role.c * variant.chromeChroma;
     case 'accent':
       return variant.accent.c * (name === 'accentDim' ? DIM_CHROMA : 1);
+    case 'signal':
+      return role.c;
     default:
       return role.c * variant.inkChroma;
   }
 }
 
-/** The 38 colours of one variant. */
+/** The 40 colours of one variant. */
 export function paletteFor(family: Family): Palette {
   const v = VARIANTS[family];
   const hues = huesFor(family);

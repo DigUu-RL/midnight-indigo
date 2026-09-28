@@ -11,6 +11,7 @@ Translucent colours are a token plus one step of this ladder, and no other opaci
 | Step | Alpha |
 | --- | ---: |
 | `tint` | `22` (13%) |
+| `wash` | `33` (20%) |
 | `faint` | `55` (33%) |
 | `soft` | `66` (40%) |
 | `half` | `80` (50%) |
@@ -145,11 +146,11 @@ What each state looks like and which channel carries it. The build measures ever
 | --- | --- |
 | `state.focus` | Keyboard focus. Solid, never translucent, so it cannot vanish into what it sits on. |
 | `state.active` | Where the input goes: the caret, the active line number, the primary cursor. |
-| `state.success` | Something passed. The ink the family names as its green. |
+| `state.success` | Something passed. The ink the family names as its green, and only ever drawn with a shape — a tick, a gutter bar — never as text among the strings it shares a colour with. |
 | `state.info` | Something to know. The ink the family names as its blue. |
-| `state.warning` | Something to look at. The ink the family names as its amber or yellow. |
-| `state.error` | Something is wrong. The ink the family names as its red — in pink, the rose the family owns. |
-| `state.hint` | A suggestion, not a problem: the secondary text colour, so it never competes with a warning. |
+| `state.warning` | Something to look at. A palette colour of its own: a saturated yellow at the top of the lightness band, clear of the pastel numbers and interfaces. |
+| `state.error` | Something is wrong. A palette colour of its own: a saturated red below the syntax band, never the keyword ink. |
+| `state.hint` | A suggestion, not a problem: the ink the family names as its teal, drawn by VS Code as dots rather than a squiggle. |
 | `state.modified` | A changed file or line. The function colour. |
 | `state.added` | An added file or line. The string colour. |
 | `state.deleted` | A deleted file or line. The keyword colour. |
@@ -162,9 +163,9 @@ What each state looks like and which channel carries it. The build measures ever
 | `active` | `#B39DDB` | `#CA96C4` | `#D694A7` | `#DEA18F` | `#E0BA8E` | `#75C29A` | `#51BBCD` | `#92A8E4` |
 | `success` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `info` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `warning` | `#F6C177` | `#F8BC7A` | `#ECCC72` | `#E4CF80` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
-| `error` | `#FF6AC1` | `#FF7988` | `#ED8CAC` | `#F075D3` | `#F09A97` | `#F489B5` | `#FE9483` | `#F78E97` |
-| `hint` | `#8B85A8` | `#99819C` | `#A27F8D` | `#A9857F` | `#B19984` | `#799C82` | `#5F959A` | `#788BAB` |
+| `warning` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
+| `error` | `#F84A54` | `#FB4F43` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `hint` | `#64D8CB` | `#62D6DC` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
 | `modified` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
 | `added` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `deleted` | `#FF6AC1` | `#FF7988` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
@@ -184,9 +185,9 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `red` | `#FF6AC1` | `#FF7988` | `#ED8CAC` | `#F075D3` | `#F09A97` | `#F489B5` | `#FE9483` | `#F78E97` |
+| `red` | `#F84A54` | `#FB4F43` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
 | `orange` | `#FFAB70` | `#FC9C7F` | `#FFA872` | `#F9B673` | `#F09C57` | `#FC9888` | `#FDB376` | `#FBAB7E` |
-| `yellow` | `#F6C177` | `#F8BC7A` | `#ECCC72` | `#E4CF80` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
+| `yellow` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
 | `green` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `blue` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
 | `purple` | `#BB9AF7` | `#C87EDE` | `#BD8CFF` | `#7F49C5` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
@@ -233,15 +234,15 @@ What each state looks like and which channel carries it. The build measures ever
 
 ## Signals
 
-Which ink each family lends to each signal. Written down per family, and checked: every one lands within 50° of the hue VS Code uses for it, and no two share an ink.
+Which ink each family lends to each signal. Written down per family, and checked: every one lands within 50° of the hue VS Code uses for it, and no two share an ink. Error and warning are not lent: they are palette colours of their own (`state.error`, `state.warning` above), held clear of every code ink and the accent, and told apart from each other and from info by lightness as well as hue. Every ID that means a diagnostic — the squiggle, the ruler, the Problems view, the debug console, the test result — is checked to be its token.
 
-| Family | error | warning | success | info | orange | purple |
-| --- | --- | --- | --- | --- | --- | --- |
-| indigo | `keyword` | `number` | `string` | `func` | `enumMember` | `property` |
-| purple | `keyword` | `number` | `string` | `func` | `enumMember` | `operator` |
-| pink | `property` | `number` | `string` | `func` | `enumMember` | `keyword` |
-| red | `keyword` | `number` | `string` | `func` | `enumMember` | `generic` |
-| orange | `number` | `iface` | `string` | `func` | `operator` | `keyword` |
-| green | `enumMember` | `iface` | `string` | `func` | `number` | `keyword` |
-| cyan | `enumMember` | `iface` | `string` | `func` | `number` | `keyword` |
-| blue | `enumMember` | `iface` | `string` | `func` | `number` | `keyword` |
+| Family | success | info | hint | orange | purple |
+| --- | --- | --- | --- | --- | --- |
+| indigo | `string` | `func` | `type` | `enumMember` | `property` |
+| purple | `string` | `func` | `type` | `enumMember` | `operator` |
+| pink | `string` | `func` | `type` | `enumMember` | `keyword` |
+| red | `string` | `func` | `type` | `enumMember` | `generic` |
+| orange | `string` | `func` | `type` | `operator` | `keyword` |
+| green | `string` | `func` | `type` | `number` | `keyword` |
+| cyan | `string` | `func` | `type` | `number` | `keyword` |
+| blue | `string` | `func` | `type` | `number` | `keyword` |

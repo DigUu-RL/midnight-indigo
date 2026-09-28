@@ -25,7 +25,7 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 444 |
+| Workbench colours, per theme | 546 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -41,7 +41,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **444 of the 971** colour IDs VS Code documents (45.7%). **420** of those IDs were added after VS Code 1.60, and the theme sets 145 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **546 of the 971** colour IDs VS Code documents (56.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 167 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -49,7 +49,7 @@ The theme sets **444 of the 971** colour IDs VS Code documents (45.7%). **420** 
 | --- | ---: | ---: | ---: | ---: | ---: |
 | M1 Tokens and surfaces | 50 | 6 | 56 | 89.3% | 0 |
 | M2 Workbench | 341 | 41 | 382 | 89.3% | 14 |
-| M4 Diagnostics, debug and testing | 0 | 0 | 112 | 0.0% | 22 |
+| M4 Diagnostics, debug and testing | 102 | 10 | 112 | 91.1% | 0 |
 | M5 Editor intelligence | 26 | 0 | 174 | 14.9% | 53 |
 | M6 Terminal | 18 | 0 | 62 | 29.0% | 37 |
 | M7 Diff, merge and Git | 9 | 0 | 94 | 9.6% | 58 |
@@ -74,23 +74,23 @@ The sections are the colour reference's own.
 | Action colors | M2 | 6 | 7 | 0 |
 | Button control | M2 | 20 | 23 | 2 |
 | Dropdown control | M2 | 3 | 4 | 0 |
-| Input control | M2, M4 | 8 | 17 | 0 |
+| Input control | M2, M4 | 17 | 17 | 0 |
 | Scrollbar control | M2 | 4 | 5 | 1 |
 | Badge | M2 | 2 | 2 | 0 |
 | Progress bar | M2 | 1 | 1 | 0 |
-| Lists and trees | M2, M4 | 22 | 32 | 1 |
+| Lists and trees | M2, M4 | 24 | 32 | 1 |
 | Activity Bar | M2 | 16 | 20 | 2 |
 | Profiles | M2 | 3 | 3 | 0 |
 | Side Bar | M2 | 12 | 14 | 2 |
-| Minimap | M4, M5, M7 | 0 | 16 | 5 |
+| Minimap | M4, M5, M7 | 3 | 16 | 4 |
 | Editor Groups & Tabs | M2 | 36 | 42 | 0 |
-| Editor colors | M1, M4, M5, M7, M8 | 40 | 171 | 73 |
+| Editor colors | M1, M4, M5, M7, M8 | 50 | 171 | 73 |
 | Diff editor colors | M7 | 2 | 21 | 15 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
 | Inline Chat colors | M8 | 0 | 10 | 10 |
 | Panel Chat colors | M8 | 0 | 2 | 2 |
-| Editor widget colors | M2, M4, M5 | 9 | 35 | 8 |
+| Editor widget colors | M2, M4, M5 | 18 | 35 | 8 |
 | Peek view colors | M5 | 3 | 16 | 2 |
 | Merge conflicts colors | M7 | 0 | 25 | 15 |
 | Panel colors | M2 | 16 | 20 | 4 |
@@ -105,8 +105,8 @@ The sections are the colour reference's own.
 | Keybinding label colors | M2 | 4 | 4 | 0 |
 | Keyboard shortcut table colors | M2 | 2 | 2 | 0 |
 | Integrated Terminal colors | M6 | 18 | 61 | 37 |
-| Debug colors | M4 | 0 | 18 | 1 |
-| Testing colors | M4 | 0 | 32 | 20 |
+| Debug colors | M4 | 18 | 18 | 0 |
+| Testing colors | M4 | 31 | 32 | 0 |
 | Welcome page colors | M2 | 7 | 8 | 0 |
 | Git colors | M7 | 4 | 11 | 1 |
 | Source Control Graph colors | M7 | 0 | 13 | 13 |
@@ -114,7 +114,7 @@ The sections are the colour reference's own.
 | Breadcrumbs colors | M2 | 5 | 5 | 0 |
 | Snippets colors | M5 | 0 | 4 | 0 |
 | Symbol Icons colors | M5 | 0 | 33 | 0 |
-| Debug Icons colors | M4 | 0 | 20 | 0 |
+| Debug Icons colors | M4 | 20 | 20 | 0 |
 | Notebook colors | M2 | 19 | 24 | 1 |
 | Chart colors | M1 | 11 | 11 | 0 |
 | Ports colors | M6 | 0 | 1 | 0 |
@@ -166,6 +166,15 @@ None.
 | `tab.unfocusedHoverBorder` | M2 | the same, in an unfocused group |
 | `editor.selectionForeground` | M1 | repaints selected text in one colour, which throws away the syntax colours inside every selection |
 | `editor.selectionHighlightBorder` | M1 | the fill already marks the other occurrences; a border on top boxes every one of them |
+| `editorError.border` | M4 | a double rule under the squiggle, for high-contrast themes; on a dark theme it is a second underline |
+| `editorError.background` | M4 | a band behind every flagged range tints the code inside it; the squiggle already marks the range |
+| `editorWarning.border` | M4 | the same, for warnings |
+| `editorWarning.background` | M4 | the same, for warnings |
+| `editorInfo.border` | M4 | the same, for infos |
+| `editorInfo.background` | M4 | the same, for infos |
+| `editorHint.border` | M4 | the same, for hints, whose dots are the mark |
+| `editorUnnecessaryCode.border` | M4 | the same, for unused code, which is already faded |
+| `editorUnnecessaryCode.opacity` | M4 | an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour |
 | `editorWidget.resizeBorder` | M2 | falls back to the widget border, which is what is being dragged |
 | `panelTitle.border` | M2 | the active panel is marked by `panelTitle.activeBorder`; a rule under the whole strip is a second one |
 | `panelStickyScroll.border` | M2 | the same, in the panel |
@@ -174,6 +183,7 @@ None.
 | `menubar.selectionBorder` | M2 | the same, for the menu bar entry under the pointer |
 | `menu.selectionBorder` | M2 | the same, for the menu item under the pointer |
 | `quickInputList.focusIconForeground` | M2 | the same, for the focused row of the quick pick |
+| `testing.message.info.lineBackground` | M4 | an info message is inline text after the line; a band behind the line as well would mark every logged line of a run |
 | `welcomePage.background` | M2 | the welcome page is an editor and takes the editor ground |
 | `notebook.cellHoverBackground` | M2 | derived from `notebook.focusedCellBackground`, so it is clear too |
 | `notebook.focusedCellBackground` | M2 | the focused cell is marked by its border in the focus colour; a ground as well tints the code inside it |
@@ -185,37 +195,13 @@ None.
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Input control — 9 unset</summary>
-
-- `inputValidation.errorBackground` (M4)
-- `inputValidation.errorForeground` (M4)
-- `inputValidation.errorBorder` (M4)
-- `inputValidation.infoBackground` (M4)
-- `inputValidation.infoForeground` (M4)
-- `inputValidation.infoBorder` (M4)
-- `inputValidation.warningBackground` (M4)
-- `inputValidation.warningForeground` (M4)
-- `inputValidation.warningBorder` (M4)
-
-</details>
-
-<details><summary>Lists and trees — 2 unset</summary>
-
-- `list.errorForeground` (M4)
-- `list.warningForeground` (M4)
-
-</details>
-
-<details><summary>Minimap — 16 unset</summary>
+<details><summary>Minimap — 13 unset</summary>
 
 - `minimap.findMatchHighlight` (M5)
 - `minimap.selectionHighlight` (M5)
-- `minimap.errorHighlight` (M4)
-- `minimap.warningHighlight` (M4)
 - `minimap.background` (M5)
 - `minimap.selectionOccurrenceHighlight` † (M5)
 - `minimap.foregroundOpacity` † (M5)
-- `minimap.infoHighlight` † (M4)
 - `minimap.chatEditHighlight` † (M5)
 - `minimapSlider.background` (M5)
 - `minimapSlider.hoverBackground` (M5)
@@ -227,7 +213,7 @@ None.
 
 </details>
 
-<details><summary>Editor colors — 129 unset</summary>
+<details><summary>Editor colors — 110 unset</summary>
 
 - `editor.wordHighlightBorder` (M5)
 - `editor.wordHighlightStrongBorder` (M5)
@@ -300,29 +286,10 @@ None.
 - `editorOverviewRuler.modifiedForeground` (M7)
 - `editorOverviewRuler.addedForeground` (M7)
 - `editorOverviewRuler.deletedForeground` (M7)
-- `editorOverviewRuler.errorForeground` (M4)
-- `editorOverviewRuler.warningForeground` (M4)
-- `editorOverviewRuler.infoForeground` (M4)
 - `editorOverviewRuler.bracketMatchForeground` (M5)
 - `editorOverviewRuler.inlineChatInserted` † (M8)
 - `editorOverviewRuler.inlineChatRemoved` † (M8)
 - `editorOverviewRuler.commentDraftForeground` † (M7)
-- `editorError.foreground` (M4)
-- `editorError.border` (M4)
-- `editorError.background` (M4)
-- `editorWarning.foreground` (M4)
-- `editorWarning.border` (M4)
-- `editorWarning.background` (M4)
-- `editorInfo.foreground` (M4)
-- `editorInfo.border` (M4)
-- `editorInfo.background` (M4)
-- `editorHint.foreground` (M4)
-- `editorHint.border` (M4)
-- `problemsErrorIcon.foreground` (M4)
-- `problemsWarningIcon.foreground` (M4)
-- `problemsInfoIcon.foreground` (M4)
-- `editorUnnecessaryCode.border` (M4)
-- `editorUnnecessaryCode.opacity` (M4)
 - `editorGutter.modifiedSecondaryBackground` † (M7)
 - `editorGutter.addedSecondaryBackground` † (M7)
 - `editorGutter.deletedSecondaryBackground` † (M7)
@@ -464,7 +431,7 @@ None.
 
 </details>
 
-<details><summary>Editor widget colors — 25 unset</summary>
+<details><summary>Editor widget colors — 16 unset</summary>
 
 - `editorSuggestWidget.foreground` (M5)
 - `editorSuggestWidget.focusHighlightForeground` (M5)
@@ -482,15 +449,6 @@ None.
 - `editorStickyScroll.shadow` † (M5)
 - `editorStickyScrollGutter.background` † (M5)
 - `editorStickyScrollHover.background` † (M5)
-- `debugExceptionWidget.background` (M4)
-- `debugExceptionWidget.border` (M4)
-- `editorMarkerNavigation.background` (M4)
-- `editorMarkerNavigationError.background` (M4)
-- `editorMarkerNavigationWarning.background` (M4)
-- `editorMarkerNavigationInfo.background` (M4)
-- `editorMarkerNavigationError.headerBackground` (M4)
-- `editorMarkerNavigationWarning.headerBackground` (M4)
-- `editorMarkerNavigationInfo.headerBackground` (M4)
 
 </details>
 
@@ -590,66 +548,6 @@ None.
 
 </details>
 
-<details><summary>Debug colors — 18 unset</summary>
-
-- `debugToolBar.background` (M4)
-- `debugToolBar.border` (M4)
-- `editor.stackFrameHighlightBackground` (M4)
-- `editor.focusedStackFrameHighlightBackground` (M4)
-- `editor.inlineValuesForeground` (M4)
-- `editor.inlineValuesBackground` (M4)
-- `debugView.exceptionLabelForeground` (M4)
-- `debugView.exceptionLabelBackground` (M4)
-- `debugView.stateLabelForeground` (M4)
-- `debugView.stateLabelBackground` (M4)
-- `debugView.valueChangedHighlight` (M4)
-- `debugTokenExpression.name` (M4)
-- `debugTokenExpression.value` (M4)
-- `debugTokenExpression.string` (M4)
-- `debugTokenExpression.boolean` (M4)
-- `debugTokenExpression.number` (M4)
-- `debugTokenExpression.error` (M4)
-- `debugTokenExpression.type` † (M4)
-
-</details>
-
-<details><summary>Testing colors — 32 unset</summary>
-
-- `testing.runAction` (M4)
-- `testing.iconErrored` (M4)
-- `testing.iconFailed` (M4)
-- `testing.iconPassed` (M4)
-- `testing.iconQueued` (M4)
-- `testing.iconUnset` (M4)
-- `testing.iconSkipped` (M4)
-- `testing.iconErrored.retired` † (M4)
-- `testing.iconFailed.retired` † (M4)
-- `testing.iconPassed.retired` † (M4)
-- `testing.iconQueued.retired` † (M4)
-- `testing.iconUnset.retired` † (M4)
-- `testing.iconSkipped.retired` † (M4)
-- `testing.peekBorder` (M4)
-- `testing.peekHeaderBackground` (M4)
-- `testing.message.error.lineBackground` (M4)
-- `testing.message.info.decorationForeground` (M4)
-- `testing.message.info.lineBackground` (M4)
-- `testing.messagePeekBorder` † (M4)
-- `testing.messagePeekHeaderBackground` † (M4)
-- `testing.coveredBackground` † (M4)
-- `testing.coveredBorder` † (M4)
-- `testing.coveredGutterBackground` † (M4)
-- `testing.uncoveredBranchBackground` † (M4)
-- `testing.uncoveredBackground` † (M4)
-- `testing.uncoveredBorder` † (M4)
-- `testing.uncoveredGutterBackground` † (M4)
-- `testing.coverCountBadgeBackground` † (M4)
-- `testing.coverCountBadgeForeground` † (M4)
-- `testing.message.error.badgeBackground` † (M4)
-- `testing.message.error.badgeBorder` † (M4)
-- `testing.message.error.badgeForeground` † (M4)
-
-</details>
-
 <details><summary>Git colors — 7 unset</summary>
 
 - `gitDecoration.renamedResourceForeground` (M7)
@@ -724,31 +622,6 @@ None.
 - `symbolIcon.typeParameterForeground` (M5)
 - `symbolIcon.unitForeground` (M5)
 - `symbolIcon.variableForeground` (M5)
-
-</details>
-
-<details><summary>Debug Icons colors — 20 unset</summary>
-
-- `debugIcon.breakpointForeground` (M4)
-- `debugIcon.breakpointDisabledForeground` (M4)
-- `debugIcon.breakpointUnverifiedForeground` (M4)
-- `debugIcon.breakpointCurrentStackframeForeground` (M4)
-- `debugIcon.breakpointStackframeForeground` (M4)
-- `debugIcon.startForeground` (M4)
-- `debugIcon.pauseForeground` (M4)
-- `debugIcon.stopForeground` (M4)
-- `debugIcon.disconnectForeground` (M4)
-- `debugIcon.restartForeground` (M4)
-- `debugIcon.stepOverForeground` (M4)
-- `debugIcon.stepIntoForeground` (M4)
-- `debugIcon.stepOutForeground` (M4)
-- `debugIcon.continueForeground` (M4)
-- `debugIcon.stepBackForeground` (M4)
-- `debugConsole.infoForeground` (M4)
-- `debugConsole.warningForeground` (M4)
-- `debugConsole.errorForeground` (M4)
-- `debugConsole.sourceForeground` (M4)
-- `debugConsoleInputIcon.foreground` (M4)
 
 </details>
 

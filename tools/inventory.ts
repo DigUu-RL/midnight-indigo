@@ -247,6 +247,21 @@ const LEFT_TO_VSCODE: Record<string, string> = {
   'notebook.inactiveSelectedCellBorder': 'a selected cell in an unfocused notebook keeps its selection ground; a border as well boxes it',
   'notebook.outputContainerBackgroundColor': 'an output sits on the notebook ground, as terminal output sits on the terminal',
   'notebook.outputContainerBorderColor': 'the cell border already frames the output with its cell',
+
+  // M4. The squiggle is the mark; everything below would draw a second one
+  // over the code it flags.
+  'editorError.background': 'a band behind every flagged range tints the code inside it; the squiggle already marks the range',
+  'editorWarning.background': 'the same, for warnings',
+  'editorInfo.background': 'the same, for infos',
+  'editorError.border': 'a double rule under the squiggle, for high-contrast themes; on a dark theme it is a second underline',
+  'editorWarning.border': 'the same, for warnings',
+  'editorInfo.border': 'the same, for infos',
+  'editorHint.border': 'the same, for hints, whose dots are the mark',
+  'editorUnnecessaryCode.border': 'the same, for unused code, which is already faded',
+  'editorUnnecessaryCode.opacity':
+    'an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour',
+  'testing.message.info.lineBackground':
+    'an info message is inline text after the line; a band behind the line as well would mark every logged line of a run',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));
@@ -544,7 +559,10 @@ tline('## Signals');
 tline();
 tline(
   'Which ink each family lends to each signal. Written down per family, and checked: every one lands within ' +
-    `${SIGNAL_TOLERANCE}° of the hue VS Code uses for it, and no two share an ink.`
+    `${SIGNAL_TOLERANCE}° of the hue VS Code uses for it, and no two share an ink. Error and warning are not lent: ` +
+    'they are palette colours of their own (`state.error`, `state.warning` above), held clear of every code ink and the accent, ' +
+    'and told apart from each other and from info by lightness as well as hue. Every ID that means a diagnostic — the squiggle, ' +
+    'the ruler, the Problems view, the debug console, the test result — is checked to be its token.'
 );
 tline();
 tline(`| Family | ${Object.keys(signalsFor('indigo')).join(' | ')} |`);

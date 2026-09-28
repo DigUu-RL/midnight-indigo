@@ -26,7 +26,7 @@
  */
 
 import { oklchFromHex, type Colour } from './color.ts';
-import { WHITE, paletteFor, signalsFor, type Family, type Ink, type Palette } from './theme-palette.ts';
+import { WHITE, paletteFor, signalsFor, type Family, type Ink, type Palette, type Signals } from './theme-palette.ts';
 
 /* -------------------------------------------------------------- *
  * Overlays
@@ -37,10 +37,13 @@ import { WHITE, paletteFor, signalsFor, type Family, type Ink, type Palette } fr
  * under it, which is what lets one highlight work on the editor, a peek view
  * and a diff alike — so the theme's highlights are overlays, and these are
  * the only opacities it uses. They are the ones the shipped theme already
- * had, named, plus `half` for disabled text.
+ * had, named, plus `half` for disabled text and `wash` (M4) for the line a
+ * debugger is paused on, which at `tint` mixed with the violet current line
+ * into a grey that read as no colour at all.
  */
 export const OVERLAY = {
   tint: 0x22, //   13%  a region: an inserted or removed line
+  wash: 0x33, //   20%  a line that is where execution is: the paused frame, the selected frame
   faint: 0x55, //  33%  at rest: the scrollbar, a bracket match, find context
   soft: 0x66, //   40%  a match: the word under the cursor, the current find
   half: 0x80, //   50%  disabled
@@ -135,10 +138,10 @@ export const STATES: Record<InteractionState, string> = {
 
 /*
  * What each signal is supposed to look like: the hue of VS Code's own default
- * for it, measured in OKLCH. A family picks which of its inks plays each one
- * (`signalsFor`); the build checks that the ink it picked lands within
- * SIGNAL_TOLERANCE of this. Wide, because the family decides — a pink theme's
- * red is its own rose — but not so wide that "error" can be orange.
+ * for it, measured in OKLCH. Error and warning are palette roles of their own;
+ * for the rest a family picks which of its inks plays each one (`signalsFor`).
+ * The build checks that every one lands within SIGNAL_TOLERANCE of this. Wide,
+ * because the family decides, but not so wide that "error" can be orange.
  */
 const SIGNAL_REFERENCE = {
   error: '#F14C4C', //   charts.red, editorError.foreground
@@ -146,6 +149,7 @@ const SIGNAL_REFERENCE = {
   warning: '#CCA700', // charts.yellow, editorWarning.foreground
   success: '#89D185', // charts.green
   info: '#3794FF', //    charts.blue, editorInfo.foreground
+  hint: '#64D8CB', //    VS Code's hint is a grey; this is the roadmap's teal
   purple: '#B180D7', //  charts.purple
 } as const;
 
@@ -299,11 +303,11 @@ export const DOCS: Docs = {
   state: {
     focus: 'Keyboard focus. Solid, never translucent, so it cannot vanish into what it sits on.',
     active: 'Where the input goes: the caret, the active line number, the primary cursor.',
-    success: 'Something passed. The ink the family names as its green.',
+    success: 'Something passed. The ink the family names as its green, and only ever drawn with a shape — a tick, a gutter bar — never as text among the strings it shares a colour with.',
     info: 'Something to know. The ink the family names as its blue.',
-    warning: 'Something to look at. The ink the family names as its amber or yellow.',
-    error: 'Something is wrong. The ink the family names as its red — in pink, the rose the family owns.',
-    hint: 'A suggestion, not a problem: the secondary text colour, so it never competes with a warning.',
+    warning: 'Something to look at. A palette colour of its own: a saturated yellow at the top of the lightness band, clear of the pastel numbers and interfaces.',
+    error: 'Something is wrong. A palette colour of its own: a saturated red below the syntax band, never the keyword ink.',
+    hint: 'A suggestion, not a problem: the ink the family names as its teal, drawn by VS Code as dots rather than a squiggle.',
     modified: 'A changed file or line. The function colour.',
     added: 'An added file or line. The string colour.',
     deleted: 'A deleted file or line. The keyword colour.',
@@ -355,7 +359,7 @@ const INK: Record<Ink, keyof Palette> = {
 export function tokensFor(family: Family): Tokens {
   const p = paletteFor(family);
   const signal = signalsFor(family);
-  const ink = (s: Signal): Colour => p[INK[signal[s]]];
+  const ink = (borrowed: keyof Signals): Colour => p[INK[signal[borrowed]]];
 
   return {
     surface: {
@@ -406,9 +410,9 @@ export function tokensFor(family: Family): Tokens {
       active: p.cursor,
       success: ink('success'),
       info: ink('info'),
-      warning: ink('warning'),
-      error: ink('error'),
-      hint: p.fgDim,
+      warning: p.warning,
+      error: p.error,
+      hint: ink('hint'),
       modified: p.func,
       added: p.string,
       deleted: p.keyword,
@@ -416,9 +420,9 @@ export function tokensFor(family: Family): Tokens {
       deprecated: p.fgMuted,
     },
     chart: {
-      red: ink('error'),
+      red: p.error,
       orange: ink('orange'),
-      yellow: ink('warning'),
+      yellow: p.warning,
       green: ink('success'),
       blue: ink('info'),
       purple: ink('purple'),
