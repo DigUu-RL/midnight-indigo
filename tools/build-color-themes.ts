@@ -1276,8 +1276,8 @@ function check(): string[] {
         problems.push(`${family}: contrast pair ${fg} on ${bg} names a colour the theme does not set`);
         continue;
       }
-      const under = over(c[bg], over(c[ground], s.background));
-      const got = contrastRatio(over(c[fg], under), under);
+      const under: string = over(c[bg], over(c[ground], s.background));
+      const got: number = contrastRatio(over(c[fg], under), under);
       if (got < floor) problems.push(`${family}: ${fg} on ${bg} reads at ${got.toFixed(2)}:1, under ${floor}:1`);
     }
   }
