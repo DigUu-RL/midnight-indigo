@@ -26,7 +26,17 @@
  */
 
 import { oklchFromHex, type Colour } from './color.ts';
-import { WHITE, paletteFor, signalsFor, type Family, type Ink, type Palette, type Signals } from './theme-palette.ts';
+import {
+  WHITE,
+  paletteFor,
+  signalsFor,
+  terminalMagentaFor,
+  type Family,
+  type Ink,
+  type Palette,
+  type RoleName,
+  type Signals,
+} from './theme-palette.ts';
 
 /* -------------------------------------------------------------- *
  * Overlays
@@ -324,20 +334,20 @@ export const DOCS: Docs = {
   },
   ansi: {
     black: "The terminal's black: a step above the ground, so it is visible as a background.",
-    red: 'Terminal red: the keyword colour.',
-    green: 'Terminal green: the string colour.',
-    yellow: 'Terminal yellow: the interface colour.',
-    blue: 'Terminal blue: the function colour.',
-    magenta: 'Terminal magenta: the type-parameter colour.',
-    cyan: 'Terminal cyan: the type colour.',
+    red: 'Terminal red: the error. A failed build prints in the colour the squiggle is drawn in, never in a syntax ink.',
+    green: 'Terminal green: the success ink, which is the string colour.',
+    yellow: 'Terminal yellow: the warning.',
+    blue: 'Terminal blue: the info ink, which is the function colour.',
+    magenta: 'Terminal magenta: the keywords, where the family draws them magenta or violet; the family names another pair where they are a red.',
+    cyan: 'Terminal cyan: the hint ink, which is the type colour.',
     white: 'Terminal white: body text.',
-    brightBlack: 'Terminal bright black: line-number grey.',
-    brightRed: 'Terminal bright red: the keyword colour, lighter.',
-    brightGreen: 'Terminal bright green: the string colour, lighter.',
-    brightYellow: 'Terminal bright yellow: the interface colour, lighter.',
-    brightBlue: 'Terminal bright blue: the function colour, lighter.',
-    brightMagenta: 'Terminal bright magenta: the type-parameter colour, lighter.',
-    brightCyan: 'Terminal bright cyan: the type colour, lighter.',
+    brightBlack: 'Terminal bright black, the grey command-line tools print what matters least in: the comment grey.',
+    brightRed: 'Terminal bright red: the error, lighter.',
+    brightGreen: 'Terminal bright green: the success ink, lighter.',
+    brightYellow: 'Terminal bright yellow: the warning, lighter.',
+    brightBlue: 'Terminal bright blue: the info ink, lighter.',
+    brightMagenta: 'Terminal bright magenta: the magenta, lighter.',
+    brightCyan: 'Terminal bright cyan: the hint ink, lighter.',
     brightWhite: "Terminal bright white: the theme's whitest text.",
   },
 };
@@ -356,10 +366,27 @@ const INK: Record<Ink, keyof Palette> = {
   operator: 'operator',
 };
 
+/**
+ * The lighter partner of each ink the terminal borrows, for its bright row. An
+ * ink without one cannot play a terminal colour, and `tokensFor` says so.
+ */
+const BRIGHT: Partial<Record<Ink, keyof Palette>> = {
+  string: 'stringBright',
+  func: 'funcBright',
+  type: 'typeBright',
+  keyword: 'keywordBright',
+};
+
 export function tokensFor(family: Family): Tokens {
   const p = paletteFor(family);
   const signal = signalsFor(family);
   const ink = (borrowed: keyof Signals): Colour => p[INK[signal[borrowed]]];
+  const brightInk = (borrowed: keyof Signals): Colour => {
+    const partner: keyof Palette | undefined = BRIGHT[signal[borrowed]];
+    if (!partner) throw new Error(`${family}: ${borrowed} is ${signal[borrowed]}, which has no bright partner for the terminal`);
+    return p[partner];
+  };
+  const [magenta, brightMagenta]: [RoleName, RoleName] = terminalMagentaFor(family);
 
   return {
     surface: {
@@ -429,20 +456,20 @@ export function tokensFor(family: Family): Tokens {
     },
     ansi: {
       black: p.ansiBlack,
-      red: p.keyword,
-      green: p.string,
-      yellow: p.iface,
-      blue: p.func,
-      magenta: p.generic,
-      cyan: p.type,
+      red: p.error,
+      green: ink('success'),
+      yellow: p.warning,
+      blue: ink('info'),
+      magenta: p[magenta],
+      cyan: ink('hint'),
       white: p.fg,
-      brightBlack: p.fgFaint,
-      brightRed: p.keywordBright,
-      brightGreen: p.stringBright,
-      brightYellow: p.ifaceBright,
-      brightBlue: p.funcBright,
-      brightMagenta: p.genericBright,
-      brightCyan: p.typeBright,
+      brightBlack: p.fgMuted,
+      brightRed: p.errorBright,
+      brightGreen: brightInk('success'),
+      brightYellow: p.warningBright,
+      brightBlue: brightInk('info'),
+      brightMagenta: p[brightMagenta],
+      brightCyan: brightInk('hint'),
       brightWhite: p.fgWhite,
     },
   };

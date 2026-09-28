@@ -161,9 +161,13 @@ const semanticRole = (l: number, c: number, h: number, from?: string): Role =>
  * So the error is a saturated red darker than the syntax band and the warning a
  * saturated yellow at its top: set apart from the code by chroma and lightness,
  * not by hue alone. tools/build-color-themes.ts checks the distance.
+ *
+ * They are also the terminal's red and yellow (M6), so a failed build prints
+ * in the colour the editor's squiggle is drawn in. `from` names the base of a
+ * bright terminal partner, as it does for the signature and semantic roles.
  */
-const signalRole = (lightness: number, chroma: number, hue: number): Role =>
-  ({ l: lightness, c: chroma, h: hue, band: 'signal' });
+const signalRole = (lightness: number, chroma: number, hue: number, from?: string): Role =>
+  ({ l: lightness, c: chroma, h: hue, band: 'signal', from });
 
 /*
  * Measured out of the shipped theme with tools/color.ts, one entry per distinct
@@ -206,10 +210,9 @@ const ROLES = {
   operator: chromeRole(0.705, 0.1642, -1.8), //    #9D8CFF  operators
 
   /* --- the signature pole: keywords and punctuation --- */
-  keyword: signatureRole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation
-  keywordBright: signatureRole(0.789, 0.1549, 344.9, 'keyword'), //     #FF8FD1  terminal.ansiBrightRed
+  keyword: signatureRole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation, terminal.ansiMagenta
+  keywordBright: signatureRole(0.789, 0.1549, 344.9, 'keyword'), //     #FF8FD1  terminal.ansiBrightMagenta
   generic: signatureRole(0.531, 0.2015, 5.6), //                        #C2185B  type parameters
-  genericBright: signatureRole(0.642, 0.1877, 356.7, 'generic'), //     #E0508F  terminal.ansiBrightMagenta
 
   /* --- syntax that means something outside this theme --- */
   string: semanticRole(0.803, 0.0984, 150.8), //                    #8FD19E  strings, added lines
@@ -221,11 +224,12 @@ const ROLES = {
   typeBright: semanticRole(0.884, 0.0918, 184.5, 'type'), //        #8FEDE0  terminal.ansiBrightCyan
   enumMember: semanticRole(0.811, 0.1242, 55.1), //                 #FFAB70  enum members, inline code
   iface: semanticRole(0.885, 0.1738, 115.1), //                     #D6E64B  interfaces, enums
-  ifaceBright: semanticRole(0.926, 0.1363, 112.4, 'iface'), //      #E8F080  terminal.ansiBrightYellow
 
   /* --- diagnostics that are not syntax: M4, so not in the shipped theme --- */
-  error: signalRole(0.66, 0.21, 22), //                                     errors, failed tests, breakpoints
-  warning: signalRole(0.83, 0.175, 94), //                                  warnings, the paused frame
+  error: signalRole(0.66, 0.21, 22), //                                     errors, failed tests, terminal.ansiRed
+  errorBright: signalRole(0.76, 0.16, 20, 'error'), //                      terminal.ansiBrightRed
+  warning: signalRole(0.83, 0.175, 94), //                                  warnings, the paused frame, terminal.ansiYellow
+  warningBright: signalRole(0.91, 0.15, 92, 'warning'), //                  terminal.ansiBrightYellow
 } satisfies Record<string, Role>;
 
 export type RoleName = keyof typeof ROLES;
@@ -291,6 +295,13 @@ type Variant = {
   signalHues: Record<OwnSignal, number>;
   /** Which of those roles doubles as each other signal. */
   signals: Signals;
+  /**
+   * The pair that plays the terminal's magenta and bright magenta, when it is
+   * not the keywords. The keywords are the signature pole, a magenta or a
+   * violet in seven families; where they are a red, the terminal would have
+   * two, so the family names another pair.
+   */
+  terminalMagenta?: [normal: RoleName, bright: RoleName];
 };
 
 /*
@@ -351,6 +362,10 @@ const VARIANTS: Record<Family, Variant> = {
       success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'operator',
     },
+    // The one family whose keywords are a red: as the terminal's magenta they
+    // would stand beside its red as a second one. The chrome is magenta, so
+    // the operators and the lighter properties play it instead.
+    terminalMagenta: ['operator', 'property'],
   },
 
   /*
@@ -364,12 +379,13 @@ const VARIANTS: Record<Family, Variant> = {
    *
    * The type parameters do NOT follow the keywords down. Dragging them to the
    * far side of the pole put them on 268, which is a perfectly good indigo and
-   * a bad answer, because this role is `terminal.ansiMagenta` and the function
-   * colour is `ansiBlue`: two blues, one of them named magenta. So they sit at
-   * 330 instead, between the pole and the family — close to both in hue and
-   * nowhere near either in lightness, at L 0.53 against 0.73 and a near-black.
-   * That is indigo's own arrangement, and it is the arrangement because the
-   * terminal's sixteen colours have to keep meaning what they are called.
+   * a bad answer: beside the functions at 240 it is two blues in the code. So
+   * they sit at 330 instead, between the pole and the family — close to both
+   * in hue and nowhere near either in lightness, at L 0.53 against 0.73 and a
+   * near-black. That is indigo's own arrangement.
+   *
+   * The violet keywords are the terminal's magenta (M6): 26 degrees short of
+   * VS Code's own, and 62 clear of the blue beside it.
    */
   pink: {
     hue: 350,
@@ -816,5 +832,9 @@ export function paletteFor(family: Family): Palette {
 
 /** Which ink plays each signal in a family. */
 export const signalsFor = (family: Family): Signals => VARIANTS[family].signals;
+
+/** The roles that play the terminal's magenta and bright magenta in a family. */
+export const terminalMagentaFor = (family: Family): [normal: RoleName, bright: RoleName] =>
+  VARIANTS[family].terminalMagenta ?? ['keyword', 'keywordBright'];
 
 export { BASE_HUE, CONTESTED, ROLES, VARIANTS };

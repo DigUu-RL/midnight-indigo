@@ -60,6 +60,55 @@ export const AMENDMENTS: Amendment[] = [
     by: 'M3',
     why: 'the selection of an unfocused list was the same colour as a hovered row; it now keeps the selection ground, and the focused list is told apart by its focus ring and brighter text',
   },
+  {
+    key: 'terminal.ansiRed',
+    was: '#FF6AC1',
+    now: '#F84A54',
+    by: 'M6',
+    why: "the terminal's red was the keyword pink, so a failed build printed in the colour code is written in, and in other families in a violet; it is now the error, the colour of the squiggle",
+  },
+  {
+    key: 'terminal.ansiBrightRed',
+    was: '#FF8FD1',
+    now: '#FF898B',
+    by: 'M6',
+    why: 'the same, lighter',
+  },
+  {
+    key: 'terminal.ansiYellow',
+    was: '#D6E64B',
+    now: '#ECC400',
+    by: 'M6',
+    why: "the terminal's yellow was the interface lime, and in the red family a green; it is now the warning",
+  },
+  {
+    key: 'terminal.ansiBrightYellow',
+    was: '#E8F080',
+    now: '#FFDF7B',
+    by: 'M6',
+    why: 'the same, lighter',
+  },
+  {
+    key: 'terminal.ansiMagenta',
+    was: '#C2185B',
+    now: '#FF6AC1',
+    by: 'M6',
+    why: 'the type-parameter crimson was a second red beside the new one, and at 3.5:1 under AA; the keyword pink that red gave up is the magenta instead',
+  },
+  {
+    key: 'terminal.ansiBrightMagenta',
+    was: '#E0508F',
+    now: '#FF8FD1',
+    by: 'M6',
+    why: 'the same, lighter: the pink that was bright red',
+  },
+  {
+    key: 'terminal.ansiBrightBlack',
+    was: '#4B4370',
+    now: '#6A6390',
+    by: 'M6',
+    why: 'the grey tools print hints and dimmed output in was the line-number grey at 2.3:1; it is now the comment grey, which recedes the same way and can be read',
+  },
 ];
 
 /** The baseline with its amendments applied, and anything wrong with the amendments themselves. */

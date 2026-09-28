@@ -286,6 +286,29 @@ const LEFT_TO_VSCODE: Record<string, string> = {
   'editorOverviewRuler.background': 'the ruler lane is the editor ground already',
   'minimap.foregroundOpacity':
     'an opacity rather than a colour: the minimap draws the syntax colours at full strength in a few pixels, which on this ground reads as texture, not as code',
+
+  // M6. The terminal's highlights follow the editor's; its completion icons
+  // already follow the symbol icons M5 set, which is the design.
+  'terminal.selectionForeground': "repaints selected output in one colour, which throws away the ANSI colours inside every selection — the same reason as the editor's",
+  'terminal.findMatchHighlightBorder': 'the fill already marks the other matches; only the current one carries a rim, as in the editor',
+  'terminalSymbolIcon.aliasForeground': 'follows `symbolIcon.methodForeground`: an alias runs a command, and is drawn in the function colour',
+  'terminalSymbolIcon.methodForeground': 'follows `symbolIcon.methodForeground`, the function colour',
+  'terminalSymbolIcon.argumentForeground': 'follows `symbolIcon.variableForeground`, the variable colour',
+  'terminalSymbolIcon.flagForeground': 'follows `symbolIcon.enumeratorForeground`: a flag is one of a fixed set, drawn in the interface and enum colour',
+  'terminalSymbolIcon.optionForeground': 'the same, for an option',
+  'terminalSymbolIcon.optionValueForeground': "follows `symbolIcon.enumeratorMemberForeground`: an option's value is a member of its set",
+  'terminalSymbolIcon.fileForeground': 'follows `symbolIcon.fileForeground`, the secondary text colour, as files are in the suggest list',
+  'terminalSymbolIcon.folderForeground': 'follows `symbolIcon.folderForeground`, the same',
+  'terminalSymbolIcon.symbolicLinkFileForeground': 'follows `symbolIcon.fileForeground`',
+  'terminalSymbolIcon.symbolicLinkFolderForeground': 'follows `symbolIcon.folderForeground`',
+  'terminalSymbolIcon.symbolText': 'follows `symbolIcon.fileForeground`: plain completions are secondary text',
+  'terminalSymbolIcon.branchForeground': 'follows `symbolIcon.fileForeground`: Git refs are names, not code, and read as secondary text, told apart by their icons',
+  'terminalSymbolIcon.commitForeground': 'the same, for a commit',
+  'terminalSymbolIcon.tagForeground': 'the same, for a tag',
+  'terminalSymbolIcon.remoteForeground': 'the same, for a remote',
+  'terminalSymbolIcon.stashForeground': 'the same, for a stash',
+  'terminalSymbolIcon.pullRequestForeground': 'the same, for a pull request',
+  'terminalSymbolIcon.pullRequestDoneForeground': 'the same, for a merged pull request',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));

@@ -657,6 +657,30 @@ function themeFor(family: Family, t: Tokens): Theme {
     'terminal.ansiBrightMagenta': ansi.brightMagenta,
     'terminal.ansiBrightCyan': ansi.brightCyan,
     'terminal.ansiBrightWhite': ansi.brightWhite,
+    'terminal.border': s.border,
+    'terminal.selectionBackground': s.surfaceSelected,
+    'terminal.inactiveSelectionBackground': s.border,
+    'terminal.findMatchBackground': overlay(a.base, 'soft'),
+    'terminal.findMatchBorder': a.base,
+    'terminal.findMatchHighlightBackground': derive.rest(a.muted),
+    'terminal.hoverHighlightBackground': overlay(s.surfaceFocus, 'soft'),
+    'terminal.dropBackground': derive.rest(a.base),
+    'terminal.tab.activeBorder': a.base,
+    'terminal.initialHintForeground': x.muted,
+    'terminalCursor.foreground': st.active,
+    'terminalCursor.background': s.background,
+    'terminalCommandDecoration.defaultBackground': x.muted,
+    'terminalCommandDecoration.successBackground': st.success,
+    'terminalCommandDecoration.errorBackground': st.error,
+    'terminalCommandGuide.foreground': s.borderStrong,
+    'terminalOverviewRuler.border': s.frame,
+    'terminalOverviewRuler.cursorForeground': derive.inactive(st.active),
+    'terminalOverviewRuler.findMatchForeground': derive.inactive(a.base),
+    'terminalStickyScroll.background': s.surfaceRaised,
+    'terminalStickyScroll.border': s.border,
+    'terminalStickyScrollHover.background': rowHover,
+    'terminalSymbolIcon.inlineSuggestionForeground': x.muted,
+    'ports.iconRunningProcessForeground': st.success,
     'diffEditor.insertedTextBackground': overlay(st.added, 'tint'),
     'diffEditor.removedTextBackground': overlay(st.deleted, 'tint'),
     'gitDecoration.modifiedResourceForeground': st.modified,
@@ -1380,6 +1404,11 @@ const CONTROLS: Control[] = [
     states: { hover: 'editorStickyScrollHover.background' },
   },
   {
+    name: 'terminal sticky scroll line',
+    ground: 'terminalStickyScroll.background',
+    states: { hover: 'terminalStickyScrollHover.background' },
+  },
+  {
     name: 'notebook cell',
     ground: 'notebook.editorBackground',
     states: { focus: 'notebook.editorBackground', selected: 'notebook.selectedCellBackground' },
@@ -1506,7 +1535,9 @@ type Diagnostic = (typeof DIAGNOSTICS)[number];
  * Every ID that means one of the diagnostics, wherever VS Code draws it: the
  * squiggle, the ruler, the minimap, the Problems view, the file in the
  * explorer, the input under validation, the marker widget, the debug console,
- * the test result, the notification and the status bar. Check 12 holds each to
+ * the test result, the notification, the status bar, and the terminal — its
+ * red, yellow, green, blue and cyan, and the mark beside a command that failed
+ * or passed. Check 12 holds each to
  * its token, solid or at a ladder step, so an error is one colour from the
  * editor to the test explorer rather than whatever each surface's default was.
  */
@@ -1540,6 +1571,8 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'testing.message.error.badgeBackground',
     'testing.uncoveredBackground',
     'testing.uncoveredGutterBackground',
+    'terminal.ansiRed',
+    'terminalCommandDecoration.errorBackground',
   ],
   warning: [
     'editorWarning.foreground',
@@ -1558,6 +1591,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'editor.stackFrameHighlightBackground',
     'debugIcon.breakpointCurrentStackframeForeground',
     'testing.iconQueued',
+    'terminal.ansiYellow',
   ],
   info: [
     'editorInfo.foreground',
@@ -1571,8 +1605,9 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'debugConsole.infoForeground',
     'testing.messagePeekBorder',
     'editorLightBulbAutoFix.foreground',
+    'terminal.ansiBlue',
   ],
-  hint: ['editorHint.foreground', 'editorLightBulb.foreground', 'editorLightBulbAi.foreground'],
+  hint: ['editorHint.foreground', 'editorLightBulb.foreground', 'editorLightBulbAi.foreground', 'terminal.ansiCyan'],
   success: [
     'testing.iconPassed',
     'testing.runAction',
@@ -1582,6 +1617,9 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'editor.focusedStackFrameHighlightBackground',
     'debugIcon.breakpointStackframeForeground',
     'debugIcon.startForeground',
+    'terminal.ansiGreen',
+    'terminalCommandDecoration.successBackground',
+    'ports.iconRunningProcessForeground',
   ],
 };
 
@@ -1832,6 +1870,148 @@ const checkEditorIntelligence = (family: Family, tokens: Tokens, colours: Record
   for (const [first, second] of HIGHLIGHT_PAIRS) {
     const distance: number = deltaE(over(colours[first], editorGround), over(colours[second], editorGround));
     if (distance < STATE_FLOOR) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${STATE_FLOOR}`);
+  }
+  return problems;
+};
+
+/* -------------------------------------------------------------- *
+ * Terminal
+ * -------------------------------------------------------------- */
+
+/** The six ANSI colours that are hues, in the order a terminal numbers them. */
+const ANSI_HUES = ['Red', 'Green', 'Yellow', 'Blue', 'Magenta', 'Cyan'] as const;
+
+/** Every ANSI colour paired with its bright partner. */
+const ANSI_PAIRS: [normal: string, bright: string][] = [...ANSI_HUES, 'Black', 'White'].map((name: string): [string, string] => [
+  `terminal.ansi${name}`,
+  `terminal.ansiBright${name}`,
+]);
+
+/**
+ * VS Code's own terminal magenta. Red, yellow, green, blue and cyan are the
+ * diagnostics and check 12 holds them there; magenta is the one ANSI hue no
+ * signal stands for, so it is held to the colour it is named after instead.
+ */
+const ANSI_MAGENTA_REFERENCE = '#BC3FBC';
+
+/*
+ * How far two ANSI hues keep apart: SEPARATION degrees round the wheel, and 5
+ * ΔE as colours. The ΔE is low on purpose. Green and cyan are the strings and
+ * the types, pastels at one lightness told apart by hue alone, and they come
+ * out 6 ΔE apart in the code as in the terminal; the floor keeps them from
+ * becoming one colour, and the degrees keep them from becoming one hue.
+ */
+const ANSI_DISTANCE = 5;
+/** How far (ΔE) the marks beside a command keep apart: a few pixels each, told apart at a glance. */
+const DECORATION_DISTANCE = 15;
+/** How far a bright colour may turn from its normal partner, in degrees. */
+const ANSI_BRIGHT_DRIFT = 15;
+
+/** Highlights the terminal paints behind its output that appear together. */
+const TERMINAL_HIGHLIGHT_PAIRS: [string, string][] = [
+  ['terminal.findMatchBackground', 'terminal.findMatchHighlightBackground'],
+  ['terminal.findMatchBackground', 'terminal.selectionBackground'],
+  ['terminal.findMatchHighlightBackground', 'terminal.selectionBackground'],
+  ['terminal.selectionBackground', 'terminal.inactiveSelectionBackground'],
+];
+
+/** The marks beside a command, which have to be told from the ground and from each other. */
+const COMMAND_DECORATIONS = [
+  'terminalCommandDecoration.defaultBackground',
+  'terminalCommandDecoration.successBackground',
+  'terminalCommandDecoration.errorBackground',
+] as const;
+
+/*
+ * 14. The terminal is part of the theme, and its sixteen colours keep their names.
+ *
+ * Tools print errors in red, warnings in yellow and success in green whatever
+ * theme is on, so those three, blue and cyan are the diagnostics (check 12
+ * holds them to their tokens), and magenta lands within SIGNAL_TOLERANCE of
+ * VS Code's own. The six hues are told apart in each row, in degrees and as
+ * colours; each bright colour is its normal partner, lighter and within a few
+ * degrees. Every colour but black reads at AA on the terminal — bright black,
+ * the grey tools print what matters least in, at 3:1 — so VS Code's
+ * minimum-contrast correction never has to repaint one; each but bright black
+ * still reads at 3:1 under a selection, and white on black reads at AA where a
+ * program paints black as a ground. The cursor is
+ * the editor's, the block cursor's character reads on it, find and the
+ * selection are told apart, and the marks beside a command show on the ground
+ * and differ from each other.
+ */
+const checkTerminal = (family: Family, colours: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const terminalGround: string = colours['terminal.background'];
+  const onGround = (id: string): string => over(colours[id], terminalGround);
+
+  const magentaOff: number = Math.abs(signedHueDelta(oklchFromHex(ANSI_MAGENTA_REFERENCE).h, oklchFromHex(colours['terminal.ansiMagenta']).h));
+  if (magentaOff > SIGNAL_TOLERANCE) {
+    problems.push(`${family}: terminal.ansiMagenta is ${magentaOff.toFixed(0)}° from the magenta it is named for — the tolerance is ${SIGNAL_TOLERANCE}°`);
+  }
+
+  for (const prefix of ['terminal.ansi', 'terminal.ansiBright']) {
+    for (const [index, first] of ANSI_HUES.entries()) {
+      for (const second of ANSI_HUES.slice(index + 1)) {
+        const [firstId, secondId]: [string, string] = [prefix + first, prefix + second];
+        const distance: number = deltaE(colours[firstId], colours[secondId]);
+        if (distance < ANSI_DISTANCE) problems.push(`${family}: ${firstId} and ${secondId} are ${distance.toFixed(1)} ΔE apart, under ${ANSI_DISTANCE}`);
+        const degrees: number = Math.abs(signedHueDelta(oklchFromHex(colours[firstId]).h, oklchFromHex(colours[secondId]).h));
+        if (degrees < SEPARATION) problems.push(`${family}: ${firstId} and ${secondId} are ${degrees.toFixed(0)}° apart, under ${SEPARATION}°`);
+      }
+    }
+  }
+
+  for (const [normal, bright] of ANSI_PAIRS) {
+    const normalColour = oklchFromHex(colours[normal]);
+    const brightColour = oklchFromHex(colours[bright]);
+    if (brightColour.l <= normalColour.l) problems.push(`${family}: ${bright} is no lighter than ${normal}`);
+    // Black, white and bright black are greys, whose hue is noise.
+    if (normal.endsWith('Black') || normal.endsWith('White')) continue;
+    const drift: number = Math.abs(signedHueDelta(normalColour.h, brightColour.h));
+    if (drift > ANSI_BRIGHT_DRIFT) problems.push(`${family}: ${bright} turns ${drift.toFixed(0)}° from ${normal}, over ${ANSI_BRIGHT_DRIFT}°`);
+  }
+
+  const selection: string = onGround('terminal.selectionBackground');
+  for (const id of ANSI_PAIRS.flat().filter((id: string): boolean => id !== 'terminal.ansiBlack')) {
+    const recedes: boolean = id === 'terminal.ansiBrightBlack';
+    const onTerminal: number = contrastRatio(colours[id], terminalGround);
+    const floor: number = recedes ? AUXILIARY_FLOOR : 4.5;
+    if (onTerminal < floor) problems.push(`${family}: ${id} reads at ${onTerminal.toFixed(2)}:1 on the terminal, under ${floor}:1`);
+    // Bright black is the comment grey, which the editor does not hold to
+    // anything under a selection either.
+    if (recedes) continue;
+    const onSelection: number = contrastRatio(colours[id], selection);
+    if (onSelection < AUXILIARY_FLOOR) problems.push(`${family}: ${id} reads at ${onSelection.toFixed(2)}:1 under the selection, under ${AUXILIARY_FLOOR}:1`);
+  }
+  const whiteOnBlack: number = contrastRatio(colours['terminal.ansiWhite'], colours['terminal.ansiBlack']);
+  if (whiteOnBlack < 4.5) problems.push(`${family}: white on black reads at ${whiteOnBlack.toFixed(2)}:1, under AA`);
+
+  if (colours['terminalCursor.foreground'] !== colours['editorCursor.foreground']) {
+    problems.push(`${family}: the terminal cursor is ${colours['terminalCursor.foreground']}, not the editor's ${colours['editorCursor.foreground']}`);
+  }
+  const cursor: number = contrastRatio(colours['terminalCursor.foreground'], terminalGround);
+  if (cursor < 3) problems.push(`${family}: the terminal cursor reads at ${cursor.toFixed(2)}:1, under 3:1`);
+  const underCursor: number = contrastRatio(colours['terminalCursor.background'], colours['terminalCursor.foreground']);
+  if (underCursor < 4.5) problems.push(`${family}: the character under the block cursor reads at ${underCursor.toFixed(2)}:1, under AA`);
+
+  for (const [first, second] of TERMINAL_HIGHLIGHT_PAIRS) {
+    const distance: number = deltaE(onGround(first), onGround(second));
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${STATE_FLOOR}`);
+  }
+
+  for (const [index, id] of COMMAND_DECORATIONS.entries()) {
+    const ratio: number = contrastRatio(colours[id], terminalGround);
+    if (ratio < 3) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on the terminal, under 3:1`);
+    for (const other of COMMAND_DECORATIONS.slice(index + 1)) {
+      const distance: number = deltaE(colours[id], colours[other]);
+      if (distance < DECORATION_DISTANCE) problems.push(`${family}: ${id} and ${other} are ${distance.toFixed(1)} ΔE apart, under ${DECORATION_DISTANCE}`);
+    }
+  }
+
+  const suggestGround: string = over(colours['editorSuggestWidget.background'], terminalGround);
+  const inlineSuggestion: number = contrastRatio(colours['terminalSymbolIcon.inlineSuggestionForeground'], suggestGround);
+  if (inlineSuggestion < AUXILIARY_FLOOR) {
+    problems.push(`${family}: terminalSymbolIcon.inlineSuggestionForeground reads at ${inlineSuggestion.toFixed(2)}:1 in the suggest widget, under ${AUXILIARY_FLOOR}:1`);
   }
   return problems;
 };
@@ -2176,6 +2356,7 @@ function check(): string[] {
     problems.push(...checkStates(family, t, c));
     problems.push(...checkDiagnostics(family, t, c));
     problems.push(...checkEditorIntelligence(family, t, c));
+    problems.push(...checkTerminal(family, c));
   }
 
   /*

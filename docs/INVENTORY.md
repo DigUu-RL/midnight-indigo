@@ -7,7 +7,7 @@
 
 ## Reference
 
-- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 2 amendments below applied.
+- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 9 amendments below applied.
 - **VS Code colour reference:** [microsoft/vscode-docs@4f4413d](https://github.com/microsoft/vscode-docs/blob/4f4413d9a9d3f7e59284da7cdbb21bc3b9f65c48/api/references/theme-color.md) (2026-09-23), against the same page at VS Code 1.60 — the `engines` floor — at `d621fbe` (2021-09-02).
 - **Screenshot ref:** the README and PREVIEW.md load their images from `9c09bab` (`IMAGE_REF`).
 
@@ -19,13 +19,20 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 | --- | --- | --- | --- | --- |
 | `list.hoverBackground` | `#0B0716` | `#1C144066` | M3 | the row under the pointer was the ground of every floating list — the suggest widget, the quick pick, the code-action menu — and could not be seen there; it is now the focus ground as an overlay, which shows on every surface |
 | `list.inactiveSelectionBackground` | `#0B0716` | `#150F2C` | M3 | the selection of an unfocused list was the same colour as a hovered row; it now keeps the selection ground, and the focused list is told apart by its focus ring and brighter text |
+| `terminal.ansiRed` | `#FF6AC1` | `#F84A54` | M6 | the terminal's red was the keyword pink, so a failed build printed in the colour code is written in, and in other families in a violet; it is now the error, the colour of the squiggle |
+| `terminal.ansiBrightRed` | `#FF8FD1` | `#FF898B` | M6 | the same, lighter |
+| `terminal.ansiYellow` | `#D6E64B` | `#ECC400` | M6 | the terminal's yellow was the interface lime, and in the red family a green; it is now the warning |
+| `terminal.ansiBrightYellow` | `#E8F080` | `#FFDF7B` | M6 | the same, lighter |
+| `terminal.ansiMagenta` | `#C2185B` | `#FF6AC1` | M6 | the type-parameter crimson was a second red beside the new one, and at 3.5:1 under AA; the keyword pink that red gave up is the magenta instead |
+| `terminal.ansiBrightMagenta` | `#E0508F` | `#FF8FD1` | M6 | the same, lighter: the pink that was bright red |
+| `terminal.ansiBrightBlack` | `#4B4370` | `#6A6390` | M6 | the grey tools print hints and dimmed output in was the line-number grey at 2.3:1; it is now the comment grey, which recedes the same way and can be read |
 
 ## What the extension contains
 
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 673 |
+| Workbench colours, per theme | 697 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -41,7 +48,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **673 of the 971** colour IDs VS Code documents (69.3%). **420** of those IDs were added after VS Code 1.60, and the theme sets 211 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **697 of the 971** colour IDs VS Code documents (71.8%). **420** of those IDs were added after VS Code 1.60, and the theme sets 228 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -51,7 +58,7 @@ The theme sets **673 of the 971** colour IDs VS Code documents (69.3%). **420** 
 | M2 Workbench | 341 | 41 | 382 | 89.3% | 14 |
 | M4 Diagnostics, debug and testing | 102 | 10 | 112 | 91.1% | 0 |
 | M5 Editor intelligence | 153 | 19 | 172 | 89.0% | 7 |
-| M6 Terminal | 18 | 0 | 62 | 29.0% | 37 |
+| M6 Terminal | 42 | 20 | 62 | 67.7% | 20 |
 | M7 Diff, merge and Git | 9 | 0 | 94 | 9.6% | 58 |
 | M8 Chat and agents | 0 | 0 | 88 | 0.0% | 88 |
 | M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
@@ -104,7 +111,7 @@ The sections are the colour reference's own.
 | Quick picker colors | M2 | 7 | 8 | 0 |
 | Keybinding label colors | M2 | 4 | 4 | 0 |
 | Keyboard shortcut table colors | M2 | 2 | 2 | 0 |
-| Integrated Terminal colors | M6 | 18 | 61 | 37 |
+| Integrated Terminal colors | M6 | 41 | 61 | 20 |
 | Debug colors | M4 | 18 | 18 | 0 |
 | Testing colors | M4 | 31 | 32 | 0 |
 | Welcome page colors | M2 | 7 | 8 | 0 |
@@ -117,7 +124,7 @@ The sections are the colour reference's own.
 | Debug Icons colors | M4 | 20 | 20 | 0 |
 | Notebook colors | M2 | 19 | 24 | 1 |
 | Chart colors | M1 | 11 | 11 | 0 |
-| Ports colors | M6 | 0 | 1 | 0 |
+| Ports colors | M6 | 1 | 1 | 0 |
 | Comments View colors | M7 | 0 | 2 | 2 |
 | Action Bar colors | M2 | 1 | 1 | 0 |
 | Simple Find Widget colors | M2 | 1 | 1 | 0 |
@@ -200,6 +207,26 @@ None.
 | `menubar.selectionBorder` | M2 | the same, for the menu bar entry under the pointer |
 | `menu.selectionBorder` | M2 | the same, for the menu item under the pointer |
 | `quickInputList.focusIconForeground` | M2 | the same, for the focused row of the quick pick |
+| `terminal.selectionForeground` | M6 | repaints selected output in one colour, which throws away the ANSI colours inside every selection — the same reason as the editor's |
+| `terminal.findMatchHighlightBorder` | M6 | the fill already marks the other matches; only the current one carries a rim, as in the editor |
+| `terminalSymbolIcon.aliasForeground` | M6 | follows `symbolIcon.methodForeground`: an alias runs a command, and is drawn in the function colour |
+| `terminalSymbolIcon.branchForeground` | M6 | follows `symbolIcon.fileForeground`: Git refs are names, not code, and read as secondary text, told apart by their icons |
+| `terminalSymbolIcon.commitForeground` | M6 | the same, for a commit |
+| `terminalSymbolIcon.flagForeground` | M6 | follows `symbolIcon.enumeratorForeground`: a flag is one of a fixed set, drawn in the interface and enum colour |
+| `terminalSymbolIcon.optionForeground` | M6 | the same, for an option |
+| `terminalSymbolIcon.optionValueForeground` | M6 | follows `symbolIcon.enumeratorMemberForeground`: an option's value is a member of its set |
+| `terminalSymbolIcon.methodForeground` | M6 | follows `symbolIcon.methodForeground`, the function colour |
+| `terminalSymbolIcon.argumentForeground` | M6 | follows `symbolIcon.variableForeground`, the variable colour |
+| `terminalSymbolIcon.fileForeground` | M6 | follows `symbolIcon.fileForeground`, the secondary text colour, as files are in the suggest list |
+| `terminalSymbolIcon.folderForeground` | M6 | follows `symbolIcon.folderForeground`, the same |
+| `terminalSymbolIcon.pullRequestDoneForeground` | M6 | the same, for a merged pull request |
+| `terminalSymbolIcon.pullRequestForeground` | M6 | the same, for a pull request |
+| `terminalSymbolIcon.remoteForeground` | M6 | the same, for a remote |
+| `terminalSymbolIcon.stashForeground` | M6 | the same, for a stash |
+| `terminalSymbolIcon.symbolText` | M6 | follows `symbolIcon.fileForeground`: plain completions are secondary text |
+| `terminalSymbolIcon.symbolicLinkFileForeground` | M6 | follows `symbolIcon.fileForeground` |
+| `terminalSymbolIcon.symbolicLinkFolderForeground` | M6 | follows `symbolIcon.folderForeground` |
+| `terminalSymbolIcon.tagForeground` | M6 | the same, for a tag |
 | `testing.message.info.lineBackground` | M4 | an info message is inline text after the line; a band behind the line as well would mark every logged line of a run |
 | `welcomePage.background` | M2 | the welcome page is an editor and takes the editor ground |
 | `editor.snippetTabstopHighlightBorder` | M5 | the fill marks the tab stop being edited; a border boxes it |
@@ -400,54 +427,6 @@ None.
 
 </details>
 
-<details><summary>Integrated Terminal colors — 43 unset</summary>
-
-- `terminal.border` (M6)
-- `terminal.selectionBackground` (M6)
-- `terminal.selectionForeground` † (M6)
-- `terminal.inactiveSelectionBackground` † (M6)
-- `terminal.findMatchBackground` † (M6)
-- `terminal.findMatchBorder` † (M6)
-- `terminal.findMatchHighlightBackground` † (M6)
-- `terminal.findMatchHighlightBorder` † (M6)
-- `terminal.hoverHighlightBackground` † (M6)
-- `terminalCursor.background` (M6)
-- `terminalCursor.foreground` (M6)
-- `terminal.dropBackground` (M6)
-- `terminal.tab.activeBorder` (M6)
-- `terminalCommandDecoration.defaultBackground` † (M6)
-- `terminalCommandDecoration.successBackground` † (M6)
-- `terminalCommandDecoration.errorBackground` † (M6)
-- `terminalOverviewRuler.cursorForeground` † (M6)
-- `terminalOverviewRuler.findMatchForeground` † (M6)
-- `terminalStickyScroll.background` † (M6)
-- `terminalStickyScroll.border` † (M6)
-- `terminalStickyScrollHover.background` † (M6)
-- `terminal.initialHintForeground` † (M6)
-- `terminalOverviewRuler.border` † (M6)
-- `terminalCommandGuide.foreground` † (M6)
-- `terminalSymbolIcon.aliasForeground` † (M6)
-- `terminalSymbolIcon.branchForeground` † (M6)
-- `terminalSymbolIcon.commitForeground` † (M6)
-- `terminalSymbolIcon.flagForeground` † (M6)
-- `terminalSymbolIcon.optionForeground` † (M6)
-- `terminalSymbolIcon.optionValueForeground` † (M6)
-- `terminalSymbolIcon.methodForeground` † (M6)
-- `terminalSymbolIcon.argumentForeground` † (M6)
-- `terminalSymbolIcon.inlineSuggestionForeground` † (M6)
-- `terminalSymbolIcon.fileForeground` † (M6)
-- `terminalSymbolIcon.folderForeground` † (M6)
-- `terminalSymbolIcon.pullRequestDoneForeground` † (M6)
-- `terminalSymbolIcon.pullRequestForeground` † (M6)
-- `terminalSymbolIcon.remoteForeground` † (M6)
-- `terminalSymbolIcon.stashForeground` † (M6)
-- `terminalSymbolIcon.symbolText` † (M6)
-- `terminalSymbolIcon.symbolicLinkFileForeground` † (M6)
-- `terminalSymbolIcon.symbolicLinkFolderForeground` † (M6)
-- `terminalSymbolIcon.tagForeground` † (M6)
-
-</details>
-
 <details><summary>Git colors — 7 unset</summary>
 
 - `gitDecoration.renamedResourceForeground` (M7)
@@ -475,12 +454,6 @@ None.
 - `scmGraph.historyItemBaseRefColor` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelForeground` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelBackground` † (M7)
-
-</details>
-
-<details><summary>Ports colors — 1 unset</summary>
-
-- `ports.iconRunningProcessForeground` (M6)
 
 </details>
 

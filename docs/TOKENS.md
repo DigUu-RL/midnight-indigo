@@ -197,38 +197,38 @@ What each state looks like and which channel carries it. The build measures ever
 | Token | Role |
 | --- | --- |
 | `ansi.black` | The terminal's black: a step above the ground, so it is visible as a background. |
-| `ansi.red` | Terminal red: the keyword colour. |
-| `ansi.green` | Terminal green: the string colour. |
-| `ansi.yellow` | Terminal yellow: the interface colour. |
-| `ansi.blue` | Terminal blue: the function colour. |
-| `ansi.magenta` | Terminal magenta: the type-parameter colour. |
-| `ansi.cyan` | Terminal cyan: the type colour. |
+| `ansi.red` | Terminal red: the error. A failed build prints in the colour the squiggle is drawn in, never in a syntax ink. |
+| `ansi.green` | Terminal green: the success ink, which is the string colour. |
+| `ansi.yellow` | Terminal yellow: the warning. |
+| `ansi.blue` | Terminal blue: the info ink, which is the function colour. |
+| `ansi.magenta` | Terminal magenta: the keywords, where the family draws them magenta or violet; the family names another pair where they are a red. |
+| `ansi.cyan` | Terminal cyan: the hint ink, which is the type colour. |
 | `ansi.white` | Terminal white: body text. |
-| `ansi.brightBlack` | Terminal bright black: line-number grey. |
-| `ansi.brightRed` | Terminal bright red: the keyword colour, lighter. |
-| `ansi.brightGreen` | Terminal bright green: the string colour, lighter. |
-| `ansi.brightYellow` | Terminal bright yellow: the interface colour, lighter. |
-| `ansi.brightBlue` | Terminal bright blue: the function colour, lighter. |
-| `ansi.brightMagenta` | Terminal bright magenta: the type-parameter colour, lighter. |
-| `ansi.brightCyan` | Terminal bright cyan: the type colour, lighter. |
+| `ansi.brightBlack` | Terminal bright black, the grey command-line tools print what matters least in: the comment grey. |
+| `ansi.brightRed` | Terminal bright red: the error, lighter. |
+| `ansi.brightGreen` | Terminal bright green: the success ink, lighter. |
+| `ansi.brightYellow` | Terminal bright yellow: the warning, lighter. |
+| `ansi.brightBlue` | Terminal bright blue: the info ink, lighter. |
+| `ansi.brightMagenta` | Terminal bright magenta: the magenta, lighter. |
+| `ansi.brightCyan` | Terminal bright cyan: the hint ink, lighter. |
 | `ansi.brightWhite` | Terminal bright white: the theme's whitest text. |
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `black` | `#050310` | `#09020C` | `#0C0206` | `#0C0302` | `#0A0300` | `#000701` | `#000707` | `#010512` |
-| `red` | `#FF6AC1` | `#FF7988` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
+| `red` | `#F84A54` | `#FB4F43` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
 | `green` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `yellow` | `#D6E64B` | `#E7E345` | `#A4EA62` | `#93E780` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
+| `yellow` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
 | `blue` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `magenta` | `#C2185B` | `#B8247C` | `#AA28A4` | `#7F49C5` | `#6652D4` | `#7142E2` | `#7944D6` | `#B22490` |
+| `magenta` | `#FF6AC1` | `#C87EDE` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
 | `cyan` | `#64D8CB` | `#62D6DC` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
 | `white` | `#9993B8` | `#A88EAC` | `#B28C9C` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
-| `brightBlack` | `#4B4370` | `#5C3E62` | `#673B4F` | `#693D38` | `#634328` | `#275734` | `#00565A` | `#314B73` |
-| `brightRed` | `#FF8FD1` | `#FF99A4` | `#C6A7FF` | `#F296DF` | `#DC9CFC` | `#EF90F9` | `#FF8ED5` | `#D3A1FF` |
+| `brightBlack` | `#6A6390` | `#7C5D82` | `#875B6F` | `#8C5F59` | `#8D6D53` | `#4E7B59` | `#24777C` | `#516B93` |
+| `brightRed` | `#FF898B` | `#FF8D84` | `#FF898B` | `#FF8B87` | `#FF898B` | `#FF898B` | `#FF888D` | `#FF8B87` |
 | `brightGreen` | `#A6E6B4` | `#B1E8B1` | `#8DE3BE` | `#91E0C4` | `#A7E5B6` | `#D0EE9F` | `#C0EBA9` | `#AAE7B2` |
-| `brightYellow` | `#E8F080` | `#F5EE7E` | `#C2F389` | `#B4F09D` | `#DEF18A` | `#FFD8B7` | `#FFE7A9` | `#F6EE79` |
+| `brightYellow` | `#FFDF7B` | `#FFDE87` | `#ECE766` | `#ECE766` | `#FFDF7B` | `#FFDC90` | `#ECE766` | `#FFD99B` |
 | `brightBlue` | `#8FCBFF` | `#9EC7FF` | `#83CEFE` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
-| `brightMagenta` | `#E0508F` | `#D357AD` | `#C15BD4` | `#9075EC` | `#727EF7` | `#7C77FF` | `#8773FC` | `#CB58C1` |
+| `brightMagenta` | `#FF8FD1` | `#DB90D5` | `#C6A7FF` | `#F296DF` | `#DC9CFC` | `#EF90F9` | `#FF8ED5` | `#D3A1FF` |
 | `brightCyan` | `#8FEDE0` | `#8DEBEF` | `#86ECF3` | `#93EAF2` | `#92ECE4` | `#7FEEED` | `#9BF1CE` | `#91EEDA` |
 | `brightWhite` | `#EDEAF7` | `#F2E8F2` | `#F6E8EC` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
 
