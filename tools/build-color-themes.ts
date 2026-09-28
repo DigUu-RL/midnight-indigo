@@ -95,11 +95,65 @@ type Theme = {
   semanticTokenColors: Record<string, unknown>;
 };
 
+/*
+ * The symbol icons — suggest list, outline, breadcrumbs, the symbol picker —
+ * are the syntax inks the same symbols are written in (check 13 holds them
+ * to it). What the code does not colour — namespaces, objects — is body
+ * text, and what is not code at all — files, words, snippets — is secondary.
+ */
+export const symbolInksFor = ({ syntax, text }: Tokens): Record<string, string> => ({
+  class: syntax.type,
+  struct: syntax.type,
+  interface: syntax.interface,
+  enumerator: syntax.interface,
+  enumeratorMember: syntax.enumMember,
+  constant: syntax.enumMember,
+  typeParameter: syntax.generic,
+  function: syntax.function,
+  method: syntax.function,
+  constructor: syntax.function,
+  event: syntax.function,
+  property: syntax.property,
+  field: syntax.property,
+  key: syntax.property,
+  variable: syntax.variable,
+  string: syntax.string,
+  number: syntax.number,
+  unit: syntax.number,
+  boolean: syntax.keyword,
+  null: syntax.keyword,
+  keyword: syntax.keyword,
+  operator: syntax.operator,
+  namespace: text.normal,
+  module: text.normal,
+  package: text.normal,
+  object: text.normal,
+  array: text.normal,
+  reference: text.secondary,
+  color: text.secondary,
+  file: text.secondary,
+  folder: text.secondary,
+  text: text.secondary,
+  snippet: text.secondary,
+});
+
 function themeFor(family: Family, t: Tokens): Theme {
   const { surface: s, text: x, link, accent: a, syntax: k, state: st, chart, ansi } = t;
 
   /** A row under the pointer: the focus ground at `soft` (STATES.hover). */
   const rowHover: string = overlay(s.surfaceFocus, 'soft');
+
+  /** An inlay hint's chip: the focus ground at `faint`, under muted text, so a hint sits beneath the code it annotates. */
+  const inlayChip: string = overlay(s.surfaceFocus, 'faint');
+
+  /*
+   * Bracket pairs, by depth. The first four are the shipped ones; five and six
+   * take the type and number inks, the two left that are neither the brackets'
+   * own keyword colour nor a signal. The pair guides are the same inks as
+   * lines: at rest, and stronger for the pair the cursor is in.
+   */
+  const bracketInks: string[] = [k.keyword, k.function, k.interface, k.generic, k.type, k.number];
+
 
   const colors = {
     focusBorder: st.focus,
@@ -156,22 +210,90 @@ function themeFor(family: Family, t: Tokens): Theme {
     'editor.wordHighlightStrongBackground': overlay(s.surfaceSelected, 'strong'),
     'editor.findMatchBackground': overlay(a.base, 'soft'),
     'editor.findMatchHighlightBackground': derive.rest(a.muted),
+    'editor.findMatchBorder': a.base,
+    'editor.findRangeHighlightBackground': overlay(s.surfaceFocus, 'wash'),
+    'editor.wordHighlightTextBackground': overlay(s.surfaceFocus, 'soft'),
+    'editor.hoverHighlightBackground': overlay(s.surfaceFocus, 'soft'),
+    'editor.rangeHighlightBackground': overlay(s.surfaceFocus, 'faint'),
+    'editor.symbolHighlightBackground': overlay(a.base, 'soft'),
+    'editor.linkedEditingBackground': overlay(st.active, 'tint'),
+    'editor.snippetTabstopHighlightBackground': derive.rest(s.surfaceSelected),
+    'editor.snippetFinalTabstopHighlightBorder': s.borderStrong,
+    'editor.foldBackground': overlay(s.surfaceSelected, 'tint'),
+    'editor.foldPlaceholderForeground': x.muted,
+    'editorLink.activeForeground': link.active,
+    'editorUnicodeHighlight.border': st.warning,
+    'search.resultsInfoForeground': x.secondary,
+    'searchEditor.findMatchBackground': derive.rest(a.muted),
+    'searchEditor.textInputBorder': s.borderStrong,
+    'editorInlayHint.foreground': x.muted,
+    'editorInlayHint.background': inlayChip,
+    'editorInlayHint.typeForeground': x.muted,
+    'editorInlayHint.typeBackground': inlayChip,
+    'editorInlayHint.parameterForeground': x.muted,
+    'editorInlayHint.parameterBackground': inlayChip,
+    'editorGhostText.foreground': x.muted,
+    'editorIndentGuide.background': s.border,
     'editorIndentGuide.background1': s.border,
+    'editorIndentGuide.background2': s.border,
+    'editorIndentGuide.background3': s.border,
+    'editorIndentGuide.background4': s.border,
+    'editorIndentGuide.background5': s.border,
+    'editorIndentGuide.background6': s.border,
+    'editorIndentGuide.activeBackground': a.muted,
     'editorIndentGuide.activeBackground1': a.muted,
+    'editorIndentGuide.activeBackground2': a.muted,
+    'editorIndentGuide.activeBackground3': a.muted,
+    'editorIndentGuide.activeBackground4': a.muted,
+    'editorIndentGuide.activeBackground5': a.muted,
+    'editorIndentGuide.activeBackground6': a.muted,
     'editorWhitespace.foreground': x.ghost,
     'editorRuler.foreground': s.border,
     'editorBracketMatch.background': derive.rest(s.surfaceSelected),
     'editorBracketMatch.border': st.focus,
-    'editorBracketHighlight.foreground1': k.keyword,
-    'editorBracketHighlight.foreground2': k.function,
-    'editorBracketHighlight.foreground3': k.interface,
-    'editorBracketHighlight.foreground4': k.generic,
+    'editorBracketHighlight.foreground1': bracketInks[0],
+    'editorBracketHighlight.foreground2': bracketInks[1],
+    'editorBracketHighlight.foreground3': bracketInks[2],
+    'editorBracketHighlight.foreground4': bracketInks[3],
+    'editorBracketHighlight.foreground5': bracketInks[4],
+    'editorBracketHighlight.foreground6': bracketInks[5],
     'editorBracketHighlight.unexpectedBracket.foreground': k.operator,
+    ...Object.fromEntries(
+      bracketInks.flatMap((ink: string, index: number): [string, string][] => [
+        [`editorBracketPairGuide.background${index + 1}`, derive.rest(ink)],
+        [`editorBracketPairGuide.activeBackground${index + 1}`, derive.inactive(ink)],
+      ])
+    ),
     'editorGutter.background': s.background,
+    'editorGutter.foldingControlForeground': x.faint,
+    'editorGutter.itemGlyphForeground': x.faint,
+    'editorGutter.itemBackground': s.background,
     'editorGutter.modifiedBackground': st.modified,
     'editorGutter.addedBackground': st.added,
     'editorGutter.deletedBackground': st.deleted,
     'editorOverviewRuler.border': s.frame,
+    'editorOverviewRuler.findMatchForeground': derive.inactive(a.base),
+    'editorOverviewRuler.rangeHighlightForeground': derive.rest(a.base),
+    'editorOverviewRuler.selectionHighlightForeground': s.borderStrong,
+    'editorOverviewRuler.wordHighlightForeground': s.borderStrong,
+    'editorOverviewRuler.wordHighlightStrongForeground': x.faint,
+    'editorOverviewRuler.wordHighlightTextForeground': s.borderStrong,
+    'editorOverviewRuler.bracketMatchForeground': x.faint,
+    'minimap.background': s.background,
+    'minimap.selectionHighlight': s.surfaceSelected,
+    'minimap.findMatchHighlight': a.base,
+    'minimap.selectionOccurrenceHighlight': s.borderStrong,
+    'minimapSlider.background': derive.rest(a.muted),
+    'minimapSlider.hoverBackground': derive.hover(a.muted),
+    'minimapSlider.activeBackground': derive.active(a.base),
+    'editorStickyScroll.background': s.surfaceRaised,
+    'editorStickyScrollGutter.background': s.surfaceRaised,
+    'editorStickyScrollHover.background': rowHover,
+    'editorStickyScroll.shadow': s.frame,
+    'editorStickyScroll.border': s.border,
+    'editorLightBulb.foreground': st.hint,
+    'editorLightBulbAutoFix.foreground': st.info,
+    'editorLightBulbAi.foreground': st.hint,
     'editorCodeLens.foreground': x.muted,
     'editorWidget.background': s.surfaceRaised,
     'editorWidget.border': a.muted,
@@ -181,6 +303,15 @@ function themeFor(family: Family, t: Tokens): Theme {
     'editorSuggestWidget.border': s.borderStrong,
     'editorSuggestWidget.selectedBackground': s.surfaceFocus,
     'editorSuggestWidget.highlightForeground': k.keyword,
+    'editorSuggestWidget.foreground': x.normal,
+    'editorSuggestWidget.selectedForeground': x.bright,
+    'editorSuggestWidget.selectedIconForeground': x.bright,
+    'editorSuggestWidget.focusHighlightForeground': k.keyword,
+    'editorSuggestWidgetStatus.foreground': x.secondary,
+    'editorHoverWidget.foreground': x.normal,
+    'editorHoverWidget.highlightForeground': k.keyword,
+    'editorHoverWidget.statusBarBackground': s.border,
+    ...Object.fromEntries(Object.entries(symbolInksFor(t)).map(([symbol, ink]): [string, string] => [`symbolIcon.${symbol}Foreground`, ink])),
     'editorWidget.foreground': x.normal,
     'editorActionList.background': s.surfaceRaised,
     'editorActionList.foreground': x.normal,
@@ -535,6 +666,18 @@ function themeFor(family: Family, t: Tokens): Theme {
     'peekViewEditor.background': s.background,
     'peekViewResult.background': s.surface,
     'peekView.border': a.muted,
+    'peekViewTitle.background': s.surfaceRaised,
+    'peekViewTitleLabel.foreground': x.bright,
+    'peekViewTitleDescription.foreground': x.secondary,
+    'peekViewEditorGutter.background': s.background,
+    'peekViewEditor.matchHighlightBackground': overlay(a.base, 'soft'),
+    'peekViewEditorStickyScroll.background': s.surfaceRaised,
+    'peekViewEditorStickyScrollGutter.background': s.surfaceRaised,
+    'peekViewResult.fileForeground': x.normal,
+    'peekViewResult.lineForeground': x.secondary,
+    'peekViewResult.matchHighlightBackground': derive.rest(a.muted),
+    'peekViewResult.selectionBackground': s.border,
+    'peekViewResult.selectionForeground': x.bright,
     'editorError.foreground': st.error,
     'editorWarning.foreground': st.warning,
     'editorInfo.foreground': st.info,
@@ -1224,6 +1367,19 @@ const CONTROLS: Control[] = [
     accent: true,
   },
   {
+    name: 'minimap slider',
+    ground: 'minimap.background',
+    rest: 'minimapSlider.background',
+    states: { hover: 'minimapSlider.hoverBackground', active: 'minimapSlider.activeBackground' },
+    accent: true,
+  },
+  {
+    // The hovered line is painted over the sticky widget, not the editor.
+    name: 'sticky scroll line',
+    ground: 'editorStickyScroll.background',
+    states: { hover: 'editorStickyScrollHover.background' },
+  },
+  {
     name: 'notebook cell',
     ground: 'notebook.editorBackground',
     states: { focus: 'notebook.editorBackground', selected: 'notebook.selectedCellBackground' },
@@ -1398,6 +1554,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'statusBarItem.warningBackground',
     'gauge.warningForeground',
     'debugConsole.warningForeground',
+    'editorUnicodeHighlight.border',
     'editor.stackFrameHighlightBackground',
     'debugIcon.breakpointCurrentStackframeForeground',
     'testing.iconQueued',
@@ -1413,8 +1570,9 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'banner.iconForeground',
     'debugConsole.infoForeground',
     'testing.messagePeekBorder',
+    'editorLightBulbAutoFix.foreground',
   ],
-  hint: ['editorHint.foreground'],
+  hint: ['editorHint.foreground', 'editorLightBulb.foreground', 'editorLightBulbAi.foreground'],
   success: [
     'testing.iconPassed',
     'testing.runAction',
@@ -1527,6 +1685,153 @@ const checkDiagnostics = (family: Family, tokens: Tokens, colours: Record<string
     if (uncovered <= covered) {
       problems.push(`${family}: testing.uncovered${part} (${uncovered.toFixed(1)} ΔE) is no heavier than testing.covered${part} (${covered.toFixed(1)})`);
     }
+  }
+  return problems;
+};
+
+/* -------------------------------------------------------------- *
+ * Editor intelligence
+ * -------------------------------------------------------------- */
+
+/** The symbol icons whose symbol the code also colours, and the semantic rule it is coloured by. */
+const SYMBOL_SEMANTICS: Record<string, string> = {
+  class: 'class',
+  struct: 'struct',
+  interface: 'interface',
+  enumerator: 'enum',
+  enumeratorMember: 'enumMember',
+  typeParameter: 'typeParameter',
+  function: 'function',
+  method: 'method',
+  property: 'property',
+  variable: 'variable:typescript',
+  namespace: 'namespace',
+  operator: 'operator',
+  keyword: 'keyword',
+};
+
+/*
+ * Grounds a symbol icon keeps its colour on, each over the ground under it. A
+ * focused or selected row is not one: VS Code repaints its icon in the row's
+ * text colour, in the suggest list, the outline and the pickers alike.
+ */
+const SYMBOL_GROUNDS: [id: string, under: string][] = [
+  ['editorSuggestWidget.background', 'editorSuggestWidget.background'],
+  ['sideBar.background', 'sideBar.background'],
+  ['quickInput.background', 'quickInput.background'],
+  ['breadcrumb.background', 'breadcrumb.background'],
+  ['breadcrumbPicker.background', 'breadcrumbPicker.background'],
+];
+
+/*
+ * Everything the editor paints behind code to point at it — the selection and
+ * its echoes, find, the word under the cursor, a revealed range, a snippet's
+ * stop, a folded line, linked editing. Code has to stay legible on each, and
+ * each has to show against the editor.
+ */
+const EDITOR_HIGHLIGHTS = [
+  'editor.selectionBackground',
+  'editor.selectionHighlightBackground',
+  'editor.wordHighlightBackground',
+  'editor.wordHighlightStrongBackground',
+  'editor.wordHighlightTextBackground',
+  'editor.hoverHighlightBackground',
+  'editor.findMatchBackground',
+  'editor.findMatchHighlightBackground',
+  'editor.findRangeHighlightBackground',
+  'editor.rangeHighlightBackground',
+  'editor.symbolHighlightBackground',
+  'editor.linkedEditingBackground',
+  'editor.snippetTabstopHighlightBackground',
+  'editor.foldBackground',
+  'editorBracketMatch.background',
+  'peekViewEditor.matchHighlightBackground',
+] as const;
+
+/** Highlights that appear together and have to be told apart where they do. */
+const HIGHLIGHT_PAIRS: [string, string][] = [
+  ['editor.findMatchBackground', 'editor.findMatchHighlightBackground'],
+  ['editor.findMatchBackground', 'editor.selectionBackground'],
+  ['editor.wordHighlightBackground', 'editor.wordHighlightStrongBackground'],
+  ['editor.selectionBackground', 'editor.selectionHighlightBackground'],
+  ['editor.selectionBackground', 'editor.wordHighlightBackground'],
+  ['editor.findMatchHighlightBackground', 'editor.findRangeHighlightBackground'],
+];
+
+/** The inlay-hint pairs: each foreground on its chip. */
+const INLAY_HINTS: [foreground: string, background: string][] = [
+  ['editorInlayHint.foreground', 'editorInlayHint.background'],
+  ['editorInlayHint.typeForeground', 'editorInlayHint.typeBackground'],
+  ['editorInlayHint.parameterForeground', 'editorInlayHint.parameterBackground'],
+];
+
+/** The floor at which auxiliary text still reads: WCAG's 3:1 for large or incidental text. */
+const AUXILIARY_FLOOR = 3;
+
+/*
+ * 13. Auxiliary information is secondary, and never disappears.
+ *
+ * Symbol icons are the syntax inks of the symbols they stand for — a class is
+ * the class colour in the suggest list, the outline, the breadcrumbs and the
+ * symbol picker — and each reads at 3:1 on every ground it keeps its colour
+ * on. Inlay hints sit below the code: their text
+ * reads at 3:1 on the chip, on the editor and on the cursor's line, and never
+ * as strongly as body text does. Every highlight the editor paints behind code
+ * keeps each code ink at AA and shows against the editor, and the highlights
+ * that meet — the current match among the others, the selection among its
+ * echoes — are told apart.
+ */
+const checkEditorIntelligence = (family: Family, tokens: Tokens, colours: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const editorGround: string = tokens.surface.background;
+  const semantic = themeFor(family, tokens).semanticTokenColors as Record<string, { foreground?: string }>;
+  const composite = (id: string, under: string): string => over(colours[id], over(colours[under], editorGround));
+
+  for (const [symbol, ink] of Object.entries(symbolInksFor(tokens))) {
+    const id = `symbolIcon.${symbol}Foreground`;
+    if (colours[id] !== ink) problems.push(`${family}: ${id} is ${colours[id]}, not ${ink}`);
+    for (const [groundId, under] of SYMBOL_GROUNDS) {
+      const ratio: number = contrastRatio(ink, composite(groundId, under));
+      if (ratio < AUXILIARY_FLOOR) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on ${groundId}, under ${AUXILIARY_FLOOR}:1`);
+    }
+  }
+  for (const [symbol, rule] of Object.entries(SYMBOL_SEMANTICS)) {
+    const written: string | undefined = semantic[rule]?.foreground;
+    const drawn: string = colours[`symbolIcon.${symbol}Foreground`];
+    if (written !== drawn) problems.push(`${family}: the ${symbol} icon is ${drawn}, but a ${symbol} is written in ${written}`);
+  }
+
+  const bodyText: number = contrastRatio(tokens.text.normal, editorGround);
+  const currentLine: string = over(colours['editor.lineHighlightBackground'], editorGround);
+  for (const [foreground, background] of INLAY_HINTS) {
+    for (const [groundName, ground] of [['editor', editorGround], ['current line', currentLine]]) {
+      const chip: string = over(colours[background], ground);
+      const ratio: number = contrastRatio(over(colours[foreground], chip), chip);
+      if (ratio < AUXILIARY_FLOOR) problems.push(`${family}: ${foreground} reads at ${ratio.toFixed(2)}:1 on its chip over the ${groundName}, under ${AUXILIARY_FLOOR}:1`);
+      if (ratio >= bodyText) problems.push(`${family}: ${foreground} reads as strongly as body text (${ratio.toFixed(2)}:1), so a hint is not beneath the code`);
+    }
+  }
+
+  const readInks: [string, string][] = [
+    ...CODE_INKS.filter((ink) => ink !== 'generic').map((ink): [string, string] => [ink, tokens.syntax[ink]]),
+    ['foreground', tokens.text.normal],
+  ];
+  for (const id of EDITOR_HIGHLIGHTS) {
+    if (!colours[id]) {
+      problems.push(`${family}: ${id} is not set`);
+      continue;
+    }
+    const highlight: string = over(colours[id], editorGround);
+    for (const [inkName, ink] of readInks) {
+      const ratio: number = contrastRatio(ink, highlight);
+      if (ratio < 4.5) problems.push(`${family}: ${inkName} reads at ${ratio.toFixed(2)}:1 on ${id}, under AA`);
+    }
+    const distance: number = deltaE(highlight, editorGround);
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${id} is ${distance.toFixed(1)} ΔE from the editor, under ${STATE_FLOOR}`);
+  }
+  for (const [first, second] of HIGHLIGHT_PAIRS) {
+    const distance: number = deltaE(over(colours[first], editorGround), over(colours[second], editorGround));
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${STATE_FLOOR}`);
   }
   return problems;
 };
@@ -1870,6 +2175,7 @@ function check(): string[] {
 
     problems.push(...checkStates(family, t, c));
     problems.push(...checkDiagnostics(family, t, c));
+    problems.push(...checkEditorIntelligence(family, t, c));
   }
 
   /*

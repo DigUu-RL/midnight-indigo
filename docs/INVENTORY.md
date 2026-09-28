@@ -25,7 +25,7 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 546 |
+| Workbench colours, per theme | 673 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -41,7 +41,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **546 of the 971** colour IDs VS Code documents (56.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 167 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **673 of the 971** colour IDs VS Code documents (69.3%). **420** of those IDs were added after VS Code 1.60, and the theme sets 211 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -50,10 +50,10 @@ The theme sets **546 of the 971** colour IDs VS Code documents (56.2%). **420** 
 | M1 Tokens and surfaces | 50 | 6 | 56 | 89.3% | 0 |
 | M2 Workbench | 341 | 41 | 382 | 89.3% | 14 |
 | M4 Diagnostics, debug and testing | 102 | 10 | 112 | 91.1% | 0 |
-| M5 Editor intelligence | 26 | 0 | 174 | 14.9% | 53 |
+| M5 Editor intelligence | 153 | 19 | 172 | 89.0% | 7 |
 | M6 Terminal | 18 | 0 | 62 | 29.0% | 37 |
 | M7 Diff, merge and Git | 9 | 0 | 94 | 9.6% | 58 |
-| M8 Chat and agents | 0 | 0 | 86 | 0.0% | 86 |
+| M8 Chat and agents | 0 | 0 | 88 | 0.0% | 88 |
 | M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
 
 "Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.
@@ -82,16 +82,16 @@ The sections are the colour reference's own.
 | Activity Bar | M2 | 16 | 20 | 2 |
 | Profiles | M2 | 3 | 3 | 0 |
 | Side Bar | M2 | 12 | 14 | 2 |
-| Minimap | M4, M5, M7 | 3 | 16 | 4 |
+| Minimap | M4, M5, M7, M8 | 10 | 16 | 3 |
 | Editor Groups & Tabs | M2 | 36 | 42 | 0 |
-| Editor colors | M1, M4, M5, M7, M8 | 50 | 171 | 73 |
+| Editor colors | M1, M4, M5, M7, M8 | 109 | 171 | 39 |
 | Diff editor colors | M7 | 2 | 21 | 15 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
 | Inline Chat colors | M8 | 0 | 10 | 10 |
 | Panel Chat colors | M8 | 0 | 2 | 2 |
-| Editor widget colors | M2, M4, M5 | 18 | 35 | 8 |
-| Peek view colors | M5 | 3 | 16 | 2 |
+| Editor widget colors | M2, M4, M5 | 32 | 35 | 1 |
+| Peek view colors | M5 | 15 | 16 | 0 |
 | Merge conflicts colors | M7 | 0 | 25 | 15 |
 | Panel colors | M2 | 16 | 20 | 4 |
 | Status Bar colors | M2 | 35 | 35 | 0 |
@@ -112,8 +112,8 @@ The sections are the colour reference's own.
 | Source Control Graph colors | M7 | 0 | 13 | 13 |
 | Settings Editor colors | M2 | 21 | 21 | 0 |
 | Breadcrumbs colors | M2 | 5 | 5 | 0 |
-| Snippets colors | M5 | 0 | 4 | 0 |
-| Symbol Icons colors | M5 | 0 | 33 | 0 |
+| Snippets colors | M5 | 2 | 4 | 0 |
+| Symbol Icons colors | M5 | 33 | 33 | 0 |
 | Debug Icons colors | M4 | 20 | 20 | 0 |
 | Notebook colors | M2 | 19 | 24 | 1 |
 | Chart colors | M1 | 11 | 11 | 0 |
@@ -144,7 +144,7 @@ None.
 | `radio.inactiveBackground` | M2 | an unselected option has no ground of its own |
 | `dropdown.listBackground` | M2 | falls back to `dropdown.background`, so the open list is the same surface as the closed control |
 | `scrollbar.background` | M2 | the track stays clear; the slider is the only part that is drawn |
-| `list.activeSelectionIconForeground` | M2 | repaints every icon in a selected row in one colour; unset, the file icons keep their own |
+| `list.activeSelectionIconForeground` | M2 | repaints every icon in a selected row in one colour, file icons included; unset, the file icons keep their own, and codicons — symbol icons, view icons — take the row text colour |
 | `list.focusForeground` | M2 | the focused row is marked by its ground and its outline; its text keeps the colour it has |
 | `list.focusAndSelectionOutline` | M2 | falls back to `list.focusOutline`, which is the focus colour already |
 | `list.hoverForeground` | M2 | the hovered row is marked by its ground; its text keeps the colour it has |
@@ -158,6 +158,7 @@ None.
 | `activityBarTop.activeBackground` | M2 | the same as the side activity bar: the accent rule marks the active view |
 | `sideBarTitle.border` | M2 | the title and the first section header are already separated by the header border |
 | `sideBarStickyScroll.border` | M2 | the sticky rows are separated by their shadow, as the editor sticky scroll is |
+| `minimap.foregroundOpacity` | M5 | an opacity rather than a colour: the minimap draws the syntax colours at full strength in a few pixels, which on this ground reads as texture, not as code |
 | `editorGroupHeader.tabsBorder` | M2 | `editorGroupHeader.border` already rules the strip off from the editor |
 | `editorGroup.emptyBackground` | M2 | an empty group is the editor ground, like a full one |
 | `tab.activeBorder` | M2 | the active tab is marked at the top, by `tab.activeBorderTop`; a rule at the bottom as well boxes it in |
@@ -166,6 +167,19 @@ None.
 | `tab.unfocusedHoverBorder` | M2 | the same, in an unfocused group |
 | `editor.selectionForeground` | M1 | repaints selected text in one colour, which throws away the syntax colours inside every selection |
 | `editor.selectionHighlightBorder` | M1 | the fill already marks the other occurrences; a border on top boxes every one of them |
+| `editor.wordHighlightBorder` | M5 | the fill marks every read of the symbol; a border boxes each one |
+| `editor.wordHighlightStrongBorder` | M5 | the same, for writes |
+| `editor.wordHighlightTextBorder` | M5 | the same, for textual occurrences |
+| `editor.findMatchForeground` | M5 | repaints the current match in one colour, which throws away the syntax colours inside it |
+| `editor.findMatchHighlightForeground` | M5 | the same, for the other matches |
+| `editor.findMatchHighlightBorder` | M5 | the fill already marks the other matches; only the current one carries a rim, so it is told from them by more than a stronger fill |
+| `editor.findRangeHighlightBorder` | M5 | the fill marks the range being searched; a border boxes it |
+| `searchEditor.findMatchBorder` | M5 | the same as the editor: the fill marks a match |
+| `editorUnicodeHighlight.background` | M5 | the warning rim marks the character; a band behind it as well tints the code |
+| `editor.rangeHighlightBorder` | M5 | the fill marks the revealed range; a border boxes it |
+| `editor.symbolHighlightBorder` | M5 | the fill marks the symbol jumped to; a border boxes it |
+| `editorBracketMatch.foreground` | M5 | repaints the matched brackets in one colour, which throws away the pair colours |
+| `editorOverviewRuler.background` | M5 | the ruler lane is the editor ground already |
 | `editorError.border` | M4 | a double rule under the squiggle, for high-contrast themes; on a dark theme it is a second underline |
 | `editorError.background` | M4 | a band behind every flagged range tints the code inside it; the squiggle already marks the range |
 | `editorWarning.border` | M4 | the same, for warnings |
@@ -176,6 +190,9 @@ None.
 | `editorUnnecessaryCode.border` | M4 | the same, for unused code, which is already faded |
 | `editorUnnecessaryCode.opacity` | M4 | an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour |
 | `editorWidget.resizeBorder` | M2 | falls back to the widget border, which is what is being dragged |
+| `editorGhostText.border` | M5 | ghost text is marked by its muted colour; a box round it reads as a widget, not as text that is not there yet |
+| `editorGhostText.background` | M5 | the same, as a ground |
+| `peekViewEditor.matchHighlightBorder` | M5 | the same, in the peek editor |
 | `panelTitle.border` | M2 | the active panel is marked by `panelTitle.activeBorder`; a rule under the whole strip is a second one |
 | `panelStickyScroll.border` | M2 | the same, in the panel |
 | `outputView.background` | M2 | the output view is a read-only editor and takes the editor ground |
@@ -185,6 +202,8 @@ None.
 | `quickInputList.focusIconForeground` | M2 | the same, for the focused row of the quick pick |
 | `testing.message.info.lineBackground` | M4 | an info message is inline text after the line; a band behind the line as well would mark every logged line of a run |
 | `welcomePage.background` | M2 | the welcome page is an editor and takes the editor ground |
+| `editor.snippetTabstopHighlightBorder` | M5 | the fill marks the tab stop being edited; a border boxes it |
+| `editor.snippetFinalTabstopHighlightBackground` | M5 | the final stop is where the cursor lands, and is marked by its rim alone, so it is not mistaken for a stop still to fill |
 | `notebook.cellHoverBackground` | M2 | derived from `notebook.focusedCellBackground`, so it is clear too |
 | `notebook.focusedCellBackground` | M2 | the focused cell is marked by its border in the focus colour; a ground as well tints the code inside it |
 | `notebook.inactiveSelectedCellBorder` | M2 | a selected cell in an unfocused notebook keeps its selection ground; a border as well boxes it |
@@ -195,98 +214,21 @@ None.
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Minimap — 13 unset</summary>
+<details><summary>Minimap — 5 unset</summary>
 
-- `minimap.findMatchHighlight` (M5)
-- `minimap.selectionHighlight` (M5)
-- `minimap.background` (M5)
-- `minimap.selectionOccurrenceHighlight` † (M5)
-- `minimap.foregroundOpacity` † (M5)
-- `minimap.chatEditHighlight` † (M5)
-- `minimapSlider.background` (M5)
-- `minimapSlider.hoverBackground` (M5)
-- `minimapSlider.activeBackground` (M5)
+- `minimap.chatEditHighlight` † (M8)
 - `minimapGutter.addedBackground` (M7)
 - `minimapGutter.modifiedBackground` (M7)
 - `minimapGutter.deletedBackground` (M7)
-- `editorMinimap.inlineChatInserted` † (M5)
+- `editorMinimap.inlineChatInserted` † (M8)
 
 </details>
 
-<details><summary>Editor colors — 110 unset</summary>
+<details><summary>Editor colors — 38 unset</summary>
 
-- `editor.wordHighlightBorder` (M5)
-- `editor.wordHighlightStrongBorder` (M5)
-- `editor.wordHighlightTextBackground` † (M5)
-- `editor.wordHighlightTextBorder` † (M5)
-- `editor.findMatchForeground` † (M5)
-- `editor.findMatchHighlightForeground` † (M5)
-- `editor.findRangeHighlightBackground` (M5)
-- `editor.findMatchBorder` (M5)
-- `editor.findMatchHighlightBorder` (M5)
-- `editor.findRangeHighlightBorder` (M5)
-- `search.resultsInfoForeground` † (M5)
-- `searchEditor.findMatchBackground` (M5)
-- `searchEditor.findMatchBorder` (M5)
-- `searchEditor.textInputBorder` (M5)
-- `editor.hoverHighlightBackground` (M5)
-- `editorUnicodeHighlight.border` † (M5)
-- `editorUnicodeHighlight.background` † (M5)
-- `editorLink.activeForeground` (M5)
-- `editor.rangeHighlightBackground` (M5)
-- `editor.rangeHighlightBorder` (M5)
-- `editor.symbolHighlightBackground` (M5)
-- `editor.symbolHighlightBorder` (M5)
-- `editorIndentGuide.background` (M5)
-- `editorIndentGuide.background2` † (M5)
-- `editorIndentGuide.background3` † (M5)
-- `editorIndentGuide.background4` † (M5)
-- `editorIndentGuide.background5` † (M5)
-- `editorIndentGuide.background6` † (M5)
-- `editorIndentGuide.activeBackground` (M5)
-- `editorIndentGuide.activeBackground2` † (M5)
-- `editorIndentGuide.activeBackground3` † (M5)
-- `editorIndentGuide.activeBackground4` † (M5)
-- `editorIndentGuide.activeBackground5` † (M5)
-- `editorIndentGuide.activeBackground6` † (M5)
-- `editorInlayHint.background` (M5)
-- `editorInlayHint.foreground` (M5)
-- `editorInlayHint.typeForeground` † (M5)
-- `editorInlayHint.typeBackground` † (M5)
-- `editorInlayHint.parameterForeground` † (M5)
-- `editorInlayHint.parameterBackground` † (M5)
-- `editor.linkedEditingBackground` (M5)
-- `editorLightBulb.foreground` (M5)
-- `editorLightBulbAutoFix.foreground` (M5)
-- `editorLightBulbAi.foreground` † (M5)
-- `editorBracketMatch.foreground` † (M5)
-- `editorBracketHighlight.foreground5` (M5)
-- `editorBracketHighlight.foreground6` (M5)
-- `editorBracketPairGuide.activeBackground1` † (M5)
-- `editorBracketPairGuide.activeBackground2` † (M5)
-- `editorBracketPairGuide.activeBackground3` † (M5)
-- `editorBracketPairGuide.activeBackground4` † (M5)
-- `editorBracketPairGuide.activeBackground5` † (M5)
-- `editorBracketPairGuide.activeBackground6` † (M5)
-- `editorBracketPairGuide.background1` † (M5)
-- `editorBracketPairGuide.background2` † (M5)
-- `editorBracketPairGuide.background3` † (M5)
-- `editorBracketPairGuide.background4` † (M5)
-- `editorBracketPairGuide.background5` † (M5)
-- `editorBracketPairGuide.background6` † (M5)
-- `editor.foldBackground` (M5)
-- `editor.foldPlaceholderForeground` † (M5)
-- `editorOverviewRuler.background` (M5)
-- `editorOverviewRuler.findMatchForeground` (M5)
-- `editorOverviewRuler.rangeHighlightForeground` (M5)
-- `editorOverviewRuler.selectionHighlightForeground` (M5)
-- `editorOverviewRuler.wordHighlightForeground` (M5)
-- `editorOverviewRuler.wordHighlightStrongForeground` (M5)
-- `editorOverviewRuler.wordHighlightTextForeground` † (M5)
 - `editorOverviewRuler.modifiedForeground` (M7)
 - `editorOverviewRuler.addedForeground` (M7)
 - `editorOverviewRuler.deletedForeground` (M7)
-- `editorOverviewRuler.bracketMatchForeground` (M5)
 - `editorOverviewRuler.inlineChatInserted` † (M8)
 - `editorOverviewRuler.inlineChatRemoved` † (M8)
 - `editorOverviewRuler.commentDraftForeground` † (M7)
@@ -296,9 +238,6 @@ None.
 - `editorGutter.commentRangeForeground` (M7)
 - `editorGutter.commentGlyphForeground` † (M7)
 - `editorGutter.commentUnresolvedGlyphForeground` † (M7)
-- `editorGutter.foldingControlForeground` (M5)
-- `editorGutter.itemGlyphForeground` † (M5)
-- `editorGutter.itemBackground` † (M5)
 - `editorGutter.commentDraftGlyphForeground` † (M7)
 - `editorCommentsWidget.resolvedBorder` † (M7)
 - `editorCommentsWidget.unresolvedBorder` † (M7)
@@ -431,45 +370,6 @@ None.
 
 </details>
 
-<details><summary>Editor widget colors — 16 unset</summary>
-
-- `editorSuggestWidget.foreground` (M5)
-- `editorSuggestWidget.focusHighlightForeground` (M5)
-- `editorSuggestWidget.selectedForeground` (M5)
-- `editorSuggestWidget.selectedIconForeground` (M5)
-- `editorSuggestWidgetStatus.foreground` † (M5)
-- `editorHoverWidget.foreground` (M5)
-- `editorHoverWidget.highlightForeground` † (M5)
-- `editorHoverWidget.statusBarBackground` (M5)
-- `editorGhostText.border` (M5)
-- `editorGhostText.background` † (M5)
-- `editorGhostText.foreground` (M5)
-- `editorStickyScroll.background` † (M5)
-- `editorStickyScroll.border` † (M5)
-- `editorStickyScroll.shadow` † (M5)
-- `editorStickyScrollGutter.background` † (M5)
-- `editorStickyScrollHover.background` † (M5)
-
-</details>
-
-<details><summary>Peek view colors — 13 unset</summary>
-
-- `peekViewEditorGutter.background` (M5)
-- `peekViewEditor.matchHighlightBackground` (M5)
-- `peekViewEditor.matchHighlightBorder` (M5)
-- `peekViewResult.fileForeground` (M5)
-- `peekViewResult.lineForeground` (M5)
-- `peekViewResult.matchHighlightBackground` (M5)
-- `peekViewResult.selectionBackground` (M5)
-- `peekViewResult.selectionForeground` (M5)
-- `peekViewTitle.background` (M5)
-- `peekViewTitleDescription.foreground` (M5)
-- `peekViewTitleLabel.foreground` (M5)
-- `peekViewEditorStickyScroll.background` † (M5)
-- `peekViewEditorStickyScrollGutter.background` † (M5)
-
-</details>
-
 <details><summary>Merge conflicts colors — 25 unset</summary>
 
 - `merge.currentHeaderBackground` (M7)
@@ -575,53 +475,6 @@ None.
 - `scmGraph.historyItemBaseRefColor` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelForeground` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelBackground` † (M7)
-
-</details>
-
-<details><summary>Snippets colors — 4 unset</summary>
-
-- `editor.snippetTabstopHighlightBackground` (M5)
-- `editor.snippetTabstopHighlightBorder` (M5)
-- `editor.snippetFinalTabstopHighlightBackground` (M5)
-- `editor.snippetFinalTabstopHighlightBorder` (M5)
-
-</details>
-
-<details><summary>Symbol Icons colors — 33 unset</summary>
-
-- `symbolIcon.arrayForeground` (M5)
-- `symbolIcon.booleanForeground` (M5)
-- `symbolIcon.classForeground` (M5)
-- `symbolIcon.colorForeground` (M5)
-- `symbolIcon.constantForeground` (M5)
-- `symbolIcon.constructorForeground` (M5)
-- `symbolIcon.enumeratorForeground` (M5)
-- `symbolIcon.enumeratorMemberForeground` (M5)
-- `symbolIcon.eventForeground` (M5)
-- `symbolIcon.fieldForeground` (M5)
-- `symbolIcon.fileForeground` (M5)
-- `symbolIcon.folderForeground` (M5)
-- `symbolIcon.functionForeground` (M5)
-- `symbolIcon.interfaceForeground` (M5)
-- `symbolIcon.keyForeground` (M5)
-- `symbolIcon.keywordForeground` (M5)
-- `symbolIcon.methodForeground` (M5)
-- `symbolIcon.moduleForeground` (M5)
-- `symbolIcon.namespaceForeground` (M5)
-- `symbolIcon.nullForeground` (M5)
-- `symbolIcon.numberForeground` (M5)
-- `symbolIcon.objectForeground` (M5)
-- `symbolIcon.operatorForeground` (M5)
-- `symbolIcon.packageForeground` (M5)
-- `symbolIcon.propertyForeground` (M5)
-- `symbolIcon.referenceForeground` (M5)
-- `symbolIcon.snippetForeground` (M5)
-- `symbolIcon.stringForeground` (M5)
-- `symbolIcon.structForeground` (M5)
-- `symbolIcon.textForeground` (M5)
-- `symbolIcon.typeParameterForeground` (M5)
-- `symbolIcon.unitForeground` (M5)
-- `symbolIcon.variableForeground` (M5)
 
 </details>
 

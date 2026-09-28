@@ -114,6 +114,7 @@ const BY_PREFIX: [RegExp, string][] = [
   [/^markdownAlert/, 'M9'],
   [/^(chat|inlineChat|interactive|agent|aiCustomization|inlineEdit)/, 'M8'],
   [/^editorOverviewRuler\.inlineChat/, 'M8'],
+  [/^(minimap\.chatEditHighlight|editorMinimap\.inlineChat)/, 'M8'],
   [/^(search\.|searchEditor\.)/, 'M5'],
   [/^terminal/, 'M6'],
   [/^(diffEditor|multiDiffEditor|merge|mergeEditor|gitDecoration|scmGraph|minimapGutter)/, 'M7'],
@@ -206,7 +207,7 @@ const LEFT_TO_VSCODE: Record<string, string> = {
   // M2. Most of these default to nothing, and nothing is the design: a ground
   // that lets the one under it show, or a second border where one already
   // marks the state.
-  'list.activeSelectionIconForeground': 'repaints every icon in a selected row in one colour; unset, the file icons keep their own',
+  'list.activeSelectionIconForeground': 'repaints every icon in a selected row in one colour, file icons included; unset, the file icons keep their own, and codicons — symbol icons, view icons — take the row text colour',
   'list.inactiveSelectionIconForeground': 'the same, for the selection of an unfocused list',
   'quickInputList.focusIconForeground': 'the same, for the focused row of the quick pick',
   'list.focusForeground': 'the focused row is marked by its ground and its outline; its text keeps the colour it has',
@@ -262,6 +263,29 @@ const LEFT_TO_VSCODE: Record<string, string> = {
     'an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour',
   'testing.message.info.lineBackground':
     'an info message is inline text after the line; a band behind the line as well would mark every logged line of a run',
+
+  // M5. A highlight is a fill behind the code; a border on it boxes every
+  // occurrence, and a foreground repaints the code inside it in one colour.
+  'editor.findMatchForeground': 'repaints the current match in one colour, which throws away the syntax colours inside it',
+  'editor.findMatchHighlightForeground': 'the same, for the other matches',
+  'editor.findMatchHighlightBorder': 'the fill already marks the other matches; only the current one carries a rim, so it is told from them by more than a stronger fill',
+  'editor.findRangeHighlightBorder': 'the fill marks the range being searched; a border boxes it',
+  'editor.rangeHighlightBorder': 'the fill marks the revealed range; a border boxes it',
+  'editor.symbolHighlightBorder': 'the fill marks the symbol jumped to; a border boxes it',
+  'editor.wordHighlightBorder': 'the fill marks every read of the symbol; a border boxes each one',
+  'editor.wordHighlightStrongBorder': 'the same, for writes',
+  'editor.wordHighlightTextBorder': 'the same, for textual occurrences',
+  'searchEditor.findMatchBorder': 'the same as the editor: the fill marks a match',
+  'peekViewEditor.matchHighlightBorder': 'the same, in the peek editor',
+  'editor.snippetTabstopHighlightBorder': 'the fill marks the tab stop being edited; a border boxes it',
+  'editor.snippetFinalTabstopHighlightBackground': 'the final stop is where the cursor lands, and is marked by its rim alone, so it is not mistaken for a stop still to fill',
+  'editorBracketMatch.foreground': 'repaints the matched brackets in one colour, which throws away the pair colours',
+  'editorUnicodeHighlight.background': 'the warning rim marks the character; a band behind it as well tints the code',
+  'editorGhostText.border': 'ghost text is marked by its muted colour; a box round it reads as a widget, not as text that is not there yet',
+  'editorGhostText.background': 'the same, as a ground',
+  'editorOverviewRuler.background': 'the ruler lane is the editor ground already',
+  'minimap.foregroundOpacity':
+    'an opacity rather than a colour: the minimap draws the syntax colours at full strength in a few pixels, which on this ground reads as texture, not as code',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));
