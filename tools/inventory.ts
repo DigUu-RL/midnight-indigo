@@ -30,10 +30,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BASELINE, sha256 } from './baseline.ts';
+import { FAMILY_ORDER, signalsFor } from './theme-palette.ts';
+import { DOCS, OVERLAY, SIGNAL_TOLERANCE, docOf, flatten, tokensFor, type Group } from './theme-tokens.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, '..');
 const OUT = path.join(ROOT, 'docs', 'INVENTORY.md');
+const TOKENS_OUT = path.join(ROOT, 'docs', 'TOKENS.md');
 
 const read = (...p: string[]): string => fs.readFileSync(path.join(ROOT, ...p), 'utf8');
 const readJson = (...p: string[]): any => JSON.parse(read(...p));
@@ -185,6 +188,22 @@ const BY_SECTION: Record<string, string> = {
   Markdown: 'M9',
 };
 
+/*
+ * IDs a milestone looked at and decided VS Code's default is right for. They
+ * are still unset, but they are no longer "not looked at yet", and the list
+ * below says so and why. Setting one of them later is allowed — it fails the
+ * inventory until it is taken off this list, so the decision is reversed on
+ * purpose rather than forgotten.
+ */
+const LEFT_TO_VSCODE: Record<string, string> = {
+  contrastBorder: 'an extra border for high-contrast themes; on a dark theme it outlines every element',
+  contrastActiveBorder: 'the same, for the active element',
+  'window.activeBorder': 'a border round the whole window; the frame already ends at the title bar',
+  'window.inactiveBorder': 'the same, for an unfocused window',
+  'editor.selectionForeground': 'repaints selected text in one colour, which throws away the syntax colours inside every selection',
+  'editor.selectionHighlightBorder': 'the fill already marks the other occurrences; a border on top boxes every one of them',
+};
+
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));
 if (unmapped.length) {
   throw new Error(
@@ -206,12 +225,19 @@ const rows: Row[] = Object.entries(vscode.sections).flatMap(([section, ids]) =>
   }))
 );
 const documented = new Set(rows.map((r) => r.id));
+const reversed = Object.keys(LEFT_TO_VSCODE).filter((id) => id in indigo.colors || !documented.has(id));
+if (reversed.length) {
+  throw new Error(
+    `LEFT_TO_VSCODE names ${reversed.join(', ')}, which the theme now sets or VS Code no longer documents — take them off the list`
+  );
+}
 const undocumented = Object.keys(indigo.colors).filter((id) => !documented.has(id));
 
-type Tally = { total: number; set: number; modern: number; modernUnset: number };
+type Tally = { total: number; set: number; left: number; modern: number; modernUnset: number };
 const tally = (rs: Row[]): Tally => ({
   total: rs.length,
   set: rs.filter((r) => r.set).length,
+  left: rs.filter((r) => r.id in LEFT_TO_VSCODE).length,
   modern: rs.filter((r) => r.modern).length,
   modernUnset: rs.filter((r) => r.modern && !r.set).length,
 });
@@ -307,12 +333,14 @@ line();
 line('### By milestone');
 line();
 table(
-  ['Owner', 'Set', 'Documented', 'Coverage', `Added since ${vscode.floor.vscode}, unset`],
+  ['Owner', 'Set', 'Left to VS Code', 'Documented', 'Coverage', `Added since ${vscode.floor.vscode}, unset`],
   Object.entries(MILESTONES).map(([m, name]) => {
     const t = tally(rows.filter((r) => r.owner === m));
-    return [`${m} ${name}`, t.set, t.total, pct(t.set, t.total), t.modernUnset];
+    return [`${m} ${name}`, t.set, t.left, t.total, pct(t.set, t.total), t.modernUnset];
   })
 );
+line('"Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.');
+line();
 line(
   'M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set.'
 );
@@ -341,12 +369,19 @@ line(
 );
 line();
 
+line('### Left to VS Code on purpose');
+line();
+table(
+  ['ID', 'Owner', 'Why'],
+  rows.filter((r) => r.id in LEFT_TO_VSCODE).map((r) => [`\`${r.id}\``, r.owner, LEFT_TO_VSCODE[r.id]])
+);
+
 line('### Everything that falls back to defaults');
 line();
-line(`† marks an ID added after VS Code ${vscode.floor.vscode}.`);
+line(`† marks an ID added after VS Code ${vscode.floor.vscode}. The IDs above, left to VS Code on purpose, are not repeated here.`);
 line();
 for (const s of Object.keys(vscode.sections)) {
-  const unset = rows.filter((r) => r.section === s && !r.set);
+  const unset = rows.filter((r) => r.section === s && !r.set && !(r.id in LEFT_TO_VSCODE));
   if (!unset.length) continue;
   line(`<details><summary>${s} — ${unset.length} unset</summary>`);
   line();
@@ -389,17 +424,88 @@ table(
 
 const text = out.join('\n').replace(/\n+$/, '\n');
 
+/* -------------------------------------------------------------- *
+ * docs/TOKENS.md — the roles, and what each is in each family
+ * -------------------------------------------------------------- */
+
+const families = FAMILY_ORDER.map((f) => ({ f, t: flatten(tokensFor(f)) }));
+const tokenCount = families[0].t.length;
+const tok: string[] = [];
+const tline = (s = ''): void => void tok.push(s);
+
+tline('# Tokens');
+tline();
+tline('> Generated by `npm run inventory` from [`tools/theme-tokens.ts`](../tools/theme-tokens.ts). Do not edit it by hand.');
+tline();
+tline(
+  `The theme is written in ${tokenCount} tokens. A token is a job — \`surfaceRaised\`, \`muted\`, \`error\` — and ` +
+    'the build writes every VS Code key against one, never against a colour. Each family gives the same tokens different ' +
+    'values; the build refuses a colour that is not a token, a token without a documented role, a surface or text ramp ' +
+    'that runs backwards, and a signal that has drifted away from the colour it is named for.'
+);
+tline();
+tline('## Overlays');
+tline();
+tline(
+  'Translucent colours are a token plus one step of this ladder, and no other opacity. ' +
+    'Derivations: `rest` = faint, `hover` = medium, `active` = heavy, `inactive` = strong, `disabled` = half. ' +
+    'Focus is never an overlay: it is `state.focus`, solid.'
+);
+tline();
+tline('| Step | Alpha |');
+tline('| --- | ---: |');
+for (const [name, a] of Object.entries(OVERLAY)) tline(`| \`${name}\` | \`${a.toString(16).toUpperCase()}\` (${Math.round((a / 255) * 100)}%) |`);
+tline();
+for (const group of Object.keys(DOCS) as Group[]) {
+  tline(`## \`${group}\``);
+  tline();
+  tline('| Token | Role |');
+  tline('| --- | --- |');
+  for (const [name] of families[0].t.filter(([n]) => n.startsWith(`${group}.`))) {
+    tline(`| \`${name}\` | ${docOf(name)} |`);
+  }
+  tline();
+  tline(`| Token | ${FAMILY_ORDER.join(' | ')} |`);
+  tline(`| --- | ${FAMILY_ORDER.map(() => '---').join(' | ')} |`);
+  for (const [i, [name]] of families[0].t.entries()) {
+    if (!name.startsWith(`${group}.`)) continue;
+    tline(`| \`${name.slice(group.length + 1)}\` | ${families.map(({ t }) => `\`${t[i][1]}\``).join(' | ')} |`);
+  }
+  tline();
+}
+tline('## Signals');
+tline();
+tline(
+  'Which ink each family lends to each signal. Written down per family, and checked: every one lands within ' +
+    `${SIGNAL_TOLERANCE}° of the hue VS Code uses for it, and no two share an ink.`
+);
+tline();
+tline(`| Family | ${Object.keys(signalsFor('indigo')).join(' | ')} |`);
+tline(`| --- | ${Object.keys(signalsFor('indigo')).map(() => '---').join(' | ')} |`);
+for (const f of FAMILY_ORDER) tline(`| ${f} | ${Object.values(signalsFor(f)).map((s) => `\`${s}\``).join(' | ')} |`);
+
+const tokensText = tok.join('\n') + '\n';
+
+const OUTPUTS: [string, string][] = [
+  [OUT, text],
+  [TOKENS_OUT, tokensText],
+];
+
 if (process.argv.includes('--check')) {
-  const current = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
-  if (current !== text) {
-    console.error('  ! docs/INVENTORY.md is out of date — run `npm run inventory` and commit the result');
-    process.exitCode = 1;
-  } else {
-    console.log('docs/INVENTORY.md is up to date');
+  for (const [file, want] of OUTPUTS) {
+    const name = path.relative(ROOT, file).replace(/\\/g, '/');
+    const current = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
+    if (current !== want) {
+      console.error(`  ! ${name} is out of date — run \`npm run inventory\` and commit the result`);
+      process.exitCode = 1;
+    } else {
+      console.log(`${name} is up to date`);
+    }
   }
 } else {
-  fs.writeFileSync(OUT, text, 'utf8');
+  for (const [file, want] of OUTPUTS) fs.writeFileSync(file, want, 'utf8');
   console.log(
     `wrote docs/INVENTORY.md — ${all.set}/${all.total} workbench IDs set, ${all.total - all.set} falling back to defaults`
   );
+  console.log(`wrote docs/TOKENS.md — ${tokenCount} tokens across ${FAMILY_ORDER.length} families`);
 }

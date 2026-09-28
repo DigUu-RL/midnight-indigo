@@ -219,6 +219,26 @@ export const WHITE: Colour = '#FFFFFF';
 /** The roles a variant names outright, because each carries its own identity. */
 type Named = 'keyword' | 'generic' | 'string' | 'func' | 'number' | 'type' | 'enumMember' | 'iface';
 
+/** The inks a signal can be borrowed from: every syntax colour bright enough to be read as one. */
+export type Ink = Named | 'property' | 'operator';
+
+/**
+ * Which ink says "error", "warning", "success" and "info" in a family, and
+ * which two finish the six-colour chart series.
+ *
+ * Borrowed rather than made, because the rule is that the theme does not grow a
+ * colour without a role and these already have one: a red that is only ever an
+ * error squiggle would be the one colour on the screen the palette did not
+ * design. It is written down per family rather than computed for the reason the
+ * hues are. Nearest-hue matching was tried and gives indigo an orange error —
+ * the enum members sit 30 degrees from red, the keywords 38 — and indigo's
+ * errors are pink for the same reason its deleted lines already are.
+ *
+ * tools/build-color-themes.ts checks that each one still lands near the colour
+ * it is named for, and that no two share an ink.
+ */
+export type Signals = Record<'error' | 'warning' | 'success' | 'info' | 'orange' | 'purple', Ink>;
+
 type Variant = {
   /** The family hue: the chrome, and everything measured as an offset from it. */
   hue: number;
@@ -242,6 +262,8 @@ type Variant = {
   accent: { h: number; c: number; l: number };
   /** Where each named role sits on the wheel in this family. */
   hues: Record<Named, number>;
+  /** Which of those roles doubles as each signal. */
+  signals: Signals;
 };
 
 /*
@@ -270,6 +292,10 @@ const VARIANTS: Record<Family, Variant> = {
       enumMember: ROLES.enumMember.h, number: ROLES.number.h, iface: ROLES.iface.h,
       string: ROLES.string.h, type: ROLES.type.h, func: ROLES.func.h,
     },
+    signals: {
+      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      orange: 'enumMember', purple: 'property',
+    },
   },
 
   /*
@@ -289,6 +315,10 @@ const VARIANTS: Record<Family, Variant> = {
     hues: {
       keyword: 15, generic: 350,
       enumMember: 38, number: 68, iface: 108, string: 145, type: 200, func: 258,
+    },
+    signals: {
+      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      orange: 'enumMember', purple: 'operator',
     },
   },
 
@@ -318,6 +348,16 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 302, generic: 330,
       enumMember: 52, number: 90, iface: 132, string: 165, type: 202, func: 240,
     },
+    /*
+     * The family owns red, so the error is the family's own rose — the one
+     * signal in the eight that is a chrome colour. The alternative was the enum
+     * members, which are orange, and an orange error beside an amber warning is
+     * two warnings.
+     */
+    signals: {
+      error: 'property', warning: 'number', success: 'string', info: 'func',
+      orange: 'enumMember', purple: 'keyword',
+    },
   },
 
   /*
@@ -343,6 +383,16 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 337, generic: 300,
       enumMember: 65, number: 95, iface: 140, string: 170, type: 205, func: 252,
     },
+    /*
+     * Red is the family, so the error is the magenta keyword rather than the
+     * operators: an error that is the colour of every `=` on the screen is not a
+     * signal. That leaves the type parameters — dark, but past 3:1 — to be the
+     * purple in a chart.
+     */
+    signals: {
+      error: 'keyword', warning: 'number', success: 'string', info: 'func',
+      orange: 'enumMember', purple: 'generic',
+    },
   },
 
   /*
@@ -365,6 +415,12 @@ const VARIANTS: Record<Family, Variant> = {
     hues: {
       keyword: 316, generic: 285,
       enumMember: 350, number: 22, iface: 120, string: 152, type: 190, func: 248,
+    },
+    // Amber is the family, so the warning steps up to the lime interfaces, and
+    // a chart's orange is the operators — a series is not a signal.
+    signals: {
+      error: 'number', warning: 'iface', success: 'string', info: 'func',
+      orange: 'operator', purple: 'keyword',
     },
   },
 
@@ -403,6 +459,10 @@ const VARIANTS: Record<Family, Variant> = {
       keyword: 326, generic: 290,
       enumMember: 355, number: 30, iface: 65, string: 125, type: 195, func: 245,
     },
+    signals: {
+      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      orange: 'number', purple: 'keyword',
+    },
   },
 
   /*
@@ -425,6 +485,10 @@ const VARIANTS: Record<Family, Variant> = {
     hues: {
       keyword: 345, generic: 295,
       enumMember: 30, number: 60, iface: 92, string: 135, type: 168, func: 255,
+    },
+    signals: {
+      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      orange: 'number', purple: 'keyword',
     },
   },
 
@@ -450,6 +514,10 @@ const VARIANTS: Record<Family, Variant> = {
     hues: {
       keyword: 310, generic: 340,
       enumMember: 15, number: 50, iface: 108, string: 148, type: 180, func: 215,
+    },
+    signals: {
+      error: 'enumMember', warning: 'iface', success: 'string', info: 'func',
+      orange: 'number', purple: 'keyword',
     },
   },
 };
@@ -693,5 +761,8 @@ export function paletteFor(family: Family): Palette {
 
   return out;
 }
+
+/** Which ink plays each signal in a family. */
+export const signalsFor = (family: Family): Signals => VARIANTS[family].signals;
 
 export { BASE_HUE, CONTESTED, ROLES, VARIANTS };

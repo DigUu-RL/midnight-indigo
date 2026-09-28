@@ -16,7 +16,7 @@
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 129 |
+| Workbench colours, per theme | 165 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -32,20 +32,22 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **129 of the 971** colour IDs VS Code documents (13.3%). **420** of those IDs were added after VS Code 1.60, and the theme sets 2 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **165 of the 971** colour IDs VS Code documents (17.0%). **420** of those IDs were added after VS Code 1.60, and the theme sets 17 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
-| Owner | Set | Documented | Coverage | Added since 1.60, unset |
-| --- | ---: | ---: | ---: | ---: |
-| M1 Tokens and surfaces | 14 | 56 | 25.0% | 15 |
-| M2 Workbench | 62 | 382 | 16.2% | 142 |
-| M4 Diagnostics, debug and testing | 0 | 112 | 0.0% | 22 |
-| M5 Editor intelligence | 26 | 174 | 14.9% | 53 |
-| M6 Terminal | 18 | 62 | 29.0% | 37 |
-| M7 Diff, merge and Git | 9 | 94 | 9.6% | 58 |
-| M8 Chat and agents | 0 | 86 | 0.0% | 86 |
-| M9 Syntax | 0 | 5 | 0.0% | 5 |
+| Owner | Set | Left to VS Code | Documented | Coverage | Added since 1.60, unset |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| M1 Tokens and surfaces | 50 | 6 | 56 | 89.3% | 0 |
+| M2 Workbench | 62 | 0 | 382 | 16.2% | 142 |
+| M4 Diagnostics, debug and testing | 0 | 0 | 112 | 0.0% | 22 |
+| M5 Editor intelligence | 26 | 0 | 174 | 14.9% | 53 |
+| M6 Terminal | 18 | 0 | 62 | 29.0% | 37 |
+| M7 Diff, merge and Git | 9 | 0 | 94 | 9.6% | 58 |
+| M8 Chat and agents | 0 | 0 | 86 | 0.0% | 86 |
+| M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
+
+"Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.
 
 M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set.
 
@@ -56,10 +58,10 @@ The sections are the colour reference's own.
 | Section | Owner | Set | Documented | Added since 1.60, unset |
 | --- | --- | ---: | ---: | ---: |
 | Contrast colors | M1 | 0 | 2 | 0 |
-| Base colors | M1 | 3 | 10 | 2 |
+| Base colors | M1 | 10 | 10 | 0 |
 | Window border | M1 | 0 | 2 | 0 |
 | Modern UI colors | M2 | 0 | 29 | 29 |
-| Text colors | M1 | 0 | 9 | 2 |
+| Text colors | M1 | 9 | 9 | 0 |
 | Action colors | M2 | 0 | 7 | 4 |
 | Button control | M2 | 2 | 23 | 13 |
 | Dropdown control | M2 | 3 | 4 | 0 |
@@ -73,7 +75,7 @@ The sections are the colour reference's own.
 | Side Bar | M2 | 6 | 14 | 6 |
 | Minimap | M4, M5, M7 | 0 | 16 | 5 |
 | Editor Groups & Tabs | M2 | 10 | 42 | 9 |
-| Editor colors | M1, M4, M5, M7, M8 | 31 | 171 | 81 |
+| Editor colors | M1, M4, M5, M7, M8 | 40 | 171 | 73 |
 | Diff editor colors | M7 | 2 | 21 | 15 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
@@ -105,7 +107,7 @@ The sections are the colour reference's own.
 | Symbol Icons colors | M5 | 0 | 33 | 0 |
 | Debug Icons colors | M4 | 0 | 20 | 0 |
 | Notebook colors | M2 | 0 | 24 | 3 |
-| Chart colors | M1 | 0 | 11 | 3 |
+| Chart colors | M1 | 11 | 11 | 0 |
 | Ports colors | M6 | 0 | 1 | 0 |
 | Comments View colors | M7 | 0 | 2 | 2 |
 | Action Bar colors | M2 | 0 | 1 | 1 |
@@ -118,35 +120,20 @@ The sections are the colour reference's own.
 
 None.
 
+### Left to VS Code on purpose
+
+| ID | Owner | Why |
+| --- | --- | --- |
+| `contrastActiveBorder` | M1 | the same, for the active element |
+| `contrastBorder` | M1 | an extra border for high-contrast themes; on a dark theme it outlines every element |
+| `window.activeBorder` | M1 | a border round the whole window; the frame already ends at the title bar |
+| `window.inactiveBorder` | M1 | the same, for an unfocused window |
+| `editor.selectionForeground` | M1 | repaints selected text in one colour, which throws away the syntax colours inside every selection |
+| `editor.selectionHighlightBorder` | M1 | the fill already marks the other occurrences; a border on top boxes every one of them |
+
 ### Everything that falls back to defaults
 
-† marks an ID added after VS Code 1.60.
-
-<details><summary>Contrast colors — 2 unset</summary>
-
-- `contrastActiveBorder` (M1)
-- `contrastBorder` (M1)
-
-</details>
-
-<details><summary>Base colors — 7 unset</summary>
-
-- `disabledForeground` † (M1)
-- `widget.border` † (M1)
-- `widget.shadow` (M1)
-- `descriptionForeground` (M1)
-- `errorForeground` (M1)
-- `icon.foreground` (M1)
-- `sash.hoverBorder` (M1)
-
-</details>
-
-<details><summary>Window border — 2 unset</summary>
-
-- `window.activeBorder` (M1)
-- `window.inactiveBorder` (M1)
-
-</details>
+† marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
 <details><summary>Modern UI colors — 29 unset</summary>
 
@@ -179,20 +166,6 @@ None.
 - `modernActivityBar.border` † (M2)
 - `modernUI.shellBackground` † (M2)
 - `modernUI.inactiveShellBackground` † (M2)
-
-</details>
-
-<details><summary>Text colors — 9 unset</summary>
-
-- `textBlockQuote.background` (M1)
-- `textBlockQuote.border` (M1)
-- `textCodeBlock.background` (M1)
-- `textLink.activeForeground` (M1)
-- `textLink.foreground` (M1)
-- `textPreformat.foreground` (M1)
-- `textPreformat.background` † (M1)
-- `textPreformat.border` † (M1)
-- `textSeparator.foreground` (M1)
 
 </details>
 
@@ -399,18 +372,8 @@ None.
 
 </details>
 
-<details><summary>Editor colors — 140 unset</summary>
+<details><summary>Editor colors — 129 unset</summary>
 
-- `editorLineNumber.dimmedForeground` † (M1)
-- `editorCursor.background` (M1)
-- `editorMultiCursor.primary.foreground` † (M1)
-- `editorMultiCursor.primary.background` † (M1)
-- `editorMultiCursor.secondary.foreground` † (M1)
-- `editorMultiCursor.secondary.background` † (M1)
-- `editor.placeholder.foreground` † (M1)
-- `editor.compositionBorder` † (M1)
-- `editor.selectionForeground` (M1)
-- `editor.selectionHighlightBorder` (M1)
 - `editor.wordHighlightBorder` (M5)
 - `editor.wordHighlightStrongBorder` (M5)
 - `editor.wordHighlightTextBackground` † (M5)
@@ -426,7 +389,6 @@ None.
 - `searchEditor.findMatchBorder` (M5)
 - `searchEditor.textInputBorder` (M5)
 - `editor.hoverHighlightBackground` (M5)
-- `editor.inactiveLineHighlightBackground` † (M1)
 - `editorUnicodeHighlight.border` † (M5)
 - `editorUnicodeHighlight.background` † (M5)
 - `editorLink.activeForeground` (M5)
@@ -1168,22 +1130,6 @@ None.
 - `notebookStatusRunningIcon.foreground` (M2)
 - `notebookStatusSuccessIcon.foreground` (M2)
 - `notebookEditorOverviewRuler.runningCellForeground` † (M2)
-
-</details>
-
-<details><summary>Chart colors — 11 unset</summary>
-
-- `charts.foreground` (M1)
-- `charts.lines` (M1)
-- `charts.red` (M1)
-- `charts.blue` (M1)
-- `charts.yellow` (M1)
-- `charts.orange` (M1)
-- `charts.green` (M1)
-- `charts.purple` (M1)
-- `chart.line` † (M1)
-- `chart.axis` † (M1)
-- `chart.guide` † (M1)
 
 </details>
 

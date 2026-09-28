@@ -9,34 +9,53 @@
  * in nine places, and keeping nine copies of it in step by hand across eight
  * files is not a thing anyone does correctly for long.
  *
- * So the structure lives here once, written against role names, and
- * tools/theme-palette.ts decides what colour each role is in each family.
- * Nothing below knows what hue it is emitting.
+ * So the structure lives here once, written against the tokens in
+ * tools/theme-tokens.ts — jobs like `surfaceRaised` and `muted`, each with a
+ * sentence saying what it is for — and tools/theme-palette.ts decides what
+ * colour each one is in each family. Nothing below knows what hue it is
+ * emitting, and nothing below may emit a colour that is not a token.
  *
  * THE BASELINE. tools/indigo-baseline.json is the theme exactly as it shipped,
- * and `check` below asserts that the indigo variant still regenerates it, key
- * for key and colour for colour. That assertion is the point of the whole
- * arrangement: it is what lets the palette maths be changed with the knowledge
- * that the theme thousands of editors already have open did not move. If it
- * ever fails, the maths changed the original — which is either a bug, or a
- * deliberate change that has to be made to the baseline too, on purpose, in a
- * commit that says so.
+ * and `check` below asserts that the indigo variant still regenerates every
+ * key of it, value for value and in the same order. That assertion is the
+ * point of the whole arrangement: it is what lets the palette maths be changed
+ * with the knowledge that the theme thousands of editors already have open did
+ * not move. If it ever fails, the maths changed the original — which is either
+ * a bug, or a deliberate change that has to be made to the baseline too, on
+ * purpose, in a commit that says so.
+ *
+ * The theme may say MORE than the baseline — that is how VS Code's newer
+ * surfaces get coloured at all — but it may not say anything the baseline says
+ * differently. New keys sit wherever they read best; the baseline's own keys
+ * have to come out byte for byte once the new ones are set aside.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BASELINE, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
-import { contrastRatio } from './color.ts';
+import { contrastRatio, oklchFromHex, relativeLuminance, signedHueDelta } from './color.ts';
 import {
   FAMILY_ORDER,
   SEPARATION,
   WHITE,
   paletteFor,
   closestPair,
+  signalsFor,
   type Family,
-  type Palette,
 } from './theme-palette.ts';
+import {
+  OVERLAY,
+  SIGNAL_HUE,
+  SIGNAL_TOLERANCE,
+  derive,
+  docOf,
+  flatten,
+  overlay,
+  tokensFor,
+  type Signal,
+  type Tokens,
+} from './theme-tokens.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const THEMES = path.join(HERE, '..', 'themes');
@@ -76,137 +95,175 @@ type Theme = {
   semanticTokenColors: Record<string, unknown>;
 };
 
-function themeFor(family: Family, p: Palette): Theme {
+function themeFor(family: Family, t: Tokens): Theme {
+  const { surface: s, text: x, link, accent: a, syntax: k, state: st, chart, ansi } = t;
+
   const colors = {
-    focusBorder: p.accent,
-    foreground: p.fg,
-    'selection.background': p.sel,
-    'editor.background': p.bg,
-    'editor.foreground': p.fg,
-    'editorLineNumber.foreground': p.fgFaint,
-    'editorLineNumber.activeForeground': p.cursor,
-    'editorCursor.foreground': p.cursor,
-    'editor.selectionBackground': p.sel,
-    'editor.selectionHighlightBackground': p.selDim,
-    'editor.inactiveSelectionBackground': p.line,
-    'editor.lineHighlightBackground': p.bgLine,
-    'editor.lineHighlightBorder': p.bgLine,
-    'editor.wordHighlightBackground': p.selDim + '66',
-    'editor.wordHighlightStrongBackground': p.sel + '99',
-    'editor.findMatchBackground': p.accent + '66',
-    'editor.findMatchHighlightBackground': p.accentDim + '55',
-    'editorIndentGuide.background1': p.line,
-    'editorIndentGuide.activeBackground1': p.accentDim,
-    'editorWhitespace.foreground': p.whitespace,
-    'editorRuler.foreground': p.line,
-    'editorBracketMatch.background': p.sel + '55',
-    'editorBracketMatch.border': p.accent,
-    'editorBracketHighlight.foreground1': p.keyword,
-    'editorBracketHighlight.foreground2': p.func,
-    'editorBracketHighlight.foreground3': p.iface,
-    'editorBracketHighlight.foreground4': p.generic,
-    'editorBracketHighlight.unexpectedBracket.foreground': p.operator,
-    'editorGutter.background': p.bg,
-    'editorGutter.modifiedBackground': p.func,
-    'editorGutter.addedBackground': p.string,
-    'editorGutter.deletedBackground': p.keyword,
-    'editorOverviewRuler.border': p.bgDeep,
-    'editorCodeLens.foreground': p.fgMuted,
-    'editorWidget.background': p.bgLift,
-    'editorWidget.border': p.accentDim,
-    'editorHoverWidget.background': p.bgLift,
-    'editorHoverWidget.border': p.accentDim,
-    'editorSuggestWidget.background': p.bgLift,
-    'editorSuggestWidget.border': p.border,
-    'editorSuggestWidget.selectedBackground': p.selDim,
-    'editorSuggestWidget.highlightForeground': p.keyword,
-    'titleBar.activeBackground': p.bgDeep,
-    'titleBar.activeForeground': p.fg,
-    'titleBar.inactiveBackground': p.bgDeep,
-    'titleBar.inactiveForeground': p.fgMuted,
-    'titleBar.border': p.line,
-    'activityBar.background': p.bgDeep,
-    'activityBar.foreground': p.fg,
-    'activityBar.inactiveForeground': p.fgFaint,
-    'activityBar.border': p.line,
-    'activityBarBadge.background': p.accent,
-    'activityBarBadge.foreground': WHITE,
-    'sideBar.background': p.bgSide,
-    'sideBar.foreground': p.fgDim,
-    'sideBar.border': p.line,
-    'sideBarTitle.foreground': p.fg,
-    'sideBarSectionHeader.background': p.bgLift,
-    'sideBarSectionHeader.border': p.line,
-    'statusBar.background': p.bgLift,
-    'statusBar.foreground': p.fgDim,
-    'statusBar.border': p.line,
-    'statusBar.debuggingBackground': p.generic,
-    'statusBar.noFolderBackground': p.bgLift,
-    'statusBarItem.hoverBackground': p.selDim,
-    'statusBarItem.remoteBackground': p.accentDim,
-    'tab.activeBackground': p.bgTab,
-    'tab.activeForeground': p.fgBright,
-    'tab.inactiveBackground': p.bg,
-    'tab.inactiveForeground': p.fgMuted,
-    'tab.border': p.line,
-    'tab.activeBorderTop': p.accent,
-    'tab.unfocusedActiveBorderTop': p.accentDim,
-    'editorGroupHeader.tabsBackground': p.bgSide,
-    'editorGroupHeader.border': p.line,
-    'editorGroup.border': p.line,
-    'panel.background': p.bgSide,
-    'panel.border': p.line,
-    'panelTitle.activeBorder': p.accent,
-    'panelTitle.activeForeground': p.fg,
-    'panelTitle.inactiveForeground': p.fgMuted,
-    'input.background': p.bgLift,
-    'input.border': p.border,
-    'input.foreground': p.fg,
-    'input.placeholderForeground': p.fgMuted,
-    'dropdown.background': p.bgLift,
-    'dropdown.border': p.border,
-    'dropdown.foreground': p.fg,
-    'list.activeSelectionBackground': p.line,
-    'list.activeSelectionForeground': p.fgBright,
-    'list.inactiveSelectionBackground': p.bgTab,
-    'list.hoverBackground': p.bgTab,
-    'list.focusBackground': p.selDim,
-    'list.highlightForeground': p.keyword,
-    'scrollbar.shadow': p.bgDeep,
-    'scrollbarSlider.background': p.accentDim + '55',
-    'scrollbarSlider.hoverBackground': p.accentDim + '88',
-    'scrollbarSlider.activeBackground': p.accent + 'AA',
-    'button.background': p.accent,
-    'button.foreground': WHITE,
-    'badge.background': p.accentDim,
-    'badge.foreground': WHITE,
-    'terminal.background': p.bg,
-    'terminal.foreground': p.fg,
-    'terminal.ansiBlack': p.ansiBlack,
-    'terminal.ansiRed': p.keyword,
-    'terminal.ansiGreen': p.string,
-    'terminal.ansiYellow': p.iface,
-    'terminal.ansiBlue': p.func,
-    'terminal.ansiMagenta': p.generic,
-    'terminal.ansiCyan': p.type,
-    'terminal.ansiWhite': p.fg,
-    'terminal.ansiBrightBlack': p.fgFaint,
-    'terminal.ansiBrightRed': p.keywordBright,
-    'terminal.ansiBrightGreen': p.stringBright,
-    'terminal.ansiBrightYellow': p.ifaceBright,
-    'terminal.ansiBrightBlue': p.funcBright,
-    'terminal.ansiBrightMagenta': p.genericBright,
-    'terminal.ansiBrightCyan': p.typeBright,
-    'terminal.ansiBrightWhite': p.fgWhite,
-    'diffEditor.insertedTextBackground': p.string + '22',
-    'diffEditor.removedTextBackground': p.keyword + '22',
-    'gitDecoration.modifiedResourceForeground': p.func,
-    'gitDecoration.addedResourceForeground': p.string,
-    'gitDecoration.deletedResourceForeground': p.keyword,
-    'gitDecoration.untrackedResourceForeground': p.iface,
-    'peekViewEditor.background': p.bg,
-    'peekViewResult.background': p.bgSide,
-    'peekView.border': p.accentDim,
+    focusBorder: st.focus,
+    foreground: x.normal,
+    descriptionForeground: x.secondary,
+    disabledForeground: derive.disabled(x.normal),
+    errorForeground: st.error,
+    'icon.foreground': x.normal,
+    'widget.border': s.border,
+    'widget.shadow': overlay(s.background, 'heavy'),
+    'sash.hoverBorder': st.focus,
+    'selection.background': s.surfaceSelected,
+    'textLink.foreground': link.rest,
+    'textLink.activeForeground': link.active,
+    'textSeparator.foreground': s.borderStrong,
+    'textPreformat.foreground': k.enumMember,
+    'textPreformat.background': s.surfaceRaised,
+    'textPreformat.border': s.border,
+    'textBlockQuote.background': s.surfaceRaised,
+    'textBlockQuote.border': a.muted,
+    'textCodeBlock.background': s.surfaceRaised,
+    'editor.background': s.background,
+    'editor.foreground': x.normal,
+    'editor.placeholder.foreground': x.muted,
+    'editor.compositionBorder': st.active,
+    'editorLineNumber.foreground': x.faint,
+    'editorLineNumber.activeForeground': st.active,
+    'editorLineNumber.dimmedForeground': x.ghost,
+    'editorCursor.foreground': st.active,
+    'editorCursor.background': s.background,
+    'editorMultiCursor.primary.foreground': st.active,
+    'editorMultiCursor.primary.background': s.background,
+    'editorMultiCursor.secondary.foreground': derive.inactive(st.active),
+    'editorMultiCursor.secondary.background': s.background,
+    'editor.selectionBackground': s.surfaceSelected,
+    'editor.selectionHighlightBackground': s.surfaceFocus,
+    'editor.inactiveSelectionBackground': s.border,
+    'editor.lineHighlightBackground': s.currentLine,
+    'editor.lineHighlightBorder': s.currentLine,
+    'editor.inactiveLineHighlightBackground': derive.inactive(s.currentLine),
+    'editor.wordHighlightBackground': overlay(s.surfaceFocus, 'soft'),
+    'editor.wordHighlightStrongBackground': overlay(s.surfaceSelected, 'strong'),
+    'editor.findMatchBackground': overlay(a.base, 'soft'),
+    'editor.findMatchHighlightBackground': derive.rest(a.muted),
+    'editorIndentGuide.background1': s.border,
+    'editorIndentGuide.activeBackground1': a.muted,
+    'editorWhitespace.foreground': x.ghost,
+    'editorRuler.foreground': s.border,
+    'editorBracketMatch.background': derive.rest(s.surfaceSelected),
+    'editorBracketMatch.border': st.focus,
+    'editorBracketHighlight.foreground1': k.keyword,
+    'editorBracketHighlight.foreground2': k.function,
+    'editorBracketHighlight.foreground3': k.interface,
+    'editorBracketHighlight.foreground4': k.generic,
+    'editorBracketHighlight.unexpectedBracket.foreground': k.operator,
+    'editorGutter.background': s.background,
+    'editorGutter.modifiedBackground': st.modified,
+    'editorGutter.addedBackground': st.added,
+    'editorGutter.deletedBackground': st.deleted,
+    'editorOverviewRuler.border': s.frame,
+    'editorCodeLens.foreground': x.muted,
+    'editorWidget.background': s.surfaceRaised,
+    'editorWidget.border': a.muted,
+    'editorHoverWidget.background': s.surfaceRaised,
+    'editorHoverWidget.border': a.muted,
+    'editorSuggestWidget.background': s.surfaceRaised,
+    'editorSuggestWidget.border': s.borderStrong,
+    'editorSuggestWidget.selectedBackground': s.surfaceFocus,
+    'editorSuggestWidget.highlightForeground': k.keyword,
+    'titleBar.activeBackground': s.frame,
+    'titleBar.activeForeground': x.normal,
+    'titleBar.inactiveBackground': s.frame,
+    'titleBar.inactiveForeground': x.muted,
+    'titleBar.border': s.border,
+    'activityBar.background': s.frame,
+    'activityBar.foreground': x.normal,
+    'activityBar.inactiveForeground': x.faint,
+    'activityBar.border': s.border,
+    'activityBarBadge.background': a.base,
+    'activityBarBadge.foreground': a.on,
+    'sideBar.background': s.surface,
+    'sideBar.foreground': x.secondary,
+    'sideBar.border': s.border,
+    'sideBarTitle.foreground': x.normal,
+    'sideBarSectionHeader.background': s.surfaceRaised,
+    'sideBarSectionHeader.border': s.border,
+    'statusBar.background': s.surfaceRaised,
+    'statusBar.foreground': x.secondary,
+    'statusBar.border': s.border,
+    'statusBar.debuggingBackground': k.generic,
+    'statusBar.noFolderBackground': s.surfaceRaised,
+    'statusBarItem.hoverBackground': s.surfaceFocus,
+    'statusBarItem.remoteBackground': a.muted,
+    'tab.activeBackground': s.surfaceHover,
+    'tab.activeForeground': x.bright,
+    'tab.inactiveBackground': s.background,
+    'tab.inactiveForeground': x.muted,
+    'tab.border': s.border,
+    'tab.activeBorderTop': a.base,
+    'tab.unfocusedActiveBorderTop': a.muted,
+    'editorGroupHeader.tabsBackground': s.surface,
+    'editorGroupHeader.border': s.border,
+    'editorGroup.border': s.border,
+    'panel.background': s.surface,
+    'panel.border': s.border,
+    'panelTitle.activeBorder': a.base,
+    'panelTitle.activeForeground': x.normal,
+    'panelTitle.inactiveForeground': x.muted,
+    'input.background': s.surfaceRaised,
+    'input.border': s.borderStrong,
+    'input.foreground': x.normal,
+    'input.placeholderForeground': x.muted,
+    'dropdown.background': s.surfaceRaised,
+    'dropdown.border': s.borderStrong,
+    'dropdown.foreground': x.normal,
+    'list.activeSelectionBackground': s.border,
+    'list.activeSelectionForeground': x.bright,
+    'list.inactiveSelectionBackground': s.surfaceHover,
+    'list.hoverBackground': s.surfaceHover,
+    'list.focusBackground': s.surfaceFocus,
+    'list.highlightForeground': k.keyword,
+    'scrollbar.shadow': s.frame,
+    'scrollbarSlider.background': derive.rest(a.muted),
+    'scrollbarSlider.hoverBackground': derive.hover(a.muted),
+    'scrollbarSlider.activeBackground': derive.active(a.base),
+    'button.background': a.base,
+    'button.foreground': a.on,
+    'badge.background': a.muted,
+    'badge.foreground': a.on,
+    'terminal.background': s.background,
+    'terminal.foreground': x.normal,
+    'terminal.ansiBlack': ansi.black,
+    'terminal.ansiRed': ansi.red,
+    'terminal.ansiGreen': ansi.green,
+    'terminal.ansiYellow': ansi.yellow,
+    'terminal.ansiBlue': ansi.blue,
+    'terminal.ansiMagenta': ansi.magenta,
+    'terminal.ansiCyan': ansi.cyan,
+    'terminal.ansiWhite': ansi.white,
+    'terminal.ansiBrightBlack': ansi.brightBlack,
+    'terminal.ansiBrightRed': ansi.brightRed,
+    'terminal.ansiBrightGreen': ansi.brightGreen,
+    'terminal.ansiBrightYellow': ansi.brightYellow,
+    'terminal.ansiBrightBlue': ansi.brightBlue,
+    'terminal.ansiBrightMagenta': ansi.brightMagenta,
+    'terminal.ansiBrightCyan': ansi.brightCyan,
+    'terminal.ansiBrightWhite': ansi.brightWhite,
+    'diffEditor.insertedTextBackground': overlay(st.added, 'tint'),
+    'diffEditor.removedTextBackground': overlay(st.deleted, 'tint'),
+    'gitDecoration.modifiedResourceForeground': st.modified,
+    'gitDecoration.addedResourceForeground': st.added,
+    'gitDecoration.deletedResourceForeground': st.deleted,
+    'gitDecoration.untrackedResourceForeground': st.untracked,
+    'peekViewEditor.background': s.background,
+    'peekViewResult.background': s.surface,
+    'peekView.border': a.muted,
+    'charts.foreground': x.normal,
+    'charts.lines': s.borderStrong,
+    'charts.red': chart.red,
+    'charts.blue': chart.blue,
+    'charts.yellow': chart.yellow,
+    'charts.orange': chart.orange,
+    'charts.green': chart.green,
+    'charts.purple': chart.purple,
+    'chart.line': a.base,
+    'chart.axis': s.borderStrong,
+    'chart.guide': s.border,
   };
 
   const tokenColors = [
@@ -216,7 +273,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "comment",
         "punctuation.definition.comment",
       ],
-      settings: { foreground: p.fgMuted, fontStyle: "italic" },
+      settings: { foreground: x.muted, fontStyle: "italic" },
     },
     {
       name: "Palavras-chave",
@@ -233,7 +290,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "keyword.control.from",
         "keyword.control.export",
       ],
-      settings: { foreground: p.keyword, fontStyle: "bold italic" },
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
     },
     {
       name: "Nomes reservados de declaração de tipo NÃO herdam a cor do nome do tipo (fix defensivo interface/enum/struct/record/class)",
@@ -244,7 +301,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "storage.type.record",
         "storage.type.class",
       ],
-      settings: { foreground: p.keyword, fontStyle: "bold italic" },
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
     },
     {
       name: "Constantes de linguagem (true/false/null/undefined/this/self)",
@@ -254,7 +311,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "variable.language.self",
         "variable.language.super",
       ],
-      settings: { foreground: p.keyword, fontStyle: "bold italic" },
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
     },
     {
       name: "Strings",
@@ -263,7 +320,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "string.quoted",
         "string.template",
       ],
-      settings: { foreground: p.string },
+      settings: { foreground: k.string },
     },
     {
       name: "Sequências de escape dentro de strings",
@@ -271,7 +328,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "constant.character.escape",
         "constant.character.escape.backslash",
       ],
-      settings: { foreground: p.keyword, fontStyle: "bold italic" },
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
     },
     {
       name: "Interpolação de strings (marcadores ${} #{} $())",
@@ -279,7 +336,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "punctuation.definition.template-expression",
         "punctuation.section.embedded",
       ],
-      settings: { foreground: p.keyword },
+      settings: { foreground: k.keyword },
     },
     {
       name: "Pontuação e chaves/colchetes/vírgulas",
@@ -303,12 +360,12 @@ function themeFor(family: Family, p: Palette): Theme {
         "meta.generic.punctuation",
         "punctuation.brace.angle",
       ],
-      settings: { foreground: p.keyword, fontStyle: "" },
+      settings: { foreground: k.keyword, fontStyle: "" },
     },
     {
       name: "Números",
       scope: ["constant.numeric"],
-      settings: { foreground: p.number },
+      settings: { foreground: k.number },
     },
     {
       name: "Operadores (somente cor, nunca negrito/itálico)",
@@ -337,7 +394,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "storage.type.function.arrow",
         "keyword.operator.assignment.compound",
       ],
-      settings: { foreground: p.operator, fontStyle: "" },
+      settings: { foreground: k.operator, fontStyle: "" },
     },
     {
       name: "Métodos e funções - declaração",
@@ -346,7 +403,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "meta.function.declaration entity.name.function",
         "meta.definition.method entity.name.function",
       ],
-      settings: { foreground: p.func, fontStyle: "bold" },
+      settings: { foreground: k.function, fontStyle: "bold" },
     },
     {
       name: "Métodos e funções - chamada",
@@ -357,7 +414,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "meta.method-call entity.name.function",
         "variable.function",
       ],
-      settings: { foreground: p.func, fontStyle: "" },
+      settings: { foreground: k.function, fontStyle: "" },
     },
     {
       name: "Membros estáticos (métodos, campos e propriedades static) - sempre itálico",
@@ -379,7 +436,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "support.class",
         "entity.other.inherited-class",
       ],
-      settings: { foreground: p.type, fontStyle: "bold" },
+      settings: { foreground: k.type, fontStyle: "bold" },
     },
     {
       name: "Delegates C# (Action / Func / Predicate) - mesma cor de métodos, em negrito",
@@ -390,7 +447,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "support.class.action.cs",
         "support.class.func.cs",
       ],
-      settings: { foreground: p.func, fontStyle: "bold" },
+      settings: { foreground: k.function, fontStyle: "bold" },
     },
     {
       name: "Function Components (JSX/TSX) - mesmo tratamento visual de classes",
@@ -398,7 +455,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "support.class.component",
         "entity.name.function.component",
       ],
-      settings: { foreground: p.type, fontStyle: "bold" },
+      settings: { foreground: k.type, fontStyle: "bold" },
     },
     {
       name: "Records e Structs (mesma regra de classes, apenas o nome do tipo)",
@@ -406,7 +463,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "entity.name.type.record",
         "entity.name.type.struct",
       ],
-      settings: { foreground: p.type, fontStyle: "bold" },
+      settings: { foreground: k.type, fontStyle: "bold" },
     },
     {
       name: "Classes/records/structs estáticos - apenas itálico, sem negrito (fallback léxico; ver semanticTokenColors para cobertura em qualquer ponto de uso)",
@@ -414,7 +471,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "entity.name.class.static",
         "meta.class.static entity.name.class",
       ],
-      settings: { foreground: p.type, fontStyle: "italic" },
+      settings: { foreground: k.type, fontStyle: "italic" },
     },
     {
       name: "Interfaces e Enums (mesma cor, apenas o nome do tipo)",
@@ -424,7 +481,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "entity.other.inherited-class.interface",
         "meta.interface",
       ],
-      settings: { foreground: p.iface, fontStyle: "" },
+      settings: { foreground: k.interface, fontStyle: "" },
     },
     {
       name: "Valores de enum (cor diferenciada)",
@@ -433,7 +490,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "constant.other.enum",
         "entity.name.variable.enum-member",
       ],
-      settings: { foreground: p.enumMember },
+      settings: { foreground: k.enumMember },
     },
     {
       name: "Variáveis locais",
@@ -443,7 +500,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "variable.other.local",
         "meta.definition.variable variable.other",
       ],
-      settings: { foreground: p.variable, fontStyle: "" },
+      settings: { foreground: k.variable, fontStyle: "" },
     },
     {
       name: "Parâmetros de métodos - sempre itálico",
@@ -453,7 +510,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "meta.parameter",
         "variable.other.parameter",
       ],
-      settings: { foreground: p.variable, fontStyle: "italic" },
+      settings: { foreground: k.variable, fontStyle: "italic" },
     },
     {
       name: "Propriedades e campos de classes",
@@ -464,7 +521,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "variable.member",
         "support.variable.property",
       ],
-      settings: { foreground: p.property, fontStyle: "" },
+      settings: { foreground: k.property, fontStyle: "" },
     },
     {
       name: "Generics (apenas o nome do tipo, os símbolos < > seguem a cor de pontuação)",
@@ -475,7 +532,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "meta.type.parameters storage.type",
         "meta.type.arguments storage.type",
       ],
-      settings: { foreground: p.generic, fontStyle: "" },
+      settings: { foreground: k.generic, fontStyle: "" },
     },
     {
       name: "Decoradores / Atributos (JS, TS, Python, C#)",
@@ -485,7 +542,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "entity.name.function.decorator",
         "meta.attribute",
       ],
-      settings: { foreground: p.number, fontStyle: "italic" },
+      settings: { foreground: k.number, fontStyle: "italic" },
     },
     {
       name: "Tipos primitivos",
@@ -494,7 +551,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "storage.type.primitive",
         "entity.name.type.primitive",
       ],
-      settings: { foreground: p.type, fontStyle: "" },
+      settings: { foreground: k.type, fontStyle: "" },
     },
     {
       name: "PowerShell - Variáveis ($var)",
@@ -502,7 +559,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "variable.other.readwrite.powershell",
         "punctuation.definition.variable.powershell",
       ],
-      settings: { foreground: p.variable },
+      settings: { foreground: k.variable },
     },
     {
       name: "PowerShell - Cmdlets",
@@ -510,12 +567,12 @@ function themeFor(family: Family, p: Palette): Theme {
         "support.function.powershell",
         "entity.name.function.powershell",
       ],
-      settings: { foreground: p.func },
+      settings: { foreground: k.function },
     },
     {
       name: "PowerShell - Parâmetros (-Param)",
       scope: ["variable.parameter.powershell"],
-      settings: { foreground: p.variable, fontStyle: "italic" },
+      settings: { foreground: k.variable, fontStyle: "italic" },
     },
     {
       name: "Markdown - Cabeçalhos",
@@ -523,17 +580,17 @@ function themeFor(family: Family, p: Palette): Theme {
         "markup.heading",
         "entity.name.section.markdown",
       ],
-      settings: { foreground: p.type, fontStyle: "bold" },
+      settings: { foreground: k.type, fontStyle: "bold" },
     },
     {
       name: "Markdown - Negrito",
       scope: ["markup.bold"],
-      settings: { foreground: p.fg, fontStyle: "bold" },
+      settings: { foreground: x.normal, fontStyle: "bold" },
     },
     {
       name: "Markdown - Itálico",
       scope: ["markup.italic"],
-      settings: { foreground: p.fg, fontStyle: "italic" },
+      settings: { foreground: x.normal, fontStyle: "italic" },
     },
     {
       name: "Markdown - Links",
@@ -541,7 +598,7 @@ function themeFor(family: Family, p: Palette): Theme {
         "string.other.link",
         "markup.underline.link",
       ],
-      settings: { foreground: p.func, fontStyle: "underline" },
+      settings: { foreground: k.function, fontStyle: "underline" },
     },
     {
       name: "Markdown - Código inline/bloco",
@@ -549,70 +606,70 @@ function themeFor(family: Family, p: Palette): Theme {
         "markup.inline.raw",
         "markup.fenced_code.block",
       ],
-      settings: { foreground: p.enumMember },
+      settings: { foreground: k.enumMember },
     },
     {
       name: "Markdown - Citação",
       scope: ["markup.quote"],
-      settings: { foreground: p.fgMuted, fontStyle: "italic" },
+      settings: { foreground: x.muted, fontStyle: "italic" },
     },
     {
       name: "JSON - Chaves (keys)",
       scope: ["support.type.property-name.json"],
-      settings: { foreground: p.property },
+      settings: { foreground: k.property },
     },
     {
       name: "JSON - Valores string",
       scope: ["string.quoted.double.json"],
-      settings: { foreground: p.string },
+      settings: { foreground: k.string },
     },
     {
       name: "JSON - Constantes (true/false/null)",
       scope: ["constant.language.json"],
-      settings: { foreground: p.keyword, fontStyle: "bold italic" },
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
     },
     {
       name: "Tags/atributos genéricos de markup",
       scope: ["entity.other.attribute-name"],
-      settings: { foreground: p.property, fontStyle: "italic" },
+      settings: { foreground: k.property, fontStyle: "italic" },
     },
   ];
 
   const semanticTokenColors = {
-    class: { foreground: p.type, fontStyle: "bold" },
-    'class.static': { foreground: p.type, fontStyle: "italic" },
-    'class.sealed': { foreground: p.type, fontStyle: "bold" },
-    delegate: { foreground: p.func, fontStyle: "bold" },
-    struct: { foreground: p.type, fontStyle: "bold" },
-    'struct.static': { foreground: p.type, fontStyle: "italic" },
-    interface: { foreground: p.iface, fontStyle: "" },
-    enum: { foreground: p.iface, fontStyle: "" },
-    enumMember: { foreground: p.enumMember, fontStyle: "" },
-    typeParameter: { foreground: p.generic, fontStyle: "" },
-    type: { foreground: p.type, fontStyle: "" },
-    method: { foreground: p.func, fontStyle: "" },
-    'method.declaration': { foreground: p.func, fontStyle: "bold" },
-    'method.definition': { foreground: p.func, fontStyle: "bold" },
-    'method.static': { foreground: p.func, fontStyle: "italic" },
-    'method.declaration.static': { foreground: p.func, fontStyle: "bold italic" },
-    'method.static.declaration': { foreground: p.func, fontStyle: "bold italic" },
-    function: { foreground: p.func, fontStyle: "" },
-    'function.declaration': { foreground: p.func, fontStyle: "bold" },
-    'function.definition': { foreground: p.func, fontStyle: "bold" },
-    parameter: { foreground: p.variable, fontStyle: "italic" },
-    'variable:typescript': { foreground: p.variable, fontStyle: "" },
-    'variable:typescriptreact': { foreground: p.variable, fontStyle: "" },
-    'variable:javascript': { foreground: p.variable, fontStyle: "" },
-    'variable:javascriptreact': { foreground: p.variable, fontStyle: "" },
-    'variable.static': { foreground: p.property, fontStyle: "italic" },
-    property: { foreground: p.property, fontStyle: "" },
-    'property.static': { foreground: p.property, fontStyle: "italic" },
-    'property.readonly': { foreground: p.property, fontStyle: "" },
-    'property.readonly.static': { foreground: p.property, fontStyle: "italic" },
-    '*.readonly:csharp': { foreground: p.property },
-    namespace: { foreground: p.fg, fontStyle: "" },
-    operator: { foreground: p.operator, fontStyle: "" },
-    keyword: { foreground: p.keyword, fontStyle: "bold italic" },
+    class: { foreground: k.type, fontStyle: "bold" },
+    'class.static': { foreground: k.type, fontStyle: "italic" },
+    'class.sealed': { foreground: k.type, fontStyle: "bold" },
+    delegate: { foreground: k.function, fontStyle: "bold" },
+    struct: { foreground: k.type, fontStyle: "bold" },
+    'struct.static': { foreground: k.type, fontStyle: "italic" },
+    interface: { foreground: k.interface, fontStyle: "" },
+    enum: { foreground: k.interface, fontStyle: "" },
+    enumMember: { foreground: k.enumMember, fontStyle: "" },
+    typeParameter: { foreground: k.generic, fontStyle: "" },
+    type: { foreground: k.type, fontStyle: "" },
+    method: { foreground: k.function, fontStyle: "" },
+    'method.declaration': { foreground: k.function, fontStyle: "bold" },
+    'method.definition': { foreground: k.function, fontStyle: "bold" },
+    'method.static': { foreground: k.function, fontStyle: "italic" },
+    'method.declaration.static': { foreground: k.function, fontStyle: "bold italic" },
+    'method.static.declaration': { foreground: k.function, fontStyle: "bold italic" },
+    function: { foreground: k.function, fontStyle: "" },
+    'function.declaration': { foreground: k.function, fontStyle: "bold" },
+    'function.definition': { foreground: k.function, fontStyle: "bold" },
+    parameter: { foreground: k.variable, fontStyle: "italic" },
+    'variable:typescript': { foreground: k.variable, fontStyle: "" },
+    'variable:typescriptreact': { foreground: k.variable, fontStyle: "" },
+    'variable:javascript': { foreground: k.variable, fontStyle: "" },
+    'variable:javascriptreact': { foreground: k.variable, fontStyle: "" },
+    'variable.static': { foreground: k.property, fontStyle: "italic" },
+    property: { foreground: k.property, fontStyle: "" },
+    'property.static': { foreground: k.property, fontStyle: "italic" },
+    'property.readonly': { foreground: k.property, fontStyle: "" },
+    'property.readonly.static': { foreground: k.property, fontStyle: "italic" },
+    '*.readonly:csharp': { foreground: k.property },
+    namespace: { foreground: x.normal, fontStyle: "" },
+    operator: { foreground: k.operator, fontStyle: "" },
+    keyword: { foreground: k.keyword, fontStyle: "bold italic" },
   };
 
   return {
@@ -658,11 +715,19 @@ function check(): string[] {
    * 1. Indigo still regenerates the theme as it shipped.
    *
    * Four parts, in the order they can fail. The file is the one that was
-   * pinned; it has no key JSON.parse would silently drop; the build writes
-   * exactly its bytes once both are serialized the same way (tools/baseline.ts
-   * says why that and not the raw file); and, for the error message, which
-   * keys moved. The third is the assertion — the rest is there so that when it
-   * fails it says what failed.
+   * pinned; it has no key JSON.parse would silently drop; the build, with the
+   * workbench keys the baseline never had set aside, writes exactly its bytes
+   * once both are serialized the same way (tools/baseline.ts says why that and
+   * not the raw file); and, for the error message, which keys moved. The third
+   * is the assertion — the rest is there so that when it fails it says what
+   * failed.
+   *
+   * Setting the new keys aside is a projection, not a filter on the result:
+   * the baseline's keys are taken in the order the BUILD has them, so a
+   * baseline key that moved past another still fails, and so does one that
+   * went missing. Only `colors` grows. The TextMate and semantic rules are the
+   * baseline's in full; changing them is M9's business and needs a baseline
+   * change of its own.
    */
   const { raw, theme } = readBaseline();
   const baseline = theme as Theme;
@@ -676,9 +741,13 @@ function check(): string[] {
   for (const key of duplicateKeys(raw.toString('utf8'))) {
     problems.push(`baseline: "${key}" appears twice, and JSON.parse keeps only the last`);
   }
-  const built = themeFor('indigo', base);
+  const built = themeFor('indigo', tokensFor('indigo'));
+  const projected = {
+    ...built,
+    colors: Object.fromEntries(Object.entries(built.colors).filter(([key]) => key in baseline.colors)),
+  };
   const want = serialize(baseline);
-  const got = serialize(built);
+  const got = serialize(projected);
   if (want !== got) {
     problems.push(`baseline: indigo no longer serializes to the baseline — ${firstDifference(want, got)}`);
   }
@@ -691,8 +760,6 @@ function check(): string[] {
   };
   drift(baseline.tokenColors, built.tokenColors, 'tokenColors');
   drift(baseline.semanticTokenColors, built.semanticTokenColors, 'semanticTokenColors');
-  const extra = Object.keys(built.colors).filter((k) => !(k in baseline.colors));
-  if (extra.length) problems.push(`baseline: colors gained ${extra.join(', ')}`);
 
   /*
    * 2. Every variant is legible on its own terms.
@@ -768,7 +835,126 @@ function check(): string[] {
   }
 
   /*
-   * 5. package.json declares exactly what this build writes.
+   * 5. Every token says what it is for.
+   *
+   * The type already refuses a token without an entry in DOCS; this refuses an
+   * entry that is there to satisfy the type. A sentence is the minimum.
+   */
+  const indigoTokens = flatten(tokensFor('indigo'));
+  for (const [name] of indigoTokens) {
+    if (docOf(name).trim().length < 12) problems.push(`tokens: ${name} has no documented role`);
+  }
+
+  for (const family of FAMILY_ORDER) {
+    const t = tokensFor(family);
+    const theme = themeFor(family, t);
+    const L = relativeLuminance;
+
+    /*
+     * 6. Nothing reaches the theme that is not a token.
+     *
+     * A colour is a token's value, or a token's value with an alpha from the
+     * overlay ladder on it. Anything else is a hexadecimal someone typed into
+     * the build, which is exactly what the token layer exists to stop — and
+     * it is caught here, by value, rather than by hoping a reviewer spots it.
+     */
+    const values = new Set(flatten(t).map(([, v]) => v));
+    const alphas = new Set(Object.values(OVERLAY).map((a) => a.toString(16).padStart(2, '0').toUpperCase()));
+    const stray = (where: string, colour: string | undefined): void => {
+      if (colour === undefined) return;
+      const solid = colour.slice(0, 7);
+      const alpha = colour.slice(7);
+      if (!values.has(solid) || (alpha && !alphas.has(alpha))) {
+        problems.push(`${family}: ${where} is ${colour}, which is not a token${alpha ? ' at a ladder opacity' : ''}`);
+      }
+    };
+    for (const [key, colour] of Object.entries(theme.colors)) stray(`colors["${key}"]`, colour);
+    for (const rule of theme.tokenColors as { name: string; settings: { foreground?: string } }[]) {
+      stray(`tokenColors "${rule.name}"`, rule.settings.foreground);
+    }
+    for (const [key, rule] of Object.entries(theme.semanticTokenColors as Record<string, { foreground?: string }>)) {
+      stray(`semanticTokenColors["${key}"]`, rule.foreground);
+    }
+
+    /*
+     * 7. The surfaces and the text keep their order.
+     *
+     * The names promise a hierarchy — a raised surface is above the one it
+     * floats on, a selection is stronger than a hover, `bright` is brighter
+     * than `normal` — and the palette maths could break that promise in one
+     * family without anyone noticing, because each colour is placed on its
+     * own. Equal is allowed where the design has two jobs at the same height
+     * (a raised widget and a hovered row are within a hex digit of each other
+     * in indigo); going backwards is not.
+     */
+    const s = t.surface;
+    const ladder: [string, string][] = [
+      ['background', s.background],
+      ['surface', s.surface],
+      ['currentLine', s.currentLine],
+      ['surfaceRaised', s.surfaceRaised],
+      ['surfaceHover', s.surfaceHover],
+      ['surfaceFocus', s.surfaceFocus],
+      ['surfaceSelected', s.surfaceSelected],
+    ];
+    const pairs: [string, string, string, string][] = [
+      ...ladder.slice(1).map(([n, v], i) => [ladder[i][0], ladder[i][1], n, v] as [string, string, string, string]),
+      ['background', s.background, 'frame', s.frame],
+      ['border', s.border, 'borderStrong', s.borderStrong],
+    ];
+    const x = t.text;
+    const ramp: [string, string][] = [
+      ['ghost', x.ghost], ['faint', x.faint], ['muted', x.muted], ['secondary', x.secondary],
+      ['normal', x.normal], ['bright', x.bright], ['white', x.white],
+    ];
+    pairs.push(...ramp.slice(1).map(([n, v], i) => [ramp[i][0], ramp[i][1], n, v] as [string, string, string, string]));
+    for (const [lo, loV, hi, hiV] of pairs) {
+      if (L(hiV) < L(loV)) problems.push(`${family}: ${hi} (${hiV}) is darker than ${lo} (${loV})`);
+    }
+
+    /*
+     * 8. The signals mean the same thing in every family.
+     *
+     * Error has to look like an error whether the chrome is violet or amber:
+     * each signal's ink has to land within SIGNAL_TOLERANCE of the hue VS Code
+     * itself uses for it, and no two signals — nor two chart series — may be
+     * the same ink, or a chart would draw two series in one colour. They are
+     * read as text in the problems view and the hovers, so they are held to
+     * AA; the chart series only have to be told from the ground, which is
+     * 3:1 for anything that is not text.
+     */
+    const signals = signalsFor(family);
+    const inks = Object.values(signals);
+    if (new Set(inks).size !== inks.length) {
+      problems.push(`${family}: two signals share an ink — ${JSON.stringify(signals)}`);
+    }
+    const signalColour: Record<Signal, string> = {
+      error: t.state.error, warning: t.state.warning, success: t.state.success, info: t.state.info,
+      orange: t.chart.orange, purple: t.chart.purple,
+    };
+    for (const [signal, colour] of Object.entries(signalColour) as [Signal, string][]) {
+      const off = Math.abs(signedHueDelta(SIGNAL_HUE[signal], oklchFromHex(colour).h));
+      if (off > SIGNAL_TOLERANCE) {
+        problems.push(
+          `${family}: ${signal} is ${signals[signal]} (${colour}), ${off.toFixed(0)}° from the hue it stands for — ` +
+            `the tolerance is ${SIGNAL_TOLERANCE}°`
+        );
+      }
+    }
+    for (const signal of ['error', 'warning', 'success', 'info'] as const) {
+      const got = contrastRatio(t.state[signal], s.background);
+      if (got < 4.5) problems.push(`${family}: ${signal} reads at ${got.toFixed(2)}:1, under AA`);
+    }
+    for (const [series, colour] of Object.entries(t.chart)) {
+      const got = contrastRatio(colour, s.background);
+      if (got < 3) problems.push(`${family}: chart ${series} is ${got.toFixed(2)}:1 against the ground, under 3:1`);
+    }
+    const git = [t.state.modified, t.state.added, t.state.deleted, t.state.untracked];
+    if (new Set(git).size !== git.length) problems.push(`${family}: two Git states share a colour`);
+  }
+
+  /*
+   * 9. package.json declares exactly what this build writes.
    *
    * A theme VS Code is not told about is a file on disk and nothing else, and
    * the failure is silent in both directions — a variant missing from the
@@ -805,9 +991,8 @@ if (problems.length) {
 
 fs.mkdirSync(THEMES, { recursive: true });
 for (const family of FAMILY_ORDER) {
-  const palette = paletteFor(family);
   const file = fileFor(family);
-  fs.writeFileSync(path.join(THEMES, file), serialize(themeFor(family, palette)), 'utf8');
+  fs.writeFileSync(path.join(THEMES, file), serialize(themeFor(family, tokensFor(family))), 'utf8');
   // How much room the family's closestPair pair has, so a design edit that walks
   // two roles toward each other is visible before it reaches the floor.
   const near = closestPair(family);
