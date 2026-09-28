@@ -162,6 +162,8 @@ Legibility is absolute rather than measured against indigo, because the variants
 
 [`tools/indigo-baseline.json`](tools/indigo-baseline.json) is the theme exactly as it shipped, and the build asserts that the indigo variant still regenerates it — every workbench color, every TextMate rule, every semantic rule. That check is the point of the whole arrangement: it is what lets the palette math be changed with the knowledge that the theme already open in someone's editor did not move. `npm run build:themes` fails and writes nothing if it does not hold.
 
+The comparison is byte for byte on what the build writes: the baseline and the built indigo are serialized the same way and must produce identical files, so a moved key fails as surely as a moved color. The baseline itself is pinned by its SHA-256 in [`tools/baseline.ts`](tools/baseline.ts) — it is v3.0.0's file, commit `6601ba7`, to the byte — and checked for duplicated keys, the one edit a JSON parse would hide.
+
 ## Language coverage
 
 Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, JSX/TSX, C#, PowerShell, Python, Markdown and JSON.
@@ -245,6 +247,10 @@ Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) a
 | [`tools/theme-palette.ts`](tools/theme-palette.ts) | The role table, and the eight per-family designs: their hues, their saturation, and the floor that keeps the tokens apart |
 | [`tools/build-color-themes.ts`](tools/build-color-themes.ts) | The theme structure, written once against role names, plus every check the build makes |
 | [`tools/indigo-baseline.json`](tools/indigo-baseline.json) | The theme as it shipped. The build refuses to write if indigo no longer reproduces it |
+| [`tools/baseline.ts`](tools/baseline.ts) | The baseline's pinned hash and origin, and how a built theme is compared against it |
+| [`tools/import-vscode-colors.ts`](tools/import-vscode-colors.ts) | Fetches VS Code's documented color IDs, now and as of 1.60, and writes [`tools/vscode-colors.json`](tools/vscode-colors.json). Only re-run when moving the pin |
+| [`tools/inventory.ts`](tools/inventory.ts) | Writes [`docs/INVENTORY.md`](docs/INVENTORY.md): the counts, which workbench IDs still fall back to VS Code's defaults, and the hashes of the preview corpus |
+| [`tools/check.ts`](tools/check.ts) | Runs every offline check in one go |
 | [`tools/shapes.ts`](tools/shapes.ts) | The drawing primitives, and the three rules everything obeys: fill only, holes cut with `evenodd` rather than painted, and no bare vertices — `roundedPolygonPath` rounds every corner it is given |
 | [`tools/glyphs.ts`](tools/glyphs.ts) | The pictogram library — 115 imported shapes, each scaled into a 24×24 box centred on `(0,0)` and painted in an identity tone plus a derived tint |
 | [`tools/import-pictograms.ts`](tools/import-pictograms.ts) | Fetches the pictograms from Iconify, resolves their duotone into this set’s two colour slots, and writes [`tools/pictogram-paths.ts`](tools/pictogram-paths.ts). Only re-run when adding a pictogram |
@@ -262,6 +268,9 @@ npm run build:icons              # the icon set
 npm run import:marks             # re-fetch the official logo geometry
 npm run import:pictograms        # re-fetch the pictogram geometry from Iconify
 npm run typecheck                # tsc, no emit
+npm run inventory                # rewrite docs/INVENTORY.md
+npm run import:vscode-colors     # re-fetch VS Code's color ID list
+npm run check                    # every offline check
 ```
 
 The build scripts are TypeScript, run straight by Node's type stripping — there is no compile step, no bundler and no `dist/`. `typescript` is a devDependency for checking only, and nothing in `tools/` is packaged into the extension. The types are load-bearing rather than decorative: `mark` and `glyph` on a spec are the unions of the real mark and pictogram names, and every entry in the extension / filename / language-id tables must name an icon the spec defines, so a typo is an error in the editor instead of a thrown build.
@@ -269,6 +278,16 @@ The build scripts are TypeScript, run straight by Node's type stripping — ther
 The icon build fails if a mapping points at an icon that does not exist, and the theme build fails if `package.json` does not contribute exactly the eight themes it writes — so neither pair can drift apart silently. `npm run preview:icons` additionally writes `icons/preview.html`, which shows every icon at 48px and at the 16px VS Code renders it.
 
 Both sets are byte-for-byte reproducible, so `git diff` after a build is the regression test: a change that was meant to touch two icons and touches nine has said so before it is committed.
+
+### Checks
+
+```bash
+npm run check
+```
+
+Runs, in order and without stopping at the first failure: the type check; the theme build, which holds the baseline, the contrast floors, the hue separation and the manifest; the icon build, which holds the mappings and the measured bounds; a second build of both, which must not change a byte; and `inventory --check`, which fails if [`docs/INVENTORY.md`](docs/INVENTORY.md) no longer describes the tree. The last one is how the screenshots are guarded without a browser — the inventory pins every PNG and sample by hash, so a regenerated screenshot that came out different fails the check until the inventory is rewritten and the change is reviewed in the same diff. A new check is one entry in `CHECKS` in [`tools/check.ts`](tools/check.ts).
+
+Two things stay outside it: `npm run check:images`, because it needs the network, and regenerating the screenshots, because it needs a browser. Run `npm run preview:theme` and `npm run preview:gallery` before a release; on the same machine they reproduce the committed PNGs exactly.
 
 **Adding a colour** is an entry in `VARIANTS` — a family hue, three saturation multipliers, an accent, and where the keywords and the six semantic roles sit on the wheel — plus its name in `Family`, `FAMILY_ORDER`, `TITLE` and `contributes.themes`. It is more than one line on purpose: a variant is a design, and the parts that carry an identity are the parts worth deciding rather than deriving. Everything else follows, and the build will tell you if any two roles ended up closer than the 22-degree floor, if a token drops under AAA, or if the manifest and the themes disagree.
 

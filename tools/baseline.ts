@@ -1,0 +1,94 @@
+/*
+ * What the baseline is, and how a theme is compared against it.
+ *
+ * tools/indigo-baseline.json is themes/midnight-indigo-color-theme.json exactly
+ * as v3.0.0 shipped it — commit 6601ba7, the last one before the theme was
+ * generated. Its bytes are that commit's bytes, which is what SHA256 below
+ * pins: an edit to the baseline cannot slip through as a reformat, because it
+ * changes the hash, and the hash lives in a .ts file that a reviewer reads.
+ *
+ * WHY THE COMPARISON IS NOT OF THE RAW FILES. The shipped file was formatted by
+ * hand, and not consistently — some arrays that fit on a line are broken over
+ * four, some that do not fit are left on one — so no serializer reproduces its
+ * whitespace, and one written to would be a copy of the file with extra steps.
+ * What the build CAN guarantee byte for byte is the thing it writes:
+ * `serialize(baseline)` is compared against `serialize(built)`, the exact bytes
+ * that land in themes/, which covers every key, every value and every key's
+ * position. The only thing that does not survive a parse is a duplicated key —
+ * JSON.parse keeps the last one and says nothing — so `duplicateKeys` looks
+ * for those in the raw text first.
+ */
+
+import crypto from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+
+export const BASELINE = {
+  file: path.join(HERE, 'indigo-baseline.json'),
+  sha256: '1dfdc462e3e79b468ad8bef9872f2adce89c7847a2151b6f48f0723093115a66',
+  commit: '6601ba7',
+  version: '3.0.0',
+} as const;
+
+/** The bytes the build writes a theme as. Everything is compared in this form. */
+export const serialize = (theme: unknown): string => JSON.stringify(theme, null, 2) + '\n';
+
+export const sha256 = (data: string | Buffer): string =>
+  crypto.createHash('sha256').update(data).digest('hex');
+
+export const readBaseline = (): { raw: Buffer; theme: unknown } => {
+  const raw = fs.readFileSync(BASELINE.file);
+  return { raw, theme: JSON.parse(raw.toString('utf8')) };
+};
+
+/**
+ * Every key that appears twice in the same object, as `path.key`.
+ *
+ * A scanner rather than a parser: it only has to know where strings, objects
+ * and arrays start and end, and that a string directly followed by `:` is a
+ * key. That is enough, because the file has already been through JSON.parse.
+ */
+export function duplicateKeys(text: string): string[] {
+  const found: string[] = [];
+  const stack: { keys: Set<string> | null; path: string }[] = [];
+  let lastKey = '';
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (ch === '"') {
+      let j = i + 1;
+      while (text[j] !== '"') j += text[j] === '\\' ? 2 : 1;
+      const str = JSON.parse(text.slice(i, j + 1)) as string;
+      let k = j + 1;
+      while (/\s/.test(text[k] ?? '')) k++;
+      const top = stack[stack.length - 1];
+      if (text[k] === ':' && top?.keys) {
+        if (top.keys.has(str)) found.push(`${top.path}${str}`);
+        top.keys.add(str);
+        lastKey = str;
+      }
+      i = j;
+    } else if (ch === '{' || ch === '[') {
+      const parent = stack[stack.length - 1];
+      const where = parent?.keys ? `${parent.path}${lastKey}.` : parent ? `${parent.path}[].` : '';
+      stack.push({ keys: ch === '{' ? new Set() : null, path: where });
+    } else if (ch === '}' || ch === ']') {
+      stack.pop();
+    }
+  }
+  return found;
+}
+
+/** The first line at which two serialized themes part company, for the error. */
+export function firstDifference(want: string, got: string): string {
+  const a = want.split('\n');
+  const b = got.split('\n');
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    if (a[i] !== b[i]) {
+      return `line ${i + 1}: baseline ${JSON.stringify(a[i]?.trim())}, built ${JSON.stringify(b[i]?.trim())}`;
+    }
+  }
+  return 'no difference';
+}

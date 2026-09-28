@@ -50,7 +50,10 @@
         "preview:icons": "node tools/build-icons.ts && node tools/preview.ts",
         "preview:gallery": "node tools/build-icon-preview.ts",
         "preview:theme": "node tools/build-theme-preview.ts",
-        "check:images": "node tools/check-images.ts"
+        "check:images": "node tools/check-images.ts",
+        "check": "node tools/check.ts",
+        "inventory": "node tools/inventory.ts",
+        "import:vscode-colors": "node tools/import-vscode-colors.ts"
     },
     "contributes": {
         "themes": [

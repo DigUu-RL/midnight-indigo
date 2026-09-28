@@ -26,6 +26,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { BASELINE, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
 import { contrastRatio } from './color.ts';
 import {
   FAMILY_ORDER,
@@ -653,10 +654,34 @@ function check(): string[] {
   const problems: string[] = [];
   const base = paletteFor('indigo');
 
-  /* 1. Indigo still regenerates the theme as it shipped. */
-  const baselinePath = path.join(HERE, 'indigo-baseline.json');
-  const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8')) as Theme;
+  /*
+   * 1. Indigo still regenerates the theme as it shipped.
+   *
+   * Four parts, in the order they can fail. The file is the one that was
+   * pinned; it has no key JSON.parse would silently drop; the build writes
+   * exactly its bytes once both are serialized the same way (tools/baseline.ts
+   * says why that and not the raw file); and, for the error message, which
+   * keys moved. The third is the assertion — the rest is there so that when it
+   * fails it says what failed.
+   */
+  const { raw, theme } = readBaseline();
+  const baseline = theme as Theme;
+  const pinned = sha256(raw);
+  if (pinned !== BASELINE.sha256) {
+    problems.push(
+      `baseline: tools/indigo-baseline.json is not the file that was pinned ` +
+        `(sha256 ${pinned.slice(0, 12)}…, expected ${BASELINE.sha256.slice(0, 12)}…)`
+    );
+  }
+  for (const key of duplicateKeys(raw.toString('utf8'))) {
+    problems.push(`baseline: "${key}" appears twice, and JSON.parse keeps only the last`);
+  }
   const built = themeFor('indigo', base);
+  const want = serialize(baseline);
+  const got = serialize(built);
+  if (want !== got) {
+    problems.push(`baseline: indigo no longer serializes to the baseline — ${firstDifference(want, got)}`);
+  }
   for (const [key, want] of Object.entries(baseline.colors)) {
     const got = built.colors[key];
     if (got !== want) problems.push(`baseline: colors["${key}"] was ${want}, is now ${got}`);
@@ -782,11 +807,7 @@ fs.mkdirSync(THEMES, { recursive: true });
 for (const family of FAMILY_ORDER) {
   const palette = paletteFor(family);
   const file = fileFor(family);
-  fs.writeFileSync(
-    path.join(THEMES, file),
-    JSON.stringify(themeFor(family, palette), null, 2) + '\n',
-    'utf8'
-  );
+  fs.writeFileSync(path.join(THEMES, file), serialize(themeFor(family, palette)), 'utf8');
   // How much room the family's closestPair pair has, so a design edit that walks
   // two roles toward each other is visible before it reaches the floor.
   const near = closestPair(family);
