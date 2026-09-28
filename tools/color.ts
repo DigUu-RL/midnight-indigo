@@ -75,6 +75,21 @@ export function contrastRatio(a: Colour, b: Colour): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
+/**
+ * A translucent `#RRGGBBAA` painted over an opaque ground, as the browser
+ * blends it (in sRGB, not linear light). A colour without an alpha is returned
+ * as it is. This is what a contrast check has to measure: an overlay has no
+ * contrast of its own, only the colour it makes on whatever is under it.
+ */
+export function over(colour: Colour, ground: Colour): Colour {
+  const m = colour.replace('#', '');
+  if (m.length !== 8) return colour.slice(0, 7);
+  const a = parseInt(m.slice(6), 16) / 255;
+  const top = hexToRgb(colour);
+  const bottom = hexToRgb(ground);
+  return rgbToHex(...(top.map((c, i) => c * a + bottom[i] * (1 - a)) as [number, number, number]));
+}
+
 /* -------------------------------------------------------------- *
  * OKLab / OKLCH  (Björn Ottosson, https://bottosson.github.io/posts/oklab/)
  * -------------------------------------------------------------- */

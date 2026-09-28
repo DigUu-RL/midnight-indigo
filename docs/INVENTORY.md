@@ -16,7 +16,7 @@
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 165 |
+| Workbench colours, per theme | 444 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -32,14 +32,14 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **165 of the 971** colour IDs VS Code documents (17.0%). **420** of those IDs were added after VS Code 1.60, and the theme sets 17 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **444 of the 971** colour IDs VS Code documents (45.7%). **420** of those IDs were added after VS Code 1.60, and the theme sets 145 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
 | Owner | Set | Left to VS Code | Documented | Coverage | Added since 1.60, unset |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | M1 Tokens and surfaces | 50 | 6 | 56 | 89.3% | 0 |
-| M2 Workbench | 62 | 0 | 382 | 16.2% | 142 |
+| M2 Workbench | 341 | 41 | 382 | 89.3% | 14 |
 | M4 Diagnostics, debug and testing | 0 | 0 | 112 | 0.0% | 22 |
 | M5 Editor intelligence | 26 | 0 | 174 | 14.9% | 53 |
 | M6 Terminal | 18 | 0 | 62 | 29.0% | 37 |
@@ -60,59 +60,59 @@ The sections are the colour reference's own.
 | Contrast colors | M1 | 0 | 2 | 0 |
 | Base colors | M1 | 10 | 10 | 0 |
 | Window border | M1 | 0 | 2 | 0 |
-| Modern UI colors | M2 | 0 | 29 | 29 |
+| Modern UI colors | M2 | 28 | 29 | 1 |
 | Text colors | M1 | 9 | 9 | 0 |
-| Action colors | M2 | 0 | 7 | 4 |
-| Button control | M2 | 2 | 23 | 13 |
+| Action colors | M2 | 6 | 7 | 0 |
+| Button control | M2 | 20 | 23 | 2 |
 | Dropdown control | M2 | 3 | 4 | 0 |
-| Input control | M2, M4 | 4 | 17 | 1 |
+| Input control | M2, M4 | 8 | 17 | 0 |
 | Scrollbar control | M2 | 4 | 5 | 1 |
 | Badge | M2 | 2 | 2 | 0 |
-| Progress bar | M2 | 0 | 1 | 0 |
-| Lists and trees | M2, M4 | 6 | 32 | 5 |
-| Activity Bar | M2 | 6 | 20 | 10 |
-| Profiles | M2 | 0 | 3 | 3 |
-| Side Bar | M2 | 6 | 14 | 6 |
+| Progress bar | M2 | 1 | 1 | 0 |
+| Lists and trees | M2, M4 | 22 | 32 | 1 |
+| Activity Bar | M2 | 16 | 20 | 2 |
+| Profiles | M2 | 3 | 3 | 0 |
+| Side Bar | M2 | 12 | 14 | 2 |
 | Minimap | M4, M5, M7 | 0 | 16 | 5 |
-| Editor Groups & Tabs | M2 | 10 | 42 | 9 |
+| Editor Groups & Tabs | M2 | 36 | 42 | 0 |
 | Editor colors | M1, M4, M5, M7, M8 | 40 | 171 | 73 |
 | Diff editor colors | M7 | 2 | 21 | 15 |
 | Chat colors | M8 | 0 | 15 | 15 |
 | Agent sessions colors | M8 | 0 | 32 | 32 |
 | Inline Chat colors | M8 | 0 | 10 | 10 |
 | Panel Chat colors | M8 | 0 | 2 | 2 |
-| Editor widget colors | M2, M4, M5 | 8 | 35 | 8 |
+| Editor widget colors | M2, M4, M5 | 9 | 35 | 8 |
 | Peek view colors | M5 | 3 | 16 | 2 |
 | Merge conflicts colors | M7 | 0 | 25 | 15 |
-| Panel colors | M2 | 5 | 20 | 8 |
-| Status Bar colors | M2 | 7 | 35 | 15 |
+| Panel colors | M2 | 16 | 20 | 4 |
+| Status Bar colors | M2 | 35 | 35 | 0 |
 | Title Bar colors | M2 | 5 | 5 | 0 |
-| Menu Bar colors | M2 | 0 | 10 | 0 |
-| Command Center colors | M2 | 0 | 9 | 9 |
-| Notification colors | M2 | 0 | 11 | 0 |
-| Banner colors | M2 | 0 | 3 | 0 |
-| Extensions colors | M2 | 0 | 16 | 10 |
-| Quick picker colors | M2 | 0 | 8 | 0 |
-| Keybinding label colors | M2 | 0 | 4 | 0 |
-| Keyboard shortcut table colors | M2 | 0 | 2 | 2 |
+| Menu Bar colors | M2 | 8 | 10 | 0 |
+| Command Center colors | M2 | 9 | 9 | 0 |
+| Notification colors | M2 | 11 | 11 | 0 |
+| Banner colors | M2 | 3 | 3 | 0 |
+| Extensions colors | M2 | 16 | 16 | 0 |
+| Quick picker colors | M2 | 7 | 8 | 0 |
+| Keybinding label colors | M2 | 4 | 4 | 0 |
+| Keyboard shortcut table colors | M2 | 2 | 2 | 0 |
 | Integrated Terminal colors | M6 | 18 | 61 | 37 |
 | Debug colors | M4 | 0 | 18 | 1 |
 | Testing colors | M4 | 0 | 32 | 20 |
-| Welcome page colors | M2 | 0 | 8 | 2 |
+| Welcome page colors | M2 | 7 | 8 | 0 |
 | Git colors | M7 | 4 | 11 | 1 |
 | Source Control Graph colors | M7 | 0 | 13 | 13 |
-| Settings Editor colors | M2 | 0 | 21 | 3 |
-| Breadcrumbs colors | M2 | 0 | 5 | 0 |
+| Settings Editor colors | M2 | 21 | 21 | 0 |
+| Breadcrumbs colors | M2 | 5 | 5 | 0 |
 | Snippets colors | M5 | 0 | 4 | 0 |
 | Symbol Icons colors | M5 | 0 | 33 | 0 |
 | Debug Icons colors | M4 | 0 | 20 | 0 |
-| Notebook colors | M2 | 0 | 24 | 3 |
+| Notebook colors | M2 | 19 | 24 | 1 |
 | Chart colors | M1 | 11 | 11 | 0 |
 | Ports colors | M6 | 0 | 1 | 0 |
 | Comments View colors | M7 | 0 | 2 | 2 |
-| Action Bar colors | M2 | 0 | 1 | 1 |
-| Simple Find Widget colors | M2 | 0 | 1 | 1 |
-| Gauge colors | M2 | 0 | 7 | 7 |
+| Action Bar colors | M2 | 1 | 1 | 0 |
+| Simple Find Widget colors | M2 | 1 | 1 | 0 |
+| Gauge colors | M2 | 7 | 7 | 0 |
 | Markdown | M9 | 0 | 5 | 5 |
 | Agent Session colors | M8 | 0 | 5 | 5 |
 
@@ -128,97 +128,56 @@ None.
 | `contrastBorder` | M1 | an extra border for high-contrast themes; on a dark theme it outlines every element |
 | `window.activeBorder` | M1 | a border round the whole window; the frame already ends at the title bar |
 | `window.inactiveBorder` | M1 | the same, for an unfocused window |
+| `modernEditorTab.inactiveBackground` | M2 | transparent by default, so an inactive tab is the strip it sits on — the same as the classic tabs |
+| `toolbar.hoverOutline` | M2 | an outline for high-contrast themes; the hover ground already marks the button |
+| `button.border` | M2 | follows `contrastBorder`, which is left unset: a filled button needs no outline on a dark ground |
+| `radio.inactiveForeground` | M2 | an unselected option keeps the text colour of the control it is in |
+| `radio.inactiveBackground` | M2 | an unselected option has no ground of its own |
+| `dropdown.listBackground` | M2 | falls back to `dropdown.background`, so the open list is the same surface as the closed control |
+| `scrollbar.background` | M2 | the track stays clear; the slider is the only part that is drawn |
+| `list.activeSelectionIconForeground` | M2 | repaints every icon in a selected row in one colour; unset, the file icons keep their own |
+| `list.focusForeground` | M2 | the focused row is marked by its ground and its outline; its text keeps the colour it has |
+| `list.focusAndSelectionOutline` | M2 | falls back to `list.focusOutline`, which is the focus colour already |
+| `list.hoverForeground` | M2 | the hovered row is marked by its ground; its text keeps the colour it has |
+| `list.inactiveSelectionIconForeground` | M2 | the same, for the selection of an unfocused list |
+| `list.inactiveFocusBackground` | M2 | an unfocused list shows its selection and nothing else — a second marker for where focus was is noise |
+| `list.inactiveFocusOutline` | M2 | the same, as an outline |
+| `list.filterMatchBorder` | M2 | follows `editor.findMatchHighlightBorder`, so a filter match and a find match stay one thing — that one is M5's |
+| `activityBar.activeBackground` | M2 | the active view is marked by its accent rule and its brighter icon; a ground behind it as well is a second marker |
+| `activityBar.activeFocusBorder` | M2 | keyboard focus draws the focus ring already |
+| `activityBarTop.background` | M2 | with the activity bar on top it sits in the side-bar title, and takes that ground |
+| `activityBarTop.activeBackground` | M2 | the same as the side activity bar: the accent rule marks the active view |
+| `sideBarTitle.border` | M2 | the title and the first section header are already separated by the header border |
+| `sideBarStickyScroll.border` | M2 | the sticky rows are separated by their shadow, as the editor sticky scroll is |
+| `editorGroupHeader.tabsBorder` | M2 | `editorGroupHeader.border` already rules the strip off from the editor |
+| `editorGroup.emptyBackground` | M2 | an empty group is the editor ground, like a full one |
+| `tab.activeBorder` | M2 | the active tab is marked at the top, by `tab.activeBorderTop`; a rule at the bottom as well boxes it in |
+| `tab.unfocusedActiveBorder` | M2 | the same, in an unfocused group |
+| `tab.hoverBorder` | M2 | the hovered tab is marked by its ground |
+| `tab.unfocusedHoverBorder` | M2 | the same, in an unfocused group |
 | `editor.selectionForeground` | M1 | repaints selected text in one colour, which throws away the syntax colours inside every selection |
 | `editor.selectionHighlightBorder` | M1 | the fill already marks the other occurrences; a border on top boxes every one of them |
+| `editorWidget.resizeBorder` | M2 | falls back to the widget border, which is what is being dragged |
+| `panelTitle.border` | M2 | the active panel is marked by `panelTitle.activeBorder`; a rule under the whole strip is a second one |
+| `panelStickyScroll.border` | M2 | the same, in the panel |
+| `outputView.background` | M2 | the output view is a read-only editor and takes the editor ground |
+| `outputViewStickyScroll.background` | M2 | follows `outputView.background` |
+| `menubar.selectionBorder` | M2 | the same, for the menu bar entry under the pointer |
+| `menu.selectionBorder` | M2 | the same, for the menu item under the pointer |
+| `quickInputList.focusIconForeground` | M2 | the same, for the focused row of the quick pick |
+| `welcomePage.background` | M2 | the welcome page is an editor and takes the editor ground |
+| `notebook.cellHoverBackground` | M2 | derived from `notebook.focusedCellBackground`, so it is clear too |
+| `notebook.focusedCellBackground` | M2 | the focused cell is marked by its border in the focus colour; a ground as well tints the code inside it |
+| `notebook.inactiveSelectedCellBorder` | M2 | a selected cell in an unfocused notebook keeps its selection ground; a border as well boxes it |
+| `notebook.outputContainerBackgroundColor` | M2 | an output sits on the notebook ground, as terminal output sits on the terminal |
+| `notebook.outputContainerBorderColor` | M2 | the cell border already frames the output with its cell |
 
 ### Everything that falls back to defaults
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Modern UI colors — 29 unset</summary>
+<details><summary>Input control — 9 unset</summary>
 
-- `surface.background` † (M2)
-- `surface.foreground` † (M2)
-- `surface.border` † (M2)
-- `editor.border` † (M2)
-- `modernPanel.border` † (M2)
-- `modernSash.gripForeground` † (M2)
-- `modernTab.activeBackground` † (M2)
-- `modernTab.activeForeground` † (M2)
-- `modernTab.hoverBackground` † (M2)
-- `modernTab.hoverForeground` † (M2)
-- `modernEditorTab.activeBackground` † (M2)
-- `modernEditorTab.activeActionBackground` † (M2)
-- `modernEditorTab.activeForeground` † (M2)
-- `modernEditorTab.inactiveBackground` † (M2)
-- `modernEditorTab.hoverBackground` † (M2)
-- `modernEditorTab.hoverActionBackground` † (M2)
-- `modernEditorTab.hoverForeground` † (M2)
-- `modernEditorTab.activeHoverBackground` † (M2)
-- `modernEditorTab.activeHoverActionBackground` † (M2)
-- `modernEditorTab.selectedActionBackground` † (M2)
-- `modernActivityBar.background` † (M2)
-- `modernActivityBar.inactiveBackground` † (M2)
-- `modernActivityBarItem.activeBackground` † (M2)
-- `modernActivityBarItem.activeForeground` † (M2)
-- `modernActivityBarItem.hoverBackground` † (M2)
-- `modernActivityBarItem.hoverForeground` † (M2)
-- `modernActivityBar.border` † (M2)
-- `modernUI.shellBackground` † (M2)
-- `modernUI.inactiveShellBackground` † (M2)
-
-</details>
-
-<details><summary>Action colors — 7 unset</summary>
-
-- `toolbar.hoverBackground` (M2)
-- `toolbar.hoverOutline` (M2)
-- `toolbar.activeBackground` (M2)
-- `editorActionList.background` † (M2)
-- `editorActionList.foreground` † (M2)
-- `editorActionList.focusForeground` † (M2)
-- `editorActionList.focusBackground` † (M2)
-
-</details>
-
-<details><summary>Button control — 21 unset</summary>
-
-- `button.border` (M2)
-- `button.separator` † (M2)
-- `button.hoverBackground` (M2)
-- `button.secondaryForeground` (M2)
-- `button.secondaryBackground` (M2)
-- `button.secondaryHoverBackground` (M2)
-- `button.secondaryBorder` † (M2)
-- `checkbox.background` (M2)
-- `checkbox.foreground` (M2)
-- `checkbox.disabled.background` † (M2)
-- `checkbox.disabled.foreground` † (M2)
-- `checkbox.border` (M2)
-- `checkbox.selectBackground` † (M2)
-- `checkbox.selectBorder` † (M2)
-- `radio.activeForeground` † (M2)
-- `radio.activeBackground` † (M2)
-- `radio.activeBorder` † (M2)
-- `radio.inactiveForeground` † (M2)
-- `radio.inactiveBackground` † (M2)
-- `radio.inactiveBorder` † (M2)
-- `radio.inactiveHoverBackground` † (M2)
-
-</details>
-
-<details><summary>Dropdown control — 1 unset</summary>
-
-- `dropdown.listBackground` (M2)
-
-</details>
-
-<details><summary>Input control — 13 unset</summary>
-
-- `inputOption.activeBackground` (M2)
-- `inputOption.activeBorder` (M2)
-- `inputOption.activeForeground` (M2)
-- `inputOption.hoverBackground` † (M2)
 - `inputValidation.errorBackground` (M4)
 - `inputValidation.errorForeground` (M4)
 - `inputValidation.errorBorder` (M4)
@@ -231,86 +190,10 @@ None.
 
 </details>
 
-<details><summary>Scrollbar control — 1 unset</summary>
+<details><summary>Lists and trees — 2 unset</summary>
 
-- `scrollbar.background` † (M2)
-
-</details>
-
-<details><summary>Progress bar — 1 unset</summary>
-
-- `progressBar.background` (M2)
-
-</details>
-
-<details><summary>Lists and trees — 26 unset</summary>
-
-- `list.activeSelectionIconForeground` (M2)
-- `list.dropBackground` (M2)
-- `list.focusForeground` (M2)
-- `list.focusHighlightForeground` (M2)
-- `list.focusOutline` (M2)
-- `list.focusAndSelectionOutline` † (M2)
-- `list.hoverForeground` (M2)
-- `list.inactiveSelectionForeground` (M2)
-- `list.inactiveSelectionIconForeground` (M2)
-- `list.inactiveFocusBackground` (M2)
-- `list.inactiveFocusOutline` (M2)
-- `list.invalidItemForeground` (M2)
 - `list.errorForeground` (M4)
 - `list.warningForeground` (M4)
-- `listFilterWidget.background` (M2)
-- `listFilterWidget.outline` (M2)
-- `listFilterWidget.noMatchesOutline` (M2)
-- `listFilterWidget.shadow` † (M2)
-- `list.filterMatchBackground` (M2)
-- `list.filterMatchBorder` (M2)
-- `list.deemphasizedForeground` (M2)
-- `list.dropBetweenBackground` † (M2)
-- `tree.indentGuidesStroke` (M2)
-- `tree.inactiveIndentGuidesStroke` † (M2)
-- `tree.tableColumnsBorder` (M2)
-- `tree.tableOddRowsBackground` † (M2)
-
-</details>
-
-<details><summary>Activity Bar — 14 unset</summary>
-
-- `activityBar.dropBorder` (M2)
-- `activityBar.activeBorder` (M2)
-- `activityBar.activeBackground` (M2)
-- `activityBar.activeFocusBorder` (M2)
-- `activityBarTop.foreground` † (M2)
-- `activityBarTop.activeBorder` † (M2)
-- `activityBarTop.inactiveForeground` † (M2)
-- `activityBarTop.dropBorder` † (M2)
-- `activityBarTop.background` † (M2)
-- `activityBarTop.activeBackground` † (M2)
-- `activityWarningBadge.foreground` † (M2)
-- `activityWarningBadge.background` † (M2)
-- `activityErrorBadge.foreground` † (M2)
-- `activityErrorBadge.background` † (M2)
-
-</details>
-
-<details><summary>Profiles — 3 unset</summary>
-
-- `profileBadge.background` † (M2)
-- `profileBadge.foreground` † (M2)
-- `profiles.sashBorder` † (M2)
-
-</details>
-
-<details><summary>Side Bar — 8 unset</summary>
-
-- `sideBar.dropBackground` (M2)
-- `sideBarSectionHeader.foreground` (M2)
-- `sideBarActivityBarTop.border` † (M2)
-- `sideBarTitle.background` † (M2)
-- `sideBarTitle.border` † (M2)
-- `sideBarStickyScroll.background` † (M2)
-- `sideBarStickyScroll.border` † (M2)
-- `sideBarStickyScroll.shadow` † (M2)
 
 </details>
 
@@ -332,43 +215,6 @@ None.
 - `minimapGutter.modifiedBackground` (M7)
 - `minimapGutter.deletedBackground` (M7)
 - `editorMinimap.inlineChatInserted` † (M5)
-
-</details>
-
-<details><summary>Editor Groups & Tabs — 32 unset</summary>
-
-- `editorGroup.dropBackground` (M2)
-- `editorGroupHeader.noTabsBackground` (M2)
-- `editorGroupHeader.tabsBorder` (M2)
-- `editorGroup.emptyBackground` (M2)
-- `editorGroup.focusedEmptyBorder` (M2)
-- `editorGroup.dropIntoPromptForeground` † (M2)
-- `editorGroup.dropIntoPromptBackground` † (M2)
-- `editorGroup.dropIntoPromptBorder` † (M2)
-- `tab.unfocusedActiveBackground` (M2)
-- `tab.activeBorder` (M2)
-- `tab.selectedBorderTop` † (M2)
-- `tab.selectedBackground` † (M2)
-- `tab.selectedForeground` † (M2)
-- `tab.dragAndDropBorder` † (M2)
-- `tab.unfocusedActiveBorder` (M2)
-- `tab.lastPinnedBorder` (M2)
-- `tab.unfocusedInactiveBackground` (M2)
-- `tab.unfocusedActiveForeground` (M2)
-- `tab.unfocusedInactiveForeground` (M2)
-- `tab.hoverBackground` (M2)
-- `tab.unfocusedHoverBackground` (M2)
-- `tab.hoverForeground` (M2)
-- `tab.unfocusedHoverForeground` (M2)
-- `tab.hoverBorder` (M2)
-- `tab.unfocusedHoverBorder` (M2)
-- `tab.activeModifiedBorder` (M2)
-- `tab.inactiveModifiedBorder` (M2)
-- `tab.unfocusedActiveModifiedBorder` (M2)
-- `tab.unfocusedInactiveModifiedBorder` (M2)
-- `editorPane.background` (M2)
-- `sideBySideEditor.horizontalBorder` † (M2)
-- `sideBySideEditor.verticalBorder` † (M2)
 
 </details>
 
@@ -609,10 +455,8 @@ None.
 
 </details>
 
-<details><summary>Editor widget colors — 27 unset</summary>
+<details><summary>Editor widget colors — 25 unset</summary>
 
-- `editorWidget.foreground` (M2)
-- `editorWidget.resizeBorder` (M2)
 - `editorSuggestWidget.foreground` (M5)
 - `editorSuggestWidget.focusHighlightForeground` (M5)
 - `editorSuggestWidget.selectedForeground` (M5)
@@ -686,162 +530,6 @@ None.
 - `mergeEditor.changeBase.word.background` † (M7)
 - `mergeEditor.conflict.input1.background` † (M7)
 - `mergeEditor.conflict.input2.background` † (M7)
-
-</details>
-
-<details><summary>Panel colors — 15 unset</summary>
-
-- `panel.dropBorder` (M2)
-- `panelTitle.border` † (M2)
-- `panelTitleBadge.background` † (M2)
-- `panelTitleBadge.foreground` † (M2)
-- `panelInput.border` (M2)
-- `panelSection.border` (M2)
-- `panelSection.dropBackground` (M2)
-- `panelSectionHeader.background` (M2)
-- `panelSectionHeader.foreground` (M2)
-- `panelStickyScroll.background` † (M2)
-- `panelStickyScroll.border` † (M2)
-- `panelStickyScroll.shadow` † (M2)
-- `panelSectionHeader.border` (M2)
-- `outputView.background` † (M2)
-- `outputViewStickyScroll.background` † (M2)
-
-</details>
-
-<details><summary>Status Bar colors — 28 unset</summary>
-
-- `statusBar.debuggingForeground` (M2)
-- `statusBar.debuggingBorder` (M2)
-- `statusBar.noFolderForeground` (M2)
-- `statusBar.noFolderBorder` (M2)
-- `statusBarItem.activeBackground` (M2)
-- `statusBarItem.hoverForeground` † (M2)
-- `statusBarItem.prominentForeground` (M2)
-- `statusBarItem.prominentBackground` (M2)
-- `statusBarItem.prominentHoverForeground` † (M2)
-- `statusBarItem.prominentHoverBackground` (M2)
-- `statusBarItem.remoteForeground` (M2)
-- `statusBarItem.remoteHoverBackground` † (M2)
-- `statusBarItem.remoteHoverForeground` † (M2)
-- `statusBarItem.errorBackground` (M2)
-- `statusBarItem.errorForeground` (M2)
-- `statusBarItem.errorHoverBackground` † (M2)
-- `statusBarItem.errorHoverForeground` † (M2)
-- `statusBarItem.warningBackground` (M2)
-- `statusBarItem.warningForeground` (M2)
-- `statusBarItem.warningHoverBackground` † (M2)
-- `statusBarItem.warningHoverForeground` † (M2)
-- `statusBarItem.compactHoverBackground` † (M2)
-- `statusBarItem.focusBorder` † (M2)
-- `statusBar.focusBorder` † (M2)
-- `statusBarItem.offlineBackground` † (M2)
-- `statusBarItem.offlineForeground` † (M2)
-- `statusBarItem.offlineHoverForeground` † (M2)
-- `statusBarItem.offlineHoverBackground` † (M2)
-
-</details>
-
-<details><summary>Menu Bar colors — 10 unset</summary>
-
-- `menubar.selectionForeground` (M2)
-- `menubar.selectionBackground` (M2)
-- `menubar.selectionBorder` (M2)
-- `menu.foreground` (M2)
-- `menu.background` (M2)
-- `menu.selectionForeground` (M2)
-- `menu.selectionBackground` (M2)
-- `menu.selectionBorder` (M2)
-- `menu.separatorBackground` (M2)
-- `menu.border` (M2)
-
-</details>
-
-<details><summary>Command Center colors — 9 unset</summary>
-
-- `commandCenter.foreground` † (M2)
-- `commandCenter.activeForeground` † (M2)
-- `commandCenter.background` † (M2)
-- `commandCenter.activeBackground` † (M2)
-- `commandCenter.border` † (M2)
-- `commandCenter.inactiveForeground` † (M2)
-- `commandCenter.inactiveBorder` † (M2)
-- `commandCenter.activeBorder` † (M2)
-- `commandCenter.debuggingBackground` † (M2)
-
-</details>
-
-<details><summary>Notification colors — 11 unset</summary>
-
-- `notificationCenter.border` (M2)
-- `notificationCenterHeader.foreground` (M2)
-- `notificationCenterHeader.background` (M2)
-- `notificationToast.border` (M2)
-- `notifications.foreground` (M2)
-- `notifications.background` (M2)
-- `notifications.border` (M2)
-- `notificationLink.foreground` (M2)
-- `notificationsErrorIcon.foreground` (M2)
-- `notificationsWarningIcon.foreground` (M2)
-- `notificationsInfoIcon.foreground` (M2)
-
-</details>
-
-<details><summary>Banner colors — 3 unset</summary>
-
-- `banner.background` (M2)
-- `banner.foreground` (M2)
-- `banner.iconForeground` (M2)
-
-</details>
-
-<details><summary>Extensions colors — 16 unset</summary>
-
-- `extensionButton.prominentForeground` (M2)
-- `extensionButton.prominentBackground` (M2)
-- `extensionButton.prominentHoverBackground` (M2)
-- `extensionButton.background` † (M2)
-- `extensionButton.foreground` † (M2)
-- `extensionButton.hoverBackground` † (M2)
-- `extensionButton.separator` † (M2)
-- `extensionButton.border` † (M2)
-- `extensionBadge.remoteBackground` (M2)
-- `extensionBadge.remoteForeground` (M2)
-- `extensionIcon.starForeground` (M2)
-- `extensionIcon.verifiedForeground` † (M2)
-- `extensionIcon.preReleaseForeground` † (M2)
-- `extensionIcon.sponsorForeground` † (M2)
-- `extensionIcon.privateForeground` † (M2)
-- `mcpIcon.starForeground` † (M2)
-
-</details>
-
-<details><summary>Quick picker colors — 8 unset</summary>
-
-- `pickerGroup.border` (M2)
-- `pickerGroup.foreground` (M2)
-- `quickInput.background` (M2)
-- `quickInput.foreground` (M2)
-- `quickInputList.focusBackground` (M2)
-- `quickInputList.focusForeground` (M2)
-- `quickInputList.focusIconForeground` (M2)
-- `quickInputTitle.background` (M2)
-
-</details>
-
-<details><summary>Keybinding label colors — 4 unset</summary>
-
-- `keybindingLabel.background` (M2)
-- `keybindingLabel.foreground` (M2)
-- `keybindingLabel.border` (M2)
-- `keybindingLabel.bottomBorder` (M2)
-
-</details>
-
-<details><summary>Keyboard shortcut table colors — 2 unset</summary>
-
-- `keybindingTable.headerBackground` † (M2)
-- `keybindingTable.rowsBackground` † (M2)
 
 </details>
 
@@ -953,19 +641,6 @@ None.
 
 </details>
 
-<details><summary>Welcome page colors — 8 unset</summary>
-
-- `welcomePage.background` (M2)
-- `welcomePage.progress.background` (M2)
-- `welcomePage.progress.foreground` (M2)
-- `welcomePage.tileBackground` (M2)
-- `welcomePage.tileHoverBackground` (M2)
-- `welcomePage.tileBorder` † (M2)
-- `walkThrough.embeddedEditorBackground` (M2)
-- `walkthrough.stepTitle.foreground` † (M2)
-
-</details>
-
 <details><summary>Git colors — 7 unset</summary>
 
 - `gitDecoration.renamedResourceForeground` (M7)
@@ -993,42 +668,6 @@ None.
 - `scmGraph.historyItemBaseRefColor` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelForeground` † (M7)
 - `scmGraph.historyItemHoverDefaultLabelBackground` † (M7)
-
-</details>
-
-<details><summary>Settings Editor colors — 21 unset</summary>
-
-- `settings.headerForeground` (M2)
-- `settings.modifiedItemIndicator` (M2)
-- `settings.dropdownBackground` (M2)
-- `settings.dropdownForeground` (M2)
-- `settings.dropdownBorder` (M2)
-- `settings.dropdownListBorder` (M2)
-- `settings.checkboxBackground` (M2)
-- `settings.checkboxForeground` (M2)
-- `settings.checkboxBorder` (M2)
-- `settings.rowHoverBackground` (M2)
-- `settings.textInputBackground` (M2)
-- `settings.textInputForeground` (M2)
-- `settings.textInputBorder` (M2)
-- `settings.numberInputBackground` (M2)
-- `settings.numberInputForeground` (M2)
-- `settings.numberInputBorder` (M2)
-- `settings.focusedRowBackground` (M2)
-- `settings.focusedRowBorder` (M2)
-- `settings.headerBorder` † (M2)
-- `settings.sashBorder` † (M2)
-- `settings.settingsHeaderHoverForeground` † (M2)
-
-</details>
-
-<details><summary>Breadcrumbs colors — 5 unset</summary>
-
-- `breadcrumb.foreground` (M2)
-- `breadcrumb.background` (M2)
-- `breadcrumb.focusForeground` (M2)
-- `breadcrumb.activeSelectionForeground` (M2)
-- `breadcrumbPicker.background` (M2)
 
 </details>
 
@@ -1104,35 +743,6 @@ None.
 
 </details>
 
-<details><summary>Notebook colors — 24 unset</summary>
-
-- `notebook.editorBackground` † (M2)
-- `notebook.cellBorderColor` (M2)
-- `notebook.cellHoverBackground` (M2)
-- `notebook.cellInsertionIndicator` (M2)
-- `notebook.cellStatusBarItemHoverBackground` (M2)
-- `notebook.cellToolbarSeparator` (M2)
-- `notebook.cellEditorBackground` (M2)
-- `notebook.focusedCellBackground` (M2)
-- `notebook.focusedCellBorder` (M2)
-- `notebook.focusedEditorBorder` (M2)
-- `notebook.inactiveFocusedCellBorder` (M2)
-- `notebook.inactiveSelectedCellBorder` (M2)
-- `notebook.outputContainerBackgroundColor` (M2)
-- `notebook.outputContainerBorderColor` † (M2)
-- `notebook.selectedCellBackground` (M2)
-- `notebook.selectedCellBorder` (M2)
-- `notebook.symbolHighlightBackground` (M2)
-- `notebookScrollbarSlider.activeBackground` (M2)
-- `notebookScrollbarSlider.background` (M2)
-- `notebookScrollbarSlider.hoverBackground` (M2)
-- `notebookStatusErrorIcon.foreground` (M2)
-- `notebookStatusRunningIcon.foreground` (M2)
-- `notebookStatusSuccessIcon.foreground` (M2)
-- `notebookEditorOverviewRuler.runningCellForeground` † (M2)
-
-</details>
-
 <details><summary>Ports colors — 1 unset</summary>
 
 - `ports.iconRunningProcessForeground` (M6)
@@ -1143,30 +753,6 @@ None.
 
 - `commentsView.resolvedIcon` † (M7)
 - `commentsView.unresolvedIcon` † (M7)
-
-</details>
-
-<details><summary>Action Bar colors — 1 unset</summary>
-
-- `actionBar.toggledBackground` † (M2)
-
-</details>
-
-<details><summary>Simple Find Widget colors — 1 unset</summary>
-
-- `simpleFindWidget.sashBorder` † (M2)
-
-</details>
-
-<details><summary>Gauge colors — 7 unset</summary>
-
-- `gauge.background` † (M2)
-- `gauge.foreground` † (M2)
-- `gauge.border` † (M2)
-- `gauge.warningBackground` † (M2)
-- `gauge.warningForeground` † (M2)
-- `gauge.errorBackground` † (M2)
-- `gauge.errorForeground` † (M2)
 
 </details>
 

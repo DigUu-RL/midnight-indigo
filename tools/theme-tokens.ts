@@ -205,7 +205,7 @@ type Docs = { [G in Group]: { [K in keyof Tokens[G]]: string } };
 
 export const DOCS: Docs = {
   surface: {
-    background: 'The editor itself, the gutter and the terminal: the darkest ground, and the one everything else is measured against.',
+    background: 'The editor itself, the gutter, the terminal and code blocks: the darkest ground, and the one everything else is measured against.',
     frame: 'The window frame — title bar and activity bar — a step above the editor so the edge of the window reads.',
     surface: 'Side bar, panel and tab strip: the chrome that holds the editor.',
     currentLine: "The cursor's line in the editor.",
