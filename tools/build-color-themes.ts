@@ -34,7 +34,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { BASELINE, amendedBaseline, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
-import { contrastRatio, oklchFromHex, over, relativeLuminance, signedHueDelta } from './color.ts';
+import { contrastRatio, deltaE, oklchFromHex, over, relativeLuminance, signedHueDelta } from './color.ts';
 import {
   FAMILY_ORDER,
   SEPARATION,
@@ -98,6 +98,9 @@ type Theme = {
 function themeFor(family: Family, t: Tokens): Theme {
   const { surface: s, text: x, link, accent: a, syntax: k, state: st, chart, ansi } = t;
 
+  /** A row under the pointer: the focus ground at `soft` (STATES.hover). */
+  const rowHover: string = overlay(s.surfaceFocus, 'soft');
+
   const colors = {
     focusBorder: st.focus,
     foreground: x.normal,
@@ -117,7 +120,7 @@ function themeFor(family: Family, t: Tokens): Theme {
     'modernSash.gripForeground': x.faint,
     'modernUI.shellBackground': s.frame,
     'modernUI.inactiveShellBackground': s.frame,
-    'toolbar.hoverBackground': derive.hover(s.borderStrong),
+    'toolbar.hoverBackground': derive.rest(s.borderStrong),
     'toolbar.activeBackground': derive.active(s.borderStrong),
     'actionBar.toggledBackground': overlay(a.base, 'soft'),
     'progressBar.background': a.base,
@@ -220,7 +223,7 @@ function themeFor(family: Family, t: Tokens): Theme {
     'titleBar.inactiveBackground': s.frame,
     'titleBar.inactiveForeground': x.muted,
     'titleBar.border': s.border,
-    'menubar.selectionBackground': derive.hover(s.borderStrong),
+    'menubar.selectionBackground': derive.rest(s.borderStrong),
     'menubar.selectionForeground': x.normal,
     'commandCenter.background': s.surfaceRaised,
     'commandCenter.foreground': x.secondary,
@@ -255,7 +258,7 @@ function themeFor(family: Family, t: Tokens): Theme {
     'modernActivityBar.border': s.border,
     'modernActivityBarItem.activeBackground': s.border,
     'modernActivityBarItem.activeForeground': x.bright,
-    'modernActivityBarItem.hoverBackground': s.surfaceHover,
+    'modernActivityBarItem.hoverBackground': rowHover,
     'modernActivityBarItem.hoverForeground': x.normal,
     'sideBar.background': s.surface,
     'sideBar.foreground': x.secondary,
@@ -284,10 +287,10 @@ function themeFor(family: Family, t: Tokens): Theme {
     'statusBarItem.activeBackground': s.surfaceSelected,
     'statusBarItem.compactHoverBackground': s.surfaceFocus,
     'statusBarItem.focusBorder': st.focus,
-    'statusBarItem.prominentBackground': s.surfaceFocus,
-    'statusBarItem.prominentForeground': x.normal,
-    'statusBarItem.prominentHoverBackground': s.surfaceSelected,
-    'statusBarItem.prominentHoverForeground': x.bright,
+    'statusBarItem.prominentBackground': a.muted,
+    'statusBarItem.prominentForeground': a.on,
+    'statusBarItem.prominentHoverBackground': a.base,
+    'statusBarItem.prominentHoverForeground': a.on,
     'statusBarItem.remoteBackground': a.muted,
     'statusBarItem.remoteForeground': a.on,
     'statusBarItem.remoteHoverBackground': a.base,
@@ -319,8 +322,8 @@ function themeFor(family: Family, t: Tokens): Theme {
     'tab.hoverForeground': x.normal,
     'tab.unfocusedHoverBackground': derive.hover(s.surfaceHover),
     'tab.unfocusedHoverForeground': derive.inactive(x.normal),
-    'tab.selectedBackground': s.surfaceHover,
-    'tab.selectedForeground': x.bright,
+    'tab.selectedBackground': s.border,
+    'tab.selectedForeground': x.normal,
     'tab.selectedBorderTop': a.muted,
     'tab.activeModifiedBorder': st.modified,
     'tab.inactiveModifiedBorder': derive.inactive(st.modified),
@@ -330,17 +333,17 @@ function themeFor(family: Family, t: Tokens): Theme {
     'tab.dragAndDropBorder': a.base,
     'modernTab.activeBackground': s.border,
     'modernTab.activeForeground': x.bright,
-    'modernTab.hoverBackground': s.surfaceHover,
+    'modernTab.hoverBackground': rowHover,
     'modernTab.hoverForeground': x.normal,
-    'modernEditorTab.activeBackground': s.surfaceHover,
+    'modernEditorTab.activeBackground': s.border,
     'modernEditorTab.activeForeground': x.bright,
-    'modernEditorTab.activeActionBackground': s.surfaceHover,
-    'modernEditorTab.hoverBackground': s.surfaceHover,
+    'modernEditorTab.activeActionBackground': s.border,
+    'modernEditorTab.hoverBackground': rowHover,
     'modernEditorTab.hoverForeground': x.normal,
-    'modernEditorTab.hoverActionBackground': s.surfaceHover,
-    'modernEditorTab.activeHoverBackground': s.surfaceHover,
-    'modernEditorTab.activeHoverActionBackground': s.surfaceHover,
-    'modernEditorTab.selectedActionBackground': s.surfaceHover,
+    'modernEditorTab.hoverActionBackground': rowHover,
+    'modernEditorTab.activeHoverBackground': s.border,
+    'modernEditorTab.activeHoverActionBackground': s.border,
+    'modernEditorTab.selectedActionBackground': s.border,
     'editorGroupHeader.tabsBackground': s.surface,
     'editorGroupHeader.noTabsBackground': s.background,
     'editorGroupHeader.border': s.border,
@@ -379,9 +382,9 @@ function themeFor(family: Family, t: Tokens): Theme {
     'input.foreground': x.normal,
     'input.placeholderForeground': x.muted,
     'inputOption.activeBackground': overlay(a.base, 'soft'),
-    'inputOption.activeBorder': st.focus,
+    'inputOption.activeBorder': a.muted,
     'inputOption.activeForeground': x.white,
-    'inputOption.hoverBackground': derive.hover(s.borderStrong),
+    'inputOption.hoverBackground': derive.rest(s.borderStrong),
     'dropdown.background': s.surfaceRaised,
     'dropdown.border': s.borderStrong,
     'dropdown.foreground': x.normal,
@@ -394,14 +397,14 @@ function themeFor(family: Family, t: Tokens): Theme {
     'checkbox.disabled.foreground': derive.disabled(x.normal),
     'radio.activeBackground': overlay(a.base, 'soft'),
     'radio.activeForeground': x.white,
-    'radio.activeBorder': st.focus,
+    'radio.activeBorder': a.muted,
     'radio.inactiveBorder': s.borderStrong,
-    'radio.inactiveHoverBackground': derive.hover(s.borderStrong),
+    'radio.inactiveHoverBackground': derive.rest(s.borderStrong),
     'list.activeSelectionBackground': s.border,
     'list.activeSelectionForeground': x.bright,
     'list.inactiveSelectionBackground': s.border,
     'list.inactiveSelectionForeground': x.normal,
-    'list.hoverBackground': overlay(s.surfaceFocus, 'soft'),
+    'list.hoverBackground': rowHover,
     'list.focusBackground': s.surfaceFocus,
     'list.focusOutline': st.focus,
     'list.highlightForeground': k.keyword,
@@ -463,8 +466,8 @@ function themeFor(family: Family, t: Tokens): Theme {
     'settings.headerBorder': s.border,
     'settings.sashBorder': s.border,
     'settings.modifiedItemIndicator': st.modified,
-    'settings.rowHoverBackground': derive.rest(s.surfaceFocus),
-    'settings.focusedRowBackground': derive.hover(s.surfaceFocus),
+    'settings.rowHoverBackground': rowHover,
+    'settings.focusedRowBackground': derive.active(s.surfaceFocus),
     'settings.focusedRowBorder': st.focus,
     'settings.dropdownBackground': s.surfaceRaised,
     'settings.dropdownForeground': x.normal,
@@ -490,7 +493,7 @@ function themeFor(family: Family, t: Tokens): Theme {
     'notebook.cellEditorBackground': s.surface,
     'notebook.cellBorderColor': s.border,
     'notebook.cellToolbarSeparator': s.border,
-    'notebook.cellStatusBarItemHoverBackground': derive.hover(s.borderStrong),
+    'notebook.cellStatusBarItemHoverBackground': derive.rest(s.borderStrong),
     'notebook.cellInsertionIndicator': st.focus,
     'notebook.focusedCellBorder': st.focus,
     'notebook.focusedEditorBorder': st.focus,
@@ -979,6 +982,261 @@ const TOKENS = [
 /** Chrome text: the workbench, not the code. */
 const UI_TEXT = ['fg', 'fgDim', 'fgBright', 'fgMuted'] as const;
 
+/*
+ * The controls that have interaction states, and the IDs each state is drawn
+ * with. `ground` is what the control sits on; `rest` is the control's own
+ * ground when it has one (a button, an inactive tab), and the ground when it
+ * does not (a row). Every state is composited over the ground, because that is
+ * how VS Code paints it — a hovered tab replaces the tab's own ground rather
+ * than sitting on top of it. `marks` names the states that also draw
+ * something in a channel of its own — the focus ring, the active tab's rule —
+ * which tells them apart whatever their grounds do.
+ *
+ * `accent` controls are filled with the accent at rest, so the accent may
+ * appear in their states. `recedes` marks the ones whose hover moves toward
+ * the ground rather than away from it (STATES.hover says why), which exempts
+ * them from the order check and nothing else.
+ */
+type StateKey = 'hover' | 'focus' | 'active' | 'selected' | 'selectedInactive' | 'on' | 'prominent';
+type Control = {
+  name: string;
+  ground: string;
+  rest?: string;
+  states: Partial<Record<StateKey, string>>;
+  marks?: Partial<Record<StateKey, string>>;
+  accent?: boolean;
+  recedes?: boolean;
+};
+
+const CONTROLS: Control[] = [
+  {
+    name: 'side-bar list',
+    ground: 'sideBar.background',
+    states: {
+      hover: 'list.hoverBackground',
+      focus: 'list.focusBackground',
+      selected: 'list.activeSelectionBackground',
+      selectedInactive: 'list.inactiveSelectionBackground',
+    },
+    marks: { focus: 'list.focusOutline', selected: 'list.focusOutline' },
+  },
+  { name: 'quick pick', ground: 'quickInput.background', states: { hover: 'list.hoverBackground', focus: 'quickInputList.focusBackground' } },
+  { name: 'suggest list', ground: 'editorSuggestWidget.background', states: { hover: 'list.hoverBackground', selected: 'editorSuggestWidget.selectedBackground' } },
+  { name: 'action list', ground: 'editorActionList.background', states: { hover: 'list.hoverBackground', focus: 'editorActionList.focusBackground' } },
+  { name: 'menu', ground: 'menu.background', states: { hover: 'menu.selectionBackground' } },
+  { name: 'menu bar', ground: 'titleBar.activeBackground', states: { hover: 'menubar.selectionBackground' } },
+  {
+    name: 'toolbar in the side bar',
+    ground: 'sideBar.background',
+    states: { hover: 'toolbar.hoverBackground', active: 'toolbar.activeBackground', on: 'actionBar.toggledBackground' },
+  },
+  {
+    name: 'toolbar in a widget',
+    ground: 'editorWidget.background',
+    states: { hover: 'toolbar.hoverBackground', active: 'toolbar.activeBackground', on: 'actionBar.toggledBackground' },
+  },
+  { name: 'input toggle', ground: 'input.background', states: { hover: 'inputOption.hoverBackground', on: 'inputOption.activeBackground' } },
+  { name: 'radio', ground: 'editorWidget.background', states: { hover: 'radio.inactiveHoverBackground', on: 'radio.activeBackground' } },
+  {
+    name: 'tab',
+    ground: 'editorGroupHeader.tabsBackground',
+    rest: 'tab.inactiveBackground',
+    states: { hover: 'tab.hoverBackground', selected: 'tab.activeBackground' },
+    marks: { selected: 'tab.activeBorderTop' },
+  },
+  {
+    // Tabs selected alongside the active one. In the modern layout the active
+    // tab is the editor's own ground, joined to it, so these are the only tabs
+    // whose selection is a ground — and the one a hovered tab is set against.
+    name: 'multi-selected tab',
+    ground: 'editorGroupHeader.tabsBackground',
+    rest: 'tab.inactiveBackground',
+    states: { hover: 'tab.hoverBackground', selected: 'tab.selectedBackground' },
+  },
+  {
+    name: 'modern editor tab',
+    ground: 'editorGroupHeader.tabsBackground',
+    states: { hover: 'modernEditorTab.hoverBackground', selected: 'modernEditorTab.activeBackground' },
+  },
+  { name: 'modern tab', ground: 'panel.background', states: { hover: 'modernTab.hoverBackground', selected: 'modernTab.activeBackground' } },
+  {
+    name: 'modern activity bar',
+    ground: 'modernActivityBar.background',
+    states: { hover: 'modernActivityBarItem.hoverBackground', selected: 'modernActivityBarItem.activeBackground' },
+  },
+  {
+    name: 'status-bar item',
+    ground: 'statusBar.background',
+    states: {
+      hover: 'statusBarItem.hoverBackground',
+      focus: 'statusBar.background',
+      active: 'statusBarItem.activeBackground',
+      prominent: 'statusBarItem.prominentBackground',
+    },
+    marks: { focus: 'statusBarItem.focusBorder' },
+  },
+  {
+    name: 'prominent status-bar item',
+    ground: 'statusBar.background',
+    rest: 'statusBarItem.prominentBackground',
+    states: { hover: 'statusBarItem.prominentHoverBackground' },
+    accent: true,
+  },
+  {
+    name: 'remote status-bar item',
+    ground: 'statusBar.background',
+    rest: 'statusBarItem.remoteBackground',
+    states: { hover: 'statusBarItem.remoteHoverBackground' },
+    accent: true,
+  },
+  { name: 'error status-bar item', ground: 'statusBar.background', rest: 'statusBarItem.errorBackground', states: { hover: 'statusBarItem.errorHoverBackground' } },
+  { name: 'warning status-bar item', ground: 'statusBar.background', rest: 'statusBarItem.warningBackground', states: { hover: 'statusBarItem.warningHoverBackground' } },
+  { name: 'button', ground: 'editorWidget.background', rest: 'button.background', states: { hover: 'button.hoverBackground' }, accent: true, recedes: true },
+  {
+    name: 'secondary button',
+    ground: 'editorWidget.background',
+    rest: 'button.secondaryBackground',
+    states: { hover: 'button.secondaryHoverBackground' },
+  },
+  {
+    name: 'prominent extension button',
+    ground: 'editorWidget.background',
+    rest: 'extensionButton.prominentBackground',
+    states: { hover: 'extensionButton.prominentHoverBackground' },
+    accent: true,
+    recedes: true,
+  },
+  { name: 'command center', ground: 'titleBar.activeBackground', rest: 'commandCenter.background', states: { hover: 'commandCenter.activeBackground' } },
+  {
+    name: 'Settings row',
+    ground: 'editor.background',
+    states: { hover: 'settings.rowHoverBackground', focus: 'settings.focusedRowBackground' },
+    marks: { focus: 'settings.focusedRowBorder' },
+  },
+  { name: 'welcome tile', ground: 'editor.background', rest: 'welcomePage.tileBackground', states: { hover: 'welcomePage.tileHoverBackground' } },
+  {
+    name: 'scrollbar',
+    ground: 'editor.background',
+    rest: 'scrollbarSlider.background',
+    states: { hover: 'scrollbarSlider.hoverBackground', active: 'scrollbarSlider.activeBackground' },
+    accent: true,
+  },
+  {
+    name: 'notebook cell',
+    ground: 'notebook.editorBackground',
+    states: { focus: 'notebook.editorBackground', selected: 'notebook.selectedCellBackground' },
+    marks: { focus: 'notebook.focusedCellBorder' },
+  },
+];
+
+/** The pairs of states that must never be mistaken for each other. */
+const DISTINCT: [StateKey, StateKey][] = [
+  ['hover', 'focus'],
+  ['hover', 'active'],
+  ['hover', 'selected'],
+  ['hover', 'selectedInactive'],
+  ['hover', 'on'],
+  ['focus', 'active'],
+  ['active', 'selected'],
+  ['active', 'on'],
+  ['hover', 'prominent'],
+  ['active', 'prominent'],
+];
+
+/** The states that must be further from rest than hover is. */
+const STRONGER_THAN_HOVER: StateKey[] = ['active', 'selected', 'selectedInactive'];
+
+/** The outlines that mean keyboard focus, and nothing else may look like. */
+const FOCUS_RINGS = [
+  'focusBorder',
+  'list.focusOutline',
+  'statusBar.focusBorder',
+  'statusBarItem.focusBorder',
+  'settings.focusedRowBorder',
+  'notebook.focusedCellBorder',
+  'notebook.focusedEditorBorder',
+  'editorGroup.focusedEmptyBorder',
+];
+
+/** Rims of controls that are on, which must not look like a focus ring. */
+const NOT_FOCUS = ['inputOption.activeBorder', 'radio.activeBorder'];
+
+/** The smallest ΔE (tools/color.ts) at which two grounds read as two states. */
+const STATE_FLOOR = 3;
+
+/*
+ * 11. Every control's states can be told apart, in the order STATES promises.
+ *
+ * Four things, per control and per family. Every state differs from rest by
+ * STATE_FLOOR, or draws a mark. The pairs in DISTINCT differ from each other
+ * by the same floor, unless one of them has a mark and the other does not. Hover is the weakest step: pressing and selecting are further from
+ * rest than it is. And hover, pressing and selecting stay off the accent,
+ * except on a control that is filled with it.
+ *
+ * Then focus itself: every focus ring is `state.focus`, solid, and reads at
+ * 3:1 — WCAG's floor for anything that is not text — on every surface it can
+ * be drawn over (`borderStrong` is a line beside it, not a ground under it);
+ * and nothing that means "on" borrows its colour.
+ */
+const checkStates = (family: Family, t: Tokens, c: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const bg: string = t.surface.background;
+  const accents: Set<string> = new Set([t.accent.base, t.accent.muted]);
+
+  for (const control of CONTROLS) {
+    const ids: string[] = [control.ground, control.rest, ...Object.values(control.states), ...Object.values(control.marks ?? {})].filter(
+      (id): id is string => id !== undefined
+    );
+    const missing: string[] = ids.filter((id) => !c[id]);
+    if (missing.length) {
+      problems.push(`${family}: ${control.name} names ${missing.join(', ')}, which the theme does not set`);
+      continue;
+    }
+    const ground: string = over(c[control.ground], bg);
+    const rest: string = control.rest ? over(c[control.rest], ground) : ground;
+    const paint = (s: StateKey): string => over(c[control.states[s]!], ground);
+    const marked = (s: StateKey): boolean => control.marks?.[s] !== undefined;
+    const present: StateKey[] = Object.keys(control.states) as StateKey[];
+    const where = `${family}: ${control.name}`;
+
+    for (const s of present) {
+      const d: number = deltaE(paint(s), rest);
+      if (d < STATE_FLOOR && !marked(s)) problems.push(`${where} — ${s} is ${d.toFixed(1)} ΔE from rest, under ${STATE_FLOOR}`);
+    }
+    for (const [a, b] of DISTINCT) {
+      if (!present.includes(a) || !present.includes(b) || marked(a) !== marked(b)) continue;
+      const d: number = deltaE(paint(a), paint(b));
+      if (d < STATE_FLOOR) problems.push(`${where} — ${a} and ${b} are ${d.toFixed(1)} ΔE apart, under ${STATE_FLOOR}`);
+    }
+    if (present.includes('hover') && !control.recedes) {
+      const hover: number = deltaE(paint('hover'), rest);
+      for (const s of STRONGER_THAN_HOVER.filter((s) => present.includes(s))) {
+        const d: number = deltaE(paint(s), rest);
+        if (d <= hover) problems.push(`${where} — ${s} (${d.toFixed(1)} ΔE) is no stronger than hover (${hover.toFixed(1)})`);
+      }
+    }
+    if (!control.accent) {
+      for (const s of (['hover', 'active', 'selected', 'selectedInactive'] as const).filter((s) => present.includes(s))) {
+        const id: string = control.states[s]!;
+        if (accents.has(c[id].slice(0, 7))) problems.push(`${where} — ${s} (${id}) is the accent; hover, pressing and selection stay on the surface ladder`);
+      }
+    }
+  }
+
+  const surfaces: [string, string][] = flatten(t).filter(([name]) => name.startsWith('surface.') && name !== 'surface.borderStrong');
+  for (const id of FOCUS_RINGS) {
+    if (c[id] !== t.state.focus) problems.push(`${family}: ${id} is ${c[id]}, not the solid focus colour ${t.state.focus}`);
+  }
+  for (const [name, colour] of surfaces) {
+    const got: number = contrastRatio(t.state.focus, colour);
+    if (got < 3) problems.push(`${family}: the focus ring reads at ${got.toFixed(2)}:1 on ${name}, under 3:1`);
+  }
+  for (const id of NOT_FOCUS) {
+    if (c[id]?.slice(0, 7) === t.state.focus) problems.push(`${family}: ${id} is the focus colour, so a control that is on looks focused`);
+  }
+  return problems;
+};
+
 /**
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
@@ -1276,6 +1534,11 @@ function check(): string[] {
       ['activityErrorBadge.foreground', 'activityErrorBadge.background', 'activityBar.background', 3],
       ['profileBadge.foreground', 'profileBadge.background', 'activityBar.background', 3],
       ['inputOption.activeForeground', 'inputOption.activeBackground', 'input.background', 3],
+      ['statusBarItem.prominentHoverForeground', 'statusBarItem.prominentHoverBackground', 'statusBar.background', 3],
+      ['list.activeSelectionForeground', 'list.activeSelectionBackground', 'sideBar.background', 4.5],
+      ['list.inactiveSelectionForeground', 'list.inactiveSelectionBackground', 'sideBar.background', 4.5],
+      ['quickInput.foreground', 'list.hoverBackground', 'quickInput.background', 4.5],
+      ['tab.selectedForeground', 'tab.selectedBackground', 'editorGroupHeader.tabsBackground', 4.5],
     ];
     for (const [fg, bg, ground, floor] of TEXT) {
       if (!c[fg] || !c[bg] || !c[ground]) {
@@ -1286,6 +1549,8 @@ function check(): string[] {
       const got: number = contrastRatio(over(c[fg], under), under);
       if (got < floor) problems.push(`${family}: ${fg} on ${bg} reads at ${got.toFixed(2)}:1, under ${floor}:1`);
     }
+
+    problems.push(...checkStates(family, t, c));
   }
 
   /*

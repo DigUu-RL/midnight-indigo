@@ -126,6 +126,18 @@ export function oklchFromHex(colour: Colour): Oklch {
   return { l: L, c, h };
 }
 
+/**
+ * How far apart two opaque colours look: the distance between them in OKLab,
+ * times 100. Around 2 is the smallest difference anyone notices side by side;
+ * contrast ratio is no use here, because two grounds a step apart on a
+ * near-black theme are 1.1:1 whether the step can be seen or not.
+ */
+export const deltaE = (a: Colour, b: Colour): number => {
+  const x: [number, number, number] = rgbToOklab(...hexToRgb(a));
+  const y: [number, number, number] = rgbToOklab(...hexToRgb(b));
+  return 100 * Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2]);
+};
+
 const isInGamut = (rgb: number[]): boolean => rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
 
 /**

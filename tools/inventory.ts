@@ -31,7 +31,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { AMENDMENTS, BASELINE, sha256 } from './baseline.ts';
 import { FAMILY_ORDER, signalsFor } from './theme-palette.ts';
-import { DOCS, OVERLAY, SIGNAL_TOLERANCE, docOf, flatten, tokensFor, type Group } from './theme-tokens.ts';
+import { DOCS, OVERLAY, SIGNAL_TOLERANCE, STATES, docOf, flatten, tokensFor, type Group } from './theme-tokens.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, '..');
@@ -399,7 +399,7 @@ table(
 line('"Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.');
 line();
 line(
-  'M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set.'
+  'M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set, written down as the state grammar in [`docs/TOKENS.md`](TOKENS.md#interaction-states) and held by check 11 of the theme build.'
 );
 line();
 
@@ -512,6 +512,16 @@ tline();
 tline('| Step | Alpha |');
 tline('| --- | ---: |');
 for (const [name, a] of Object.entries(OVERLAY)) tline(`| \`${name}\` | \`${a.toString(16).toUpperCase()}\` (${Math.round((a / 255) * 100)}%) |`);
+tline();
+tline('## Interaction states');
+tline();
+tline(
+  'What each state looks like and which channel carries it. The build measures every control that has states, in every family, as the colours it composites to on its own ground: each state at least 3 ΔE (OKLab × 100) from rest unless it draws a mark of its own, the pairs that must never be confused at least as far apart, hover always the weakest step, the accent kept off hover, pressing and selection, and every focus ring solid and at 3:1 on every surface.'
+);
+tline();
+tline('| State | Grammar |');
+tline('| --- | --- |');
+for (const [state, text] of Object.entries(STATES)) tline(`| \`${state}\` | ${text} |`);
 tline();
 for (const group of Object.keys(DOCS) as Group[]) {
   tline(`## \`${group}\``);

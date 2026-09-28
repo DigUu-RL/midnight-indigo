@@ -58,7 +58,7 @@ The theme sets **444 of the 971** colour IDs VS Code documents (45.7%). **420** 
 
 "Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.
 
-M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set.
+M3 (interaction states) is not in the table because it owns no IDs of its own: it is the pass over the hover, focus, active and selected IDs the other milestones set, written down as the state grammar in [`docs/TOKENS.md`](TOKENS.md#interaction-states) and held by check 11 of the theme build.
 
 ### By section
 

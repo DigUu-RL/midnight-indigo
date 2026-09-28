@@ -57,8 +57,8 @@ export const overlay = (colour: Colour, level: OverlayLevel): Colour =>
 /*
  * The derivations. A state is not a new colour, it is a colour at another
  * step of the ladder, and writing it as a function is what makes the step the
- * same everywhere it is taken — the scrollbar and, from M3 on, every other
- * control that has a hover.
+ * same everywhere it is taken — the scrollbar, the toolbar, the tabs, the
+ * Settings rows. STATES below says which derivation each state uses.
  *
  *   rest → hover → active   the resting overlay, what the pointer makes it,
  *                           and what pressing makes it. Active usually trades
@@ -78,6 +78,55 @@ export const derive = {
   active: (c: Colour): Colour => overlay(c, 'heavy'),
   inactive: (c: Colour): Colour => overlay(c, 'strong'),
   disabled: (c: Colour): Colour => overlay(c, 'half'),
+};
+
+/* -------------------------------------------------------------- *
+ * Interaction states
+ * -------------------------------------------------------------- */
+
+/*
+ * The grammar every control is written in: what each state looks like, and
+ * which channel carries it. Channels matter as much as colours — a state told
+ * apart from its neighbour by hue alone is lost to anyone who does not see the
+ * hue — so each state has a channel of its own: focus is a ring, selection is
+ * a ground and brighter text, the active tab is a rule, a toggle that is on is
+ * a filled ground.
+ *
+ * The order is the promise. Hover is the lightest step above rest; selection
+ * is always stronger than hover; pressing is stronger than hovering. Check 11
+ * in tools/build-color-themes.ts measures every control that has states, in
+ * every family, as the colours it composites to on the ground it is drawn on.
+ *
+ * The accent is kept for what is current or asked for — focus, the active
+ * view's rule, a toggle that is on, a prominent action — and never used for
+ * hover, selection or pressing, which stay on the surface ladder: an accent
+ * that marks everything marks nothing.
+ */
+export type InteractionState =
+  | 'normal'
+  | 'hover'
+  | 'focus'
+  | 'active'
+  | 'selected'
+  | 'disabled'
+  | 'prominent'
+  | 'danger';
+
+export const STATES: Record<InteractionState, string> = {
+  normal: 'The ground the control sits on, and text at `normal` or `secondary`. Nothing drawn that the state does not need.',
+  hover:
+    'A lighter ground, never a border, never the accent, and always the weakest step above rest. A row — in a list, a menu of actions, the Settings editor, the modern layout — takes the focus ground at `soft`, a preview of focus that shows on every surface, raised or not. An icon button takes `borderStrong` at `faint`, leaving room for pressing above it. On a control filled with the accent, hover recedes toward the ground instead: the fill is already the brightest thing there.',
+  focus:
+    '`state.focus`, solid, as a ring — the only state drawn as an outline, so it reads over whatever ground the other states put under it and never depends on the ground changing. Checked at 3:1 against every surface it can sit on.',
+  active:
+    'Pressed: the hover colour at `heavy` (`derive.active`), or the next surface up. Never the same as selected, nor as a toggle that is on.',
+  selected:
+    'A ground stronger than hover plus `bright` text, on the surface ladder. The active tab and the active view add a rule in the accent; a selection in a list without focus keeps its ground and loses the ring and the bright text.',
+  disabled: 'Half of what it would have been (`derive.disabled`), so it keeps its shape and loses its weight.',
+  prominent:
+    'The accent as a fill with `accent.on` text: the primary button, a badge, a prominent status-bar item. A toggle that is on is the accent at `soft` with a `accent.muted` rim, so that on and focused never look alike.',
+  danger:
+    'The error ink: solid as text, an icon or a ring; at `faint` behind white text; at `soft` under the pointer.',
 };
 
 /* -------------------------------------------------------------- *
@@ -210,8 +259,8 @@ export const DOCS: Docs = {
     surface: 'Side bar, panel and tab strip: the chrome that holds the editor.',
     currentLine: "The cursor's line in the editor.",
     surfaceRaised: 'Anything that floats or holds input: widgets, hovers, the suggest list, inputs, dropdowns, the status bar.',
-    surfaceHover: 'Under the pointer in a list, and the active tab — the lightest ground that is still a ground.',
-    surfaceFocus: 'The focused row in a list, the selected suggestion, a matched word: attention without selection.',
+    surfaceHover: 'The active tab, and at an overlay the tab under the pointer; the notification-center header, a selected notebook cell — the lightest ground that is still a ground.',
+    surfaceFocus: 'The focused row in a list, the selected suggestion, a matched word: attention without selection. At its resting overlay, the row under the pointer.',
     surfaceSelected: 'Selected text. Always a step past `surfaceFocus`, so a selection is never mistaken for a hover.',
     border: 'Every hairline: panel edges, tab edges, indent guides, rulers.',
     borderStrong: 'Borders that frame a control — inputs, dropdowns, the suggest list — and chart axes.',

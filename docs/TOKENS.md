@@ -18,6 +18,21 @@ Translucent colours are a token plus one step of this ladder, and no other opaci
 | `strong` | `99` (60%) |
 | `heavy` | `AA` (67%) |
 
+## Interaction states
+
+What each state looks like and which channel carries it. The build measures every control that has states, in every family, as the colours it composites to on its own ground: each state at least 3 ΔE (OKLab × 100) from rest unless it draws a mark of its own, the pairs that must never be confused at least as far apart, hover always the weakest step, the accent kept off hover, pressing and selection, and every focus ring solid and at 3:1 on every surface.
+
+| State | Grammar |
+| --- | --- |
+| `normal` | The ground the control sits on, and text at `normal` or `secondary`. Nothing drawn that the state does not need. |
+| `hover` | A lighter ground, never a border, never the accent, and always the weakest step above rest. A row — in a list, a menu of actions, the Settings editor, the modern layout — takes the focus ground at `soft`, a preview of focus that shows on every surface, raised or not. An icon button takes `borderStrong` at `faint`, leaving room for pressing above it. On a control filled with the accent, hover recedes toward the ground instead: the fill is already the brightest thing there. |
+| `focus` | `state.focus`, solid, as a ring — the only state drawn as an outline, so it reads over whatever ground the other states put under it and never depends on the ground changing. Checked at 3:1 against every surface it can sit on. |
+| `active` | Pressed: the hover colour at `heavy` (`derive.active`), or the next surface up. Never the same as selected, nor as a toggle that is on. |
+| `selected` | A ground stronger than hover plus `bright` text, on the surface ladder. The active tab and the active view add a rule in the accent; a selection in a list without focus keeps its ground and loses the ring and the bright text. |
+| `disabled` | Half of what it would have been (`derive.disabled`), so it keeps its shape and loses its weight. |
+| `prominent` | The accent as a fill with `accent.on` text: the primary button, a badge, a prominent status-bar item. A toggle that is on is the accent at `soft` with a `accent.muted` rim, so that on and focused never look alike. |
+| `danger` | The error ink: solid as text, an icon or a ring; at `faint` behind white text; at `soft` under the pointer. |
+
 ## `surface`
 
 | Token | Role |
@@ -27,8 +42,8 @@ Translucent colours are a token plus one step of this ladder, and no other opaci
 | `surface.surface` | Side bar, panel and tab strip: the chrome that holds the editor. |
 | `surface.currentLine` | The cursor's line in the editor. |
 | `surface.surfaceRaised` | Anything that floats or holds input: widgets, hovers, the suggest list, inputs, dropdowns, the status bar. |
-| `surface.surfaceHover` | Under the pointer in a list, and the active tab — the lightest ground that is still a ground. |
-| `surface.surfaceFocus` | The focused row in a list, the selected suggestion, a matched word: attention without selection. |
+| `surface.surfaceHover` | The active tab, and at an overlay the tab under the pointer; the notification-center header, a selected notebook cell — the lightest ground that is still a ground. |
+| `surface.surfaceFocus` | The focused row in a list, the selected suggestion, a matched word: attention without selection. At its resting overlay, the row under the pointer. |
 | `surface.surfaceSelected` | Selected text. Always a step past `surfaceFocus`, so a selection is never mistaken for a hover. |
 | `surface.border` | Every hairline: panel edges, tab edges, indent guides, rulers. |
 | `surface.borderStrong` | Borders that frame a control — inputs, dropdowns, the suggest list — and chart axes. |
