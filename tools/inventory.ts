@@ -399,8 +399,6 @@ const previewIds = [
   ...new Set(PREVIEW_SCRIPTS.flatMap((f) => [...read(f).matchAll(/\bC\['([A-Za-z0-9.]+)'\]/g)].map((m) => m[1]))),
 ].sort();
 
-const imageRef = /const IMAGE_REF = '([0-9a-f]+)'/.exec(read('tools', 'build-theme-preview.ts'))?.[1] ?? '?';
-
 const hashFile = (...p: string[]): string => sha256(fs.readFileSync(path.join(ROOT, ...p)));
 const samples = fs.readdirSync(path.join(HERE, 'samples')).sort();
 const pngs = fs.readdirSync(path.join(ROOT, 'docs', 'preview')).filter((f) => f.endsWith('.png')).sort();
@@ -440,7 +438,10 @@ line(
     `(${vscode.current.date}), against the same page at VS Code ${vscode.floor.vscode} — the \`engines\` floor — ` +
     `at \`${vscode.floor.ref.slice(0, 7)}\` (${vscode.floor.date}).`
 );
-line(`- **Screenshot ref:** the README and PREVIEW.md load their images from \`${imageRef.slice(0, 7)}\` (\`IMAGE_REF\`).`);
+line(
+  '- **Screenshots:** the README and PREVIEW.md link `docs/preview/` by relative path. GitHub resolves it in the branch being read, ' +
+    "and `vsce package` rewrites the README's to the repository's `raw/HEAD`, so the Marketplace shows the default branch's current screenshots with nothing to bump."
+);
 line();
 
 line('### Baseline amendments');

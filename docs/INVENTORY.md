@@ -9,7 +9,7 @@
 
 - **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 15 amendments below applied.
 - **VS Code colour reference:** [microsoft/vscode-docs@4f4413d](https://github.com/microsoft/vscode-docs/blob/4f4413d9a9d3f7e59284da7cdbb21bc3b9f65c48/api/references/theme-color.md) (2026-09-23), against the same page at VS Code 1.60 — the `engines` floor — at `d621fbe` (2021-09-02).
-- **Screenshot ref:** the README and PREVIEW.md load their images from `9c09bab` (`IMAGE_REF`).
+- **Screenshots:** the README and PREVIEW.md link `docs/preview/` by relative path. GitHub resolves it in the branch being read, and `vsce package` rewrites the README's to the repository's `raw/HEAD`, so the Marketplace shows the default branch's current screenshots with nothing to bump.
 
 ### Baseline amendments
 

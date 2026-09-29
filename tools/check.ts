@@ -7,7 +7,8 @@
  * it fails. Adding one is adding an entry; the runner does not stop at the
  * first failure, so one run reports everything that is wrong at once.
  *
- * What is NOT here: `npm run check:images` (it needs the network) and the
+ * What is NOT here: the network half of `npm run check:images` (the badges;
+ * the screenshots are linked by relative path and checked offline) and the
  * screenshots themselves (they need a browser and take a minute). The
  * screenshots are still covered — the inventory pins each PNG by hash, so a
  * regenerated picture that changed makes the inventory check fail until the
@@ -82,6 +83,11 @@ const CHECKS: { name: string; run: () => void }[] = [
       const moved = [...new Set([...first.keys(), ...second.keys()])].filter((f) => first.get(f) !== second.get(f));
       if (moved.length) throw new Error(`a second build changed ${moved.length} file(s): ${moved.slice(0, 5).join(', ')}`);
     },
+  },
+  {
+    // Every screenshot the README and the docs link by relative path is in the tree.
+    name: 'images resolve',
+    run: () => void node('check-images.ts', '--offline'),
   },
   {
     name: 'inventory is up to date',

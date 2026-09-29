@@ -9,10 +9,10 @@
  *
  * Why PNGs rather than the HTML previews: the Marketplace renders the README
  * and nothing else, so the only way the listing can show the icons is as an
- * image served over https. docs/** is excluded from the package (.vscodeignore),
- * which is why the README links them absolutely on raw.githubusercontent.com
- * rather than by relative path — a relative path renders on GitHub and breaks
- * on the Marketplace.
+ * image served over https. docs/** is excluded from the package (.vscodeignore);
+ * the README links the PNGs by relative path, and `vsce package` rewrites those
+ * links to the repository's raw/HEAD on GitHub, which is where the listing
+ * loads them from.
  *
  * The icons are the real generated SVGs, embedded as data URIs and shot at the
  * sizes VS Code renders them at, so this is what the set actually looks like

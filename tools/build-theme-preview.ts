@@ -39,29 +39,19 @@ const OUT = path.join(ROOT, 'docs', 'preview');
 const TMP = path.join(os.tmpdir(), 'midnight-indigo-preview');
 
 /*
- * The git ref the README and docs/PREVIEW.md load their screenshots from.
+ * Where docs/PREVIEW.md loads its screenshots from: beside it, by relative path.
  *
- * It has to be an absolute https URL — the Marketplace renders the README and
- * nothing else, docs/** is excluded from the package, and a relative path works
- * on GitHub and breaks on the listing. The question is only which ref.
- *
- * It used to be `main`, and that has a hole in it: an image added on a branch
- * does not exist on main until the branch is merged, so a NEW screenshot is a
- * broken image everywhere it is looked at in the meantime — which is exactly
- * what happened to palettes.png. Worse, it is silent, and it points at a moving
- * target: main's copy of a screenshot changes under a listing that was
- * published against a different one.
- *
- * A commit SHA fixes both. It resolves the moment the commit is pushed, on any
- * branch and in any pull request, and it keeps pointing at the images the
- * README was written about rather than at whatever main has now.
- *
- * The cost is that it has to be bumped when the screenshots are regenerated,
- * to the commit that carries the new ones. `npm run check:images` is the
- * reminder: it fetches every image the docs reference and fails on any that
- * does not resolve.
+ * The screenshots used to be absolute raw.githubusercontent.com URLs, first on
+ * `main` — a new screenshot was a broken image until its branch was merged —
+ * and then on a pinned commit, which had to be bumped by hand after every
+ * regeneration or the docs went on showing the old pictures. Relative paths
+ * need neither. GitHub resolves them in whatever branch is being read, so a
+ * pull request shows its own screenshots; and `vsce package` rewrites the
+ * README's to github.com/<repository>/raw/HEAD/…, so the Marketplace listing
+ * shows the default branch's current ones. docs/** stays out of the package —
+ * the rewrite points at GitHub, not at the .vsix.
  */
-const IMAGE_REF = '9c09bab44b81b7e1a339e3685444384ee0f4a303';
+const PREVIEW_DIR = 'preview';
 
 /*
  * The hero and the language cards are shot in one variant — indigo unless a
@@ -458,14 +448,13 @@ async function main() {
 // The gallery is generated alongside the images so the two cannot drift: add a
 // sample to tools/samples/ and LANGUAGES, and it appears here on the next run.
 function writeGallery(items: any[]): void {
-  const RAW = `https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/${IMAGE_REF}/docs/preview`;
   const heading = (label: string): string => `## ${label.replace(/#/g, '\\#')}`;
   const tuned = items.filter((i) => i.tuned);
   const rest = items.filter((i) => !i.tuned);
 
   const section = (list: any[]): string =>
     list
-      .map((i) => `${heading(i.label)}\n\n![${i.label} in ${theme.name}](${RAW}/${i.lang}.png)`)
+      .map((i) => `${heading(i.label)}\n\n![${i.label} in ${theme.name}](${PREVIEW_DIR}/${i.lang}.png)`)
       .join('\n\n');
 
   const body = `# Preview
@@ -474,9 +463,9 @@ Every screenshot on this page is generated from [the theme file](../themes/midni
 
 The language samples below are **${theme.name}**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
 
-![The eight palettes](${RAW}/palettes.png)
+![The eight palettes](${PREVIEW_DIR}/palettes.png)
 
-![The color theme and the icon set together](${RAW}/hero.png)
+![The color theme and the icon set together](${PREVIEW_DIR}/hero.png)
 
 # Tuned languages
 

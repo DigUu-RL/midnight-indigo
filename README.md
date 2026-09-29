@@ -9,7 +9,7 @@ An ultra-dark theme for Visual Studio Code in eight colors, bundled with a match
 
 **[Install from the Visual Studio Marketplace →](https://marketplace.visualstudio.com/items?itemName=diguu-rl.midnight-indigo)**
 
-![Midnight — the color theme and the icon set](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/hero.png)
+![Midnight — the color theme and the icon set](docs/preview/hero.png)
 
 The editor background sits at `#020108` — near-black with the family's cast — so accent colors stay saturated without glare. Syntax colors are tuned per language rather than applied generically, and semantic highlighting is on by default so identifiers are colored by what they actually are, not by how they look.
 
@@ -28,7 +28,7 @@ One grammar injection ships with the theme, for a construct VS Code does not sco
 
 - **C# delegates** — `Action`, `Func` and `Predicate` are colored as the delegates they are (`source.cs`)
 
-What every scope and every semantic token is drawn as, language by language, is in [`docs/SYNTAX.md`](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/SYNTAX.md).
+What every scope and every semantic token is drawn as, language by language, is in [`docs/SYNTAX.md`](docs/SYNTAX.md).
 
 ## Preview
 
@@ -38,39 +38,39 @@ Every screenshot on this page is generated from this repository's own theme file
 
 The same code in all eight, so the differences are the generator's rather than a photographer's:
 
-![The eight Midnight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/palettes.png)
+![The eight Midnight palettes](docs/preview/palettes.png)
 
 ### The icon set
 
 All 291 file and language icons:
 
-![Every file and language icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/icons-files.png)
+![Every file and language icon](docs/preview/icons-files.png)
 
 All 53 folder icons, closed and open:
 
-![Every folder icon](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/icons-folders.png)
+![Every folder icon](docs/preview/icons-folders.png)
 
 ### Syntax
 
-Four of the tuned languages are below. **[Every language is in the full gallery →](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/PREVIEW.md)** — 17 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, SCSS, SQL, Go, Rust, Java, PHP, YAML and Shell.
+Four of the tuned languages are below. **[Every language is in the full gallery →](docs/PREVIEW.md)** — 17 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, SCSS, SQL, Go, Rust, Java, PHP, YAML and Shell.
 
 Highlighting goes through the same TextMate grammars VS Code ships, including the extension's own grammar injection.
 
 ### TypeScript
 
-![TypeScript](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/typescript.png)
+![TypeScript](docs/preview/typescript.png)
 
 ### React / TSX
 
-![React and TSX](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/tsx.png)
+![React and TSX](docs/preview/tsx.png)
 
 ### C\#
 
-![C#](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/csharp.png)
+![C#](docs/preview/csharp.png)
 
 ### Python
 
-![Python](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/python.png)
+![Python](docs/preview/python.png)
 
 ## Install
 
@@ -175,7 +175,7 @@ When a shipped value has to change, the file is not edited. The change is an ent
 
 ## Language coverage
 
-TextMate and semantic rules are written for, and checked against real code in, TypeScript, JavaScript, JSX/TSX, C#, Python, Rust, Go, Java, Kotlin, HTML, CSS and SCSS, SQL, Markdown, YAML, JSON, PowerShell and Shell. The semantic rules cover the tokens TypeScript, Roslyn (C#), Pylance, rust-analyzer, gopls and the Java language server send, so a word is the same color with semantic highlighting on and off. [`docs/SYNTAX.md`](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/SYNTAX.md) lists what every scope and every semantic token is drawn as.
+TextMate and semantic rules are written for, and checked against real code in, TypeScript, JavaScript, JSX/TSX, C#, Python, Rust, Go, Java, Kotlin, HTML, CSS and SCSS, SQL, Markdown, YAML, JSON, PowerShell and Shell. The semantic rules cover the tokens TypeScript, Roslyn (C#), Pylance, rust-analyzer, gopls and the Java language server send, so a word is the same color with semantic highlighting on and off. [`docs/SYNTAX.md`](docs/SYNTAX.md) lists what every scope and every semantic token is drawn as.
 
 Every other language falls back to the general rule set, which covers the standard scopes (keywords, strings, numbers, comments, types, functions, variables, operators, punctuation).
 
@@ -294,9 +294,9 @@ Both sets are byte-for-byte reproducible, so `git diff` after a build is the reg
 npm run check
 ```
 
-Runs, in order and without stopping at the first failure: the type check; the theme build, which holds the baseline, the contrast floors (in the editor, and for the workbench's own text on the ground it is drawn on), the hue separation, the token rules (below), the interaction states and the manifest; the syntax check, which tokenizes the corpus in [`tools/samples/`](tools/samples/) and [`tools/corpus/`](tools/corpus/) in all eight themes, with semantic highlighting off and on, and holds every named word to its role, every keyword to bold italic, every operator to its color alone and every scope that names something to some rule; the icon build, which holds the mappings and the measured bounds; a second build of both, which must not change a byte; and `inventory --check`, which fails if [`docs/INVENTORY.md`](docs/INVENTORY.md) no longer describes the tree. The last one is how the screenshots are guarded without a browser — the inventory pins every PNG and sample by hash, so a regenerated screenshot that came out different fails the check until the inventory is rewritten and the change is reviewed in the same diff. A new check is one entry in `CHECKS` in [`tools/check.ts`](tools/check.ts).
+Runs, in order and without stopping at the first failure: the type check; the theme build, which holds the baseline, the contrast floors (in the editor, and for the workbench's own text on the ground it is drawn on), the hue separation, the token rules (below), the interaction states and the manifest; the syntax check, which tokenizes the corpus in [`tools/samples/`](tools/samples/) and [`tools/corpus/`](tools/corpus/) in all eight themes, with semantic highlighting off and on, and holds every named word to its role, every keyword to bold italic, every operator to its color alone and every scope that names something to some rule; the icon build, which holds the mappings and the measured bounds; a second build of both, which must not change a byte; that every screenshot the docs link by relative path is in the tree; and `inventory --check`, which fails if [`docs/INVENTORY.md`](docs/INVENTORY.md) no longer describes the tree. The last one is how the screenshots are guarded without a browser — the inventory pins every PNG and sample by hash, so a regenerated screenshot that came out different fails the check until the inventory is rewritten and the change is reviewed in the same diff. A new check is one entry in `CHECKS` in [`tools/check.ts`](tools/check.ts).
 
-Two things stay outside it: `npm run check:images`, because it needs the network, and regenerating the screenshots, because it needs a browser. Run `npm run preview:theme` and `npm run preview:gallery` before a release; on the same machine they reproduce the committed PNGs exactly.
+Two things stay outside it: the badge half of `npm run check:images`, because it needs the network, and regenerating the screenshots, because it needs a browser. Run `npm run preview:theme` and `npm run preview:gallery` before a release; on the same machine they reproduce the committed PNGs exactly.
 
 **Tokens.** The theme is not written in colours but in the roles listed in [`docs/TOKENS.md`](docs/TOKENS.md) — `surfaceRaised`, `muted`, `error` and so on, defined in [`tools/theme-tokens.ts`](tools/theme-tokens.ts), each with a sentence saying what it is for. The build refuses a colour that is not a token (or a token at one of the named overlay opacities), a token with no documented role, a surface or text ramp that runs backwards in any family, a signal that has drifted more than 50° from the colour it stands for, and an error or warning too close to a code ink or the accent. Indigo must still reproduce every key of the v3.0.0 baseline byte for byte, amendments applied; keys the baseline never had may be added around them.
 
@@ -339,15 +339,15 @@ npm run preview:gallery
 
 Rewrites the two icon galleries in `docs/preview/` — `icons-files.png` and `icons-folders.png` — from the SVGs in `icons/`, on the theme's own sidebar color. Run it after `npm run build:icons`, because it shoots whatever is currently built.
 
-These have to be images, and they have to be linked absolutely: the Marketplace renders the README and nothing else, `docs/**` is excluded from the package, and a relative image path renders on GitHub but breaks on the listing. Every image in this file is therefore a `raw.githubusercontent.com` URL.
+**Screenshots are linked by relative path**, `docs/preview/…`, and nothing has to be updated when they are regenerated. GitHub resolves a relative path in whatever branch is being read, so a pull request shows its own screenshots. The Marketplace renders only the README, and `docs/**` is not in the package — but `vsce package` rewrites every relative link in the README to the repository on GitHub, `raw/HEAD/docs/preview/…` for images, so the listing shows the default branch's current screenshots.
 
-**Pinned to a commit, not to a branch.** These URLs used to name `main`, which has a hole in it: an image added on a branch does not exist on `main` until that branch is merged, so a *new* screenshot is a broken image in the README and in the pull request until then — silently, because Markdown does not complain about a 404, it renders nothing. A commit SHA resolves the moment the commit is pushed, on any branch, and keeps pointing at the screenshots this README was written about rather than at whatever `main` has now.
-
-The cost is a step to remember: after regenerating screenshots, bump `IMAGE_REF` in [`tools/build-theme-preview.ts`](tools/build-theme-preview.ts) to the commit carrying them and update the URLs here.
+They used to be absolute `raw.githubusercontent.com` URLs, first on `main` — a new screenshot was a broken image until its branch was merged — and then pinned to a commit that had to be moved by hand after every regeneration, or the docs quietly went on showing the old pictures.
 
 ```bash
 npm run check:images
 ```
+
+Checks that every relative image the README and the docs link to is in the tree — this half runs offline, as part of `npm run check` — refuses a screenshot linked absolutely, and fetches the remaining https images (the badges).
 
 Fetches every image the docs link to and fails on any that does not resolve, which is the reminder. It is the one script in this repo that touches the network, and it is never part of a build.
 

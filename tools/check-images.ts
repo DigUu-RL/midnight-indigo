@@ -1,85 +1,86 @@
 /*
- * Fetches every image the docs link to and fails on any that does not resolve.
+ * Checks every image the docs link to, and fails on any that does not resolve.
  *
- *   node tools/check-images.ts
+ *   node tools/check-images.ts             relative images on disk, and every https image over the network
+ *   node tools/check-images.ts --offline   relative images on disk only (part of `npm run check`)
  *
- * This exists because of a bug it would have caught. The README loads its
- * screenshots over https — it has to, since the Marketplace renders the README
- * and nothing else and a relative path breaks on the listing — and every URL
- * was pinned to `main`. A screenshot added on a branch does not exist on main
- * until the branch is merged, so `palettes.png` was a broken image in the
- * README, in the pull request, and anywhere else it was read, with nothing to
- * say so. Markdown does not complain about a 404; it just renders nothing.
+ * The screenshots are linked by relative path — `docs/preview/hero.png` from
+ * the README, `preview/hero.png` from docs/PREVIEW.md. GitHub resolves those
+ * in whatever branch is being read, and `vsce package` rewrites the README's to
+ * github.com/<repository>/raw/HEAD/…, so the Marketplace listing shows the
+ * default branch's current screenshots and nothing has to be bumped when they
+ * are regenerated. They used to be absolute URLs pinned to `main`, and then to
+ * a commit that had to be moved by hand; both went stale silently, because
+ * Markdown does not complain about a missing image, it renders nothing.
  *
- * The URLs are pinned to a commit now (IMAGE_REF in build-theme-preview.ts),
- * which resolves as soon as the commit is pushed. That trades one silent
- * failure for another: forget to bump the ref after regenerating screenshots
- * and the docs quietly go on showing the old ones. So this is the check for
- * both. It is the one script here that touches the network, deliberately and
- * never as part of a build.
+ * What is left to go wrong is a path that points at no file, and that is a
+ * question the tree can answer without a network — so it is asked on every
+ * `npm run check`. The https images (the badges) still need the network, and
+ * are only fetched when this runs without `--offline`.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const HERE = path.dirname(fileURLToPath(import.meta.url));
-const ROOT = path.join(HERE, '..');
+const HERE: string = path.dirname(fileURLToPath(import.meta.url));
+const ROOT: string = path.join(HERE, '..');
 
-const DOCS = ['README.md', 'CHANGELOG.md', path.join('docs', 'PREVIEW.md')];
+const DOCS: string[] = ['README.md', 'CHANGELOG.md', path.join('docs', 'PREVIEW.md'), path.join('docs', 'SYNTAX.md')];
+const offline: boolean = process.argv.includes('--offline');
 
-/** Every distinct http(s) image URL a markdown file references. */
-function imageUrls(file: string): string[] {
-  const text = fs.readFileSync(path.join(ROOT, file), 'utf8');
-  const found = new Set<string>();
-  for (const m of text.matchAll(/!\[[^\]]*\]\((https?:\/\/[^)\s]+)\)/g)) found.add(m[1]);
-  return [...found];
-}
+type Image = { file: string; target: string };
 
-const targets = DOCS.flatMap((file) =>
-  fs.existsSync(path.join(ROOT, file)) ? imageUrls(file).map((url) => ({ file, url })) : []
-);
+/** Every distinct image a markdown file references, as written. */
+const imagesIn = (file: string): Image[] => {
+  const text: string = fs.readFileSync(path.join(ROOT, file), 'utf8');
+  const targets: Set<string> = new Set([...text.matchAll(/!\[[^\]]*\]\(([^)\s]+)\)/g)].map((match): string => match[1]));
+  return [...targets].map((target: string): Image => ({ file, target }));
+};
 
-if (!targets.length) {
-  console.log('no image URLs found — nothing to check');
-  process.exit(0);
+const images: Image[] = DOCS.filter((file: string): boolean => fs.existsSync(path.join(ROOT, file))).flatMap(imagesIn);
+const remote: Image[] = images.filter(({ target }): boolean => /^https?:\/\//.test(target));
+const local: Image[] = images.filter(({ target }): boolean => !/^https?:\/\//.test(target));
+
+const problems: string[] = [];
+
+for (const { file, target } of local) {
+  const resolved: string = path.join(ROOT, path.dirname(file), target);
+  if (!fs.existsSync(resolved)) problems.push(`${target} (in ${file}) is not in the tree`);
 }
 
 /*
- * HEAD rather than GET: these are screenshots, several of them large, and the
- * only question being asked is whether the ref resolves.
+ * A pinned raw.githubusercontent.com screenshot is the thing this replaced:
+ * it does not break, it quietly goes stale. Refused outright, so one cannot
+ * creep back in by being pasted from an old README.
  */
-const results = await Promise.all(
-  targets.map(async ({ file, url }) => {
-    try {
-      const res = await fetch(url, { method: 'HEAD', redirect: 'follow' });
-      return { file, url, status: res.status, ok: res.ok };
-    } catch (err) {
-      return { file, url, status: 0, ok: false, err: String(err) };
-    }
-  })
-);
-
-const broken = results.filter((r) => !r.ok);
-const short = (u: string): string => u.replace(/^https?:\/\/[^/]+\//, '');
-
-for (const r of results.filter((r) => r.ok)) {
-  console.log(`  ok   ${short(r.url)}`);
+for (const { file, target } of remote) {
+  if (/\/docs\/preview\//.test(target)) problems.push(`${target} (in ${file}) links a screenshot absolutely — link docs/preview/ by relative path`);
 }
 
-if (broken.length) {
-  for (const r of broken) {
-    console.error(`  ${String(r.status || 'ERR').padStart(3)}  ${short(r.url)}   (${r.file})`);
-  }
-  console.error(
-    `\n${broken.length} of ${results.length} image(s) do not resolve.\n` +
-      'If the screenshots were just regenerated, bump IMAGE_REF in ' +
-      'tools/build-theme-preview.ts to the commit that carries them, and update ' +
-      'the URLs in README.md.'
+if (!offline) {
+  /* HEAD rather than GET: the only question is whether the URL resolves. */
+  const results = await Promise.all(
+    remote.map(async ({ file, target }) => {
+      try {
+        const response: Response = await fetch(target, { method: 'HEAD', redirect: 'follow' });
+        return { file, target, status: response.status, ok: response.ok };
+      } catch {
+        return { file, target, status: 0, ok: false };
+      }
+    })
   );
-} else {
-  console.log(`\n${results.length} image(s) resolve.`);
+  for (const { file, target, status, ok } of results) {
+    if (!ok) problems.push(`${target} (in ${file}) answers ${status || 'nothing'}`);
+  }
 }
+
+for (const problem of problems) console.error(`  ! ${problem}`);
+console.log(
+  problems.length
+    ? `\n${problems.length} image problem(s)`
+    : `${local.length} relative image(s) in the tree${offline ? '' : `, ${remote.length} remote image(s) resolve`}`
+);
 
 /*
  * `process.exitCode` and not `process.exit()`.
@@ -87,8 +88,7 @@ if (broken.length) {
  * fetch keeps its connections alive after the last response, and exiting hard
  * tears the event loop down while those sockets are still closing — which on
  * Windows is an assertion failure inside libuv rather than a clean exit. The
- * script printed "31 image(s) resolve." and then returned 127, so a check that
- * had passed looked to every caller like a check that had crashed. Setting the
- * code and letting Node finish on its own is the same result without the race.
+ * script printed that every image resolved and then returned 127, so a check
+ * that had passed looked to every caller like a check that had crashed.
  */
-process.exitCode = broken.length ? 1 : 0;
+process.exitCode = problems.length ? 1 : 0;
