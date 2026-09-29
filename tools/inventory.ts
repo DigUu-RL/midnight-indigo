@@ -315,6 +315,25 @@ const LEFT_TO_VSCODE: Record<string, string> = {
   'diffEditor.insertedTextBorder': 'a rim round inserted text, for high-contrast themes; the ground already marks it, and a rim boxes every changed word',
   'diffEditor.removedTextBorder': 'the same, for removed text',
   'merge.border': 'a rule round the headers and blocks of an inline conflict, for high-contrast themes; the tinted header lines already mark where each block starts',
+
+  // M8.
+  'agentsNewSessionButton.background': 'transparent by default: the New Session button is outlined, like a secondary action, and its border and hover mark it',
+};
+
+/*
+ * IDs the theme sets although the colour reference does not list them, and
+ * why. Each is registered by the VS Code the review ran in (1.139) and paints
+ * something a milestone is responsible for, which the reference has not
+ * caught up with yet. A set ID missing from the page and from this list stops
+ * the build, as an ID on the page that nobody owns does.
+ */
+const NOT_DOCUMENTED: Record<string, string> = {
+  'chat.inputWorkingBorderColor1': "the border that runs round the chat input while a request is in flight — M8's working state",
+  'chat.sessionStateIndicator.inProgressBorder': 'a chat editor with a request in progress',
+  'chat.sessionStateIndicator.unvisitedBorder': 'a chat editor whose answer has not been seen',
+  'chat.sessionStateIndicator.needsInputBorder': 'a chat editor waiting for the person',
+  'chat.findMatchBackground': 'the current find match in a chat transcript, kept the same as in the editor',
+  'chat.findMatchHighlightBackground': 'the other find matches in a chat transcript, the same',
 };
 
 const unmapped = Object.keys(vscode.sections).filter((s) => !(s in BY_SECTION));
@@ -345,6 +364,18 @@ if (reversed.length) {
   );
 }
 const undocumented = Object.keys(indigo.colors).filter((id) => !documented.has(id));
+const unexplained = undocumented.filter((id) => !(id in NOT_DOCUMENTED));
+const stale = Object.keys(NOT_DOCUMENTED).filter((id) => documented.has(id) || !(id in indigo.colors));
+if (unexplained.length || stale.length) {
+  throw new Error(
+    [
+      unexplained.length && `the theme sets ${unexplained.join(', ')}, which VS Code does not document — say why in NOT_DOCUMENTED`,
+      stale.length && `NOT_DOCUMENTED names ${stale.join(', ')}, which VS Code now documents or the theme no longer sets — take them off the list`,
+    ]
+      .filter(Boolean)
+      .join('; ')
+  );
+}
 
 type Tally = { total: number; set: number; left: number; modern: number; modernUnset: number };
 const tally = (rs: Row[]): Tally => ({
@@ -485,14 +516,21 @@ table(
   })
 );
 
-line('### IDs the theme sets that VS Code no longer documents');
+line('### IDs the theme sets that VS Code does not document');
 line();
-line(
-  undocumented.length
-    ? undocumented.map((id) => `\`${id}\``).join(', ') + ' — still read by VS Code or not, they are not on the page.'
-    : 'None.'
-);
-line();
+if (undocumented.length) {
+  line(
+    'Registered by VS Code and read by it, but not on the colour reference. Each is counted in the colours the theme sets, and in no coverage figure above.'
+  );
+  line();
+  table(
+    ['ID', 'Owner', 'What it paints'],
+    undocumented.map((id) => [`\`${id}\``, ownerOf(id, ''), NOT_DOCUMENTED[id]])
+  );
+} else {
+  line('None.');
+  line();
+}
 
 line('### Left to VS Code on purpose');
 line();

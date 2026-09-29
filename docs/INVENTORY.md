@@ -36,7 +36,7 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 779 |
+| Workbench colours, per theme | 872 |
 | TextMate rules, per theme | 39 |
 | TextMate scopes across those rules | 150 |
 | Semantic token rules, per theme | 34 |
@@ -52,7 +52,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **779 of the 971** colour IDs VS Code documents (80.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 286 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **866 of the 971** colour IDs VS Code documents (89.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 373 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -64,7 +64,7 @@ The theme sets **779 of the 971** colour IDs VS Code documents (80.2%). **420** 
 | M5 Editor intelligence | 153 | 19 | 172 | 89.0% | 7 |
 | M6 Terminal | 42 | 20 | 62 | 67.7% | 20 |
 | M7 Diff, merge and Git | 91 | 3 | 94 | 96.8% | 0 |
-| M8 Chat and agents | 0 | 0 | 88 | 0.0% | 88 |
+| M8 Chat and agents | 87 | 1 | 88 | 98.9% | 1 |
 | M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
 
 "Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.
@@ -93,14 +93,14 @@ The sections are the colour reference's own.
 | Activity Bar | M2 | 16 | 20 | 2 |
 | Profiles | M2 | 3 | 3 | 0 |
 | Side Bar | M2 | 12 | 14 | 2 |
-| Minimap | M4, M5, M7, M8 | 13 | 16 | 3 |
+| Minimap | M4, M5, M7, M8 | 15 | 16 | 1 |
 | Editor Groups & Tabs | M2 | 36 | 42 | 0 |
-| Editor colors | M1, M4, M5, M7, M8 | 125 | 171 | 27 |
+| Editor colors | M1, M4, M5, M7, M8 | 147 | 171 | 5 |
 | Diff editor colors | M7 | 19 | 21 | 0 |
-| Chat colors | M8 | 0 | 15 | 15 |
-| Agent sessions colors | M8 | 0 | 32 | 32 |
-| Inline Chat colors | M8 | 0 | 10 | 10 |
-| Panel Chat colors | M8 | 0 | 2 | 2 |
+| Chat colors | M8 | 15 | 15 | 0 |
+| Agent sessions colors | M8 | 31 | 32 | 1 |
+| Inline Chat colors | M8 | 10 | 10 | 0 |
+| Panel Chat colors | M8 | 2 | 2 | 0 |
 | Editor widget colors | M2, M4, M5 | 32 | 35 | 1 |
 | Peek view colors | M5 | 15 | 16 | 0 |
 | Merge conflicts colors | M7 | 24 | 25 | 0 |
@@ -134,11 +134,20 @@ The sections are the colour reference's own.
 | Simple Find Widget colors | M2 | 1 | 1 | 0 |
 | Gauge colors | M2 | 7 | 7 | 0 |
 | Markdown | M9 | 0 | 5 | 5 |
-| Agent Session colors | M8 | 0 | 5 | 5 |
+| Agent Session colors | M8 | 5 | 5 | 0 |
 
-### IDs the theme sets that VS Code no longer documents
+### IDs the theme sets that VS Code does not document
 
-None.
+Registered by VS Code and read by it, but not on the colour reference. Each is counted in the colours the theme sets, and in no coverage figure above.
+
+| ID | Owner | What it paints |
+| --- | --- | --- |
+| `chat.inputWorkingBorderColor1` | M8 | the border that runs round the chat input while a request is in flight — M8's working state |
+| `chat.sessionStateIndicator.inProgressBorder` | M8 | a chat editor with a request in progress |
+| `chat.sessionStateIndicator.unvisitedBorder` | M8 | a chat editor whose answer has not been seen |
+| `chat.sessionStateIndicator.needsInputBorder` | M8 | a chat editor waiting for the person |
+| `chat.findMatchBackground` | M8 | the current find match in a chat transcript, kept the same as in the editor |
+| `chat.findMatchHighlightBackground` | M8 | the other find matches in a chat transcript, the same |
 
 ### Left to VS Code on purpose
 
@@ -202,6 +211,7 @@ None.
 | `editorUnnecessaryCode.opacity` | M4 | an opacity rather than a colour: VS Code fades unused code to two thirds of itself, which on this ground already reads as muted without losing its syntax colour |
 | `diffEditor.insertedTextBorder` | M7 | a rim round inserted text, for high-contrast themes; the ground already marks it, and a rim boxes every changed word |
 | `diffEditor.removedTextBorder` | M7 | the same, for removed text |
+| `agentsNewSessionButton.background` | M8 | transparent by default: the New Session button is outlined, like a secondary action, and its border and hover mark it |
 | `editorWidget.resizeBorder` | M2 | falls back to the widget border, which is what is being dragged |
 | `editorGhostText.border` | M5 | ghost text is marked by its muted colour; a box round it reads as a widget, not as text that is not there yet |
 | `editorGhostText.background` | M5 | the same, as a ground |
@@ -248,119 +258,6 @@ None.
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Minimap — 2 unset</summary>
-
-- `minimap.chatEditHighlight` † (M8)
-- `editorMinimap.inlineChatInserted` † (M8)
-
-</details>
-
-<details><summary>Editor colors — 22 unset</summary>
-
-- `editorOverviewRuler.inlineChatInserted` † (M8)
-- `editorOverviewRuler.inlineChatRemoved` † (M8)
-- `inlineEdit.gutterIndicator.primaryBorder` † (M8)
-- `inlineEdit.gutterIndicator.primaryForeground` † (M8)
-- `inlineEdit.gutterIndicator.primaryBackground` † (M8)
-- `inlineEdit.gutterIndicator.secondaryBorder` † (M8)
-- `inlineEdit.gutterIndicator.secondaryForeground` † (M8)
-- `inlineEdit.gutterIndicator.secondaryBackground` † (M8)
-- `inlineEdit.gutterIndicator.successfulBorder` † (M8)
-- `inlineEdit.gutterIndicator.successfulForeground` † (M8)
-- `inlineEdit.gutterIndicator.successfulBackground` † (M8)
-- `inlineEdit.gutterIndicator.background` † (M8)
-- `inlineEdit.originalBackground` † (M8)
-- `inlineEdit.modifiedBackground` † (M8)
-- `inlineEdit.originalChangedLineBackground` † (M8)
-- `inlineEdit.originalChangedTextBackground` † (M8)
-- `inlineEdit.modifiedChangedLineBackground` † (M8)
-- `inlineEdit.modifiedChangedTextBackground` † (M8)
-- `inlineEdit.originalBorder` † (M8)
-- `inlineEdit.modifiedBorder` † (M8)
-- `inlineEdit.tabWillAcceptModifiedBorder` † (M8)
-- `inlineEdit.tabWillAcceptOriginalBorder` † (M8)
-
-</details>
-
-<details><summary>Chat colors — 15 unset</summary>
-
-- `chat.requestBorder` † (M8)
-- `chat.requestBackground` † (M8)
-- `chat.slashCommandBackground` † (M8)
-- `chat.slashCommandForeground` † (M8)
-- `chat.avatarBackground` † (M8)
-- `chat.avatarForeground` † (M8)
-- `chat.editedFileForeground` † (M8)
-- `chat.linesAddedForeground` † (M8)
-- `chat.linesRemovedForeground` † (M8)
-- `chat.requestCodeBorder` † (M8)
-- `chat.requestBubbleBackground` † (M8)
-- `chat.requestBubbleHoverBackground` † (M8)
-- `chat.checkpointSeparator` † (M8)
-- `chat.thinkingShimmer` † (M8)
-- `chatManagement.sashBorder` † (M8)
-
-</details>
-
-<details><summary>Agent sessions colors — 32 unset</summary>
-
-- `agents.background` † (M8)
-- `agentsPanel.background` † (M8)
-- `agentsPanel.foreground` † (M8)
-- `agentsPanel.border` † (M8)
-- `agentsCard.border` † (M8)
-- `agentsBottomPanel.border` † (M8)
-- `agentsGradient.tintColor` † (M8)
-- `agentFeedbackEditorWidget.background` † (M8)
-- `agentFeedbackEditorWidget.border` † (M8)
-- `agentFeedbackInputWidget.border` † (M8)
-- `agentsUpdateButton.downloadingBackground` † (M8)
-- `agentsUpdateButton.downloadedBackground` † (M8)
-- `agentsChatInput.background` † (M8)
-- `agentsChatInput.foreground` † (M8)
-- `agentsChatInput.border` † (M8)
-- `agentsChatInput.focusBorder` † (M8)
-- `agentsChatInput.placeholderForeground` † (M8)
-- `agentsNewSessionButton.background` † (M8)
-- `agentsNewSessionButton.foreground` † (M8)
-- `agentsNewSessionButton.border` † (M8)
-- `agentsNewSessionButton.hoverBackground` † (M8)
-- `agentsBadge.background` † (M8)
-- `agentsBadge.foreground` † (M8)
-- `agentsUnreadBadge.background` † (M8)
-- `agentsUnreadBadge.foreground` † (M8)
-- `activeSessionView.background` † (M8)
-- `inactiveSessionView.background` † (M8)
-- `activeSessionView.foreground` † (M8)
-- `inactiveSessionView.foreground` † (M8)
-- `agentsMobileDiff.addedForeground` † (M8)
-- `agentsMobileDiff.modifiedForeground` † (M8)
-- `agentsMobileDiff.deletedForeground` † (M8)
-
-</details>
-
-<details><summary>Inline Chat colors — 10 unset</summary>
-
-- `inlineChat.background` † (M8)
-- `inlineChat.foreground` † (M8)
-- `inlineChat.border` † (M8)
-- `inlineChat.shadow` † (M8)
-- `inlineChatInput.border` † (M8)
-- `inlineChatInput.focusBorder` † (M8)
-- `inlineChatInput.placeholderForeground` † (M8)
-- `inlineChatInput.background` † (M8)
-- `inlineChatDiff.inserted` † (M8)
-- `inlineChatDiff.removed` † (M8)
-
-</details>
-
-<details><summary>Panel Chat colors — 2 unset</summary>
-
-- `interactive.activeCodeBorder` † (M8)
-- `interactive.inactiveCodeBorder` † (M8)
-
-</details>
-
 <details><summary>Markdown — 5 unset</summary>
 
 - `markdownAlert.note.foreground` † (M9)
@@ -368,16 +265,6 @@ None.
 - `markdownAlert.important.foreground` † (M9)
 - `markdownAlert.warning.foreground` † (M9)
 - `markdownAlert.caution.foreground` † (M9)
-
-</details>
-
-<details><summary>Agent Session colors — 5 unset</summary>
-
-- `agentSessionReadIndicator.foreground` † (M8)
-- `agentSessionSelectedBadge.border` † (M8)
-- `agentSessionSelectedUnfocusedBadge.border` † (M8)
-- `agentStatusIndicator.background` † (M8)
-- `aiCustomizationManagement.sashBorder` † (M8)
 
 </details>
 

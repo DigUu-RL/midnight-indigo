@@ -101,8 +101,8 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | Role |
 | --- | --- |
-| `accent.base` | The theme's colour: buttons, badges, the active tab's rule, the pressed scrollbar. |
-| `accent.muted` | The accent at rest: widget borders, the unfocused active tab, the scrollbar. |
+| `accent.base` | The theme's colour: buttons, badges, the active tab's rule, the pressed scrollbar — and the AI's identity, wherever it speaks or acts: the command a request addresses it by, the border that runs while it works, its suggestion in the gutter, a session in progress. |
+| `accent.muted` | The accent at rest: widget borders, the unfocused active tab, the scrollbar, the AI's avatar and the inline chat's frame. |
 | `accent.on` | Text and icons on the accent. White in every family, and checked at 3:1. |
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |

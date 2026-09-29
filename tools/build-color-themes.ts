@@ -769,6 +769,107 @@ function themeFor(family: Family, t: Tokens): Theme {
     'editorOverviewRuler.commentDraftForeground': st.warning,
     'commentsView.resolvedIcon': x.muted,
     'commentsView.unresolvedIcon': st.info,
+    /*
+     * Chat and agents. The AI is the theme's own colour, the accent, and only
+     * where it is the one speaking or acting: its avatar, the command a request
+     * addresses it by, the border that runs while it works, its suggestion in
+     * the gutter, a session in progress. What the person wrote is a neutral
+     * bubble on the selection ground, as VS Code's own is; what the AI changed
+     * is the kind of change M7 says it is; the rest is the workbench.
+     */
+    'chat.requestBackground': s.surface,
+    'chat.requestBorder': s.border,
+    'chat.requestBubbleBackground': overlay(s.surfaceSelected, 'faint'),
+    'chat.requestBubbleHoverBackground': overlay(s.surfaceSelected, 'strong'),
+    'chat.requestCodeBorder': s.borderStrong,
+    'chat.slashCommandBackground': overlay(a.base, 'wash'),
+    'chat.slashCommandForeground': x.bright,
+    'chat.avatarBackground': a.muted,
+    'chat.avatarForeground': a.on,
+    'chat.editedFileForeground': st.modified,
+    'chat.linesAddedForeground': st.added,
+    'chat.linesRemovedForeground': st.deleted,
+    'chat.checkpointSeparator': s.borderStrong,
+    'chat.thinkingShimmer': x.white,
+    'chat.inputWorkingBorderColor1': a.base,
+    'chat.sessionStateIndicator.inProgressBorder': a.base,
+    'chat.sessionStateIndicator.unvisitedBorder': st.success,
+    'chat.sessionStateIndicator.needsInputBorder': st.warning,
+    'chat.findMatchBackground': overlay(a.base, 'soft'),
+    'chat.findMatchHighlightBackground': derive.rest(a.muted),
+    'chatManagement.sashBorder': s.border,
+    'aiCustomizationManagement.sashBorder': s.border,
+    'interactive.activeCodeBorder': st.focus,
+    'interactive.inactiveCodeBorder': s.border,
+    'inlineChat.background': s.surfaceRaised,
+    'inlineChat.foreground': x.normal,
+    'inlineChat.border': a.muted,
+    'inlineChat.shadow': overlay(s.background, 'heavy'),
+    'inlineChatInput.background': s.surfaceRaised,
+    'inlineChatInput.border': s.borderStrong,
+    'inlineChatInput.focusBorder': st.focus,
+    'inlineChatInput.placeholderForeground': x.muted,
+    'inlineChatDiff.inserted': overlay(st.added, 'tint'),
+    'inlineChatDiff.removed': overlay(st.deleted, 'tint'),
+    'editorOverviewRuler.inlineChatInserted': st.added,
+    'editorOverviewRuler.inlineChatRemoved': st.deleted,
+    'editorMinimap.inlineChatInserted': st.added,
+    'minimap.chatEditHighlight': derive.rest(a.base),
+    'inlineEdit.originalBackground': overlay(st.deleted, 'trace'),
+    'inlineEdit.modifiedBackground': overlay(st.added, 'trace'),
+    'inlineEdit.originalChangedLineBackground': overlay(st.deleted, 'trace'),
+    'inlineEdit.originalChangedTextBackground': overlay(st.deleted, 'trace'),
+    'inlineEdit.modifiedChangedLineBackground': overlay(st.added, 'trace'),
+    'inlineEdit.modifiedChangedTextBackground': overlay(st.added, 'trace'),
+    'inlineEdit.originalBorder': st.deleted,
+    'inlineEdit.modifiedBorder': st.added,
+    'inlineEdit.tabWillAcceptOriginalBorder': st.deleted,
+    'inlineEdit.tabWillAcceptModifiedBorder': st.added,
+    'inlineEdit.gutterIndicator.background': overlay(s.background, 'half'),
+    'inlineEdit.gutterIndicator.primaryBackground': overlay(a.base, 'soft'),
+    'inlineEdit.gutterIndicator.primaryBorder': a.base,
+    'inlineEdit.gutterIndicator.primaryForeground': a.on,
+    'inlineEdit.gutterIndicator.secondaryBackground': s.surfaceRaised,
+    'inlineEdit.gutterIndicator.secondaryBorder': a.muted,
+    'inlineEdit.gutterIndicator.secondaryForeground': x.normal,
+    'inlineEdit.gutterIndicator.successfulBackground': a.base,
+    'inlineEdit.gutterIndicator.successfulBorder': a.base,
+    'inlineEdit.gutterIndicator.successfulForeground': a.on,
+    'agents.background': s.background,
+    'agentsGradient.tintColor': a.muted,
+    'agentsPanel.background': s.surface,
+    'agentsPanel.foreground': x.secondary,
+    'agentsPanel.border': s.border,
+    'agentsCard.border': s.border,
+    'agentsBottomPanel.border': s.border,
+    'activeSessionView.background': s.surface,
+    'activeSessionView.foreground': x.normal,
+    'inactiveSessionView.background': s.background,
+    'inactiveSessionView.foreground': x.secondary,
+    'agentsChatInput.background': s.surfaceRaised,
+    'agentsChatInput.foreground': x.normal,
+    'agentsChatInput.border': s.borderStrong,
+    'agentsChatInput.focusBorder': st.focus,
+    'agentsChatInput.placeholderForeground': x.muted,
+    'agentsNewSessionButton.foreground': x.normal,
+    'agentsNewSessionButton.border': s.borderStrong,
+    'agentsNewSessionButton.hoverBackground': derive.rest(s.borderStrong),
+    'agentsBadge.background': a.muted,
+    'agentsBadge.foreground': a.on,
+    'agentsUnreadBadge.background': a.base,
+    'agentsUnreadBadge.foreground': a.on,
+    'agentSessionReadIndicator.foreground': x.faint,
+    'agentSessionSelectedBadge.border': overlay(x.bright, 'faint'),
+    'agentSessionSelectedUnfocusedBadge.border': overlay(x.normal, 'faint'),
+    'agentStatusIndicator.background': s.surfaceRaised,
+    'agentFeedbackEditorWidget.background': s.surfaceRaised,
+    'agentFeedbackEditorWidget.border': a.muted,
+    'agentFeedbackInputWidget.border': s.borderStrong,
+    'agentsUpdateButton.downloadingBackground': overlay(a.base, 'soft'),
+    'agentsUpdateButton.downloadedBackground': derive.active(a.base),
+    'agentsMobileDiff.addedForeground': st.added,
+    'agentsMobileDiff.modifiedForeground': st.modified,
+    'agentsMobileDiff.deletedForeground': st.deleted,
     'peekViewEditor.background': s.background,
     'peekViewResult.background': s.surface,
     'peekView.border': a.muted,
@@ -1496,6 +1597,14 @@ const CONTROLS: Control[] = [
     states: { focus: 'notebook.editorBackground', selected: 'notebook.selectedCellBackground' },
     marks: { focus: 'notebook.focusedCellBorder' },
   },
+  {
+    // A request bubble under the pointer replaces its own ground, as a tab does.
+    name: 'chat request bubble',
+    ground: 'sideBar.background',
+    rest: 'chat.requestBubbleBackground',
+    states: { hover: 'chat.requestBubbleHoverBackground' },
+  },
+  { name: 'New Session button', ground: 'agents.background', states: { hover: 'agentsNewSessionButton.hoverBackground' } },
 ];
 
 /** The pairs of states that must never be mistaken for each other. */
@@ -1525,6 +1634,9 @@ const FOCUS_RINGS = [
   'notebook.focusedCellBorder',
   'notebook.focusedEditorBorder',
   'editorGroup.focusedEmptyBorder',
+  'inlineChatInput.focusBorder',
+  'agentsChatInput.focusBorder',
+  'interactive.activeCodeBorder',
 ];
 
 /** Rims of controls that are on, which must not look like a focus ring. */
@@ -2400,6 +2512,235 @@ const checkDiffAndGit = (family: Family, tokens: Tokens, colours: Record<string,
   return problems;
 };
 
+/* -------------------------------------------------------------- *
+ * Chat and agents
+ * -------------------------------------------------------------- */
+
+/*
+ * Where the AI is the one speaking or acting: its avatar, the command a
+ * request addresses it by, the border that runs round the input while it
+ * works, a session in progress, what it has left pending in the minimap, its
+ * suggestion in the gutter, the inline chat's frame, its badges and the tint
+ * of its window. Check 16 holds each to the accent — the theme's own colour,
+ * indigo in Midnight Indigo — solid or at a ladder step, so the AI has one
+ * identity and it is not a colour of its own.
+ */
+const AI_IDENTITY = [
+  'chat.avatarBackground',
+  'chat.slashCommandBackground',
+  'chat.inputWorkingBorderColor1',
+  'chat.sessionStateIndicator.inProgressBorder',
+  'minimap.chatEditHighlight',
+  'inlineChat.border',
+  'inlineEdit.gutterIndicator.primaryBackground',
+  'inlineEdit.gutterIndicator.primaryBorder',
+  'inlineEdit.gutterIndicator.successfulBackground',
+  'inlineEdit.gutterIndicator.successfulBorder',
+  'agentsGradient.tintColor',
+  'agentsBadge.background',
+  'agentsUnreadBadge.background',
+  'agentsUpdateButton.downloadingBackground',
+  'agentsUpdateButton.downloadedBackground',
+];
+
+/*
+ * What the person wrote. It is theirs, not the AI's, so it stays on the
+ * surface ladder and never takes the accent.
+ */
+const PERSON = ['chat.requestBubbleBackground', 'chat.requestBubbleHoverBackground', 'chat.requestBackground'];
+
+/*
+ * What an agent changed, wherever chat shows it: the edited files and their
+ * line counts, the inline chat's diff and its marks, a suggested edit, the
+ * Agents window's diff. Each is the kind of change check 15 says it is.
+ */
+const AI_CHANGE_IDS: Record<GitState, string[]> = {
+  added: [
+    'chat.linesAddedForeground',
+    'inlineChatDiff.inserted',
+    'editorOverviewRuler.inlineChatInserted',
+    'editorMinimap.inlineChatInserted',
+    'inlineEdit.modifiedBackground',
+    'inlineEdit.modifiedChangedLineBackground',
+    'inlineEdit.modifiedChangedTextBackground',
+    'inlineEdit.modifiedBorder',
+    'inlineEdit.tabWillAcceptModifiedBorder',
+    'agentsMobileDiff.addedForeground',
+  ],
+  modified: ['chat.editedFileForeground', 'agentsMobileDiff.modifiedForeground'],
+  deleted: [
+    'chat.linesRemovedForeground',
+    'inlineChatDiff.removed',
+    'editorOverviewRuler.inlineChatRemoved',
+    'inlineEdit.originalBackground',
+    'inlineEdit.originalChangedLineBackground',
+    'inlineEdit.originalChangedTextBackground',
+    'inlineEdit.originalBorder',
+    'inlineEdit.tabWillAcceptOriginalBorder',
+    'agentsMobileDiff.deletedForeground',
+  ],
+  conflicting: [],
+};
+
+/*
+ * Text chat and the Agents window put on a ground, each with the stack of
+ * grounds under it (drawn over the editor ground) and the floor it is held
+ * to: AA for what is read, 3:1 for a glyph or a count on a badge.
+ */
+const CHAT_TEXT: [foreground: string, grounds: string[], floor: number][] = [
+  ['foreground', ['sideBar.background', 'chat.requestBubbleBackground'], 4.5],
+  ['foreground', ['sideBar.background', 'chat.requestBubbleHoverBackground'], 4.5],
+  ['foreground', ['editor.background', 'chat.requestBubbleBackground'], 4.5],
+  ['chat.slashCommandForeground', ['sideBar.background', 'chat.requestBubbleBackground', 'chat.slashCommandBackground'], 4.5],
+  ['chat.slashCommandForeground', ['input.background', 'chat.slashCommandBackground'], 4.5],
+  ['chat.avatarForeground', ['chat.avatarBackground'], 3],
+  ['chat.editedFileForeground', ['sideBar.background'], 4.5],
+  ['chat.linesAddedForeground', ['sideBar.background'], 4.5],
+  ['chat.linesRemovedForeground', ['sideBar.background'], 4.5],
+  ['chat.linesAddedForeground', ['input.background'], 4.5],
+  ['chat.linesRemovedForeground', ['input.background'], 4.5],
+  ['inlineChat.foreground', ['inlineChat.background'], 4.5],
+  ['inlineChat.foreground', ['inlineChatInput.background'], 4.5],
+  ['inlineChatInput.placeholderForeground', ['inlineChatInput.background'], AUXILIARY_FLOOR],
+  ['inlineEdit.gutterIndicator.primaryForeground', ['editor.background', 'inlineEdit.gutterIndicator.primaryBackground'], 3],
+  ['inlineEdit.gutterIndicator.secondaryForeground', ['editor.background', 'inlineEdit.gutterIndicator.secondaryBackground'], 3],
+  ['inlineEdit.gutterIndicator.successfulForeground', ['editor.background', 'inlineEdit.gutterIndicator.successfulBackground'], 3],
+  ['agentsPanel.foreground', ['agents.background', 'agentsPanel.background'], 4.5],
+  ['activeSessionView.foreground', ['agents.background', 'activeSessionView.background'], 4.5],
+  ['inactiveSessionView.foreground', ['agents.background', 'inactiveSessionView.background'], 4.5],
+  ['agentsChatInput.foreground', ['agentsPanel.background', 'agentsChatInput.background'], 4.5],
+  ['agentsChatInput.placeholderForeground', ['agentsPanel.background', 'agentsChatInput.background'], AUXILIARY_FLOOR],
+  ['agentsNewSessionButton.foreground', ['agents.background'], 4.5],
+  ['agentsNewSessionButton.foreground', ['agents.background', 'agentsNewSessionButton.hoverBackground'], 4.5],
+  ['agentsBadge.foreground', ['agentsBadge.background'], 3],
+  ['agentsUnreadBadge.foreground', ['agentsUnreadBadge.background'], 3],
+  ['foreground', ['agentFeedbackEditorWidget.background'], 4.5],
+];
+
+/* Grounds an agent's change paints behind code, each a stack, as DIFF_STACKS are. */
+const AI_CHANGE_STACKS: string[][] = [
+  ['inlineChatDiff.inserted'],
+  ['inlineChatDiff.removed'],
+  ['inlineEdit.modifiedBackground', 'inlineEdit.modifiedChangedLineBackground'],
+  ['inlineEdit.modifiedBackground', 'inlineEdit.modifiedChangedLineBackground', 'inlineEdit.modifiedChangedTextBackground'],
+  ['inlineEdit.originalBackground', 'inlineEdit.originalChangedLineBackground'],
+  ['inlineEdit.originalBackground', 'inlineEdit.originalChangedLineBackground', 'inlineEdit.originalChangedTextBackground'],
+];
+
+/*
+ * The states of a chat session: working, finished and not yet seen, waiting
+ * for the person. They sit in one place — the border of a chat editor — and
+ * each draws its own icon beside it, so they are held to GIT_DISTANCE, as the
+ * kinds of change are, rather than to DECORATION_DISTANCE: the success green
+ * and the warning amber are 9 or 10 ΔE apart in the green and cyan families.
+ */
+const SESSION_STATES = [
+  'chat.sessionStateIndicator.inProgressBorder',
+  'chat.sessionStateIndicator.unvisitedBorder',
+  'chat.sessionStateIndicator.needsInputBorder',
+];
+
+/*
+ * 16. The AI has one identity, the person another, and chat keeps the
+ * theme's language.
+ *
+ * Every ID in AI_IDENTITY is the accent — the theme's own colour, never a
+ * colour kept for the AI alone — and nothing the person wrote is. Their
+ * request is a bubble on the surface ladder that shows on the panel and the
+ * editor; the command in it is the accent's chip, which shows on the bubble
+ * and on the input. What an agent changed is the kind of change it is (check
+ * 15's tokens), and code stays at AA on every ground that change paints, each
+ * ground showing against what it sits on. Chat's text reads on its grounds.
+ * The states of a session are told apart from each other and show on the side
+ * bar; an unread count is told from a plain one; and an inactive session in
+ * the Agents window recedes in its ground and its text alike, so it is told
+ * from the active one by more than a ground a few ΔE darker.
+ */
+const checkChatAndAgents = (family: Family, tokens: Tokens, colours: Record<string, string>): string[] => {
+  const problems: string[] = [];
+  const editorGround: string = tokens.surface.background;
+  const stack = (ids: string[]): string => ids.reduce((under: string, id: string): string => over(colours[id], under), editorGround);
+  const accents: Set<string> = new Set([tokens.accent.base, tokens.accent.muted]);
+
+  for (const id of AI_IDENTITY) {
+    const colour: string | undefined = colours[id];
+    if (!colour) problems.push(`${family}: ${id} is not set, and it is the AI`);
+    else if (!accents.has(colour.slice(0, 7))) problems.push(`${family}: ${id} is ${colour}, not the accent — the AI's one identity`);
+  }
+  for (const id of PERSON) {
+    if (accents.has(colours[id]?.slice(0, 7))) problems.push(`${family}: ${id} is the accent, so what the person wrote reads as the AI's`);
+  }
+  for (const [groundName, ground] of [['side bar', 'sideBar.background'], ['editor', 'editor.background']]) {
+    const bubble: number = deltaE(stack([ground, 'chat.requestBubbleBackground']), stack([ground]));
+    if (bubble < STATE_FLOOR) problems.push(`${family}: a request bubble is ${bubble.toFixed(1)} ΔE from the ${groundName}, under ${STATE_FLOOR}`);
+  }
+  for (const under of [['sideBar.background', 'chat.requestBubbleBackground'], ['input.background']]) {
+    const chip: number = deltaE(stack([...under, 'chat.slashCommandBackground']), stack(under));
+    if (chip < STATE_FLOOR) problems.push(`${family}: a slash command is ${chip.toFixed(1)} ΔE from ${under.at(-1)}, under ${STATE_FLOOR}`);
+  }
+
+  for (const [state, ids] of Object.entries(AI_CHANGE_IDS) as [GitState, string[]][]) {
+    for (const id of ids) {
+      const colour: string | undefined = colours[id];
+      if (!colour) problems.push(`${family}: ${id} is not set, and it is ${state}`);
+      else if (colour.slice(0, 7) !== tokens.state[state]) problems.push(`${family}: ${id} is ${colour}, not the ${state} colour ${tokens.state[state]}`);
+    }
+  }
+  const readInks: [string, string][] = [
+    ...CODE_INKS.filter((ink) => ink !== 'generic').map((ink): [string, string] => [ink, tokens.syntax[ink]]),
+    ['foreground', tokens.text.normal],
+  ];
+  for (const ids of AI_CHANGE_STACKS) {
+    const ground: string = stack(ids);
+    const name: string = ids.join(' over ');
+    for (const [inkName, ink] of readInks) {
+      const ratio: number = contrastRatio(ink, ground);
+      if (ratio < 4.5) problems.push(`${family}: ${inkName} reads at ${ratio.toFixed(2)}:1 on ${name}, under AA`);
+    }
+    const distance: number = deltaE(ground, stack(ids.slice(0, -1)));
+    if (distance < STATE_FLOOR) problems.push(`${family}: ${name} is ${distance.toFixed(1)} ΔE from what it sits on, under ${STATE_FLOOR}`);
+  }
+  for (const id of ['editorOverviewRuler.inlineChatInserted', 'editorOverviewRuler.inlineChatRemoved', 'editorMinimap.inlineChatInserted']) {
+    const ratio: number = contrastRatio(stack([id]), editorGround);
+    if (ratio < 3) problems.push(`${family}: ${id} reads at ${ratio.toFixed(2)}:1 on the editor, under 3:1`);
+  }
+  const pending: number = deltaE(stack(['minimap.chatEditHighlight']), editorGround);
+  if (pending < STATE_FLOOR) problems.push(`${family}: minimap.chatEditHighlight is ${pending.toFixed(1)} ΔE from the minimap, under ${STATE_FLOOR}`);
+
+  for (const [foreground, grounds, floor] of CHAT_TEXT) {
+    const missing: string[] = [foreground, ...grounds].filter((id: string): boolean => !colours[id]);
+    if (missing.length) {
+      problems.push(`${family}: ${foreground} on ${grounds.join(' over ')} names ${missing.join(', ')}, which the theme does not set`);
+      continue;
+    }
+    const ground: string = stack(grounds);
+    const ratio: number = contrastRatio(over(colours[foreground], ground), ground);
+    if (ratio < floor) problems.push(`${family}: ${foreground} on ${grounds.join(' over ')} reads at ${ratio.toFixed(2)}:1, under ${floor}:1`);
+  }
+
+  const sideBar: string = stack(['sideBar.background']);
+  for (const [index, first] of SESSION_STATES.entries()) {
+    const ratio: number = contrastRatio(colours[first], sideBar);
+    if (ratio < 3) problems.push(`${family}: ${first} reads at ${ratio.toFixed(2)}:1 on the side bar, under 3:1`);
+    for (const second of SESSION_STATES.slice(index + 1)) {
+      const distance: number = deltaE(colours[first], colours[second]);
+      if (distance < GIT_DISTANCE) problems.push(`${family}: ${first} and ${second} are ${distance.toFixed(1)} ΔE apart, under ${GIT_DISTANCE}`);
+    }
+  }
+  const badges: number = deltaE(colours['agentsUnreadBadge.background'], colours['agentsBadge.background']);
+  if (badges < STATE_FLOOR) problems.push(`${family}: an unread count is ${badges.toFixed(1)} ΔE from a plain badge, under ${STATE_FLOOR}`);
+
+  const activeText: number = contrastRatio(colours['activeSessionView.foreground'], stack(['agents.background', 'activeSessionView.background']));
+  const inactiveText: number = contrastRatio(colours['inactiveSessionView.foreground'], stack(['agents.background', 'inactiveSessionView.background']));
+  if (inactiveText >= activeText) {
+    problems.push(`${family}: an inactive session's text (${inactiveText.toFixed(2)}:1) reads as strongly as the active one's (${activeText.toFixed(2)}:1)`);
+  }
+  const activeGround: number = relativeLuminance(stack(['agents.background', 'activeSessionView.background']));
+  const inactiveGround: number = relativeLuminance(stack(['agents.background', 'inactiveSessionView.background']));
+  if (inactiveGround > activeGround) problems.push(`${family}: an inactive session's ground is lighter than the active one's`);
+  return problems;
+};
+
 /**
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
@@ -2742,6 +3083,7 @@ function check(): string[] {
     problems.push(...checkEditorIntelligence(family, t, c));
     problems.push(...checkTerminal(family, c));
     problems.push(...checkDiffAndGit(family, t, c));
+    problems.push(...checkChatAndAgents(family, t, c));
   }
 
   /*
