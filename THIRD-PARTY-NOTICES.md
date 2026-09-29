@@ -103,6 +103,14 @@ in it, and at the size the file explorer draws an icon it is a blank rectangle.
 One pictogram: the commit node, for the same reason — a commit drawn as a ring
 on a hairline does not survive being 16 pixels tall.
 
+## Material Symbols — Apache-2.0
+
+<https://github.com/google/material-design-icons>
+
+One pictogram: the `fx` on the `functions` folder. Phosphor's function sign is
+a thin italic f on a tinted square, and sunk into a folder at 16 pixels it is a
+dark blot.
+
 ## Trademarks
 
 The logos the icons depict are the trademarks of their respective owners. They

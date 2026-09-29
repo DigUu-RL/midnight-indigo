@@ -179,9 +179,11 @@ export const fileIcons = {
 
   /* --- Languages --- */
   python: { mark: 'python' },
-  // The cup sits under its steam, so the mark is taller than it is wide; a
-  // touch of extra size keeps the cup itself as heavy as its neighbours.
-  java: { mark: 'java', scale: 1.12 },
+  // Java used to carry a hand-set scale of 1.12 so the cup under its thin
+  // steam weighed as much as its neighbours. The optical sizing in
+  // build-icons.ts makes that correction for every mark now, from the
+  // measured fill, and the two together pushed the steam off the canvas.
+  java: { mark: 'java' },
   csharp: { mark: 'csharp' },
   fsharp: { mark: 'fsharp' },
   vbnet: { mark: 'dotnet' },
@@ -282,7 +284,6 @@ export const fileIcons = {
   sqlite: { mark: 'sqlite' },
   prisma: { mark: 'prisma' },
   firebase: { mark: 'firebase' },
-  supabase: { mark: 'supabase' },
 
   /* --- JS ecosystem tooling --- */
   npm: { mark: 'npm', text: 'npm', textFill: WHITE, size: 9.6, dy: 0.3 },
@@ -310,7 +311,11 @@ export const fileIcons = {
   turborepo: { mark: 'turborepo' },
   nx: { mark: 'nx' },
   lerna: { mark: 'lerna' },
-  electron: { mark: 'electron' },
+  // Electron's mark is the atom drawn in hairlines. The M10 audit found it the
+  // one mark in the set with no solid pixel at 16px even after the line-art
+  // floor lifted its teal — a faint scribble. The atom is what the mark
+  // depicts, so this is the pictogram of one, in the brand's own colour.
+  electron: { glyph: 'atom', colors: ['#47848F'] },
   tauri: { mark: 'tauri' },
   storybook: { mark: 'storybook' },
 

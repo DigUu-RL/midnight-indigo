@@ -47,10 +47,10 @@ The TextMate rules the theme shipped with are held the same way: a shipped rule 
 | TextMate rules, per theme | 69 |
 | TextMate scopes across those rules | 226 |
 | Semantic token rules, per theme | 58 |
-| Icon definitions | 399 |
-| SVGs in `icons/svg/` | 399 |
-| File-extension associations | 538 |
-| Exact-filename associations | 255 |
+| Icon definitions | 398 |
+| SVGs in `icons/svg/` | 398 |
+| File-extension associations | 547 |
+| Exact-filename associations | 270 |
 | Folder-name associations (closed) | 235 |
 | Folder-name associations (open) | 235 |
 | Language-id associations | 105 |
@@ -299,24 +299,24 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 
 | Image | sha256 |
 | --- | --- |
-| `docs/preview/bash.png` | `331b95004abb` |
-| `docs/preview/csharp.png` | `1c377cad5342` |
-| `docs/preview/go.png` | `01a1291d49ec` |
-| `docs/preview/hero.png` | `855df972c93d` |
-| `docs/preview/html.png` | `c5ebaf59bc37` |
-| `docs/preview/icons-files.png` | `73d1e651c992` |
-| `docs/preview/icons-folders.png` | `ad97c9f4b6ca` |
-| `docs/preview/java.png` | `8643fb5d88d1` |
-| `docs/preview/javascript.png` | `8241777055fd` |
-| `docs/preview/json.png` | `f6a76daec997` |
-| `docs/preview/markdown.png` | `86efcb1fcee7` |
+| `docs/preview/bash.png` | `82e04fa81988` |
+| `docs/preview/csharp.png` | `da41a6629d86` |
+| `docs/preview/go.png` | `d1c48b2ace4d` |
+| `docs/preview/hero.png` | `f09ab7678184` |
+| `docs/preview/html.png` | `45226ed95168` |
+| `docs/preview/icons-files.png` | `e7dce19efbe1` |
+| `docs/preview/icons-folders.png` | `8c922c9dcbc6` |
+| `docs/preview/java.png` | `5a02a74b52d4` |
+| `docs/preview/javascript.png` | `9536a2ad697a` |
+| `docs/preview/json.png` | `07a0fcc57df3` |
+| `docs/preview/markdown.png` | `52aae5dfce46` |
 | `docs/preview/palettes.png` | `57cf72574e2c` |
-| `docs/preview/php.png` | `ce8b2b22406c` |
-| `docs/preview/powershell.png` | `8d03e1749004` |
-| `docs/preview/python.png` | `7fcbf7eb87e4` |
-| `docs/preview/rust.png` | `7cdb7bbd81e2` |
-| `docs/preview/scss.png` | `bb3fe6202fdd` |
-| `docs/preview/sql.png` | `e17862f502be` |
-| `docs/preview/tsx.png` | `cd196e8ef4a5` |
-| `docs/preview/typescript.png` | `7ef5a966e13a` |
-| `docs/preview/yaml.png` | `b514d6fb06f4` |
+| `docs/preview/php.png` | `6de029d5b0e0` |
+| `docs/preview/powershell.png` | `abc0f109dad7` |
+| `docs/preview/python.png` | `25291467a425` |
+| `docs/preview/rust.png` | `5d3b305d3f4c` |
+| `docs/preview/scss.png` | `518e505dfe4a` |
+| `docs/preview/sql.png` | `88738240aad5` |
+| `docs/preview/tsx.png` | `813bfc974d0e` |
+| `docs/preview/typescript.png` | `bc24b8dd50fe` |
+| `docs/preview/yaml.png` | `05753d6ce80f` |

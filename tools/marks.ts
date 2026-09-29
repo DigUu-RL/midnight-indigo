@@ -376,7 +376,6 @@ export const marks = {
   bun: imported('bun'),
   deno: imported('deno'),
   django: imported('django'),
-  electron: imported('electron'),
   flutter: imported('flutter'),
   laravel: imported('laravel'),
   nextjs: imported('nextdotjs'),
@@ -422,7 +421,6 @@ export const marks = {
   prisma: imported('prisma'),
   redis: imported('redis'),
   sqlite: imported('sqlite'),
-  supabase: imported('supabase'),
 
   /* --- more languages --- */
   elm: imported('elm'),

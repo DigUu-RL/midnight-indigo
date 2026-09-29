@@ -244,6 +244,11 @@ const extensionToIcon = {
   uproject: 'unreal', uasset: 'unreal', umap: 'unreal',
   podspec: 'cocoapods', bzl: 'bazel', bazel: 'bazel',
 
+  /* --- M10: icons the set drew and nothing pointed at --- */
+  'pkr.hcl': 'packer', 'pkr.json': 'packer',
+  sqlite: 'sqlite', sqlite3: 'sqlite', db3: 'sqlite', s3db: 'sqlite', sl3: 'sqlite',
+  mongodb: 'mongodb', 'mongodb.js': 'mongodb',
+
   'spec.ts': 'typescript-spec', 'test.ts': 'typescript-test', 'd.ts': 'typescript-d',
   'module.ts': 'typescript-module', 'component.ts': 'typescript-component',
   'service.ts': 'typescript-service', 'stories.ts': 'typescript-stories',
@@ -384,6 +389,21 @@ const fileNameToIcon = {
   '.sentryclirc': 'sentry', 'sentry.properties': 'sentry',
   'sonar-project.properties': 'sonarqube',
   'vault.hcl': 'vault',
+
+  /*
+   * --- M10: icons the set drew and nothing pointed at ---
+   *
+   * The audit found eight definitions no mapping reached: SVGs built, shipped
+   * and never shown. These are the files that are unambiguously each tool's.
+   * A GitHub workflow is any .yml under .github/workflows, which an icon theme
+   * cannot match by path — `action.yml` is the file that IS an action.
+   */
+  'action.yml': 'githubactions', 'action.yaml': 'githubactions',
+  'esbuild.config.js': 'esbuild', 'esbuild.config.mjs': 'esbuild', 'esbuild.config.ts': 'esbuild',
+  'mongod.conf': 'mongodb', '.mongoshrc.js': 'mongodb',
+  'application.properties': 'spring', 'application.yml': 'spring', 'application.yaml': 'spring',
+  'bootstrap.css': 'bootstrap', 'bootstrap.min.css': 'bootstrap',
+  'bootstrap.js': 'bootstrap', 'bootstrap.min.js': 'bootstrap', 'bootstrap.bundle.min.js': 'bootstrap',
 } satisfies Record<string, FileIcon>;
 
 /* VS Code language id -> file icon, for files with no recognisable extension. */
@@ -434,6 +454,67 @@ export type BuildThemeOptions = {
 
 type IconDefinitionMap = Record<string, { iconPath: string }>;
 type NameToIconKey = Record<string, string>;
+
+type Manifest = {
+  iconDefinitions: IconDefinitionMap;
+  folder: string;
+  folderExpanded: string;
+  rootFolder: string;
+  rootFolderExpanded: string;
+  file: string;
+  folderNames: NameToIconKey;
+  folderNamesExpanded: NameToIconKey;
+  fileExtensions: NameToIconKey;
+  fileNames: NameToIconKey;
+  languageIds: NameToIconKey;
+};
+
+/*
+ * The manifest has to be closed in all three directions, and the build fails
+ * on the first gap (M10):
+ *
+ *   every SVG a definition names is on disk — a missing file is a blank icon,
+ *   and VS Code does not say so;
+ *   every name a mapping sends somewhere reaches a definition;
+ *   every definition is reached by something — or it is an SVG that is built,
+ *   shipped and never shown, which is what eight of them were until M10.
+ *
+ * The svg directory holding nothing the manifest does not name is the fourth
+ * side of the same question, and it is asked here too.
+ */
+const assertManifestIsClosed = (manifest: Manifest, manifestPath: string): void => {
+  const problems: string[] = [];
+  const manifestDirectory: string = path.dirname(manifestPath);
+  const definitions: string[] = Object.keys(manifest.iconDefinitions);
+
+  const referenced: Set<string> = new Set([
+    manifest.file,
+    manifest.folder,
+    manifest.folderExpanded,
+    manifest.rootFolder,
+    manifest.rootFolderExpanded,
+    ...[manifest.folderNames, manifest.folderNamesExpanded, manifest.fileExtensions, manifest.fileNames, manifest.languageIds].flatMap(
+      (table: NameToIconKey): string[] => Object.values(table)
+    ),
+  ]);
+
+  for (const definition of definitions) {
+    const iconPath: string = path.join(manifestDirectory, manifest.iconDefinitions[definition].iconPath);
+    if (!fs.existsSync(iconPath)) problems.push(`${definition} names ${manifest.iconDefinitions[definition].iconPath}, which is not on disk`);
+    if (!referenced.has(definition)) problems.push(`${definition} is defined but no folder name, extension, file name or language id reaches it`);
+  }
+  for (const reference of referenced) {
+    if (!manifest.iconDefinitions[reference]) problems.push(`${reference} is mapped to but never defined`);
+  }
+
+  const namedFiles: Set<string> = new Set(definitions.map((definition: string): string => path.basename(manifest.iconDefinitions[definition].iconPath)));
+  const svgDirectory: string = path.join(manifestDirectory, path.dirname(manifest.iconDefinitions[manifest.file].iconPath));
+  for (const svgFile of fs.readdirSync(svgDirectory)) {
+    if (!namedFiles.has(svgFile)) problems.push(`${svgFile} is in the icon folder but no definition names it`);
+  }
+
+  if (problems.length) throw new Error(`the icon manifest is not closed:\n  ${problems.join('\n  ')}`);
+};
 
 export default function buildTheme({
   fileIcons,
@@ -492,7 +573,7 @@ export default function buildTheme({
    * reads as empty, and it would do it silently: an unknown key is ignored, so
    * every icon would simply stop resolving with no error anywhere.
    */
-  const theme = {
+  const theme: Manifest = {
     iconDefinitions,
     folder: '_folder',
     folderExpanded: '_folder_open',
@@ -506,6 +587,7 @@ export default function buildTheme({
     languageIds: mapNamesToFileIconKeys(languageIdToIcon, 'languageIdToIcon'),
   };
 
+  assertManifestIsClosed(theme, manifestPath);
   fs.mkdirSync(path.dirname(manifestPath), { recursive: true });
   fs.writeFileSync(manifestPath, JSON.stringify(theme, null, 2) + '\n', 'utf8');
   console.log(

@@ -70,9 +70,14 @@ const CHECKS: { name: string; run: () => void }[] = [
     run: () => void node('check-syntax.ts'),
   },
   {
-    // Missing SVGs, mappings to icons that do not exist, measured bounds.
+    // Missing SVGs, mappings to icons that do not exist, icons nothing maps to, measured bounds.
     name: 'icons build',
     run: () => void node('build-icons.ts'),
+  },
+  {
+    // The optical audit is of the icons just built, and every icon is inside its limits.
+    name: 'icon optics',
+    run: () => void node('check-icons.ts'),
   },
   {
     name: 'build is deterministic',

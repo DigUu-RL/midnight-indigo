@@ -441,9 +441,6 @@
     "_file_firebase": {
       "iconPath": "../svg/file-firebase.svg"
     },
-    "_file_supabase": {
-      "iconPath": "../svg/file-supabase.svg"
-    },
     "_file_npm": {
       "iconPath": "../svg/file-npm.svg"
     },
@@ -2181,6 +2178,15 @@
     "podspec": "_file_cocoapods",
     "bzl": "_file_bazel",
     "bazel": "_file_bazel",
+    "pkr.hcl": "_file_packer",
+    "pkr.json": "_file_packer",
+    "sqlite": "_file_sqlite",
+    "sqlite3": "_file_sqlite",
+    "db3": "_file_sqlite",
+    "s3db": "_file_sqlite",
+    "sl3": "_file_sqlite",
+    "mongodb": "_file_mongodb",
+    "mongodb.js": "_file_mongodb",
     "spec.ts": "_file_typescript_spec",
     "test.ts": "_file_typescript_test",
     "d.ts": "_file_typescript_d",
@@ -2472,7 +2478,22 @@
     ".sentryclirc": "_file_sentry",
     "sentry.properties": "_file_sentry",
     "sonar-project.properties": "_file_sonarqube",
-    "vault.hcl": "_file_vault"
+    "vault.hcl": "_file_vault",
+    "action.yml": "_file_githubactions",
+    "action.yaml": "_file_githubactions",
+    "esbuild.config.js": "_file_esbuild",
+    "esbuild.config.mjs": "_file_esbuild",
+    "esbuild.config.ts": "_file_esbuild",
+    "mongod.conf": "_file_mongodb",
+    ".mongoshrc.js": "_file_mongodb",
+    "application.properties": "_file_spring",
+    "application.yml": "_file_spring",
+    "application.yaml": "_file_spring",
+    "bootstrap.css": "_file_bootstrap",
+    "bootstrap.min.css": "_file_bootstrap",
+    "bootstrap.js": "_file_bootstrap",
+    "bootstrap.min.js": "_file_bootstrap",
+    "bootstrap.bundle.min.js": "_file_bootstrap"
   },
   "languageIds": {
     "javascript": "_file_javascript",

@@ -173,7 +173,6 @@ const SOURCES: Record<string, Source> = {
   bun: { url: si('bun') },
   deno: { url: si('deno') },
   django: { url: si('django') },
-  electron: { url: si('electron') },
   flutter: { url: si('flutter') },
   laravel: { url: si('laravel') },
   nextdotjs: { url: si('nextdotjs') },
@@ -219,7 +218,6 @@ const SOURCES: Record<string, Source> = {
   prisma: { url: si('prisma') },
   redis: { url: si('redis') },
   sqlite: { url: si('sqlite') },
-  supabase: { url: si('supabase') },
 
   /* --- more languages --- */
   elm: { url: si('elm') },

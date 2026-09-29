@@ -135,6 +135,17 @@ function hslToHex(h: number, s: number, l: number): Colour {
  * -------------------------------------------------------------- */
 
 const MIN_CONTRAST_ON_GROUND = 4.2;
+
+/*
+ * The floor for line art (M10). A stroke thinner than a pixel is never drawn
+ * at full strength: at 16px it covers part of each pixel it crosses, and what
+ * the eye gets is the ink blended with the ground — roughly half of it. The
+ * optical audit found the Electron atom, the PostgreSQL elephant and the
+ * GitHub Actions graph with no solid pixel at all at 16px, dim teal and navy
+ * smudges. Lifting the ink until its contrast survives being halved is the
+ * compensation, and it keeps the hue: the atom is still Electron's teal.
+ */
+export const LINE_ART_CONTRAST = 6;
 const MAX_LIFTED_LIGHTNESS = 0.86;
 
 /*
@@ -147,13 +158,13 @@ const MAX_LIFTED_LIGHTNESS = 0.86;
  * really using, so it goes straight to LIGHT_INK. Lifting the lightness instead
  * would produce a muddy charcoal that reads as "broken" rather than "reversed".
  */
-export function readableOnGround(hex: Colour): Colour {
+export function readableOnGround(hex: Colour, minimumContrast = MIN_CONTRAST_ON_GROUND): Colour {
   if (isStructuralColour(hex)) return hex;
   const [h, s, l0] = hexToHsl(hex);
   if (s < 0.2 && l0 < 0.3) return LIGHT_INK;
   let l = l0;
   let out = hslToHex(h, s, l);
-  while (l < MAX_LIFTED_LIGHTNESS && contrastRatio(out, GROUND) < MIN_CONTRAST_ON_GROUND) {
+  while (l < MAX_LIFTED_LIGHTNESS && contrastRatio(out, GROUND) < minimumContrast) {
     l = Math.min(MAX_LIFTED_LIGHTNESS, l + 0.01);
     out = hslToHex(h, s, l);
   }
@@ -188,5 +199,20 @@ export function lighterTint(hex: Colour): Colour {
 export function darkened(hex: Colour, amount = 0.62): Colour {
   const [h, s, l] = hexToHsl(hex);
   return hslToHex(h, Math.min(1, s * 1.08), Math.max(0.1, l * (1 - amount)));
+}
+
+/*
+ * The colour an ink casts as its shadow (M10).
+ *
+ * It was `darkened` until M10, which RAISES saturation while it takes the
+ * lightness down — a shadow more vivid than the thing casting it, which on a
+ * near-black ground is not shade but a coloured fringe. A shadow is the ink
+ * with light taken away, and less light means less chroma: this keeps the hue,
+ * so a Python icon still casts a blue shade and a Rust one a rust one, but at
+ * a little over half the saturation and a notch darker than `darkened`.
+ */
+export function castShadow(hex: Colour): Colour {
+  const [h, s, l] = hexToHsl(hex);
+  return hslToHex(h, s * 0.6, Math.max(0.085, l * 0.38 * 0.85));
 }
 

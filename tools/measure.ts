@@ -34,6 +34,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { findBrowser } from './browser.ts';
 import { glyphs, type GlyphName } from './glyphs.ts';
 import { marks, type MarkName } from './marks.ts';
 import { FONT_STACK, FONT_WEIGHT, letteringRuns, textMetricsKey } from './icon-spec.ts';
@@ -41,26 +42,18 @@ import { FONT_STACK, FONT_WEIGHT, letteringRuns, textMetricsKey } from './icon-s
 /** The two shapes this script writes out. */
 type Bounds = { cx: number; cy: number; w: number; h: number };
 type TextMetrics = Bounds & { dx: number; dy: number };
+/**
+ * Artwork also records where its weight sits (the brightness-weighted centre,
+ * mx/my), how much of its own box its silhouette fills — ink plus the holes it
+ * encloses, so a ring counts as a disc — and its mean stroke thickness, twice
+ * the ink area over its outline. build-icons.ts centres and sizes from these.
+ */
+type ArtworkMetrics = Bounds & { mx: number; my: number; fill: number; stroke: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.join(os.tmpdir(), 'midnight-indigo-measure.html');
 const GLYPH_OUT = path.join(HERE, 'glyph-bounds.json');
 const TEXT_OUT = path.join(HERE, 'text-bounds.json');
-
-const BROWSERS = [
-  process.env.MIDNIGHT_INDIGO_BROWSER,
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-].filter((b): b is string => Boolean(b));
-
-function findBrowser(): string {
-  for (const b of BROWSERS) if (fs.existsSync(b)) return b;
-  throw new Error('No Chromium-based browser found to measure with. Set MIDNIGHT_INDIGO_BROWSER to one.');
-}
 
 // Artwork is drawn with the resolved ink for its icon; measuring only cares
 // where the ink is, so every slot is the same white and the ground is black.
@@ -121,18 +114,47 @@ const out = [];
     ctx.drawImage(img, 0, 0, S, S);
     const d = ctx.getImageData(0, 0, S, S).data;
     let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+    let mass = 0, momentX = 0, momentY = 0, inkPixels = 0, edgePixels = 0;
+    // Ink is anything meaningfully brighter than the black ground.
+    const isInk = (x, y) => x >= 0 && y >= 0 && x < S && y < S && d[(y * S + x) * 4] + d[(y * S + x) * 4 + 1] + d[(y * S + x) * 4 + 2] >= 200;
     for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
       const i = (y * S + x) * 4;
-      // Ink is anything meaningfully brighter than the black ground.
-      if (d[i] + d[i + 1] + d[i + 2] < 200) continue;
+      const brightness = d[i] + d[i + 1] + d[i + 2];
+      mass += brightness; momentX += brightness * (x + 0.5); momentY += brightness * (y + 0.5);
+      if (brightness < 200) continue;
+      inkPixels++;
+      if (!isInk(x - 1, y) || !isInk(x + 1, y) || !isInk(x, y - 1) || !isInk(x, y + 1)) edgePixels++;
       if (x < x0) x0 = x; if (x > x1) x1 = x;
       if (y < y0) y0 = y; if (y > y1) y1 = y;
     }
     if (x1 < 0) { out.push([j.kind, j.id, 'EMPTY'].join('\\u0001')); continue; }
     const half = j.span / 2;
+    if (j.kind === 'text') {
+      out.push([j.kind, j.id,
+        (x0 + x1 + 1) / 2 / PX - half, (y0 + y1 + 1) / 2 / PX - half,
+        (x1 - x0 + 1) / PX, (y1 - y0 + 1) / PX].join('\\u0001'));
+      continue;
+    }
+    // Empty pixels the ground cannot reach from the edge are holes: counters, cut-outs, the inside of a ring.
+    const outside = new Uint8Array(S * S);
+    const stack = [];
+    for (let k = 0; k < S; k++) stack.push(k, (S - 1) * S + k, k * S, k * S + S - 1);
+    while (stack.length) {
+      const k = stack.pop();
+      if (outside[k] || isInk(k % S, Math.floor(k / S))) continue;
+      outside[k] = 1;
+      const x = k % S, y = Math.floor(k / S);
+      if (y > 0) stack.push(k - S); if (y < S - 1) stack.push(k + S);
+      if (x > 0) stack.push(k - 1); if (x < S - 1) stack.push(k + 1);
+    }
+    let silhouettePixels = 0;
+    for (let k = 0; k < S * S; k++) if (!outside[k]) silhouettePixels++;
     out.push([j.kind, j.id,
       (x0 + x1 + 1) / 2 / PX - half, (y0 + y1 + 1) / 2 / PX - half,
-      (x1 - x0 + 1) / PX, (y1 - y0 + 1) / PX].join('\\u0001'));
+      (x1 - x0 + 1) / PX, (y1 - y0 + 1) / PX,
+      momentX / mass / PX - half, momentY / mass / PX - half,
+      silhouettePixels / ((x1 - x0 + 1) * (y1 - y0 + 1)),
+      2 * inkPixels / edgePixels / PX].join('\\u0001'));
   }
   document.getElementById('out').textContent = out.join('\\u0002');
 })();
@@ -154,12 +176,12 @@ const m = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
 if (!m || !m[1].trim()) throw new Error('measurement page produced no output');
 
 const round = (v: string | number): number => Number(Number(v).toFixed(3));
-const artBounds: Record<string, Bounds> = {};
+const artBounds: Record<string, ArtworkMetrics> = {};
 const textMetrics: Record<string, TextMetrics> = {};
 const empty: string[] = [];
 
 for (const line of m[1].trim().split('\u0002')) {
-  const [kind, id, cx, cy, w, h] = line.split('\u0001');
+  const [kind, id, cx, cy, w, h, mx, my, fill, stroke] = line.split('\u0001');
   if (cx === 'EMPTY') {
     empty.push(`${kind} ${id}`);
     continue;
@@ -167,7 +189,7 @@ for (const line of m[1].trim().split('\u0002')) {
   // For text the correction is "move the ink back to the centre", so the
   // offsets are stored negated; the size is kept as measured.
   if (kind === 'text') textMetrics[id] = { dx: round(-cx), dy: round(-cy), cx: round(cx), cy: round(cy), w: round(w), h: round(h) };
-  else artBounds[`${kind}:${id}`] = { cx: round(cx), cy: round(cy), w: round(w), h: round(h) };
+  else artBounds[`${kind}:${id}`] = { cx: round(cx), cy: round(cy), w: round(w), h: round(h), mx: round(mx), my: round(my), fill: round(fill), stroke: round(stroke) };
 }
 
 if (empty.length) throw new Error(`nothing rendered for: ${empty.join(', ')}`);

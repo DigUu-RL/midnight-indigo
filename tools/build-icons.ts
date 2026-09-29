@@ -60,11 +60,13 @@ import {
   type FileIcon,
   type FolderIcon,
 } from './icon-spec.ts';
-import { FOLDER, readableOnGround, darkened, lighterTint } from './palette.ts';
+import { FOLDER, LINE_ART_CONTRAST, readableOnGround, darkened, lighterTint, castShadow } from './palette.ts';
 import buildTheme from './build-theme.ts';
+import { ARTWORK_CENTRE } from './icon-optics.ts';
 
 /** What tools/measure.ts records for one piece of artwork and one text run. */
 type MeasuredBounds = { cx: number; cy: number; w: number; h: number };
+type MeasuredArtwork = MeasuredBounds & { mx: number; my: number; fill: number; stroke: number };
 type MeasuredTextMetrics = MeasuredBounds & { dx: number; dy: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -73,7 +75,7 @@ const ICONS = path.join(HERE, '..', 'icons');
 const readJsonFile = <T,>(name: string): T =>
   JSON.parse(fs.readFileSync(path.join(HERE, name), 'utf8')) as T;
 
-const measuredArtworkBounds = readJsonFile<Record<string, MeasuredBounds>>('glyph-bounds.json');
+const measuredArtworkBounds = readJsonFile<Record<string, MeasuredArtwork>>('glyph-bounds.json');
 const measuredTextMetrics = readJsonFile<Record<string, MeasuredTextMetrics>>('text-bounds.json');
 
 const roundToThousandths = (v: number): number => Number(v.toFixed(3));
@@ -90,8 +92,96 @@ const roundToThousandths = (v: number): number => Number(v.toFixed(3));
  * shadow is what gets clipped by the viewBox.
  */
 const ARTWORK_SIZE = 25.4;
-const ARTWORK_CENTRE_X = 15.6;
-const ARTWORK_CENTRE_Y = 15.4;
+const ARTWORK_CENTRE_X = ARTWORK_CENTRE.x;
+const ARTWORK_CENTRE_Y = ARTWORK_CENTRE.y;
+
+/*
+ * OPTICAL PLACEMENT (M10)
+ * -----------------------
+ * Up to 9.0 every piece of artwork was centred on its ink's bounding box and
+ * fitted so its longer side was ARTWORK_SIZE. Both are geometric answers, and
+ * the eye does not measure boxes. The optical audit (tools/audit-icons.ts)
+ * found the ink's WEIGHT up to 2.3px off centre at 16px — the flask sat on its
+ * bulb, the Vercel and CMake triangles on their bases, the zsh prompt leaned on
+ * its percent sign — and a tenfold spread in how much of the box an icon
+ * darkens, from the solid TypeScript square to the hairline Electron atom.
+ *
+ * So placement now answers to the measured weight as well as the box:
+ *
+ *   CENTRE. The point put on the canvas centre is pulled from the box's centre
+ *   halfway toward the ink's centre of mass — the correction an icon designer
+ *   makes by hand to a play button or a flask. All the way would over-correct
+ *   anything with a long thin part (the Java cup's steam would drag it down);
+ *   none is what the audit caught. The shift is capped, and the artwork is
+ *   kept inside the canvas whatever the pull asks for.
+ *
+ *   SIZE. A square that fills its box reads bigger than a disc of the same
+ *   width, and a triangle smaller; so the artwork is scaled by how much of its
+ *   own box its silhouette fills, against a disc's 0.785, gently (a fourth
+ *   root) and within a narrow band — this evens out the set, it does not
+ *   redraw it. And a mark far longer than it is tall — the Go and .NET
+ *   wordmarks — is given length it can have: fitting its long side to the box
+ *   left it five pixels tall at 16px.
+ */
+const OPTICAL = {
+  /** 0 centres the ink's box, 1 its centre of mass. */
+  centrePull: 0.5,
+  /** The furthest the pull may move artwork, as a share of its size. */
+  maxShift: 0.1,
+  /** A disc's share of its bounding box: the fill that is neither grown nor shrunk. */
+  referenceFill: Math.PI / 4,
+  fillExponent: 0.25,
+  minFillScale: 0.93,
+  maxFillScale: 1.06,
+  /** Below this ratio of short side to long, a mark counts as long. */
+  longAspect: 0.6,
+  aspectExponent: 0.3,
+  /** No correction may take the long side past this share of the nominal size. */
+  maxGrowth: 1.12,
+  /** Clear canvas kept round the artwork: top/left, and bottom/right where the shadow falls. */
+  leadingInset: 0.8,
+  trailingInset: 1.6,
+};
+
+const clamp = (value: number, lowest: number, highest: number): number => Math.min(highest, Math.max(lowest, value));
+
+/** The transform that puts measured artwork on a centre, sized and centred optically. */
+const opticalTransform = (key: string, centreX: number, centreY: number, size: number): { transform: string; scale: number } => {
+  const measured: MeasuredArtwork | undefined = measuredArtworkBounds[key];
+  if (!measured) throw new Error(`no measured bounds for ${key} — run: npm run measure:glyphs`);
+  const longSide: number = Math.max(measured.w, measured.h);
+  const aspect: number = Math.min(measured.w, measured.h) / longSide;
+  const fillScale: number = clamp(
+    (OPTICAL.referenceFill / measured.fill) ** OPTICAL.fillExponent,
+    OPTICAL.minFillScale,
+    OPTICAL.maxFillScale
+  );
+  const aspectScale: number = aspect < OPTICAL.longAspect ? (OPTICAL.longAspect / aspect) ** OPTICAL.aspectExponent : 1;
+  const room: number = 32 - OPTICAL.leadingInset - OPTICAL.trailingInset;
+  const scale: number = Math.min(room, size * Math.min(OPTICAL.maxGrowth, fillScale * aspectScale)) / longSide;
+
+  const reach: number = OPTICAL.maxShift * size;
+  const anchorX: number = measured.cx + clamp(OPTICAL.centrePull * (measured.mx - measured.cx) * scale, -reach, reach) / scale;
+  const anchorY: number = measured.cy + clamp(OPTICAL.centrePull * (measured.my - measured.cy) * scale, -reach, reach) / scale;
+
+  /* Keep the placed box on the canvas, whatever the pull asked for. */
+  const keepInside = (translate: number, boxCentre: number, extent: number): number => {
+    const start: number = translate + (boxCentre - extent / 2) * scale;
+    const end: number = translate + (boxCentre + extent / 2) * scale;
+    if (start < OPTICAL.leadingInset) return translate + OPTICAL.leadingInset - start;
+    if (end > 32 - OPTICAL.trailingInset) return translate - (end - (32 - OPTICAL.trailingInset));
+    return translate;
+  };
+  const translateX: number = keepInside(centreX - anchorX * scale, measured.cx, measured.w);
+  const translateY: number = keepInside(centreY - anchorY * scale, measured.cy, measured.h);
+  return {
+    transform: `translate(${roundToThousandths(translateX)} ${roundToThousandths(translateY)}) scale(${roundToThousandths(scale)})`,
+    scale,
+  };
+};
+
+/** The mean stroke of measured artwork once placed at `scale`, in canvas units. */
+const placedStroke = (key: string, scale: number): number => measuredArtworkBounds[key].stroke * scale;
 
 /**
  * Hand-authored artwork drifts off its nominal box, and anything that punches
@@ -101,17 +191,11 @@ const ARTWORK_CENTRE_Y = 15.4;
  * records where the ink actually is; this puts that ink in the middle of ours,
  * at the size we want, whatever the artwork thought it was doing.
  */
-function placeArtwork(kind: string, name: string, body: string, size = ARTWORK_SIZE): string {
-  const key = `${kind}:${name}`;
-  const b = measuredArtworkBounds[key];
-  if (!b) throw new Error(`no measured bounds for ${key} — run: npm run measure:glyphs`);
-  const s = size / Math.max(b.w, b.h);
-  return (
-    `<g transform="translate(${roundToThousandths(ARTWORK_CENTRE_X - b.cx * s)} ${roundToThousandths(ARTWORK_CENTRE_Y - b.cy * s)}) scale(${roundToThousandths(s)})">` +
-    body +
-    '</g>'
-  );
-}
+const placeArtwork = (kind: string, name: string, body: string, size = ARTWORK_SIZE): { body: string; stroke: number } => {
+  const key: string = `${kind}:${name}`;
+  const placed = opticalTransform(key, ARTWORK_CENTRE_X, ARTWORK_CENTRE_Y, size);
+  return { body: `<g transform="${placed.transform}">${body}</g>`, stroke: placedStroke(key, placed.scale) };
+};
 
 /* -------------------------------------------------------------- *
  * Canvas primitives
@@ -193,12 +277,15 @@ function officialPaletteFor(spec: FileSpec): readonly Colour[] {
  */
 const withDerivedTint = (ink: InkPalette): InkPalette => (ink.length > 1 ? ink : [ink[0], lighterTint(ink[0])]);
 
-/** Draws a spec's artwork — everything but the lettering — with resolved ink. */
-function renderArtwork(spec: FileSpec, ink: InkPalette): string {
+/**
+ * Draws a spec's artwork — everything but the lettering — with resolved ink,
+ * and says how thick its strokes came out, which decides its shadow.
+ */
+function renderArtwork(spec: FileSpec, ink: InkPalette): { body: string; stroke: number } {
   const scale = spec.scale ? ARTWORK_SIZE * spec.scale : ARTWORK_SIZE;
   if (spec.mark) return placeArtwork('mark', spec.mark, marks[spec.mark].draw(ink), scale);
   if (spec.glyph) return placeArtwork('glyph', spec.glyph, glyphs[spec.glyph](withDerivedTint(ink)), scale);
-  return '';
+  return { body: '', stroke: Infinity };
 }
 
 /* -------------------------------------------------------------- *
@@ -321,14 +408,7 @@ function renderFolderPictogram(spec: Partial<FolderSpec>, isOpen: boolean, ink: 
       ? (['glyph', spec.glyph, glyphs[spec.glyph](ink)] as const)
       : ([null, null, ''] as const);
   if (!kind) return '';
-  const b = measuredArtworkBounds[`${kind}:${name}`];
-  if (!b) throw new Error(`no measured bounds for ${kind}:${name} — run: npm run measure:glyphs`);
-  const s = at.size / Math.max(b.w, b.h);
-  return (
-    `<g transform="translate(${roundToThousandths(at.cx - b.cx * s)} ${roundToThousandths(at.cy - b.cy * s)}) scale(${roundToThousandths(s)})">` +
-    body +
-    '</g>'
-  );
+  return `<g transform="${opticalTransform(`${kind}:${name}`, at.cx, at.cy, at.size).transform}">${body}</g>`;
 }
 
 /* -------------------------------------------------------------- *
@@ -337,18 +417,45 @@ function renderFolderPictogram(spec: Partial<FolderSpec>, isOpen: boolean, ink: 
  *
  * The shadow is what keeps a flat icon from looking like a sticker on this
  * theme, and it cannot be black: the ground is #040208, so a black shadow is
- * not a shadow, it is nothing. Each icon casts its own colour, taken down in
- * lightness by palette.ts -> darkened. One soft offset pass, no spread: at the
- * 16px VS Code renders a file icon at, anything more turns the mark to mush.
+ * not a shadow, it is nothing. Each icon casts its own colour, taken down by
+ * palette.ts -> castShadow. One soft offset pass, no spread.
+ *
+ * M10 made it smaller, calmer and darker. It used to fall 0.9 x 1.3 units with
+ * a 0.55 blur — at 16px a band most of a pixel wide under every icon — in a
+ * colour MORE saturated than the ink that cast it. On a solid mark that read as
+ * a second, dirtier edge; on line art it was worse, because a shadow as thick
+ * as the stroke fills the gaps between strokes, and the Laravel cube and the
+ * Figma blobs came out as a red and an orange smear. The audit measured shadow
+ * area at up to 1.8 times the ink's own.
+ *
+ * And line art casts none. Below LINE_ART_STROKE the mean stroke is under a
+ * pixel at 16px, and a shadow on a hairline is not relief, it is a second
+ * hairline drawn slightly out of register.
  */
 
 const DROP_SHADOW_FILTER_ID = 'sh';
+const DROP_SHADOW = { dx: 0.5, dy: 0.75, blur: 0.35 };
+/** Placed mean stroke, in canvas units, below which artwork counts as line art. */
+const LINE_ART_STROKE = 1.6;
+
 const dropShadowFilter = (colour: Colour): string =>
   `<defs><filter id="${DROP_SHADOW_FILTER_ID}" x="-25%" y="-25%" width="160%" height="160%" color-interpolation-filters="sRGB">` +
-  `<feDropShadow dx="0.9" dy="1.3" stdDeviation="0.55" flood-color="${colour}" flood-opacity="1"/>` +
+  `<feDropShadow dx="${DROP_SHADOW.dx}" dy="${DROP_SHADOW.dy}" stdDeviation="${DROP_SHADOW.blur}" flood-color="${colour}" flood-opacity="1"/>` +
   `</filter></defs>`;
 
 const withDropShadow = (body: string): string => `<g filter="url(#${DROP_SHADOW_FILTER_ID})">${body}</g>`;
+
+/** Whether a spec's artwork, once placed, is drawn in strokes thinner than LINE_ART_STROKE. */
+const isLineArt = (spec: FileSpec): boolean => {
+  const artworkKey: string | null = spec.mark ? `mark:${spec.mark}` : spec.glyph ? `glyph:${spec.glyph}` : null;
+  if (!artworkKey) return false;
+  const size: number = spec.scale ? ARTWORK_SIZE * spec.scale : ARTWORK_SIZE;
+  return placedStroke(artworkKey, opticalTransform(artworkKey, ARTWORK_CENTRE_X, ARTWORK_CENTRE_Y, size).scale) < LINE_ART_STROKE;
+};
+
+/** The artwork, with the shadow its identity colour casts — or bare, if it is line art. */
+const shadowed = (body: string, identity: Colour, stroke: number): string =>
+  stroke < LINE_ART_STROKE ? `<g>${body}</g>` : dropShadowFilter(castShadow(identity)) + withDropShadow(body);
 
 /* -------------------------------------------------------------- *
  * Lettered icons: the rule under the letters
@@ -420,8 +527,10 @@ function letteringRule(lettering: PlacedLettering, fill: Colour): { bar: string;
 }
 
 function renderClassicFileIcon(spec: FileSpec): string {
-  const ink = officialPaletteFor(spec).map(readableOnGround);
-  let body = renderArtwork(spec, ink);
+  const minimumContrast: number | undefined = isLineArt(spec) ? LINE_ART_CONTRAST : undefined;
+  const ink = officialPaletteFor(spec).map((colour: Colour): Colour => readableOnGround(colour, minimumContrast));
+  const artwork = renderArtwork(spec, ink);
+  let body = artwork.body;
   let beam = '';
   if (spec.text) {
     /*
@@ -441,7 +550,7 @@ function renderClassicFileIcon(spec: FileSpec): string {
       beam = rule.beam;
     }
   }
-  return svgDocument(dropShadowFilter(darkened(ink[0])) + withDropShadow(body) + beam);
+  return svgDocument(shadowed(body, ink[0], artwork.stroke) + beam);
 }
 
 function renderClassicFolderIcon(spec: Partial<FolderSpec>, isOpen: boolean): string {
@@ -460,11 +569,7 @@ function renderClassicFolderIcon(spec: Partial<FolderSpec>, isOpen: boolean): st
   const beam = isOpen
     ? lightBeam(`<path d="${FOLDER_OPEN_FRONT}"/>`, at.cx, at.cy, BEAM_ANGLE, FOLDER_OPEN_BEAM)
     : lightBeam(`<path d="${FOLDER_FACADE}"/>`, at.cx, at.cy, BEAM_ANGLE, FOLDER_BEAM);
-  return svgDocument(
-    dropShadowFilter(darkened(accent)) +
-      withDropShadow(face + renderFolderPictogram(spec, isOpen, sunk)) +
-      beam
-  );
+  return svgDocument(shadowed(face + renderFolderPictogram(spec, isOpen, sunk), accent, Infinity) + beam);
 }
 
 /* -------------------------------------------------------------- *

@@ -26,6 +26,7 @@ import path from 'node:path';
 import os from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { findBrowser } from './browser.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -74,21 +75,6 @@ if (!FAMILIES.includes(family)) {
 
 const theme = themeFor(family);
 const C = theme.colors;
-
-const BROWSERS = [
-  process.env.MIDNIGHT_INDIGO_BROWSER,
-  'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Microsoft/Edge/Application/msedge.exe',
-  'C:/Program Files/Google/Chrome/Application/chrome.exe',
-  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-  '/usr/bin/google-chrome',
-  '/usr/bin/chromium',
-].filter((b): b is string => Boolean(b));
-
-function findBrowser(): string {
-  for (const b of BROWSERS) if (fs.existsSync(b)) return b;
-  throw new Error('No Chromium-based browser found. Set MIDNIGHT_INDIGO_BROWSER to one.');
-}
 
 /* Sample file -> Shiki language id, caption, and whether the theme tunes it. */
 const LANGUAGES = [

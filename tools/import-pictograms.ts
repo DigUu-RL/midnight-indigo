@@ -20,16 +20,21 @@
  *
  * The source
  * ----------
- * Phosphor 2.1.1 (MIT), `-duotone` — one family for the whole library, because
- * a pictogram set assembled from five families reads as five sets. Phosphor is
- * the right one: it is drawn on a 256 grid with round caps and joins (nothing
- * in it comes to a bare point, which was the rule V3 wrote for its own shapes),
- * it is broad enough to answer every file role this set has to name, and its
- * duotone variant is already the split this set's colour system wants — a
- * surface at low opacity behind full-opacity detail.
+ * Phosphor 2.1.1 (MIT), `-duotone`, is the BASE: it is drawn on a 256 grid
+ * with round caps and joins (nothing in it comes to a bare point, which was the
+ * rule V3 wrote for its own shapes), it is broad, and its duotone variant is
+ * already the split this set's colour system wants — a surface at low opacity
+ * behind full-opacity detail.
  *
- * A handful of concepts Phosphor does not draw are taken from other Iconify
- * collections; each is noted at its entry with the licence it comes under.
+ * It is not the only source (M10). Up to 9.0 this header held the library to
+ * one family, on the argument that a set drawn from five families reads as
+ * five sets. The icons are treated as one set — one box, one measured
+ * centring, one palette, one shadow — and that treatment is what makes them
+ * read as one; the argument cost more than it saved, because the only question
+ * a pictogram has to answer is whether it still says its thing at 16px, and
+ * Phosphor's answer is sometimes no. So any Iconify collection may supply one,
+ * when its drawing reads better at the size; the entry says which, why, and
+ * the licence, and THIRD-PARTY-NOTICES.md carries the licence in full.
  *
  * DUOTONE
  * -------
@@ -147,7 +152,11 @@ const SOURCES: Record<string, Source> = {
   // bracket on its own reads as a chevron pair pointing outward.
   angles: { id: 'ph:code-simple-bold', note: 'XML and its dialects' },
   parens: { id: 'ph:brackets-round-bold', note: 'the Lisps, whose syntax IS the parenthesis' },
-  fx: ph('function', 'functions'),
+  // Material Symbols rather than Phosphor (Apache-2.0). Phosphor's function is
+  // a thin italic f on a tinted square, and sunk into a folder at 16px it is a
+  // dark blot; the rounded "fx" is heavy enough to still say fx there. MDI's
+  // and Tabler's were tried beside it and lost the x or the whole stroke.
+  fx: { id: 'material-symbols:function-rounded', note: 'functions' },
   anchor: ph('anchor-simple', 'hooks'),
   terminal: ph('terminal-window', 'scripts and shells'),
   browser: ph('browser', 'anything the browser is the runtime for'),
