@@ -64,6 +64,11 @@ const CHECKS: { name: string; run: () => void }[] = [
     run: () => void node('build-color-themes.ts'),
   },
   {
+    // Every role, keyword and fallback held to tokenized code, with semantic highlighting on and off.
+    name: 'syntax',
+    run: () => void node('check-syntax.ts'),
+  },
+  {
     // Missing SVGs, mappings to icons that do not exist, measured bounds.
     name: 'icons build',
     run: () => void node('build-icons.ts'),

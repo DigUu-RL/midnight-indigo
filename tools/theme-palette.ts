@@ -78,7 +78,7 @@
  * assumed here: no two roles that have to be told apart may sit closer than it.
  */
 
-import { signedHueDelta, hexFromOklch, wrapDegrees, type Colour } from './color.ts';
+import { signedHueDelta, hexFromOklch, wrapDegrees, type Colour, type Oklch } from './color.ts';
 
 /* -------------------------------------------------------------- *
  * The families
@@ -208,6 +208,9 @@ const ROLES = {
   variable: chromeRole(0.781, 0.0553, 2.1), //     #B8B2D9  variables, parameters
   property: chromeRole(0.751, 0.1344, 9.5), //     #BB9AF7  properties, JSON keys
   operator: chromeRole(0.705, 0.1642, -1.8), //    #9D8CFF  operators
+  // Not in the shipped theme: the terminal's bright magenta where the properties
+  // play its magenta (M9), their colour at the bright row's lightness.
+  propertyBright: semanticRole(0.82, 0.11, 299.5, 'property'),
 
   /* --- the signature pole: keywords and punctuation --- */
   keyword: signatureRole(0.734, 0.2024, 347.1), //                      #FF6AC1  keywords, punctuation, terminal.ansiMagenta
@@ -302,6 +305,13 @@ type Variant = {
    * two, so the family names another pair.
    */
   terminalMagenta?: [normal: RoleName, bright: RoleName];
+  /**
+   * Roles this family draws outright rather than deriving: an absolute hue,
+   * chroma or lightness in place of indigo's measurement. A lightness given here
+   * is a decision, like the accent's, so `lift` does not touch it. Indigo has
+   * none — its roles are the measurements.
+   */
+  redrawn?: Partial<Record<RoleName, Partial<Oklch>>>;
 };
 
 /*
@@ -313,6 +323,34 @@ type Variant = {
 const DIM_HUE = signedHueDelta(ROLES.accent.h, ROLES.accentDim.h); //     +3.4
 const DIM_CHROMA = ROLES.accentDim.c / ROLES.accent.c; //      0.651
 const DIM_LIGHT = ROLES.accentDim.l - ROLES.accent.l; //      -0.145
+
+/*
+ * KEYWORDS IN THE FAMILY'S OWN COLOUR (M9).
+ *
+ * Indigo answers its violet chrome with pink keywords, and the seven designs
+ * first copied that relationship: every family's keywords were a magenta or a
+ * violet on the far side of the wheel from it. M9 turns that round. A keyword
+ * is the loudest thing in the code, so it is the one that says which theme this
+ * is — the orange variant writes its keywords in orange, the green one in green
+ * — each drawn for its family rather than lifted from another colour: its hue,
+ * and a lightness and chroma that make that hue read as itself in bold italic.
+ *
+ * Keywords can only move onto the family hue if what was there moves off it.
+ * The properties and the operators were family by definition, and at the
+ * keyword's hue they are 2 to 7 ΔE from it — the same colour. So the roles
+ * swap. The properties take the hue the keywords had, the complementary
+ * magenta or violet each family was designed with, and keep their own
+ * lightness; the operators give up their hue for a quiet tint of the family,
+ * told from the variables by lightness, which is what an operator between two
+ * names needs to be.
+ */
+const OPERATOR_CHROMA = 0.05;
+
+const ownKeywords = (keyword: Partial<Oklch>, formerPole: number): Variant['redrawn'] => ({
+  keyword,
+  property: { h: formerPole },
+  operator: { c: OPERATOR_CHROMA },
+});
 
 const VARIANTS: Record<Family, Variant> = {
   /*
@@ -340,59 +378,52 @@ const VARIANTS: Record<Family, Variant> = {
   /*
    * PURPLE — indigo's near neighbour, and so the one variant at real risk of
    * being indistinguishable from it. What separates them is not the 30 degrees
-   * between the families, it is which way the signature leans: indigo answers
-   * its violet chrome with pink keywords and a crimson partner *below* them on
-   * the wheel, purple answers its magenta chrome with warm rose-red keywords
-   * and puts the partner above, between the keywords and the family. The
-   * chrome runs a shade quieter, because magenta at indigo's chroma makes the
-   * body text read as lilac rather than as text.
+   * between the families, it is what the code is written in: indigo answers
+   * its violet chrome with pink keywords, purple writes its keywords in its own
+   * violet (M9) and gives the pink side of the wheel to its properties, at 345
+   * where they clear the orange enum members. The chrome runs a shade quieter,
+   * because magenta at indigo's chroma makes the body text read as lilac rather
+   * than as text.
    */
   purple: {
     hue: 320,
     groundChroma: 0.95, chromeChroma: 0.95, inkChroma: 0.98,
     accent: { h: 311, c: 0.2, l: 0.566 },
     hues: {
-      keyword: 15, generic: 350,
+      keyword: 308, generic: 350,
       enumMember: 38, number: 68, iface: 108, string: 145, type: 200, func: 258,
     },
-    // The keywords are the rose-red at 15, so the error leans the other way,
+    // The properties are the rose at 345, so the error leans the other way,
     // toward vermilion, and sits darker and louder than they do.
     signalHues: { error: 28, warning: 91 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'enumMember', purple: 'operator',
+      orange: 'enumMember', purple: 'keyword',
     },
-    // The one family whose keywords are a red: as the terminal's magenta they
-    // would stand beside its red as a second one. The chrome is magenta, so
-    // the operators and the lighter properties play it instead.
-    terminalMagenta: ['operator', 'property'],
+    redrawn: ownKeywords({ l: 0.74, c: 0.19 }, 345),
   },
 
   /*
    * PINK — hot chrome, cool code, which is the inverse of indigo's arrangement
-   * and the reason the two do not read as the same theme. Rose grounds with a
-   * violet signature: the keywords step *back* down the wheel to 302, so the
-   * loudest thing in the editor is cool against a warm workbench. The semantic
-   * body then runs the full warm-to-cool sweep with nothing competing for the
-   * rose end, which is the family's alone, and it runs a little louder than
-   * indigo's — cool ink has to hold its own against hot chrome.
+   * and the reason the two do not read as the same theme. Rose grounds, and
+   * since M9 hot pink keywords at 352 — the family's own colour, the loudest
+   * thing in the editor — with the violet the keywords used to be at 302 kept
+   * for the properties, cool against the warm workbench. The semantic body then
+   * runs the full warm-to-cool sweep, a little louder than indigo's: cool ink
+   * has to hold its own against hot chrome.
    *
-   * The type parameters do NOT follow the keywords down. Dragging them to the
-   * far side of the pole put them on 268, which is a perfectly good indigo and
-   * a bad answer: beside the functions at 240 it is two blues in the code. So
-   * they sit at 330 instead, between the pole and the family — close to both
-   * in hue and nowhere near either in lightness, at L 0.53 against 0.73 and a
-   * near-black. That is indigo's own arrangement.
+   * The type parameters sit at 330, between the keywords and the properties —
+   * close to both in hue and nowhere near either in lightness, at L 0.53
+   * against 0.74 and a near-black. That is indigo's own arrangement.
    *
-   * The violet keywords are the terminal's magenta (M6): 26 degrees short of
-   * VS Code's own, and 62 clear of the blue beside it.
+   * The pink keywords are the terminal's magenta (M6).
    */
   pink: {
     hue: 350,
     groundChroma: 0.9, chromeChroma: 0.92, inkChroma: 1.05,
     accent: { h: 342, c: 0.2, l: 0.576 },
     hues: {
-      keyword: 302, generic: 330,
+      keyword: 352, generic: 330,
       enumMember: 52, number: 90, iface: 132, string: 165, type: 202, func: 240,
     },
     /*
@@ -403,8 +434,9 @@ const VARIANTS: Record<Family, Variant> = {
     signalHues: { error: 22, warning: 109 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'enumMember', purple: 'keyword',
+      orange: 'enumMember', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.74, c: 0.19 }, 302),
   },
 
   /*
@@ -412,9 +444,10 @@ const VARIANTS: Record<Family, Variant> = {
    * first that had to be re-laid rather than turned. Enum members at 55 and
    * numbers at 75 sit almost on top of a family at 27; both step up and out,
    * to 62 and 90, which pushes the interfaces to gold and the strings to a
-   * cleaner green than indigo's. The signature goes magenta at 337, because
-   * indigo's own relationship — the family plus 57 — lands on 84, and yellow
-   * keywords on a red theme are mustard.
+   * cleaner green than indigo's. The keywords are the family's red (M9), drawn
+   * as a light coral — more light and less chroma than the error, which keeps
+   * the saturated, darker red — and the magenta at 337 they had is the
+   * properties', and the terminal's magenta.
    *
    * Both multipliers are well under 1 and that is the substance of the variant,
    * not a detail: red is the hue sRGB is most generous with, and matching
@@ -427,7 +460,7 @@ const VARIANTS: Record<Family, Variant> = {
     groundChroma: 0.72, chromeChroma: 0.85, inkChroma: 0.92,
     accent: { h: 20, c: 0.185, l: 0.576 },
     hues: {
-      keyword: 337, generic: 300,
+      keyword: 18, generic: 300,
       enumMember: 65, number: 95, iface: 140, string: 170, type: 205, func: 252,
     },
     /*
@@ -435,25 +468,29 @@ const VARIANTS: Record<Family, Variant> = {
      * error is the keyword colour, which the roadmap rules out. So it is the
      * family's red made loud — far more chroma than the salmon operators, and
      * lighter than the accent — and it is the one variant where the error is
-     * told from the chrome by weight rather than by hue. The warning is lemon,
-     * between the straw numbers at 95 and the green interfaces at 140. The type
-     * parameters — dark, but past 3:1 — are the purple in a chart.
+     * told from the chrome, and from the coral keywords, by weight rather than
+     * by hue. The warning is lemon, between the straw numbers at 95 and the
+     * green interfaces at 140. The magenta properties are the purple in a
+     * chart; the type parameters were, until an "important" alert (M9) had to
+     * be read in that colour, and at 3.6:1 could not be.
      */
     signalHues: { error: 25, warning: 109 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'enumMember', purple: 'generic',
+      orange: 'enumMember', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.77, c: 0.16 }, 337),
+    terminalMagenta: ['property', 'propertyBright'],
   },
 
   /*
    * ORANGE — the family sits in the middle of the warm band, so the two warm
    * semantic roles cannot stay warm in the way they were. They cross instead of
    * crowding: the numbers go to warm red at 22 and the enum members to rose at
-   * 350, on the other side of the wheel's zero from the amber chrome, and the
-   * keywords take the magenta at 316 that the family plus 57 (an olive 117)
-   * could never have been. What is left — lime, green, teal, blue — spreads
-   * across the whole cool half with the family's 60 degrees empty behind it.
+   * 350, on the other side of the wheel's zero from the amber chrome. The
+   * keywords are the family's orange (M9), and the properties take the violet
+   * at 305, clear of the rose enum members. What is left — lime, green, teal,
+   * blue — spreads across the whole cool half.
    *
    * The quietest ground of the eight, for the same reason as red and more so:
    * amber is where sRGB is widest, and a tinted near-black at this hue turns
@@ -464,17 +501,19 @@ const VARIANTS: Record<Family, Variant> = {
     groundChroma: 0.68, chromeChroma: 0.8, inkChroma: 0.95,
     accent: { h: 52, c: 0.155, l: 0.586 },
     hues: {
-      keyword: 316, generic: 285,
+      keyword: 60, generic: 285,
       enumMember: 350, number: 22, iface: 120, string: 152, type: 190, func: 248,
     },
     // Amber is the family, so the warning steps up to a clean yellow short of
-    // the lime interfaces, and a chart's orange is the operators — a series is
+    // the lime interfaces, and a chart's orange is the keywords — a series is
     // not a signal.
     signalHues: { error: 22, warning: 94 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'operator', purple: 'keyword',
+      orange: 'keyword', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.78, c: 0.17 }, 305),
+    terminalMagenta: ['property', 'propertyBright'],
   },
 
   /*
@@ -492,9 +531,9 @@ const VARIANTS: Record<Family, Variant> = {
    * screen after the workbench itself. The interfaces give up lime for gold at
    * 65 rather than fight them for the band.
    * Numbers move to warm red and enum members to rose, which empties the whole
-   * warm quarter of anything that could be confused with the chrome, and the
-   * keywords take magenta at 326 — green's complement, the pairing that makes
-   * this variant look deliberate rather than salvaged.
+   * warm quarter of anything that could be confused with the chrome. The
+   * keywords are the family's green (M9), far louder than the variables at the
+   * same hue, and the properties take green's complement, a violet at 308.
    *
    * Types stay cyan at 195: 45 degrees off the family, and cyan against green
    * separates on chroma as much as on hue, so it holds.
@@ -509,7 +548,7 @@ const VARIANTS: Record<Family, Variant> = {
     groundChroma: 1.1, chromeChroma: 1.05, inkChroma: 1.12,
     accent: { h: 155, c: 0.16, l: 0.566 },
     hues: {
-      keyword: 326, generic: 290,
+      keyword: 155, generic: 290,
       enumMember: 355, number: 30, iface: 65, string: 125, type: 195, func: 245,
     },
     // The warm quarter is empty of chrome here, so both signals keep their
@@ -518,8 +557,10 @@ const VARIANTS: Record<Family, Variant> = {
     signalHues: { error: 22, warning: 88 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'number', purple: 'keyword',
+      orange: 'number', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.79, c: 0.18 }, 308),
+    terminalMagenta: ['property', 'propertyBright'],
   },
 
   /*
@@ -528,7 +569,8 @@ const VARIANTS: Record<Family, Variant> = {
    * between them and the greens. That is the one place in the eight where a
    * semantic role changes which side of its neighbour it sits on, and it is
    * what keeps the cool half from stacking three roles into 60 degrees.
-   * Functions hold their blue at 255, well clear.
+   * Functions hold their blue at 255, well clear. The keywords are the
+   * family's cyan (M9), and the properties the pink at 345.
    *
    * The loudest ink and ground of the set. Cyan is the pinch in sRGB — at the
    * lightness the accent lives at there is barely half the chroma available
@@ -540,7 +582,7 @@ const VARIANTS: Record<Family, Variant> = {
     groundChroma: 1.15, chromeChroma: 1.1, inkChroma: 1.05,
     accent: { h: 205, c: 0.135, l: 0.576 },
     hues: {
-      keyword: 345, generic: 295,
+      keyword: 208, generic: 295,
       enumMember: 30, number: 60, iface: 92, string: 135, type: 168, func: 255,
     },
     // The interfaces hold the yellow at 92, so the warning is the lemon past
@@ -548,8 +590,10 @@ const VARIANTS: Record<Family, Variant> = {
     signalHues: { error: 20, warning: 109 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'number', purple: 'keyword',
+      orange: 'number', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.77, c: 0.14 }, 345),
+    terminalMagenta: ['property', 'propertyBright'],
   },
 
   /*
@@ -561,18 +605,16 @@ const VARIANTS: Record<Family, Variant> = {
    * blue is the only crowded family whose numbers, enum members and interfaces
    * all keep their conventional hues.
    *
-   * The signature is the one relationship indigo's own arithmetic still gets
-   * nearly right at this hue: family plus 57 lands on 315, and the pole sits a
-   * few degrees under it at 310 so that no two of the eight signatures are the
-   * same colour — the one cross-variant constraint the per-family tables have
-   * to satisfy that none of them can see on its own.
+   * The keywords are the family's blue (M9), a periwinkle at 262 — clear of the
+   * azure functions by 47 degrees — and the violet at 310 they had is the
+   * properties'.
    */
   blue: {
     hue: 258,
     groundChroma: 1.05, chromeChroma: 1, inkChroma: 1.02,
     accent: { h: 255, c: 0.19, l: 0.566 },
     hues: {
-      keyword: 310, generic: 340,
+      keyword: 262, generic: 340,
       enumMember: 15, number: 50, iface: 108, string: 148, type: 180, func: 215,
     },
     // The error clears the rose enum members at 15 by leaning toward
@@ -581,8 +623,10 @@ const VARIANTS: Record<Family, Variant> = {
     signalHues: { error: 25, warning: 82 },
     signals: {
       success: 'string', info: 'func', hint: 'type',
-      orange: 'number', purple: 'keyword',
+      orange: 'number', purple: 'property',
     },
+    redrawn: ownKeywords({ l: 0.74, c: 0.16 }, 310),
+    terminalMagenta: ['property', 'propertyBright'],
   },
 };
 
@@ -632,8 +676,17 @@ const CONTESTED: Named[] = ['enumMember', 'number', 'iface', 'string', 'type', '
  */
 export function closestPair(family: Family): { a: string; b: string; deg: number } {
   const v = VARIANTS[family];
+  /*
+   * Where the keywords are the family's own colour (M9), the chrome cluster
+   * has left the family hue — the properties carry the old pole, the operators
+   * are a near-grey — so the keywords stand for the family, and the properties
+   * join the roles held apart.
+   */
+  const ownKeyword: boolean = v.redrawn?.keyword !== undefined;
   const points: [string, number][] = [
-    ['family', v.hue],
+    ...(ownKeyword
+      ? [['property', huesFor(family).property] as [string, number]]
+      : [['family', v.hue] as [string, number]]),
     ['keyword', v.hues.keyword],
     ...CONTESTED.map((n) => [n, v.hues[n]] as [string, number]),
   ];
@@ -740,8 +793,11 @@ export function huesFor(family: Family): Record<RoleName, number> {
       continue;
     }
 
+    const redrawnHue: number | undefined = v.redrawn?.[key]?.h;
     out[key] =
-      role.band === 'ground' || role.band === 'chrome'
+      redrawnHue !== undefined
+        ? wrapDegrees(redrawnHue)
+        : role.band === 'ground' || role.band === 'chrome'
         ? wrapDegrees(v.hue + role.h)
         : role.band === 'accent'
           ? wrapDegrees(v.accent.h + (key === 'accentDim' ? DIM_HUE : 0))
@@ -788,6 +844,8 @@ export function huesFor(family: Family): Record<RoleName, number> {
  */
 function chromaOf(name: RoleName, variant: Variant): number {
   const role = ROLES[name];
+  const redrawnChroma: number | undefined = variant.redrawn?.[name]?.c;
+  if (redrawnChroma !== undefined) return redrawnChroma;
   switch (role.band) {
     case 'ground':
       return role.c * variant.groundChroma;
@@ -819,8 +877,11 @@ export function paletteFor(family: Family): Palette {
      * that has not moved gets exactly its own, which is what keeps indigo the
      * theme it already was.
      */
+    const redrawnLightness: number | undefined = v.redrawn?.[name]?.l;
     const l =
-      role.band === 'accent'
+      redrawnLightness !== undefined
+        ? redrawnLightness
+        : role.band === 'accent'
         ? v.accent.l + (name === 'accentDim' ? DIM_LIGHT : 0)
         : Math.min(0.99, role.l + liftShareAtLightness(role.l) * (hueLightnessLift(h) - hueLightnessLift(indigoHueOf(name))));
 

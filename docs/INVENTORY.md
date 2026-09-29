@@ -7,7 +7,7 @@
 
 ## Reference
 
-- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 13 amendments below applied.
+- **Baseline:** [`tools/indigo-baseline.json`](../tools/indigo-baseline.json) is Midnight Indigo as v3.0.0 shipped it (commit `6601ba7`), sha256 `1dfdc462e3e7…`. The build fails if the indigo variant does not serialize to it byte for byte, with the 15 amendments below applied.
 - **VS Code colour reference:** [microsoft/vscode-docs@4f4413d](https://github.com/microsoft/vscode-docs/blob/4f4413d9a9d3f7e59284da7cdbb21bc3b9f65c48/api/references/theme-color.md) (2026-09-23), against the same page at VS Code 1.60 — the `engines` floor — at `d621fbe` (2021-09-02).
 - **Screenshot ref:** the README and PREVIEW.md load their images from `9c09bab` (`IMAGE_REF`).
 
@@ -31,15 +31,22 @@ Shipped values changed on purpose. The baseline file stays the bytes that shippe
 | `gitDecoration.deletedResourceForeground` | `#FF6AC1` | `#F84A54` | M7 | the same, for a deleted file in the explorer and the Source Control view |
 | `gitDecoration.untrackedResourceForeground` | `#D6E64B` | `#8FD19E` | M7 | an untracked file was the interface lime, a yellow beside the amber that now means a conflict; it is an addition Git has not been told about, so it is the added green, and its letter U tells it from a staged A |
 
+The TextMate rules the theme shipped with are held the same way: a shipped rule keeps its place and its words, a rule the theme adds is set aside for the comparison, and a shipped rule that now says something else is amended here.
+
+| Rule | Field | Removed | Added | By | Why |
+| --- | --- | --- | --- | --- | --- |
+| Propriedades e campos de classes | scope | `meta.field.declaration` | — | M9 | the scope of a whole field declaration painted everything inside it that had no rule of its own the property colour — the type a field is annotated with, `Role` in `role: Role`, among them; the property is its name, which has a scope of its own |
+| Interfaces e Enums (mesma cor, apenas o nome do tipo) | scope | `meta.interface` | — | M9 | the scope of a whole interface body painted what had no rule inside it the interface colour, against the rule's own name — only the type's name is the interface |
+
 ## What the extension contains
 
 |  | Count |
 | --- | ---: |
 | Colour themes | 8 |
-| Workbench colours, per theme | 872 |
-| TextMate rules, per theme | 39 |
-| TextMate scopes across those rules | 150 |
-| Semantic token rules, per theme | 34 |
+| Workbench colours, per theme | 877 |
+| TextMate rules, per theme | 69 |
+| TextMate scopes across those rules | 226 |
+| Semantic token rules, per theme | 58 |
 | Icon definitions | 399 |
 | SVGs in `icons/svg/` | 399 |
 | File-extension associations | 538 |
@@ -52,7 +59,7 @@ All eight themes share one structure — the same workbench keys, the same TextM
 
 ## Workbench coverage
 
-The theme sets **866 of the 971** colour IDs VS Code documents (89.2%). **420** of those IDs were added after VS Code 1.60, and the theme sets 373 of them. Everything it does not set is painted by VS Code's default dark theme.
+The theme sets **871 of the 971** colour IDs VS Code documents (89.7%). **420** of those IDs were added after VS Code 1.60, and the theme sets 378 of them. Everything it does not set is painted by VS Code's default dark theme.
 
 ### By milestone
 
@@ -65,7 +72,7 @@ The theme sets **866 of the 971** colour IDs VS Code documents (89.2%). **420** 
 | M6 Terminal | 42 | 20 | 62 | 67.7% | 20 |
 | M7 Diff, merge and Git | 91 | 3 | 94 | 96.8% | 0 |
 | M8 Chat and agents | 87 | 1 | 88 | 98.9% | 1 |
-| M9 Syntax | 0 | 0 | 5 | 0.0% | 5 |
+| M9 Syntax | 5 | 0 | 5 | 100.0% | 0 |
 
 "Left to VS Code" counts the IDs a milestone decided not to set; they are listed, with the reason, below.
 
@@ -133,7 +140,7 @@ The sections are the colour reference's own.
 | Action Bar colors | M2 | 1 | 1 | 0 |
 | Simple Find Widget colors | M2 | 1 | 1 | 0 |
 | Gauge colors | M2 | 7 | 7 | 0 |
-| Markdown | M9 | 0 | 5 | 5 |
+| Markdown | M9 | 5 | 5 | 0 |
 | Agent Session colors | M8 | 5 | 5 | 0 |
 
 ### IDs the theme sets that VS Code does not document
@@ -258,16 +265,6 @@ Registered by VS Code and read by it, but not on the colour reference. Each is c
 
 † marks an ID added after VS Code 1.60. The IDs above, left to VS Code on purpose, are not repeated here.
 
-<details><summary>Markdown — 5 unset</summary>
-
-- `markdownAlert.note.foreground` † (M9)
-- `markdownAlert.tip.foreground` † (M9)
-- `markdownAlert.important.foreground` † (M9)
-- `markdownAlert.warning.foreground` † (M9)
-- `markdownAlert.caution.foreground` † (M9)
-
-</details>
-
 ## Preview corpus
 
 The screenshots are rendered by headless Chromium from the files below. They are pinned by hash so that a run which changes a picture shows up here, whether it was meant to or not.
@@ -302,24 +299,24 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 
 | Image | sha256 |
 | --- | --- |
-| `docs/preview/bash.png` | `00a2c7f4d3d0` |
-| `docs/preview/csharp.png` | `8f6335284232` |
-| `docs/preview/go.png` | `e92ae407ceca` |
-| `docs/preview/hero.png` | `0b18b62cc63a` |
-| `docs/preview/html.png` | `0f0c0d0dbb82` |
+| `docs/preview/bash.png` | `331b95004abb` |
+| `docs/preview/csharp.png` | `1c377cad5342` |
+| `docs/preview/go.png` | `01a1291d49ec` |
+| `docs/preview/hero.png` | `855df972c93d` |
+| `docs/preview/html.png` | `c5ebaf59bc37` |
 | `docs/preview/icons-files.png` | `73d1e651c992` |
 | `docs/preview/icons-folders.png` | `ad97c9f4b6ca` |
-| `docs/preview/java.png` | `7319090b002c` |
-| `docs/preview/javascript.png` | `ffabd6d44a64` |
+| `docs/preview/java.png` | `8643fb5d88d1` |
+| `docs/preview/javascript.png` | `8241777055fd` |
 | `docs/preview/json.png` | `f6a76daec997` |
 | `docs/preview/markdown.png` | `86efcb1fcee7` |
-| `docs/preview/palettes.png` | `a64a45ddbdd6` |
-| `docs/preview/php.png` | `ffc86e6a6214` |
-| `docs/preview/powershell.png` | `deffe867a749` |
-| `docs/preview/python.png` | `d5b47fe81b5b` |
-| `docs/preview/rust.png` | `f41b211e8991` |
-| `docs/preview/scss.png` | `355533b8ade8` |
-| `docs/preview/sql.png` | `d215039d8c3c` |
-| `docs/preview/tsx.png` | `fb7439ec47e5` |
-| `docs/preview/typescript.png` | `c0b5f4648040` |
-| `docs/preview/yaml.png` | `56f3f8e87a29` |
+| `docs/preview/palettes.png` | `57cf72574e2c` |
+| `docs/preview/php.png` | `ce8b2b22406c` |
+| `docs/preview/powershell.png` | `8d03e1749004` |
+| `docs/preview/python.png` | `7fcbf7eb87e4` |
+| `docs/preview/rust.png` | `7cdb7bbd81e2` |
+| `docs/preview/scss.png` | `bb3fe6202fdd` |
+| `docs/preview/sql.png` | `e17862f502be` |
+| `docs/preview/tsx.png` | `cd196e8ef4a5` |
+| `docs/preview/typescript.png` | `7ef5a966e13a` |
+| `docs/preview/yaml.png` | `b514d6fb06f4` |

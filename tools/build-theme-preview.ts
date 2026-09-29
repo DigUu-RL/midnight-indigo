@@ -385,15 +385,15 @@ async function main() {
   });
 
   /*
-   * The extension's own grammar injections, so the preview shows what the
-   * editor shows — component tags in JSX/TSX, .NET delegates in C#.
+   * The extension's own grammar injection, so the preview shows what the
+   * editor shows — .NET delegates in C#.
    *
    * `injectTo` has to name the target SCOPES ("source.cs"), not the Shiki
    * language ids ("csharp"). Passing language ids is accepted silently and the
    * injection simply never fires, so the scopes are parsed straight out of each
    * grammar's own injectionSelector to keep the two in step.
    */
-  const injections = ['jsx-components', 'csharp-delegates'].map((file) => {
+  const injections = ['csharp-delegates'].map((file) => {
     const grammar = readJson(ROOT, 'injections', `${file}.tmLanguage.json`);
     const scopes = (grammar.injectionSelector as string).split(',').map((s: string) => s.trim().replace(/^L:/, ''));
     return { ...grammar, name: `midnight-indigo-${file}`, injectTo: scopes };
@@ -470,7 +470,7 @@ function writeGallery(items: any[]): void {
 
   const body = `# Preview
 
-Every screenshot on this page is generated from [the theme file](../themes/midnight-${family}-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own two grammar injections loaded — so these are the theme's real colors rather than an approximation. Regenerate them with \`npm run preview:theme\`.
+Every screenshot on this page is generated from [the theme file](../themes/midnight-${family}-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own grammar injection loaded — so these are the theme's real colors rather than an approximation. Regenerate them with \`npm run preview:theme\`.
 
 The language samples below are **${theme.name}**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
 

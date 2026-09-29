@@ -115,24 +115,24 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | Role |
 | --- | --- |
-| `syntax.variable` | Variables and parameters. Family-coloured, told apart from the text by lightness. |
-| `syntax.property` | Properties, fields and JSON keys. |
-| `syntax.operator` | Operators. Colour only, never bold or italic. |
-| `syntax.keyword` | Keywords and punctuation — the signature colour, and always bold italic. |
-| `syntax.generic` | Type parameters: the signature pole at a lower lightness. |
+| `syntax.variable` | Variables, parameters (italic) and command-line flags. Family-coloured, told apart from the text by lightness. |
+| `syntax.property` | Properties, fields, object and JSON keys, YAML keys, CSS properties and SQL columns. The family's light chrome in indigo; in the other seven, the hue the keywords had before M9. |
+| `syntax.operator` | Operators, word operators included. Colour only, never bold or italic. Indigo's violet; in the other seven, a quiet tint of the family. |
+| `syntax.keyword` | Keywords and punctuation, always bold italic (punctuation plain). The theme's signature: pink in indigo, the family's own colour in the other seven. |
+| `syntax.generic` | Type parameters, type arguments and lifetimes: a dark partner of the signature. |
 | `syntax.string` | Strings, and the JSON values that are strings. |
-| `syntax.function` | Functions and methods: bold where declared, plain where called. |
-| `syntax.number` | Numbers and decorators. |
-| `syntax.type` | Classes, structs, records, primitives and Markdown headings. |
-| `syntax.interface` | Interfaces and enums. |
-| `syntax.enumMember` | Enum members and inline code. |
+| `syntax.function` | Functions, methods, macros and commands: bold where declared, plain where called. |
+| `syntax.number` | Numbers with their units, colours, decorators, attributes and annotations. |
+| `syntax.type` | Classes, structs, records, type references, markup tags and Markdown headings. |
+| `syntax.interface` | Interfaces, traits and enums. |
+| `syntax.enumMember` | Enum members, named constants, CSS keyword values and inline code. |
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `variable` | `#B8B2D9` | `#C8ADCC` | `#D3ABBB` | `#D9B2AB` | `#E2C6AF` | `#A5CBAE` | `#89C4C8` | `#A3B9DC` |
-| `property` | `#BB9AF7` | `#DB90D5` | `#ED8CAC` | `#F59B82` | `#F3B976` | `#52CF93` | `#00C4DB` | `#8BABFF` |
-| `operator` | `#9D8CFF` | `#C87EDE` | `#E375B0` | `#EE7D76` | `#F09C57` | `#4CC768` | `#00B6BB` | `#5AA1FF` |
-| `keyword` | `#FF6AC1` | `#FF7988` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
+| `property` | `#BB9AF7` | `#E78CC1` | `#BD9BEF` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
+| `operator` | `#9D8CFF` | `#AD97B4` | `#B994A5` | `#C19893` | `#CBAB93` | `#95B399` | `#7BAAAB` | `#8CA2BF` |
+| `keyword` | `#FF6AC1` | `#CA89FF` | `#FF72B7` | `#FF8E93` | `#FF9C3E` | `#36DB86` | `#00CBE0` | `#7CAAFF` |
 | `generic` | `#C2185B` | `#B8247C` | `#AA28A4` | `#7F49C5` | `#6652D4` | `#7142E2` | `#7944D6` | `#B22490` |
 | `string` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `function` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
@@ -182,16 +182,16 @@ What each state looks like and which channel carries it. The build measures ever
 | `chart.yellow` | A chart series, and the warning signal. |
 | `chart.green` | A chart series, and the success signal. |
 | `chart.blue` | A chart series, and the info signal. |
-| `chart.purple` | A chart series. Not a signal. |
+| `chart.purple` | A chart series, and an "important" alert in rendered Markdown. Not a signal. |
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `red` | `#F84A54` | `#FB4F43` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
-| `orange` | `#FFAB70` | `#FC9C7F` | `#FFA872` | `#F9B673` | `#F09C57` | `#FC9888` | `#FDB376` | `#FBAB7E` |
+| `orange` | `#FFAB70` | `#FC9C7F` | `#FFA872` | `#F9B673` | `#FF9C3E` | `#FC9888` | `#FDB376` | `#FBAB7E` |
 | `yellow` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
 | `green` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `blue` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `purple` | `#BB9AF7` | `#C87EDE` | `#BD8CFF` | `#7F49C5` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
+| `purple` | `#BB9AF7` | `#CA89FF` | `#BD9BEF` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
 
 ## `ansi`
 
@@ -202,7 +202,7 @@ What each state looks like and which channel carries it. The build measures ever
 | `ansi.green` | Terminal green: the success ink, which is the string colour. |
 | `ansi.yellow` | Terminal yellow: the warning. |
 | `ansi.blue` | Terminal blue: the info ink, which is the function colour. |
-| `ansi.magenta` | Terminal magenta: the keywords, where the family draws them magenta or violet; the family names another pair where they are a red. |
+| `ansi.magenta` | Terminal magenta: the keywords, where the family draws them magenta, pink or violet; the magenta properties where the keywords are another colour. |
 | `ansi.cyan` | Terminal cyan: the hint ink, which is the type colour. |
 | `ansi.white` | Terminal white: body text. |
 | `ansi.brightBlack` | Terminal bright black, the grey command-line tools print what matters least in: the comment grey. |
@@ -221,7 +221,7 @@ What each state looks like and which channel carries it. The build measures ever
 | `green` | `#8FD19E` | `#9AD29B` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
 | `yellow` | `#ECC400` | `#F0C100` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
 | `blue` | `#5CB3FF` | `#76AEFF` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `magenta` | `#FF6AC1` | `#C87EDE` | `#BD8CFF` | `#F075D3` | `#D77DF9` | `#EE6AF3` | `#FF68C6` | `#CD83FF` |
+| `magenta` | `#FF6AC1` | `#CA89FF` | `#FF72B7` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
 | `cyan` | `#64D8CB` | `#62D6DC` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
 | `white` | `#9993B8` | `#A88EAC` | `#B28C9C` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
 | `brightBlack` | `#6A6390` | `#7C5D82` | `#875B6F` | `#8C5F59` | `#8D6D53` | `#4E7B59` | `#24777C` | `#516B93` |
@@ -229,7 +229,7 @@ What each state looks like and which channel carries it. The build measures ever
 | `brightGreen` | `#A6E6B4` | `#B1E8B1` | `#8DE3BE` | `#91E0C4` | `#A7E5B6` | `#D0EE9F` | `#C0EBA9` | `#AAE7B2` |
 | `brightYellow` | `#FFDF7B` | `#FFDE87` | `#ECE766` | `#ECE766` | `#FFDF7B` | `#FFDC90` | `#ECE766` | `#FFD99B` |
 | `brightBlue` | `#8FCBFF` | `#9EC7FF` | `#83CEFE` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
-| `brightMagenta` | `#FF8FD1` | `#DB90D5` | `#C6A7FF` | `#F296DF` | `#DC9CFC` | `#EF90F9` | `#FF8ED5` | `#D3A1FF` |
+| `brightMagenta` | `#FF8FD1` | `#CFA3FF` | `#FF91C8` | `#EFABDC` | `#D4B3FB` | `#D9AFFF` | `#FAA5D5` | `#DAB0FB` |
 | `brightCyan` | `#8FEDE0` | `#8DEBEF` | `#86ECF3` | `#93EAF2` | `#92ECE4` | `#7FEEED` | `#9BF1CE` | `#91EEDA` |
 | `brightWhite` | `#EDEAF7` | `#F2E8F2` | `#F6E8EC` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
 
@@ -240,10 +240,10 @@ Which ink each family lends to each signal. Written down per family, and checked
 | Family | success | info | hint | orange | purple |
 | --- | --- | --- | --- | --- | --- |
 | indigo | `string` | `func` | `type` | `enumMember` | `property` |
-| purple | `string` | `func` | `type` | `enumMember` | `operator` |
-| pink | `string` | `func` | `type` | `enumMember` | `keyword` |
-| red | `string` | `func` | `type` | `enumMember` | `generic` |
-| orange | `string` | `func` | `type` | `operator` | `keyword` |
-| green | `string` | `func` | `type` | `number` | `keyword` |
-| cyan | `string` | `func` | `type` | `number` | `keyword` |
-| blue | `string` | `func` | `type` | `number` | `keyword` |
+| purple | `string` | `func` | `type` | `enumMember` | `keyword` |
+| pink | `string` | `func` | `type` | `enumMember` | `property` |
+| red | `string` | `func` | `type` | `enumMember` | `property` |
+| orange | `string` | `func` | `type` | `keyword` | `property` |
+| green | `string` | `func` | `type` | `number` | `property` |
+| cyan | `string` | `func` | `type` | `number` | `property` |
+| blue | `string` | `func` | `type` | `number` | `property` |

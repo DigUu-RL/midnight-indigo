@@ -107,16 +107,6 @@
         ],
         "grammars": [
             {
-                "scopeName": "midnight-indigo.jsx-components.injection",
-                "path": "./injections/jsx-components.tmLanguage.json",
-                "injectTo": [
-                    "source.js",
-                    "source.jsx",
-                    "source.ts",
-                    "source.tsx"
-                ]
-            },
-            {
                 "scopeName": "midnight-indigo.csharp-delegates.injection",
                 "path": "./injections/csharp-delegates.tmLanguage.json",
                 "injectTo": [

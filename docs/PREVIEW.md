@@ -1,6 +1,6 @@
 # Preview
 
-Every screenshot on this page is generated from [the theme file](../themes/midnight-indigo-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own two grammar injections loaded — so these are the theme's real colors rather than an approximation. Regenerate them with `npm run preview:theme`.
+Every screenshot on this page is generated from [the theme file](../themes/midnight-indigo-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own grammar injection loaded — so these are the theme's real colors rather than an approximation. Regenerate them with `npm run preview:theme`.
 
 The language samples below are **Midnight Indigo**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
 

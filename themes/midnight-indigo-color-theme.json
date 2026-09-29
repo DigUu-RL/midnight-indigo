@@ -31,6 +31,11 @@
     "textPreformat.foreground": "#FFAB70",
     "textPreformat.background": "#0A0716",
     "textPreformat.border": "#150F2C",
+    "markdownAlert.note.foreground": "#5CB3FF",
+    "markdownAlert.tip.foreground": "#8FD19E",
+    "markdownAlert.important.foreground": "#BB9AF7",
+    "markdownAlert.warning.foreground": "#ECC400",
+    "markdownAlert.caution.foreground": "#F84A54",
     "textBlockQuote.background": "#0A0716",
     "textBlockQuote.border": "#4B3E91",
     "textCodeBlock.background": "#020108",
@@ -1140,8 +1145,7 @@
       "scope": [
         "entity.name.type.interface",
         "entity.name.type.enum",
-        "entity.other.inherited-class.interface",
-        "meta.interface"
+        "entity.other.inherited-class.interface"
       ],
       "settings": {
         "foreground": "#D6E64B",
@@ -1190,7 +1194,6 @@
       "scope": [
         "variable.other.property",
         "variable.other.object.property",
-        "meta.field.declaration",
         "variable.member",
         "support.variable.property"
       ],
@@ -1367,6 +1370,354 @@
         "foreground": "#BB9AF7",
         "fontStyle": "italic"
       }
+    },
+    {
+      "name": "Referências de tipo (o nome de um tipo onde ele é usado)",
+      "scope": [
+        "entity.name.type",
+        "entity.name.type.alias",
+        "storage.type.java",
+        "storage.type.object.array.java",
+        "storage.type.boolean.go",
+        "storage.type.byte.go",
+        "storage.type.error.go",
+        "storage.type.numeric.go",
+        "storage.type.rune.go",
+        "storage.type.string.go",
+        "storage.type.uintptr.go"
+      ],
+      "settings": {
+        "foreground": "#64D8CB",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Operadores que a gramática chama de controle (o ternário em Java)",
+      "scope": [
+        "keyword.control.ternary"
+      ],
+      "settings": {
+        "foreground": "#9D8CFF",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Traits (Rust) - interfaces",
+      "scope": [
+        "entity.name.type.trait"
+      ],
+      "settings": {
+        "foreground": "#D6E64B",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Declaração de delegate C# - como os delegates embutidos",
+      "scope": [
+        "entity.name.type.delegate"
+      ],
+      "settings": {
+        "foreground": "#5CB3FF",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Argumentos de tipo em Java e parâmetros de tipo em C# (como os de TypeScript)",
+      "scope": [
+        "storage.type.generic.java",
+        "entity.name.type.type-parameter"
+      ],
+      "settings": {
+        "foreground": "#C2185B",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Construtores (new X) - o tipo construído, como a classe",
+      "scope": [
+        "new.expr meta.function-call entity.name.function",
+        "new.expr entity.name.function",
+        "new.expr entity.name.type"
+      ],
+      "settings": {
+        "foreground": "#64D8CB",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Namespaces, módulos e pacotes (texto, como no semantic)",
+      "scope": [
+        "entity.name.namespace",
+        "entity.name.module",
+        "entity.name.type.namespace",
+        "entity.name.type.module",
+        "entity.name.type.package",
+        "entity.name.package",
+        "storage.modifier.import.java",
+        "storage.modifier.package.java"
+      ],
+      "settings": {
+        "foreground": "#9993B8",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Declarações de propriedade, campos e chaves de objeto",
+      "scope": [
+        "variable.object.property",
+        "meta.definition.property variable",
+        "meta.object-literal.key",
+        "entity.name.variable.field",
+        "entity.name.variable.property",
+        "meta.property-name.media-query"
+      ],
+      "settings": {
+        "foreground": "#BB9AF7",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Acesso a atributo em Python (self.x) - uma propriedade, não um decorador",
+      "scope": [
+        "meta.attribute.python"
+      ],
+      "settings": {
+        "foreground": "#BB9AF7",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Chamadas em Python sem escopo próprio",
+      "scope": [
+        "meta.function-call.generic"
+      ],
+      "settings": {
+        "foreground": "#5CB3FF",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Marcador de decorador em Python (@), como em TypeScript",
+      "scope": [
+        "punctuation.definition.decorator"
+      ],
+      "settings": {
+        "foreground": "#F6C177",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Variáveis e parâmetros nomeados por entity.name.variable (C#)",
+      "scope": [
+        "entity.name.variable"
+      ],
+      "settings": {
+        "foreground": "#B8B2D9",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Parâmetros nomeados por entity.name.variable (C#) e flags de linha de comando - itálico, como parâmetros",
+      "scope": [
+        "entity.name.variable.parameter",
+        "constant.other.option"
+      ],
+      "settings": {
+        "foreground": "#B8B2D9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Eventos (a cor que o ícone de evento já tem)",
+      "scope": [
+        "entity.name.variable.event",
+        "variable.other.event"
+      ],
+      "settings": {
+        "foreground": "#5CB3FF",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Variáveis de biblioteca (process, window, __name__)",
+      "scope": [
+        "support.variable",
+        "support.other.variable"
+      ],
+      "settings": {
+        "foreground": "#B8B2D9",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Constantes nomeadas (valores de enum, CONSTANTES, Some/None/Ok/Err)",
+      "scope": [
+        "constant.other.caps",
+        "variable.other.constant.go",
+        "constant.enum",
+        "constant.other.class.php",
+        "entity.name.type.option.rust",
+        "entity.name.type.result.rust",
+        "support.constant.property-value",
+        "support.constant.font-name",
+        "support.constant.color",
+        "support.constant.media",
+        "meta.property-value.media-query"
+      ],
+      "settings": {
+        "foreground": "#FFAB70",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Unidades e sufixos numéricos (px, rem, ms, u32) - parte do número, nunca keyword",
+      "scope": [
+        "keyword.other.unit",
+        "entity.name.type.numeric.rust",
+        "constant.other.color.rgb-value"
+      ],
+      "settings": {
+        "foreground": "#F6C177",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Chamadas em Go, embutidas ou não - chamadas, nunca negrito de declaração",
+      "scope": [
+        "entity.name.function.support"
+      ],
+      "settings": {
+        "foreground": "#5CB3FF",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Macros (chamadas como funções)",
+      "scope": [
+        "entity.name.function.macro",
+        "entity.name.function.preprocessor"
+      ],
+      "settings": {
+        "foreground": "#5CB3FF",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Anotações Java/Kotlin (como decoradores)",
+      "scope": [
+        "storage.type.annotation",
+        "punctuation.definition.annotation",
+        "entity.name.type.annotation"
+      ],
+      "settings": {
+        "foreground": "#F6C177",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Lifetimes (Rust) - parâmetros de tipo",
+      "scope": [
+        "entity.name.type.lifetime",
+        "punctuation.definition.lifetime",
+        "storage.modifier.lifetime"
+      ],
+      "settings": {
+        "foreground": "#C2185B",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Tags de markup (HTML, XML, JSX) e seletores de tag - o tipo de um elemento",
+      "scope": [
+        "entity.name.tag"
+      ],
+      "settings": {
+        "foreground": "#64D8CB",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Chaves YAML (como chaves JSON)",
+      "scope": [
+        "entity.name.tag.yaml"
+      ],
+      "settings": {
+        "foreground": "#BB9AF7",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Propriedades CSS (como propriedades)",
+      "scope": [
+        "support.type.property-name",
+        "support.type.vendored.property-name"
+      ],
+      "settings": {
+        "foreground": "#BB9AF7",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Entidades HTML (&amp;) - escapes de markup, como sequências de escape",
+      "scope": [
+        "constant.character.entity"
+      ],
+      "settings": {
+        "foreground": "#FF6AC1",
+        "fontStyle": "bold italic"
+      }
+    },
+    {
+      "name": "Marcadores de formato e referência ao seletor pai (%s, &) - como interpolação",
+      "scope": [
+        "constant.other.placeholder",
+        "constant.character.format.placeholder",
+        "entity.name.tag.reference"
+      ],
+      "settings": {
+        "foreground": "#FF6AC1",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "SQL - parâmetros (@nome), como parâmetros",
+      "scope": [
+        "text.variable"
+      ],
+      "settings": {
+        "foreground": "#B8B2D9",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "SQL - tabela ou alias antes do ponto",
+      "scope": [
+        "constant.other.database-name"
+      ],
+      "settings": {
+        "foreground": "#64D8CB",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "SQL - coluna depois do ponto",
+      "scope": [
+        "constant.other.table-name"
+      ],
+      "settings": {
+        "foreground": "#BB9AF7",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Caminhos de import em Go (strings)",
+      "scope": [
+        "entity.name.import"
+      ],
+      "settings": {
+        "foreground": "#8FD19E",
+        "fontStyle": ""
+      }
     }
   ],
   "semanticTokenColors": {
@@ -1504,6 +1855,102 @@
     "keyword": {
       "foreground": "#FF6AC1",
       "fontStyle": "bold italic"
+    },
+    "operatorOverloaded": {
+      "foreground": "#9D8CFF",
+      "fontStyle": ""
+    },
+    "macro": {
+      "foreground": "#5CB3FF",
+      "fontStyle": ""
+    },
+    "event": {
+      "foreground": "#5CB3FF",
+      "fontStyle": ""
+    },
+    "decorator": {
+      "foreground": "#F6C177",
+      "fontStyle": "italic"
+    },
+    "annotation": {
+      "foreground": "#F6C177",
+      "fontStyle": "italic"
+    },
+    "attribute": {
+      "foreground": "#F6C177",
+      "fontStyle": "italic"
+    },
+    "builtinAttribute": {
+      "foreground": "#F6C177",
+      "fontStyle": "italic"
+    },
+    "derive": {
+      "foreground": "#F6C177",
+      "fontStyle": "italic"
+    },
+    "constant": {
+      "foreground": "#FFAB70",
+      "fontStyle": ""
+    },
+    "variable.readonly:go": {
+      "foreground": "#FFAB70",
+      "fontStyle": ""
+    },
+    "variable.readonly:python": {
+      "foreground": "#FFAB70",
+      "fontStyle": ""
+    },
+    "type.interface": {
+      "foreground": "#D6E64B",
+      "fontStyle": ""
+    },
+    "trait": {
+      "foreground": "#D6E64B",
+      "fontStyle": ""
+    },
+    "lifetime": {
+      "foreground": "#C2185B",
+      "fontStyle": ""
+    },
+    "builtinType": {
+      "foreground": "#64D8CB",
+      "fontStyle": ""
+    },
+    "typeAlias": {
+      "foreground": "#64D8CB",
+      "fontStyle": ""
+    },
+    "union": {
+      "foreground": "#64D8CB",
+      "fontStyle": "bold"
+    },
+    "record": {
+      "foreground": "#64D8CB",
+      "fontStyle": "bold"
+    },
+    "recordComponent": {
+      "foreground": "#BB9AF7",
+      "fontStyle": ""
+    },
+    "selfKeyword": {
+      "foreground": "#FF6AC1",
+      "fontStyle": "bold italic"
+    },
+    "boolean": {
+      "foreground": "#FF6AC1",
+      "fontStyle": "bold italic"
+    },
+    "modifier": {
+      "foreground": "#FF6AC1",
+      "fontStyle": "bold italic"
+    },
+    "escapeSequence": {
+      "foreground": "#FF6AC1",
+      "fontStyle": "bold italic"
+    },
+    "formatSpecifier": {
+      "foreground": "#FF6AC1",
+      "fontStyle": ""
     }
   }
 }

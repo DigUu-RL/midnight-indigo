@@ -21,13 +21,14 @@ This is a single extension. Install once, then pick a color theme and turn on th
 
 | | |
 | --- | --- |
-| **Midnight Indigo**, **Purple**, **Pink**, **Red**, **Orange**, **Green**, **Cyan**, **Blue** | Eight color themes — each 129 workbench colors, 39 TextMate rules and 34 semantic token rules |
-| **Midnight Icons** | File icon theme — 399 SVG icons: 291 file/language icons and 53 contextual folder icons with open/closed variants, matched to 526 extensions and 243 exact filenames. Shared by all eight themes |
+| **Midnight Indigo**, **Purple**, **Pink**, **Red**, **Orange**, **Green**, **Cyan**, **Blue** | Eight color themes — each 877 workbench colors, 69 TextMate rules and 58 semantic token rules |
+| **Midnight Icons** | File icon theme — 399 SVG icons: 291 file/language icons and 53 contextual folder icons with open/closed variants, matched to 538 extensions and 255 exact filenames. Shared by all eight themes |
 
-Two grammar injections ship with the theme so a few constructs VS Code does not scope on its own can be colored distinctly:
+One grammar injection ships with the theme, for a construct VS Code does not scope on its own:
 
-- **JSX/TSX components** — component tags are colored apart from intrinsic HTML elements (`source.js`, `source.jsx`, `source.ts`, `source.tsx`)
-- **C# delegates** — delegate declarations and invocations (`source.cs`)
+- **C# delegates** — `Action`, `Func` and `Predicate` are colored as the delegates they are (`source.cs`)
+
+What every scope and every semantic token is drawn as, language by language, is in [`docs/SYNTAX.md`](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/SYNTAX.md).
 
 ## Preview
 
@@ -53,7 +54,7 @@ All 53 folder icons, closed and open:
 
 Four of the tuned languages are below. **[Every language is in the full gallery →](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/PREVIEW.md)** — 17 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, SCSS, SQL, Go, Rust, Java, PHP, YAML and Shell.
 
-Highlighting goes through the same TextMate grammars VS Code ships, including the two grammar injections below.
+Highlighting goes through the same TextMate grammars VS Code ships, including the extension's own grammar injection.
 
 ### TypeScript
 
@@ -128,6 +129,12 @@ Where the family owns a role's home, the role moves, and the move is a decision 
 - **Cyan** owns teal, so its types cross to the *other* side of its strings — jade at 168, with the strings at 135 between them and the greens.
 - **Blue** sits on the functions, which step to azure-cyan at 215: still unmistakably blue, 43 degrees clear of the chrome, with the types dropping back to teal to make the room.
 
+### Keywords in the family's own color
+
+A keyword is the loudest thing in the code, so it is the thing that says which theme this is. Indigo writes its keywords in the pink it always has; the other seven write theirs in their own color — orange keywords in Midnight Orange, green in Midnight Green, a light coral in Midnight Red, kept apart from the darker, more saturated red an error is drawn in. Each is drawn for its family rather than lifted from another color, and all of them stay bold italic.
+
+Keywords can only move onto the family's hue if what was there moves off it, and two roles were there: properties and operators were family by definition, and at the keyword's hue they were 2 to 7 ΔE from it — the same color. So the roles swap. Properties take the complementary magenta or violet each family used to draw its keywords in, and operators become a quiet tint of the family, told apart from the variables by lightness.
+
 ### Why OKLCH and not HSL
 
 Because HSL's `L` is not lightness. It is the midpoint of the largest and smallest channel, which says nothing about how bright a color looks: hue 60 and hue 240 at identical `S` and `L` are a headlight and a bruise. OKLCH's `L` *is* perceived lightness, which is what makes one role table usable at eight hues.
@@ -164,11 +171,11 @@ Legibility is absolute rather than measured against indigo, because the variants
 
 The comparison is byte for byte on what the build writes: the baseline and the built indigo are serialized the same way and must produce identical files, so a moved key fails as surely as a moved color. The baseline itself is pinned by its SHA-256 in [`tools/baseline.ts`](tools/baseline.ts) — it is v3.0.0's file, commit `6601ba7`, to the byte — and checked for duplicated keys, the one edit a JSON parse would hide.
 
-When a shipped value has to change, the file is not edited. The change is an entry in `AMENDMENTS` in the same file — the key, what it was, what it is now, and why — applied before the comparison, and refused if its old value is not what the file actually says. Two exist, both from the interaction-state pass: a hovered row that could not be seen on a floating list, and an unfocused selection that looked like a hover. [`docs/INVENTORY.md`](docs/INVENTORY.md) lists them.
+When a shipped value has to change, the file is not edited. The change is an entry in `AMENDMENTS` in the same file — the key, what it was, what it is now, and why — applied before the comparison, and refused if its old value is not what the file actually says. TextMate rules are held the same way: a shipped rule keeps its place and its words, a rule the theme adds is set aside for the comparison, and a shipped rule that has to say something else is an entry in `RULE_AMENDMENTS`. [`docs/INVENTORY.md`](docs/INVENTORY.md) lists every one, with the reason.
 
 ## Language coverage
 
-Semantic and TextMate rules are tuned specifically for JavaScript, TypeScript, JSX/TSX, C#, PowerShell, Python, Markdown and JSON.
+TextMate and semantic rules are written for, and checked against real code in, TypeScript, JavaScript, JSX/TSX, C#, Python, Rust, Go, Java, Kotlin, HTML, CSS and SCSS, SQL, Markdown, YAML, JSON, PowerShell and Shell. The semantic rules cover the tokens TypeScript, Roslyn (C#), Pylance, rust-analyzer, gopls and the Java language server send, so a word is the same color with semantic highlighting on and off. [`docs/SYNTAX.md`](https://github.com/DigUu-RL/midnight-indigo/blob/main/docs/SYNTAX.md) lists what every scope and every semantic token is drawn as.
 
 Every other language falls back to the general rule set, which covers the standard scopes (keywords, strings, numbers, comments, types, functions, variables, operators, punctuation).
 
@@ -287,7 +294,7 @@ Both sets are byte-for-byte reproducible, so `git diff` after a build is the reg
 npm run check
 ```
 
-Runs, in order and without stopping at the first failure: the type check; the theme build, which holds the baseline, the contrast floors (in the editor, and for the workbench's own text on the ground it is drawn on), the hue separation, the token rules (below), the interaction states and the manifest; the icon build, which holds the mappings and the measured bounds; a second build of both, which must not change a byte; and `inventory --check`, which fails if [`docs/INVENTORY.md`](docs/INVENTORY.md) no longer describes the tree. The last one is how the screenshots are guarded without a browser — the inventory pins every PNG and sample by hash, so a regenerated screenshot that came out different fails the check until the inventory is rewritten and the change is reviewed in the same diff. A new check is one entry in `CHECKS` in [`tools/check.ts`](tools/check.ts).
+Runs, in order and without stopping at the first failure: the type check; the theme build, which holds the baseline, the contrast floors (in the editor, and for the workbench's own text on the ground it is drawn on), the hue separation, the token rules (below), the interaction states and the manifest; the syntax check, which tokenizes the corpus in [`tools/samples/`](tools/samples/) and [`tools/corpus/`](tools/corpus/) in all eight themes, with semantic highlighting off and on, and holds every named word to its role, every keyword to bold italic, every operator to its color alone and every scope that names something to some rule; the icon build, which holds the mappings and the measured bounds; a second build of both, which must not change a byte; and `inventory --check`, which fails if [`docs/INVENTORY.md`](docs/INVENTORY.md) no longer describes the tree. The last one is how the screenshots are guarded without a browser — the inventory pins every PNG and sample by hash, so a regenerated screenshot that came out different fails the check until the inventory is rewritten and the change is reviewed in the same diff. A new check is one entry in `CHECKS` in [`tools/check.ts`](tools/check.ts).
 
 Two things stay outside it: `npm run check:images`, because it needs the network, and regenerating the screenshots, because it needs a browser. Run `npm run preview:theme` and `npm run preview:gallery` before a release; on the same machine they reproduce the committed PNGs exactly.
 
@@ -322,7 +329,7 @@ npm run preview:theme                    # the hero and the language cards, in i
 node tools/build-theme-preview.ts green  # ... in another family instead
 ```
 
-Rewrites `docs/preview/` and [`docs/PREVIEW.md`](docs/PREVIEW.md) from the samples in [`tools/samples/`](tools/samples/). Highlighting goes through [Shiki](https://shiki.style) fed this repo's own theme JSON, the TextMate grammars VS Code ships, and the extension's two grammar injections, so a screenshot cannot claim a color the theme does not actually produce. Add a file to `tools/samples/` and an entry to `LANGUAGES` in the script to cover another language; the gallery page picks it up on the next run. Same browser requirement as above.
+Rewrites `docs/preview/` and [`docs/PREVIEW.md`](docs/PREVIEW.md) from the samples in [`tools/samples/`](tools/samples/). Highlighting goes through [Shiki](https://shiki.style) fed this repo's own theme JSON, the TextMate grammars VS Code ships, and the extension's own grammar injection, so a screenshot cannot claim a color the theme does not actually produce. Add a file to `tools/samples/` and an entry to `LANGUAGES` in the script to cover another language; the gallery page picks it up on the next run. Same browser requirement as above.
 
 The hero and the language cards are shot in one family, because their job is to show the syntax rules and eight copies of the same C# sample would say nothing the first one did not. `palettes.png` is the one that shows all eight, and it is written on every run whichever family is named.
 
@@ -351,7 +358,7 @@ git clone https://github.com/DigUu-RL/midnight-indigo.git
 cd midnight-indigo
 ```
 
-Press `F5` to launch an Extension Development Host with the theme loaded, then switch to it as described above. Changes to the theme JSON apply live; changes to `package.json` or the grammar injections need a reload of the host window.
+Press `F5` to launch an Extension Development Host with the theme loaded, then switch to it as described above. Changes to the theme JSON apply live; changes to `package.json` or the grammar injection need a reload of the host window.
 
 To build a `.vsix`:
 

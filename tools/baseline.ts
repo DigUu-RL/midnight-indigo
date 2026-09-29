@@ -139,6 +139,68 @@ export const AMENDMENTS: Amendment[] = [
   },
 ];
 
+/*
+ * Deliberate changes to the shipped TextMate rules, in the same shape: which
+ * rule (by its name, which is how the shipped file tells them apart), which
+ * field, what it was and what it is now. The build refuses one whose `was` is
+ * not what the baseline's rule says, exactly as it does for the colours.
+ *
+ * Rules the theme ADDS need no amendment — they are set aside for the
+ * comparison as new workbench keys are — so only a rule that existed and now
+ * says something else is written here.
+ */
+export type RuleField = 'scope' | 'settings';
+
+export type RuleAmendment = { rule: string; field: RuleField; was: unknown; now: unknown; by: string; why: string };
+
+const FIELD_DECLARATION_PROPERTY = [
+  'variable.other.property',
+  'variable.other.object.property',
+  'meta.field.declaration',
+  'variable.member',
+  'support.variable.property',
+];
+
+const INTERFACE_NAMES = [
+  'entity.name.type.interface',
+  'entity.name.type.enum',
+  'entity.other.inherited-class.interface',
+  'meta.interface',
+];
+
+export const RULE_AMENDMENTS: RuleAmendment[] = [
+  {
+    rule: 'Propriedades e campos de classes',
+    field: 'scope',
+    was: FIELD_DECLARATION_PROPERTY,
+    now: FIELD_DECLARATION_PROPERTY.filter((scope: string): boolean => scope !== 'meta.field.declaration'),
+    by: 'M9',
+    why: 'the scope of a whole field declaration painted everything inside it that had no rule of its own the property colour — the type a field is annotated with, `Role` in `role: Role`, among them; the property is its name, which has a scope of its own',
+  },
+  {
+    rule: 'Interfaces e Enums (mesma cor, apenas o nome do tipo)',
+    field: 'scope',
+    was: INTERFACE_NAMES,
+    now: INTERFACE_NAMES.filter((scope: string): boolean => scope !== 'meta.interface'),
+    by: 'M9',
+    why: "the scope of a whole interface body painted what had no rule inside it the interface colour, against the rule's own name — only the type's name is the interface",
+  },
+];
+
+/** The baseline's TextMate rules with RULE_AMENDMENTS applied, and anything wrong with the amendments themselves. */
+export const amendedRules = (rules: { name: string; scope: unknown; settings: unknown }[]): { rules: typeof rules; problems: string[] } => {
+  const amended: typeof rules = rules.map((rule) => ({ ...rule }));
+  const problems: string[] = [];
+  for (const amendment of RULE_AMENDMENTS) {
+    const rule = amended.find((candidate) => candidate.name === amendment.rule);
+    if (!rule) problems.push(`baseline: amendment to rule "${amendment.rule}", which the baseline does not have`);
+    else if (JSON.stringify(rule[amendment.field]) !== JSON.stringify(amendment.was)) {
+      problems.push(`baseline: amendment says rule "${amendment.rule}" had ${amendment.field} ${JSON.stringify(amendment.was)}, the baseline says ${JSON.stringify(rule[amendment.field])}`);
+    } else rule[amendment.field] = amendment.now;
+  }
+  return { rules: amended, problems };
+};
+
 /** The baseline with its amendments applied, and anything wrong with the amendments themselves. */
 export const amendedBaseline = (theme: { colors: Record<string, string> }): { colors: Record<string, string>; problems: string[] } => {
   const colors: Record<string, string> = { ...theme.colors };

@@ -33,7 +33,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BASELINE, amendedBaseline, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
+import { BASELINE, amendedBaseline, amendedRules, duplicateKeys, firstDifference, readBaseline, serialize, sha256 } from './baseline.ts';
 import { contrastRatio, deltaE, oklchFromHex, over, relativeLuminance, signedHueDelta } from './color.ts';
 import {
   FAMILY_ORDER,
@@ -94,6 +94,9 @@ type Theme = {
   tokenColors: unknown[];
   semanticTokenColors: Record<string, unknown>;
 };
+
+/** A TextMate rule as the theme writes it: every rule is named, and the baseline tells them apart by the name. */
+export type ShippedRule = { name: string; scope: string | string[]; settings: { foreground?: string; fontStyle?: string } };
 
 /*
  * The symbol icons — suggest list, outline, breadcrumbs, the symbol picker —
@@ -184,6 +187,13 @@ function themeFor(family: Family, t: Tokens): Theme {
     'textPreformat.foreground': k.enumMember,
     'textPreformat.background': s.surfaceRaised,
     'textPreformat.border': s.border,
+    // M9: GitHub's five alerts in rendered Markdown, in the signals M4 gave the
+    // same meanings — and "important", which is not a signal, in the chart purple.
+    'markdownAlert.note.foreground': st.info,
+    'markdownAlert.tip.foreground': st.success,
+    'markdownAlert.important.foreground': chart.purple,
+    'markdownAlert.warning.foreground': st.warning,
+    'markdownAlert.caution.foreground': st.error,
     'textBlockQuote.background': s.surfaceRaised,
     'textBlockQuote.border': a.muted,
     'textCodeBlock.background': s.background,
@@ -1213,7 +1223,6 @@ function themeFor(family: Family, t: Tokens): Theme {
         "entity.name.type.interface",
         "entity.name.type.enum",
         "entity.other.inherited-class.interface",
-        "meta.interface",
       ],
       settings: { foreground: k.interface, fontStyle: "" },
     },
@@ -1251,7 +1260,6 @@ function themeFor(family: Family, t: Tokens): Theme {
       scope: [
         "variable.other.property",
         "variable.other.object.property",
-        "meta.field.declaration",
         "variable.member",
         "support.variable.property",
       ],
@@ -1367,6 +1375,243 @@ function themeFor(family: Family, t: Tokens): Theme {
       scope: ["entity.other.attribute-name"],
       settings: { foreground: k.property, fontStyle: "italic" },
     },
+
+    /*
+     * M9. Everything below is new: the rules the shipped theme never had, for
+     * the scopes its rules did not reach. Each one gives a scope the role its
+     * symbol already has elsewhere in the theme — the semantic rule of the same
+     * name, the symbol icon, the TextMate rule another grammar reaches — so a
+     * language without semantic highlighting reads the same as one with it.
+     * tools/check-syntax.ts holds every one to a real corpus.
+     */
+    {
+      name: "Referências de tipo (o nome de um tipo onde ele é usado)",
+      scope: [
+        "entity.name.type",
+        "entity.name.type.alias",
+        "storage.type.java",
+        "storage.type.object.array.java",
+        "storage.type.boolean.go",
+        "storage.type.byte.go",
+        "storage.type.error.go",
+        "storage.type.numeric.go",
+        "storage.type.rune.go",
+        "storage.type.string.go",
+        "storage.type.uintptr.go",
+      ],
+      settings: { foreground: k.type, fontStyle: "" },
+    },
+    {
+      name: "Operadores que a gramática chama de controle (o ternário em Java)",
+      scope: ["keyword.control.ternary"],
+      settings: { foreground: k.operator, fontStyle: "" },
+    },
+    {
+      name: "Traits (Rust) - interfaces",
+      scope: ["entity.name.type.trait"],
+      settings: { foreground: k.interface, fontStyle: "" },
+    },
+    {
+      name: "Declaração de delegate C# - como os delegates embutidos",
+      scope: ["entity.name.type.delegate"],
+      settings: { foreground: k.function, fontStyle: "bold" },
+    },
+    {
+      name: "Argumentos de tipo em Java e parâmetros de tipo em C# (como os de TypeScript)",
+      scope: [
+        "storage.type.generic.java",
+        "entity.name.type.type-parameter",
+      ],
+      settings: { foreground: k.generic, fontStyle: "" },
+    },
+    {
+      name: "Construtores (new X) - o tipo construído, como a classe",
+      scope: [
+        "new.expr meta.function-call entity.name.function",
+        "new.expr entity.name.function",
+        "new.expr entity.name.type",
+      ],
+      settings: { foreground: k.type, fontStyle: "bold" },
+    },
+    {
+      name: "Namespaces, módulos e pacotes (texto, como no semantic)",
+      scope: [
+        "entity.name.namespace",
+        "entity.name.module",
+        "entity.name.type.namespace",
+        "entity.name.type.module",
+        "entity.name.type.package",
+        "entity.name.package",
+        "storage.modifier.import.java",
+        "storage.modifier.package.java",
+      ],
+      settings: { foreground: x.normal, fontStyle: "" },
+    },
+    {
+      name: "Declarações de propriedade, campos e chaves de objeto",
+      scope: [
+        "variable.object.property",
+        "meta.definition.property variable",
+        "meta.object-literal.key",
+        "entity.name.variable.field",
+        "entity.name.variable.property",
+        "meta.property-name.media-query",
+      ],
+      settings: { foreground: k.property, fontStyle: "" },
+    },
+    {
+      name: "Acesso a atributo em Python (self.x) - uma propriedade, não um decorador",
+      scope: ["meta.attribute.python"],
+      settings: { foreground: k.property, fontStyle: "" },
+    },
+    {
+      name: "Chamadas em Python sem escopo próprio",
+      scope: ["meta.function-call.generic"],
+      settings: { foreground: k.function, fontStyle: "" },
+    },
+    {
+      name: "Marcador de decorador em Python (@), como em TypeScript",
+      scope: ["punctuation.definition.decorator"],
+      settings: { foreground: k.number, fontStyle: "italic" },
+    },
+    {
+      name: "Variáveis e parâmetros nomeados por entity.name.variable (C#)",
+      scope: ["entity.name.variable"],
+      settings: { foreground: k.variable, fontStyle: "" },
+    },
+    {
+      name: "Parâmetros nomeados por entity.name.variable (C#) e flags de linha de comando - itálico, como parâmetros",
+      scope: [
+        "entity.name.variable.parameter",
+        "constant.other.option",
+      ],
+      settings: { foreground: k.variable, fontStyle: "italic" },
+    },
+    {
+      name: "Eventos (a cor que o ícone de evento já tem)",
+      scope: [
+        "entity.name.variable.event",
+        "variable.other.event",
+      ],
+      settings: { foreground: k.function, fontStyle: "" },
+    },
+    {
+      name: "Variáveis de biblioteca (process, window, __name__)",
+      scope: [
+        "support.variable",
+        "support.other.variable",
+      ],
+      settings: { foreground: k.variable, fontStyle: "" },
+    },
+    {
+      name: "Constantes nomeadas (valores de enum, CONSTANTES, Some/None/Ok/Err)",
+      scope: [
+        "constant.other.caps",
+        "variable.other.constant.go",
+        "constant.enum",
+        "constant.other.class.php",
+        "entity.name.type.option.rust",
+        "entity.name.type.result.rust",
+        "support.constant.property-value",
+        "support.constant.font-name",
+        "support.constant.color",
+        "support.constant.media",
+        "meta.property-value.media-query",
+      ],
+      settings: { foreground: k.enumMember, fontStyle: "" },
+    },
+    {
+      name: "Unidades e sufixos numéricos (px, rem, ms, u32) - parte do número, nunca keyword",
+      scope: [
+        "keyword.other.unit",
+        "entity.name.type.numeric.rust",
+        "constant.other.color.rgb-value",
+      ],
+      settings: { foreground: k.number, fontStyle: "" },
+    },
+    {
+      name: "Chamadas em Go, embutidas ou não - chamadas, nunca negrito de declaração",
+      scope: ["entity.name.function.support"],
+      settings: { foreground: k.function, fontStyle: "" },
+    },
+    {
+      name: "Macros (chamadas como funções)",
+      scope: [
+        "entity.name.function.macro",
+        "entity.name.function.preprocessor",
+      ],
+      settings: { foreground: k.function, fontStyle: "" },
+    },
+    {
+      name: "Anotações Java/Kotlin (como decoradores)",
+      scope: [
+        "storage.type.annotation",
+        "punctuation.definition.annotation",
+        "entity.name.type.annotation",
+      ],
+      settings: { foreground: k.number, fontStyle: "italic" },
+    },
+    {
+      name: "Lifetimes (Rust) - parâmetros de tipo",
+      scope: [
+        "entity.name.type.lifetime",
+        "punctuation.definition.lifetime",
+        "storage.modifier.lifetime",
+      ],
+      settings: { foreground: k.generic, fontStyle: "" },
+    },
+    {
+      name: "Tags de markup (HTML, XML, JSX) e seletores de tag - o tipo de um elemento",
+      scope: ["entity.name.tag"],
+      settings: { foreground: k.type, fontStyle: "" },
+    },
+    {
+      name: "Chaves YAML (como chaves JSON)",
+      scope: ["entity.name.tag.yaml"],
+      settings: { foreground: k.property, fontStyle: "" },
+    },
+    {
+      name: "Propriedades CSS (como propriedades)",
+      scope: [
+        "support.type.property-name",
+        "support.type.vendored.property-name",
+      ],
+      settings: { foreground: k.property, fontStyle: "" },
+    },
+    {
+      name: "Entidades HTML (&amp;) - escapes de markup, como sequências de escape",
+      scope: ["constant.character.entity"],
+      settings: { foreground: k.keyword, fontStyle: "bold italic" },
+    },
+    {
+      name: "Marcadores de formato e referência ao seletor pai (%s, &) - como interpolação",
+      scope: [
+        "constant.other.placeholder",
+        "constant.character.format.placeholder",
+        "entity.name.tag.reference",
+      ],
+      settings: { foreground: k.keyword, fontStyle: "" },
+    },
+    {
+      name: "SQL - parâmetros (@nome), como parâmetros",
+      scope: ["text.variable"],
+      settings: { foreground: k.variable, fontStyle: "italic" },
+    },
+    {
+      name: "SQL - tabela ou alias antes do ponto",
+      scope: ["constant.other.database-name"],
+      settings: { foreground: k.type, fontStyle: "" },
+    },
+    {
+      name: "SQL - coluna depois do ponto",
+      scope: ["constant.other.table-name"],
+      settings: { foreground: k.property, fontStyle: "" },
+    },
+    {
+      name: "Caminhos de import em Go (strings)",
+      scope: ["entity.name.import"],
+      settings: { foreground: k.string, fontStyle: "" },
+    },
   ];
 
   const semanticTokenColors = {
@@ -1404,6 +1649,39 @@ function themeFor(family: Family, t: Tokens): Theme {
     namespace: { foreground: x.normal, fontStyle: "" },
     operator: { foreground: k.operator, fontStyle: "" },
     keyword: { foreground: k.keyword, fontStyle: "bold italic" },
+
+    /*
+     * M9: the token types the language servers add to VS Code's own, which the
+     * shipped theme left to their fallback scopes. Some of those fell somewhere
+     * wrong — an overloaded C# operator falls back to `entity.name.function`,
+     * the declaration rule, and came out bold and blue — and the rest came out
+     * right by luck. Each is written down here with the role its TextMate
+     * scope has, so the two layers say the same thing.
+     */
+    operatorOverloaded: { foreground: k.operator, fontStyle: "" },
+    macro: { foreground: k.function, fontStyle: "" },
+    event: { foreground: k.function, fontStyle: "" },
+    decorator: { foreground: k.number, fontStyle: "italic" },
+    annotation: { foreground: k.number, fontStyle: "italic" },
+    attribute: { foreground: k.number, fontStyle: "italic" },
+    builtinAttribute: { foreground: k.number, fontStyle: "italic" },
+    derive: { foreground: k.number, fontStyle: "italic" },
+    constant: { foreground: k.enumMember, fontStyle: "" },
+    'variable.readonly:go': { foreground: k.enumMember, fontStyle: "" },
+    'variable.readonly:python': { foreground: k.enumMember, fontStyle: "" },
+    'type.interface': { foreground: k.interface, fontStyle: "" },
+    trait: { foreground: k.interface, fontStyle: "" },
+    lifetime: { foreground: k.generic, fontStyle: "" },
+    builtinType: { foreground: k.type, fontStyle: "" },
+    typeAlias: { foreground: k.type, fontStyle: "" },
+    union: { foreground: k.type, fontStyle: "bold" },
+    record: { foreground: k.type, fontStyle: "bold" },
+    recordComponent: { foreground: k.property, fontStyle: "" },
+    selfKeyword: { foreground: k.keyword, fontStyle: "bold italic" },
+    boolean: { foreground: k.keyword, fontStyle: "bold italic" },
+    modifier: { foreground: k.keyword, fontStyle: "bold italic" },
+    escapeSequence: { foreground: k.keyword, fontStyle: "bold italic" },
+    formatSpecifier: { foreground: k.keyword, fontStyle: "" },
   };
 
   return {
@@ -1767,6 +2045,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'testing.uncoveredGutterBackground',
     'terminal.ansiRed',
     'terminalCommandDecoration.errorBackground',
+    'markdownAlert.caution.foreground',
   ],
   warning: [
     'editorWarning.foreground',
@@ -1786,6 +2065,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'debugIcon.breakpointCurrentStackframeForeground',
     'testing.iconQueued',
     'terminal.ansiYellow',
+    'markdownAlert.warning.foreground',
   ],
   info: [
     'editorInfo.foreground',
@@ -1800,6 +2080,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'testing.messagePeekBorder',
     'editorLightBulbAutoFix.foreground',
     'terminal.ansiBlue',
+    'markdownAlert.note.foreground',
   ],
   hint: ['editorHint.foreground', 'editorLightBulb.foreground', 'editorLightBulbAi.foreground', 'terminal.ansiCyan'],
   success: [
@@ -1814,6 +2095,7 @@ const DIAGNOSTIC_IDS: Record<Diagnostic, string[]> = {
     'terminal.ansiGreen',
     'terminalCommandDecoration.successBackground',
     'ports.iconRunningProcessForeground',
+    'markdownAlert.tip.foreground',
   ],
 };
 
@@ -2766,18 +3048,21 @@ function check(): string[] {
    * Setting the new keys aside is a projection, not a filter on the result:
    * the baseline's keys are taken in the order the BUILD has them, so a
    * baseline key that moved past another still fails, and so does one that
-   * went missing. Only `colors` grows. The TextMate and semantic rules are the
-   * baseline's in full; changing them is M9's business and needs a baseline
-   * change of its own.
+   * went missing. The TextMate and semantic rules grow the same way since M9:
+   * a rule the baseline never had is set aside, a shipped rule keeps its place
+   * and its words, and a semantic selector the baseline had keeps its style.
    *
-   * The baseline compared against is the file with AMENDMENTS applied
-   * (tools/baseline.ts): the few shipped values changed on purpose, each with
-   * what it was and why, so the file itself stays the bytes that shipped.
+   * The baseline compared against is the file with AMENDMENTS and
+   * RULE_AMENDMENTS applied (tools/baseline.ts): the few shipped values and
+   * rules changed on purpose, each with what it was and why, so the file itself
+   * stays the bytes that shipped.
    */
   const { raw, theme } = readBaseline();
   const amended = amendedBaseline(theme as Theme);
   problems.push(...amended.problems);
-  const baseline: Theme = { ...(theme as Theme), colors: amended.colors };
+  const shippedRules = amendedRules((theme as Theme).tokenColors as ShippedRule[]);
+  problems.push(...shippedRules.problems);
+  const baseline: Theme = { ...(theme as Theme), colors: amended.colors, tokenColors: shippedRules.rules };
   const pinned = sha256(raw);
   if (pinned !== BASELINE.sha256) {
     problems.push(
@@ -2789,9 +3074,14 @@ function check(): string[] {
     problems.push(`baseline: "${key}" appears twice, and JSON.parse keeps only the last`);
   }
   const built = themeFor('indigo', tokensFor('indigo'));
+  const shippedNames: Set<string> = new Set((baseline.tokenColors as ShippedRule[]).map((rule: ShippedRule): string => rule.name));
   const projected = {
     ...built,
     colors: Object.fromEntries(Object.entries(built.colors).filter(([key]) => key in baseline.colors)),
+    tokenColors: (built.tokenColors as ShippedRule[]).filter((rule: ShippedRule): boolean => shippedNames.has(rule.name)),
+    semanticTokenColors: Object.fromEntries(
+      Object.entries(built.semanticTokenColors).filter(([selector]) => selector in baseline.semanticTokenColors)
+    ),
   };
   const want = serialize(baseline);
   const got = serialize(projected);
@@ -2802,11 +3092,8 @@ function check(): string[] {
     const got = built.colors[key];
     if (got !== want) problems.push(`baseline: colors["${key}"] was ${want}, is now ${got}`);
   }
-  const drift = (a: unknown, b: unknown, what: string): void => {
-    if (JSON.stringify(a) !== JSON.stringify(b)) problems.push(`baseline: ${what} changed`);
-  };
-  drift(baseline.tokenColors, built.tokenColors, 'tokenColors');
-  drift(baseline.semanticTokenColors, built.semanticTokenColors, 'semanticTokenColors');
+  const builtNames: string[] = (built.tokenColors as ShippedRule[]).map((rule: ShippedRule): string => rule.name);
+  if (new Set(builtNames).size !== builtNames.length) problems.push('tokenColors: two rules share a name, and the baseline tells rules apart by name');
 
   /*
    * 2. Every variant is legible on its own terms.
@@ -3067,6 +3354,9 @@ function check(): string[] {
       ['debugView.stateLabelForeground', 'debugView.stateLabelBackground', 'sideBar.background', 4.5],
       ['testing.message.error.badgeForeground', 'testing.message.error.badgeBackground', 'editor.background', 3],
       ['testing.coverCountBadgeForeground', 'testing.coverCountBadgeBackground', 'editor.background', 3],
+      ...['note', 'tip', 'important', 'warning', 'caution'].map(
+        (alert: string): [string, string, string, number] => [`markdownAlert.${alert}.foreground`, 'editor.background', 'editor.background', 4.5]
+      ),
     ];
     for (const [fg, bg, ground, floor] of TEXT) {
       if (!c[fg] || !c[bg] || !c[ground]) {
