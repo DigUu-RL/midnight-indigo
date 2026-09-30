@@ -82,7 +82,20 @@ const WHITE: Colour = '#FFFFFF';
 const JS: Colour = '#F7DF1E';
 const TS: Colour = '#3178C6';
 const REACT: Colour = '#61DAFB';
+const PYTHON: Colour = '#3776AB';
+const PYTHON_YELLOW: Colour = '#FFD43B';
+const DOTNET: Colour = '#512BD4';
+/* The assistant files' colour, which the rules, the prompts and the agents share. */
+const AI: Colour = '#C084FC';
 
+/*
+ * Two icons that are the same drawing in the same colour are one icon twice.
+ * Until M12 there were four such pairs — a `config.ts` and a `tsconfig.json`
+ * were the same TypeScript wrench, a `module.js` and an `.mjs` the same yellow
+ * squares, `.scss` and `.sass` the same mark — each built, shipped and
+ * audited twice. The associations now point at one of each, and
+ * tools/check-icons.ts refuses a new pair.
+ */
 export const fileIcons = {
   /* --- JavaScript / TypeScript family --- */
   javascript: { mark: 'javascript' },
@@ -92,9 +105,7 @@ export const fileIcons = {
 
   'javascript-spec': { glyph: 'flask', colors: [JS] },
   'javascript-test': { glyph: 'listCheck', colors: [JS] },
-  'javascript-config': { glyph: 'wrench', colors: [JS] },
   'javascript-min': { glyph: 'compress', colors: [JS] },
-  'javascript-module': { glyph: 'squares', colors: [JS] },
 
   'typescript-spec': { glyph: 'flask', colors: [TS] },
   'typescript-test': { glyph: 'listCheck', colors: [TS] },
@@ -103,7 +114,6 @@ export const fileIcons = {
   'typescript-component': { glyph: 'puzzle', colors: [TS] },
   'typescript-service': { glyph: 'gear', colors: [TS] },
   'typescript-stories': { glyph: 'book', colors: [TS] },
-  'typescript-config': { glyph: 'wrench', colors: [TS] },
   'typescript-guard': { glyph: 'shield', colors: [TS] },
   'typescript-pipe': { glyph: 'funnel', colors: [TS] },
   'typescript-directive': { glyph: 'wand', colors: [TS] },
@@ -141,8 +151,7 @@ export const fileIcons = {
   /* --- Markup and styles --- */
   html: { mark: 'html5' },
   css: { mark: 'css' },
-  // Sass is one brand with two syntaxes, so .scss and .sass carry one mark.
-  scss: { mark: 'sass' },
+  // Sass is one brand with two syntaxes, so .scss and .sass are one icon.
   sass: { mark: 'sass' },
   /*
    * Both marks were imported and both were put back as lettering, which is
@@ -279,8 +288,9 @@ export const fileIcons = {
   mongodb: { mark: 'mongodb' },
   postgresql: { mark: 'postgresql' },
   // MySQL's mark is its wordmark with a dolphin over it — unreadable small, so
-  // this is the database shape in MySQL's blue.
-  mysql: { glyph: 'cylinder', colors: ['#4479A1'] },
+  // this is the database shape in MySQL's teal over the dolphin's orange. It
+  // was the wordmark's blue, which made it the same icon as a `.model.ts`.
+  mysql: { glyph: 'cylinder', colors: ['#00758F', '#F29111'] },
   redis: { mark: 'redis' },
   sqlite: { mark: 'sqlite' },
   prisma: { mark: 'prisma' },
@@ -334,9 +344,11 @@ export const fileIcons = {
   maven: { mark: 'maven' },
   nuget: { mark: 'nuget' },
   // Composer's mark is a line-art figure; the parcel says the same thing and
-  // survives 16px. Its fileIcons used to resolve to PHP's elephant, which said
-  // which language it was and nothing about what the file did.
-  composer: { glyph: 'package', colors: ['#885630'] },
+  // survives 16px. Its files used to resolve to PHP's elephant, which said
+  // which language it was and nothing about what the file did — so it is the
+  // variant grammar: the parcel says package, PHP's violet says whose. It was
+  // Composer's brown, 13 ΔE from the generic package's orange.
+  composer: { glyph: 'package', colors: ['#777BB4'] },
   poetry: { mark: 'poetry' },
   conda: { mark: 'anaconda' },
 
@@ -386,7 +398,9 @@ export const fileIcons = {
   shortcut: { glyph: 'link', colors: ['#8AB4F8'] },
   debug: { glyph: 'bug', colors: ['#E06C75'] },
   dataset: { glyph: 'scatter', colors: ['#4FD1C5'] },
-  math: { glyph: 'math', colors: ['#F2A65A'] },
+  // Blue, not the orange it was: MATLAB is the same glyph in MathWorks' orange,
+  // and the two were 15 ΔE apart.
+  math: { glyph: 'math', colors: ['#7FB2F0'] },
   capture: { glyph: 'network', colors: ['#6EC1E4'] },
   game: { glyph: 'gamepad', colors: ['#A78BFA'] },
   torrent: { glyph: 'magnet', colors: ['#5C7CFA'] },
@@ -434,12 +448,16 @@ export const fileIcons = {
   // The Lisps are the one family whose SYNTAX is the logo: everything else here
   // is named after what the file does, and this is named after how it looks.
   lisp: { glyph: 'parens', colors: ['#9A5BA0'] },
-  scheme: { glyph: 'parens', colors: ['#4E7EDB'] },
-  prolog: { glyph: 'brain', colors: ['#C05A5A'] },
+  scheme: { glyph: 'parens', colors: ['#3E8EE8'] },
+  // Prolog was the brain, which is what a model file is; a logic language with
+  // no logo is lettered, as its contemporaries above are.
+  prolog: { text: 'PRO', colors: ['#C05A5A'] },
   // sed and awk are not languages anyone ships a logo for; they are the shell.
   awk: { glyph: 'terminal', colors: ['#A3B18A'] },
   applescript: { glyph: 'command', colors: ['#A0AEC0'] },
-  autohotkey: { glyph: 'keyboard', colors: ['#5C9ACF'] },
+  // AutoHotkey's green H, not the blue it was: the keymap is the same keyboard
+  // in grey, and the two were 10 ΔE apart.
+  autohotkey: { glyph: 'keyboard', colors: ['#58A55C'] },
 
   /* --- hardware, graphics and science --- */
   // Verilog and VHDL describe circuits rather than programs, and they are told
@@ -462,7 +480,9 @@ export const fileIcons = {
 
   /* --- templating dialects with no mark of their own --- */
   liquid: { glyph: 'drop', colors: ['#4CA4DB'] },
-  jinja: { glyph: 'braces', colors: ['#B41717'] },
+  // Jinja has a mark; it was the braces in its red until M12, which at 16px
+  // was the Sass module's braces in a neighbouring pink.
+  jinja: { mark: 'jinja' },
 
   /* --- the small files in a repository's root --- */
   http: { glyph: 'send', colors: ['#4FB8AC'] },
@@ -475,7 +495,7 @@ export const fileIcons = {
   design: { glyph: 'shapes', colors: ['#F06292'] },
   schedule: { glyph: 'timer', colors: ['#8B9DC3'] },
   unitfile: { glyph: 'gearFine', colors: ['#A3A3A3'] },
-  hosts: { glyph: 'network', colors: ['#77A0C7'] },
+  hosts: { glyph: 'addressBook', colors: ['#77A0C7'] },
   // Not the same file as a certificate: a certificate is public by design and
   // these are the ones that must never be committed.
   secrets: { glyph: 'fingerprint', colors: ['#E0A458'] },
@@ -511,6 +531,76 @@ export const fileIcons = {
   cocoapods: { mark: 'cocoapods' },
   homebrew: { mark: 'homebrew' },
   vault: { mark: 'vault' },
+
+  /* ---------------------------------------------------------------- *
+   * M12: what the coverage audit found.
+   *
+   * `npm run audit:coverage` resolves the file names of 47 real repositories
+   * the way VS Code does and ranks what falls through by how many of them it
+   * turns up in. An icon was added only where the file says something the
+   * icon it reached did not — and where the answer was an icon the set
+   * already had, the file was pointed at that instead (tools/build-theme.ts).
+   * The count after each is the repositories it was found in.
+   * ---------------------------------------------------------------- */
+
+  /* --- tools with a mark, whose files reached only YAML, TOML or the page --- */
+  dependabot: { mark: 'dependabot' }, // dependabot.yml: 27
+  pytest: { mark: 'pytest' }, // conftest.py, pytest.ini: 14
+  llvm: { mark: 'llvm' }, // .clang-format, .clang-tidy, .clangd: 13
+  precommit: { mark: 'precommit' }, // .pre-commit-config.yaml: 10
+  codecov: { mark: 'codecov' }, // codecov.yml: 7
+  ruff: { mark: 'ruff' }, // ruff.toml: 7
+  uv: { mark: 'uv' }, // uv.lock, uv.toml: 7
+  // HCL is HashiCorp's language before it is Terraform's: docker-bake.hcl,
+  // Nomad jobs and Vault policies are all written in it. 3, with 776 files.
+  hcl: { mark: 'hashicorp' },
+
+  /*
+   * --- assistant files, told apart by what they do ---
+   *
+   * Every assistant file was the one sparkle, and a .github folder now holds
+   * three kinds of them side by side — instructions the model always reads,
+   * prompts a person runs, and agents it can hand work to — besides the MCP
+   * configuration that connects it to tools. VS Code gives each its own
+   * language. The sparkle stays with the rules and skills; the other three
+   * are the variant grammar the TypeScript files use: the assistants' violet
+   * says which family, the pictogram says what the file does. MCP has a mark.
+   */
+  'ai-agent': { glyph: 'headCircuit', colors: [AI] }, // .agent.md, .claude/agents: 5
+  'ai-prompt': { glyph: 'lightning', colors: [AI] }, // .prompt.md: 3
+  mcp: { mark: 'mcp' }, // mcp.json, .mcp.json: 11
+
+  /* --- .NET: the project is the build, told apart by language --- */
+  // The Razor view engine's files — Blazor components and MVC views alike —
+  // resolved to the page. Razor has no mark; its syntax is the @. 3, with 1620.
+  razor: { glyph: 'at', colors: [DOTNET] },
+  // A project file is what builds the code beside it, so it is the hammer the
+  // Makefile is, in .NET's violet. It was going to be one per language, in C#'s
+  // and F#'s colours; at 16px those hammers were the Makefile's and each
+  // other's. They reached the XML angles. 6, with 5980 .csproj.
+  msbuild: { glyph: 'hammer', colors: [DOTNET] },
+
+  /* --- Python's tooling, as tsconfig is TypeScript's --- */
+  // setup.cfg, tox.ini, mypy.ini, .flake8, .pylintrc, .coveragerc: 9
+  // Python's blue and yellow, the wrench and its surface: in the blue alone it
+  // was tsconfig's wrench, 2 apart at 16px.
+  'python-config': { glyph: 'wrench', colors: [PYTHON, PYTHON_YELLOW] },
+
+  /* --- formats with no mark that reached the page --- */
+  // reStructuredText, the documentation of half the Python world. 16, with 6914.
+  restructuredtext: { text: 'RST', colors: ['#5FB3A1'] },
+  // Recorded output a test compares against: Jest and insta snapshots, golden
+  // files. .snap used to be a Snapcraft package, which no repository in the
+  // corpus held; it was 11,750 snapshots in 14 of them.
+  snapshot: { glyph: 'aperture', colors: ['#7BC96F'] },
+  // A file made to be copied and filled in: .tpl, .tmpl, .template, .example,
+  // .sample, .dist. 18 and 23.
+  template: { glyph: 'stamp', colors: ['#C9A66B'] },
+  // gettext catalogues, XLIFF and Apple's .strings. 6.
+  translation: { glyph: 'translate', colors: ['#58A6FF'] },
+  // The hardware of a board, described to the kernel. One repository, with
+  // 13,853 files — it is what Zephyr and Linux describe every board in.
+  devicetree: { glyph: 'cpu', colors: ['#4FB3C8'] },
 } satisfies Record<string, FileSpec>;
 
 /*

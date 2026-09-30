@@ -94,6 +94,8 @@ const folderNameToIcon = {
   benchmarks: 'benchmarks', bench: 'benchmarks', perf: 'benchmarks', performance: 'benchmarks',
   design: 'design', designs: 'design', mockups: 'design', wireframes: 'design',
   ai: 'ai', '.claude': 'ai', '.cursor': 'ai', prompts: 'ai', agents: 'ai', llm: 'ai',
+  // M12: where the other assistants keep their files, and the skills: 7.
+  skills: 'ai', '.agents': 'ai', '.codex': 'ai', '.gemini': 'ai', '.continue': 'ai', instructions: 'ai',
 } satisfies Record<string, FolderIcon>;
 
 /* Extension -> file icon. Compound keys such as "spec.ts" win over "ts". */
@@ -105,7 +107,7 @@ const extensionToIcon = {
   ejs: 'ejs', njk: 'twig', twig: 'twig',
   graphql: 'graphql', gql: 'graphql', proto: 'protobuf', thrift: 'protobuf',
   html: 'html', htm: 'html', xhtml: 'html',
-  css: 'css', scss: 'scss', sass: 'sass', less: 'less', styl: 'stylus',
+  css: 'css', scss: 'sass', sass: 'sass', less: 'less', styl: 'stylus',
   json: 'json', json5: 'json', jsonc: 'json', xml: 'xml', xsd: 'xml',
   yaml: 'yaml', yml: 'yaml', toml: 'toml', ini: 'ini', cfg: 'ini', conf: 'ini', env: 'env',
   md: 'markdown', markdown: 'markdown', mdx: 'mdx',
@@ -187,7 +189,7 @@ const extensionToIcon = {
   raw: 'raw', cr2: 'raw', cr3: 'raw', nef: 'raw', arw: 'raw', dng: 'raw',
   orf: 'raw', rw2: 'raw', raf: 'raw',
   deb: 'package', rpm: 'package', apk: 'package', ipa: 'package', msi: 'package',
-  pkg: 'package', appimage: 'package', snap: 'package', flatpak: 'package',
+  pkg: 'package', appimage: 'package', flatpak: 'package',
   vsix: 'package', crx: 'package', xpi: 'package', whl: 'package', egg: 'package',
   nupkg: 'package', gem: 'package', war: 'java', ear: 'java',
   bak: 'temp', tmp: 'temp', temp: 'temp', swp: 'temp', swo: 'temp', old: 'temp', orig: 'temp',
@@ -260,10 +262,91 @@ const extensionToIcon = {
   sqlite: 'sqlite', sqlite3: 'sqlite', db3: 'sqlite', s3db: 'sqlite', sl3: 'sqlite',
   mongodb: 'mongodb', 'mongodb.js': 'mongodb',
 
+  /* ---------------------------------------------------------------- *
+   * M12: what the coverage audit found (`npm run audit:coverage`).
+   *
+   * Each group says what the files used to reach and how many of the audit's
+   * 47 repositories they turned up in. Most point at an icon the set already
+   * drew: the audit's first finding was that the set had the right picture
+   * and nothing sent the file to it.
+   *
+   * A key may name the directory the file sits in — `workflows/yml` — which
+   * VS Code has matched since the icon theme learned parent folders, and which
+   * outranks the bare extension. The M10 note below says a workflow cannot be
+   * matched by path; that was true of the editor it was written against.
+   * ---------------------------------------------------------------- */
+
+  /* --- files that belong to their folder --- */
+  // Every .yml under .github/workflows was YAML: 41 repositories, 1330 files.
+  'workflows/yml': 'githubactions', 'workflows/yaml': 'githubactions',
+  // The forms under .github/ISSUE_TEMPLATE were YAML and Markdown: 42.
+  'issue_template/yml': 'issuetemplate', 'issue_template/yaml': 'issuetemplate', 'issue_template/md': 'issuetemplate',
+  // .circleci/config.yml was YAML: 5. The file-name rule `.circleci` it had
+  // named the folder, which a file-name rule never matches.
+  '.circleci/yml': 'circleci', '.circleci/yaml': 'circleci',
+  // The settings of Claude Code, its plugins and Gemini were JSON: 8.
+  '.claude/json': 'ai', '.claude-plugin/json': 'ai', '.gemini/json': 'ai',
+  // An agent is any Markdown file in .github/agents or .claude/agents: 5.
+  'agents/md': 'ai-agent',
+  // Helm's template helpers were the page: 11, with 511 files.
+  'templates/tpl': 'helm',
+
+  /* --- assistant files: Markdown by extension, and VS Code's own languages --- */
+  // The extension outranks the language id, so these were Markdown although
+  // VS Code knew them as prompts, instructions and agents: 7, with 539 files.
+  'prompt.md': 'ai-prompt', 'instructions.md': 'ai', 'agent.md': 'ai-agent', 'chatmode.md': 'ai-agent',
+
+  /* --- .NET --- */
+  // The Razor view engine's files were the page: 3, with 1620.
+  razor: 'razor', cshtml: 'razor',
+  // Project files were the XML angles: 6, with 5980 .csproj.
+  csproj: 'msbuild', fsproj: 'msbuild', vbproj: 'msbuild', vcxproj: 'msbuild', proj: 'msbuild', props: 'msbuild', targets: 'msbuild',
+  // A solution is Visual Studio's workspace, which is what .code-workspace is: 4.
+  sln: 'workspace', slnx: 'workspace',
+
+  /* --- build and language tooling --- */
+  // CMake's modules and toolchains were the page: 10, with 2176 files.
+  cmake: 'cmake',
+  hcl: 'hcl',
+  // Cython is Python compiled to C, and was the page: 5.
+  pyx: 'python', pxd: 'python', pxi: 'python',
+
+  /* --- formats with no icon of their own until M12 --- */
+  rst: 'restructuredtext',
+  // .snap was the package icon, for Snapcraft; in the repositories it was
+  // 11,750 test snapshots in 14 of them, and no Snapcraft package in any.
+  snap: 'snapshot', snapshot: 'snapshot', golden: 'snapshot', expected: 'snapshot',
+  // Captured output: the expected stderr of a compiler test, a program's log. 6.
+  stderr: 'log', stdout: 'log',
+  tpl: 'template', tmpl: 'template', gotmpl: 'template', template: 'template',
+  example: 'template', sample: 'template', dist: 'template',
+  po: 'translation', pot: 'translation', mo: 'translation',
+  xliff: 'translation', xlf: 'translation', strings: 'translation', stringsdict: 'translation',
+  dts: 'devicetree', dtsi: 'devicetree',
+
+  /* --- formats an existing icon already answers --- */
+  // JSON Lines is JSON, a record a line; VS Code calls it `jsonl`: 8.
+  jsonl: 'json', ndjson: 'json',
+  xsl: 'xml', xslt: 'xml',
+  // HDR and GPU texture formats, and the image formats Apple and X11 keep: 5.
+  exr: 'image', hdr: 'image', ktx: 'image', ktx2: 'image', dds: 'image',
+  basis: 'image', tga: 'image', xpm: 'image', icns: 'image',
+  // FITS is astronomy's image-and-table format, netCDF climate science's: 3.
+  fits: 'dataset', nc: 'dataset',
+  '3mf': 'model3d',
+  kicad_mod: 'pcb', kicad_sym: 'pcb', kicad_pro: 'pcb', kicad_prl: 'pcb', kicad_dru: 'pcb', kicad_wks: 'pcb',
+  // Firmware images, what a board is flashed with: 2.
+  hex: 'binary', uf2: 'binary',
+  // Apple's property lists and the other files of an Xcode project: 14.
+  plist: 'xcode', entitlements: 'xcode', xcworkspacedata: 'xcode', xcprivacy: 'xcode',
+  storyboard: 'xcode', xib: 'xcode',
+  // Public keys, signing requests and detached signatures: 11.
+  pub: 'cert', csr: 'cert', der: 'cert', asc: 'cert', sig: 'cert',
+
   'spec.ts': 'typescript-spec', 'test.ts': 'typescript-test', 'd.ts': 'typescript-d',
   'module.ts': 'typescript-module', 'component.ts': 'typescript-component',
   'service.ts': 'typescript-service', 'stories.ts': 'typescript-stories',
-  'config.ts': 'typescript-config', 'guard.ts': 'typescript-guard',
+  'config.ts': 'tsconfig', 'guard.ts': 'typescript-guard',
   'pipe.ts': 'typescript-pipe', 'directive.ts': 'typescript-directive',
   'controller.ts': 'typescript-controller', 'model.ts': 'typescript-model',
   'dto.ts': 'typescript-dto', 'entity.ts': 'typescript-entity',
@@ -272,7 +355,7 @@ const extensionToIcon = {
   'spec.tsx': 'jsx-spec', 'test.tsx': 'jsx-test',
   'stories.tsx': 'jsx-stories', 'component.tsx': 'jsx-component',
   'spec.js': 'javascript-spec', 'test.js': 'javascript-test',
-  'config.js': 'javascript-config', 'min.js': 'javascript-min', 'module.js': 'javascript-module',
+  'config.js': 'jsconfig', 'min.js': 'javascript-min', 'module.js': 'mjs',
   'spec.jsx': 'jsx-spec', 'test.jsx': 'jsx-test', 'stories.jsx': 'jsx-stories',
   'min.css': 'javascript-min',
   'module.scss': 'scss-module', 'module.css': 'css-module', 'module.less': 'css-module',
@@ -308,7 +391,7 @@ const fileNameToIcon = {
   'manifest.json': 'manifest', 'site.webmanifest': 'manifest',
   procfile: 'procfile', vagrantfile: 'vagrant',
   '.browserslistrc': 'browserslist', jenkinsfile: 'jenkins',
-  '.travis.yml': 'travis', '.circleci': 'circleci', '.gitlab-ci.yml': 'gitlabci',
+  '.travis.yml': 'travis', '.gitlab-ci.yml': 'gitlabci',
   'bitbucket-pipelines.yml': 'bitbucket', 'renovate.json': 'renovate', '.renovaterc': 'renovate',
   'azure-pipelines.yml': 'azure', '.vimrc': 'vim',
   '.env': 'env', '.env.local': 'env', '.env.development': 'env', '.env.production': 'env', '.env.example': 'env',
@@ -406,8 +489,8 @@ const fileNameToIcon = {
    *
    * The audit found eight definitions no mapping reached: SVGs built, shipped
    * and never shown. These are the files that are unambiguously each tool's.
-   * A GitHub workflow is any .yml under .github/workflows, which an icon theme
-   * cannot match by path — `action.yml` is the file that IS an action.
+   * `action.yml` is the file that IS an action; the workflows under
+   * .github/workflows are matched by their folder, in the M12 block above.
    */
   'action.yml': 'githubactions', 'action.yaml': 'githubactions',
   'esbuild.config.js': 'esbuild', 'esbuild.config.mjs': 'esbuild', 'esbuild.config.ts': 'esbuild',
@@ -415,6 +498,68 @@ const fileNameToIcon = {
   'application.properties': 'spring', 'application.yml': 'spring', 'application.yaml': 'spring',
   'bootstrap.css': 'bootstrap', 'bootstrap.min.css': 'bootstrap',
   'bootstrap.js': 'bootstrap', 'bootstrap.min.js': 'bootstrap', 'bootstrap.bundle.min.js': 'bootstrap',
+
+  /* ---------------------------------------------------------------- *
+   * M12: what the coverage audit found. Counts are repositories of 47.
+   * ---------------------------------------------------------------- */
+
+  /* --- tools with a mark of their own --- */
+  'dependabot.yml': 'dependabot', 'dependabot.yaml': 'dependabot',
+  'conftest.py': 'pytest', 'pytest.ini': 'pytest',
+  '.clang-format': 'llvm', '_clang-format': 'llvm', '.clang-tidy': 'llvm', '.clangd': 'llvm',
+  '.pre-commit-config.yaml': 'precommit', '.pre-commit-config.yml': 'precommit', '.pre-commit-hooks.yaml': 'precommit',
+  'codecov.yml': 'codecov', 'codecov.yaml': 'codecov', '.codecov.yml': 'codecov',
+  'ruff.toml': 'ruff', '.ruff.toml': 'ruff',
+  'uv.lock': 'uv', 'uv.toml': 'uv',
+  // Written in HCL, but each is one tool's.
+  '.terraform.lock.hcl': 'terraform', 'docker-bake.hcl': 'docker',
+
+  /* --- assistant files --- */
+  // SKILL.md was Markdown: 27 repositories, 768 files — the most common
+  // assistant file in the corpus, ahead of AGENTS.md.
+  'skill.md': 'ai', 'gemini.md': 'ai',
+  'mcp.json': 'mcp', '.mcp.json': 'mcp',
+
+  /* --- containers and clusters --- */
+  // Compose's own name for its file since v2, and the overrides: 12.
+  'compose.yaml': 'docker', 'compose.yml': 'docker',
+  'compose.override.yaml': 'docker', 'compose.override.yml': 'docker',
+  'docker-compose.override.yml': 'docker', 'docker-compose.override.yaml': 'docker',
+  '.helmignore': 'helm', 'chart.lock': 'helm', 'values.schema.json': 'helm', 'helmfile.yaml': 'helm',
+
+  /* --- the languages' own tooling --- */
+  'setup.cfg': 'python-config', 'tox.ini': 'python-config', 'mypy.ini': 'python-config', '.mypy.ini': 'python-config',
+  '.flake8': 'python-config', '.pylintrc': 'python-config', pylintrc: 'python-config', '.coveragerc': 'python-config',
+  // What makes a directory a Python package, and pins its interpreter: 16.
+  'setup.py': 'python', 'manifest.in': 'python', 'py.typed': 'python', 'requirements.in': 'python',
+  pipfile: 'python', 'pipfile.lock': 'python', '.python-version': 'python',
+  // Rust's own toolchain, linter and formatter: 9.
+  'rust-toolchain': 'rust', 'rust-toolchain.toml': 'rust', 'clippy.toml': 'rust', '.clippy.toml': 'rust',
+  'rustfmt.toml': 'rust', '.rustfmt.toml': 'rust', '.cargo/config.toml': 'rust', '.cargo/config': 'rust',
+  'go.work': 'go', 'go.work.sum': 'go', '.golangci.yml': 'go', '.golangci.yaml': 'go', '.go-version': 'go',
+  'cmakepresets.json': 'cmake', 'cmakeuserpresets.json': 'cmake',
+  // Build and task runners with no mark to import, which are what make is: 6.
+  'meson.build': 'makefile', 'meson_options.txt': 'makefile', 'meson.options': 'makefile',
+  justfile: 'makefile', '.justfile': 'makefile', 'taskfile.yml': 'makefile', 'taskfile.yaml': 'makefile',
+  'settings.gradle.kts': 'gradle',
+  'directory.packages.props': 'nuget',
+
+  /* --- the small files in a repository's root --- */
+  // Kubernetes' CODEOWNERS: 3, with 598 files.
+  owners: 'codeowners', owners_aliases: 'codeowners',
+  copyright: 'license', patents: 'license', unlicense: 'license', 'license.rst': 'license',
+  'license-mit': 'license', 'license-apache': 'license', license_apache2: 'license',
+  'license.bsd': 'license', 'licenses.txt': 'license', 'licenses.md': 'license',
+  // How to cite the project: its credits, as NOTICE and AUTHORS are: 6.
+  'citation.cff': 'notice',
+  // A linter's configuration is the format it lints: 9.
+  '.yamllint': 'yaml', '.yamllint.yml': 'yaml', '.yamllint.yaml': 'yaml', '.shellcheckrc': 'shell',
+  '.markdownlint.json': 'markdown', '.markdownlint.jsonc': 'markdown', '.markdownlint.yaml': 'markdown',
+  '.markdownlint.yml': 'markdown', '.markdownlintrc': 'markdown', '.markdownlint-cli2.jsonc': 'markdown',
+  '.markdownlint-cli2.yaml': 'markdown',
+  '.keep': 'git',
+  // Environment templates stay environment files; `.example` alone is a template.
+  '.env.local.example': 'env', '.env.sample': 'env', '.env.template': 'env', '.env.dist': 'env', '.flaskenv': 'env',
 } satisfies Record<string, FileIcon>;
 
 /* VS Code language id -> file icon, for files with no recognisable extension. */
@@ -426,7 +571,7 @@ const languageIdToIcon = {
   elixir: 'elixir', erlang: 'erlang', haskell: 'haskell', clojure: 'clojure', scala: 'scala',
   groovy: 'groovy', r: 'r', julia: 'julia', 'objective-c': 'objectivec', 'objective-cpp': 'objectivec',
   solidity: 'solidity', json: 'json', jsonc: 'json', yaml: 'yaml', toml: 'toml', xml: 'xml',
-  markdown: 'markdown', html: 'html', css: 'css', scss: 'scss', sass: 'sass', less: 'less',
+  markdown: 'markdown', html: 'html', css: 'css', scss: 'sass', sass: 'sass', less: 'less',
   vue: 'vue', svelte: 'svelte', astro: 'astro', dockerfile: 'docker', graphql: 'graphql',
   ini: 'ini', properties: 'ini', diff: 'diff', makefile: 'makefile', plaintext: 'text',
   log: 'log', vb: 'vbnet', coffeescript: 'coffeescript', handlebars: 'handlebars', pug: 'pug',
@@ -450,6 +595,18 @@ const languageIdToIcon = {
   verilog: 'verilog', systemverilog: 'verilog', vhdl: 'vhdl',
   shaderlab: 'shader', hlsl: 'shader', glsl: 'shader', 'cuda-cpp': 'cuda',
   awk: 'awk', http: 'http',
+
+  /*
+   * --- M12: the languages VS Code ships that reached the page ---
+   *
+   * The audit read the languages VS Code's built-in extensions contribute and
+   * found thirteen with no icon here. A language id only decides a file no
+   * extension rule matches — `.env.staging`, a compose file under any name,
+   * a Markdown file under .claude/agents — so these back up the tables above.
+   */
+  dotenv: 'env', dockercompose: 'docker', jsonl: 'json', snippets: 'json', xsl: 'xml',
+  jade: 'pug', juliamarkdown: 'julia', razor: 'razor', restructuredtext: 'restructuredtext',
+  prompt: 'ai-prompt', instructions: 'ai', chatagent: 'ai-agent', skill: 'ai',
 } satisfies Record<string, FileIcon>;
 
 export type BuildThemeOptions = {

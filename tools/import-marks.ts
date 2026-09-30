@@ -273,6 +273,26 @@ const SOURCES: Record<string, Source> = {
   vault: { url: si('vault') },
   xcode: { url: si('xcode') },
 
+  /* --- M12: the tools the coverage audit found answered by a format --- *
+   *
+   * `npm run audit:coverage` resolves the file names of 47 real repositories
+   * the way VS Code does. Each of these is a file that turned up in several of
+   * them and reached only the page, YAML or TOML: a dependabot.yml in 27, a
+   * conftest.py in 14, a .clang-format in 13. The file belongs to the tool, and
+   * the tool has a mark.
+   */
+  codecov: { url: si('codecov') },
+  dependabot: { url: si('dependabot') },
+  hashicorp: { url: si('hashicorp') },
+  // Jinja was the braces in its red, 8 ΔE from the Sass module's braces in pink.
+  jinja: { url: si('jinja') },
+  llvm: { url: si('llvm') },
+  modelcontextprotocol: { url: si('modelcontextprotocol') },
+  precommit: { url: si('precommit') },
+  pytest: { url: si('pytest') },
+  ruff: { url: si('ruff') },
+  uv: { url: si('uv') },
+
   /* --- devicon: the marks that are two-tone by nature --- */
   python: {
     url: dv('python'),

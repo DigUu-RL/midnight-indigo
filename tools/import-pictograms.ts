@@ -74,11 +74,14 @@ const mdi = (name: string, note?: string): Source => ({ id: `mdi:${name}`, note 
 const SOURCES: Record<string, Source> = {
   /* ---------------- documents, data and text ---------------- */
   lines: ph('file-text', 'plain text, and the fallback for anything unrecognised'),
-  logLines: ph('list-dashes', 'a log is rows of unkeyed lines, not a document'),
+  // Bold (M12): the duotone's surface was a free panel behind the lines, and
+  // without it the regular lines were too thin to hold at 16px.
+  logLines: phBold('list-dashes', 'a log is rows of unkeyed lines, not a document'),
   listCheck: ph('list-checks', 'test files and validators — the passing runs'),
   grid: ph('table', 'CSV and anything else that is rows and columns'),
   cylinder: ph('database', 'SQL, and the stores whose own mark will not survive 16px'),
-  scatter: ph('chart-scatter', 'columnar datasets — Parquet, Avro, Arrow'),
+  // Bold, for the same reason as logLines.
+  scatter: phBold('chart-scatter', 'columnar datasets — Parquet, Avro, Arrow'),
   pie: ph('chart-pie-slice', 'BI documents — Power BI, Tableau'),
   book: ph('book', 'stories and long-form documents'),
   ebook: ph('book-bookmark', 'EPUB and friends — a book with a reader in it'),
@@ -167,7 +170,7 @@ const SOURCES: Record<string, Source> = {
   robot: ph('robot', 'robots.txt and crawler rules'),
   leaf: ph('leaf', 'Twig and the leaf-marked template languages'),
   drop: ph('drop', 'Liquid templates'),
-  brain: ph('brain', 'the logic languages, and model files'),
+  brain: ph('brain', 'model files — weights learned from data'),
   command: ph('command', 'AppleScript, AutoHotkey — scripting the desktop itself'),
   dog: ph('dog', 'Husky'),
   timer: ph('timer', 'schedules — cron and its relatives'),
@@ -181,7 +184,10 @@ const SOURCES: Record<string, Source> = {
   users: ph('users-three', 'CODEOWNERS and team files'),
   chat: ph('chat-circle-text', 'discussion templates'),
   cloud: ph('cloud', 'cloud descriptors with no vendor mark of their own'),
-  network: ph('network', 'captures, hosts files, topology'),
+  network: ph('network', 'packet captures and topology'),
+  // The hosts file was the network glyph too, in a blue 9 ΔE from the capture's:
+  // the same shape in nearly the same colour, for a file that is a lookup table.
+  addressBook: ph('address-book', 'hosts files — names looked up to addresses'),
   wave: ph('wave-sine', 'signals and waveform data'),
   mapFold: ph('map-trifold', 'source maps'),
   mapPin: ph('map-pin', 'geodata'),
@@ -195,6 +201,18 @@ const SOURCES: Record<string, Source> = {
   calendar: ph('calendar-dots'),
   contactCard: ph('identification-card', 'vCards'),
   trash: ph('trash', 'temporary and discarded files'),
+
+  /* ---------------- M12: what the coverage audit found ---------------- */
+  headCircuit: ph('head-circuit', 'agent definitions — .agent.md, .claude/agents'),
+  lightning: ph('lightning', 'prompt files — a prompt kept to be run again, as a command'),
+  at: ph('at', 'Razor — the @ is the syntax, as the parentheses are Lisp\'s'),
+  // Bold, not duotone: the duotone's surface is held, but fills only the bowl
+  // of 文 and the counter of the A — part of each letter shaded, which reads
+  // as a hole in it rather than a surface under it.
+  translate: phBold('translate', 'translation catalogues — gettext, XLIFF, .strings'),
+  stamp: ph('stamp', 'templates and examples — a file made to be copied and filled in'),
+  aperture: ph('aperture', 'test snapshots and golden files — recorded output a test compares against'),
+  cpu: ph('cpu', 'device trees — the board described to the kernel'),
 
   /* ---------------- folder silhouettes (M11) ---------------- *
    *

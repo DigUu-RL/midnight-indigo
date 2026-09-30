@@ -36,7 +36,21 @@ export type IconOptics = {
   atThirtyTwo: Solidity;
   /** For a folder: where the sunk pictogram's weight and box sit, and the box itself. */
   pictogram: { centreX: Units; centreY: Units; boxCentreX: Units; boxCentreY: Units; box: Bounds } | null;
+  /** For a file icon: the other file icons it looks within LOOKALIKE_CEILING of at 16px. */
+  lookalikes: { name: string; difference: number }[];
 };
+
+/*
+ * How different two file icons look at 16px, as the explorer draws them —
+ * over the ground, shadow and all: the mean OKLab distance (x100) between
+ * them, pixel for pixel, over the pixels either one paints. The same glyph in
+ * the same colour is 0. It is one number for shape and colour together, which
+ * is the question: a flask and a checklist in one yellow are told apart by
+ * shape, the same wrench in two blues only by colour, and either is fine as
+ * long as the two come out apart. The audit keeps the pairs under the ceiling;
+ * the check holds them to OPTICAL_LIMITS.minLookDifference.
+ */
+export const LOOKALIKE_CEILING = 12;
 
 export type OpticsReport = Record<string, IconOptics>;
 
@@ -109,6 +123,24 @@ export const OPTICAL_LIMITS = {
   shadowSaturation: 0.65,
   /* The share of lit pixels that are solid at 16px, below which an icon is a smudge rather than a shape. */
   minSolidAtSixteen: 0.07,
+  /*
+   * How different any two file icons must look at 16px (LOOKALIKE_CEILING says
+   * how it is measured). 0 is one icon twice, which the set shipped four times
+   * until M12. Below 8 the pairs M12 found were the same drawing in two
+   * neighbouring colours — the Python and the TypeScript wrench at 2.4, MySQL
+   * and a .model.ts at 4.6; from 9.5 up they are the TypeScript variants,
+   * one colour and plainly different glyphs.
+   */
+  minLookDifference: 8,
+};
+
+/*
+ * Pairs under minLookDifference that were looked at, at 16px, and kept, each
+ * with the reason. Keyed by the two names in alphabetical order.
+ */
+export const REVIEWED_LOOKALIKES: Record<string, string> = {
+  'file-env / file-javascript':
+    'both are the project\'s own mark, a yellow tile with its name on it; the letters — .ENV and JS — are what tell them apart, as they do anywhere else',
 };
 
 /** The darkest ground an icon is drawn on: themes/midnight-indigo-color-theme.json -> editor.background. */

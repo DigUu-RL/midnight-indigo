@@ -20,7 +20,7 @@
  */
 
 import type { Colour } from './glyphs.ts';
-import { deltaE, hexFromOklch, oklchFromHex } from './color.ts';
+import { deltaE, hexFromOklch, mix, oklchFromHex } from './color.ts';
 
 /* -------------------------------------------------------------- *
  * The base palette
@@ -170,20 +170,26 @@ export function readableOnGround(hex: Colour, minimumContrast = MIN_CONTRAST_ON_
 }
 
 /*
- * The second half of a pictogram's duotone: the same hue, lighter and a little
- * calmer, for the surface a pictogram's detail sits on — the glass of the
- * flask, the page of the book, the screen of the terminal.
+ * The second half of a pictogram's duotone: the surface a pictogram's detail
+ * sits on — the glass of the flask, the page of the book, the screen of the
+ * terminal — as the ink taken part of the way down to the ground.
+ *
+ * Until M12 it was the ink LIGHTER, near white, and that turned the drawing
+ * inside out: a surface is Phosphor's ink at 20%, the quiet half of the pair,
+ * and painted brighter than the lines it was the brightest thing in the icon.
+ * Where the surface is large it became a pale slab — the whole square behind
+ * the math operators, the card behind the hosts file — and where it fills
+ * part of a letterform, the bowl of 文 and the counter of the A in the
+ * translation glyph, it read as a hole punched in it. At SURFACE_INK of the
+ * ink the lines lead and the surface shades, which is what it was drawn to do.
  *
  * It is derived rather than specified so that a pictogram tinted with any
  * language's colour gets a matching pair for free — adding a language means
  * adding one colour, not two — and so that a variant which repaints the
- * identity colour gets the second tone repainted with it, keeping the two tones
- * the same distance apart under any paint.
+ * identity colour gets the second tone repainted with it.
  */
-export function lighterTint(hex: Colour): Colour {
-  const [h, s, l] = hexToHsl(hex);
-  return hslToHex(h, Math.max(0.22, s * 0.7), Math.min(0.88, l + 0.27));
-}
+const SURFACE_INK = 0.55;
+export const surfaceTint = (hex: Colour): Colour => mix(GROUND, hex, SURFACE_INK);
 
 /*
  * The colour an ink casts as its shadow (M10).

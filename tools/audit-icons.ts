@@ -8,7 +8,8 @@
  * place it. This measures the ICON after it is built, so the placement can be
  * held to account: where the ink's weight actually sits, how much of the box
  * it fills, how thin its thinnest strokes come out at 16px, how much of it is
- * a hole, how square its corners are, and how far its shadow reaches. Build,
+ * a hole, how square its corners are, how far its shadow reaches, and which
+ * other file icons its silhouette at 16px can be mistaken for. Build,
  * then audit — the file records a hash of every SVG it measured, and
  * `npm run check` refuses an audit that no longer matches the icons.
  *
@@ -23,7 +24,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { sha256 } from './baseline.ts';
 import { findBrowser } from './browser.ts';
-import { OPTICS_FILE, type IconOptics, type OpticsReport } from './icon-optics.ts';
+import { DARKEST_GROUND, LOOKALIKE_CEILING, OPTICS_FILE, type IconOptics, type OpticsReport } from './icon-optics.ts';
 
 const HERE: string = path.dirname(fileURLToPath(import.meta.url));
 const SVG_DIRECTORY: string = path.join(HERE, '..', 'icons', 'svg');
@@ -133,7 +134,50 @@ const solidity = (alpha) => {
   for (const value of alpha) { if (value >= INK) lit++; if (value >= 200) solid++; }
   return { lit, solid: lit ? solid / lit : 0 };
 };
+/*
+ * What an icon looks like at 16px, as the explorer shows it: drawn over the
+ * side bar, shadow and all, each pixel in OKLab. Alpha alone would miss what
+ * is inside a shape — the letters on the JavaScript tile are paint on a
+ * plate, and in the alpha channel they are not there.
+ */
+const toLinear = (value) => { value /= 255; return value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4); };
+const oklab = (red, green, blue) => {
+  const [r, g, b] = [toLinear(red), toLinear(green), toLinear(blue)];
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s];
+};
+const seenAtSixteen = async (svg) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 16; canvas.height = 16;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  context.fillStyle = '${DARKEST_GROUND}';
+  context.fillRect(0, 0, 16, 16);
+  const image = new Image();
+  image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
+  await image.decode();
+  context.drawImage(image, 0, 0, 16, 16);
+  const rgba = context.getImageData(0, 0, 16, 16).data;
+  const pixels = [];
+  for (let index = 0; index < rgba.length; index += 4) pixels.push(oklab(rgba[index], rgba[index + 1], rgba[index + 2]));
+  return pixels;
+};
+const groundLab = oklab(...[1, 3, 5].map((offset) => parseInt('${DARKEST_GROUND}'.slice(offset, offset + 2), 16)));
+const isGround = (pixel) => Math.hypot(pixel[0] - groundLab[0], pixel[1] - groundLab[1], pixel[2] - groundLab[2]) < 0.02;
+/* How different two icons look at 16px: the mean OKLab distance, x100, over the pixels either of them paints. */
+const seenDifference = (first, second) => {
+  let total = 0, painted = 0;
+  for (let index = 0; index < first.length; index++) {
+    if (isGround(first[index]) && isGround(second[index])) continue;
+    painted++;
+    total += 100 * Math.hypot(first[index][0] - second[index][0], first[index][1] - second[index][1], first[index][2] - second[index][2]);
+  }
+  return painted ? total / painted : 0;
+};
+const LOOKALIKE_CEILING = ${LOOKALIKE_CEILING};
 const output = [];
+const appearances = new Map();
 (async () => {
   const pixels = CANVAS_UNITS * UNIT;
   for (const job of jobs) {
@@ -144,6 +188,7 @@ const output = [];
     let shadowOnlyPixels = 0;
     for (let index = 0; index < plain.length; index++) if (shadowed[index] >= INK && plain[index] < INK) shadowOnlyPixels++;
     const box = { left: ink.left, top: ink.top, right: ink.right, bottom: ink.bottom };
+    if (job.name.startsWith('file-')) appearances.set(job.name, await seenAtSixteen(job.shadowed));
     const atSixteen = solidity(await render(job.plain, 16));
     const atThirtyTwo = solidity(await render(job.plain, 32));
     let pictogram = null;
@@ -164,9 +209,18 @@ const output = [];
       cornerFill: cornerFill(plain, pixels, box),
       shadowReach: { right: (shadow.right - ink.right) / UNIT, bottom: (shadow.bottom - ink.bottom) / UNIT },
       shadowArea: shadowOnlyPixels / (UNIT * UNIT),
-      atSixteen, atThirtyTwo, pictogram,
+      atSixteen, atThirtyTwo, pictogram, lookalikes: [],
     });
   }
+  const names = [...appearances.keys()];
+  const byName = new Map(output.map((entry) => [entry.name, entry]));
+  for (let first = 0; first < names.length; first++) for (let second = first + 1; second < names.length; second++) {
+    const difference = seenDifference(appearances.get(names[first]), appearances.get(names[second]));
+    if (difference > LOOKALIKE_CEILING) continue;
+    byName.get(names[first]).lookalikes.push({ name: names[second], difference });
+    byName.get(names[second]).lookalikes.push({ name: names[first], difference });
+  }
+  for (const entry of output) entry.lookalikes.sort((left, right) => left.difference - right.difference || left.name.localeCompare(right.name));
   document.getElementById('out').textContent = JSON.stringify(output);
 })();
 `;

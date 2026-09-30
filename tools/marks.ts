@@ -28,7 +28,7 @@
  */
 
 import { markPaths, type ImportedMark, type MarkArt } from './mark-paths.ts';
-import { INK_DARK, WHITE } from './palette.ts';
+import { INK_DARK, LIGHT_INK, WHITE } from './palette.ts';
 import {
   circle,
   circlePath,
@@ -459,6 +459,22 @@ export const marks = {
   unreal: imported('unrealengine'),
   vault: imported('vault'),
   xcode: imported('xcode'),
+
+  /* --- M12: the tools the coverage audit found answered by a format --- */
+  codecov: imported('codecov'),
+  dependabot: imported('dependabot'),
+  hashicorp: imported('hashicorp'),
+  jinja: imported('jinja'),
+  // LLVM's slate (#262D3A) is a hair too saturated for readableOnGround to
+  // reverse it, and lifted it came out a dim grey dragon at 16px (M12 review).
+  // It is a dark mark on a dark ground, so it takes the reversed ink the black
+  // marks do.
+  llvm: imported('llvm', [LIGHT_INK]),
+  mcp: imported('modelcontextprotocol'),
+  precommit: imported('precommit'),
+  pytest: imported('pytest'),
+  ruff: imported('ruff'),
+  uv: imported('uv'),
 } satisfies Record<string, Mark>;
 
 export type MarkName = keyof typeof marks;

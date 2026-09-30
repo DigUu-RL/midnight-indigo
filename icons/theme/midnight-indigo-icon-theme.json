@@ -18,14 +18,8 @@
     "_file_javascript_test": {
       "iconPath": "../svg/file-javascript-test.svg"
     },
-    "_file_javascript_config": {
-      "iconPath": "../svg/file-javascript-config.svg"
-    },
     "_file_javascript_min": {
       "iconPath": "../svg/file-javascript-min.svg"
-    },
-    "_file_javascript_module": {
-      "iconPath": "../svg/file-javascript-module.svg"
     },
     "_file_typescript_spec": {
       "iconPath": "../svg/file-typescript-spec.svg"
@@ -47,9 +41,6 @@
     },
     "_file_typescript_stories": {
       "iconPath": "../svg/file-typescript-stories.svg"
-    },
-    "_file_typescript_config": {
-      "iconPath": "../svg/file-typescript-config.svg"
     },
     "_file_typescript_guard": {
       "iconPath": "../svg/file-typescript-guard.svg"
@@ -137,9 +128,6 @@
     },
     "_file_css": {
       "iconPath": "../svg/file-css.svg"
-    },
-    "_file_scss": {
-      "iconPath": "../svg/file-scss.svg"
     },
     "_file_sass": {
       "iconPath": "../svg/file-sass.svg"
@@ -870,6 +858,63 @@
     "_file_vault": {
       "iconPath": "../svg/file-vault.svg"
     },
+    "_file_dependabot": {
+      "iconPath": "../svg/file-dependabot.svg"
+    },
+    "_file_pytest": {
+      "iconPath": "../svg/file-pytest.svg"
+    },
+    "_file_llvm": {
+      "iconPath": "../svg/file-llvm.svg"
+    },
+    "_file_precommit": {
+      "iconPath": "../svg/file-precommit.svg"
+    },
+    "_file_codecov": {
+      "iconPath": "../svg/file-codecov.svg"
+    },
+    "_file_ruff": {
+      "iconPath": "../svg/file-ruff.svg"
+    },
+    "_file_uv": {
+      "iconPath": "../svg/file-uv.svg"
+    },
+    "_file_hcl": {
+      "iconPath": "../svg/file-hcl.svg"
+    },
+    "_file_ai_agent": {
+      "iconPath": "../svg/file-ai-agent.svg"
+    },
+    "_file_ai_prompt": {
+      "iconPath": "../svg/file-ai-prompt.svg"
+    },
+    "_file_mcp": {
+      "iconPath": "../svg/file-mcp.svg"
+    },
+    "_file_razor": {
+      "iconPath": "../svg/file-razor.svg"
+    },
+    "_file_msbuild": {
+      "iconPath": "../svg/file-msbuild.svg"
+    },
+    "_file_python_config": {
+      "iconPath": "../svg/file-python-config.svg"
+    },
+    "_file_restructuredtext": {
+      "iconPath": "../svg/file-restructuredtext.svg"
+    },
+    "_file_snapshot": {
+      "iconPath": "../svg/file-snapshot.svg"
+    },
+    "_file_template": {
+      "iconPath": "../svg/file-template.svg"
+    },
+    "_file_translation": {
+      "iconPath": "../svg/file-translation.svg"
+    },
+    "_file_devicetree": {
+      "iconPath": "../svg/file-devicetree.svg"
+    },
     "_folder": {
       "iconPath": "../svg/folder.svg"
     },
@@ -1435,7 +1480,13 @@
     ".cursor": "_folder_ai",
     "prompts": "_folder_ai",
     "agents": "_folder_ai",
-    "llm": "_folder_ai"
+    "llm": "_folder_ai",
+    "skills": "_folder_ai",
+    ".agents": "_folder_ai",
+    ".codex": "_folder_ai",
+    ".gemini": "_folder_ai",
+    ".continue": "_folder_ai",
+    "instructions": "_folder_ai"
   },
   "folderNamesExpanded": {
     "components": "_folder_components_open",
@@ -1672,7 +1723,13 @@
     ".cursor": "_folder_ai_open",
     "prompts": "_folder_ai_open",
     "agents": "_folder_ai_open",
-    "llm": "_folder_ai_open"
+    "llm": "_folder_ai_open",
+    "skills": "_folder_ai_open",
+    ".agents": "_folder_ai_open",
+    ".codex": "_folder_ai_open",
+    ".gemini": "_folder_ai_open",
+    ".continue": "_folder_ai_open",
+    "instructions": "_folder_ai_open"
   },
   "fileExtensions": {
     "js": "_file_javascript",
@@ -1702,7 +1759,7 @@
     "htm": "_file_html",
     "xhtml": "_file_html",
     "css": "_file_css",
-    "scss": "_file_scss",
+    "scss": "_file_sass",
     "sass": "_file_sass",
     "less": "_file_less",
     "styl": "_file_stylus",
@@ -2022,7 +2079,6 @@
     "msi": "_file_package",
     "pkg": "_file_package",
     "appimage": "_file_package",
-    "snap": "_file_package",
     "flatpak": "_file_package",
     "vsix": "_file_package",
     "crx": "_file_package",
@@ -2187,6 +2243,96 @@
     "sl3": "_file_sqlite",
     "mongodb": "_file_mongodb",
     "mongodb.js": "_file_mongodb",
+    "workflows/yml": "_file_githubactions",
+    "workflows/yaml": "_file_githubactions",
+    "issue_template/yml": "_file_issuetemplate",
+    "issue_template/yaml": "_file_issuetemplate",
+    "issue_template/md": "_file_issuetemplate",
+    ".circleci/yml": "_file_circleci",
+    ".circleci/yaml": "_file_circleci",
+    ".claude/json": "_file_ai",
+    ".claude-plugin/json": "_file_ai",
+    ".gemini/json": "_file_ai",
+    "agents/md": "_file_ai_agent",
+    "templates/tpl": "_file_helm",
+    "prompt.md": "_file_ai_prompt",
+    "instructions.md": "_file_ai",
+    "agent.md": "_file_ai_agent",
+    "chatmode.md": "_file_ai_agent",
+    "razor": "_file_razor",
+    "cshtml": "_file_razor",
+    "csproj": "_file_msbuild",
+    "fsproj": "_file_msbuild",
+    "vbproj": "_file_msbuild",
+    "vcxproj": "_file_msbuild",
+    "proj": "_file_msbuild",
+    "props": "_file_msbuild",
+    "targets": "_file_msbuild",
+    "sln": "_file_workspace",
+    "slnx": "_file_workspace",
+    "cmake": "_file_cmake",
+    "hcl": "_file_hcl",
+    "pyx": "_file_python",
+    "pxd": "_file_python",
+    "pxi": "_file_python",
+    "rst": "_file_restructuredtext",
+    "snap": "_file_snapshot",
+    "snapshot": "_file_snapshot",
+    "golden": "_file_snapshot",
+    "expected": "_file_snapshot",
+    "stderr": "_file_log",
+    "stdout": "_file_log",
+    "tpl": "_file_template",
+    "tmpl": "_file_template",
+    "gotmpl": "_file_template",
+    "template": "_file_template",
+    "example": "_file_template",
+    "sample": "_file_template",
+    "dist": "_file_template",
+    "po": "_file_translation",
+    "pot": "_file_translation",
+    "mo": "_file_translation",
+    "xliff": "_file_translation",
+    "xlf": "_file_translation",
+    "strings": "_file_translation",
+    "stringsdict": "_file_translation",
+    "dts": "_file_devicetree",
+    "dtsi": "_file_devicetree",
+    "jsonl": "_file_json",
+    "ndjson": "_file_json",
+    "xsl": "_file_xml",
+    "xslt": "_file_xml",
+    "exr": "_file_image",
+    "hdr": "_file_image",
+    "ktx": "_file_image",
+    "ktx2": "_file_image",
+    "dds": "_file_image",
+    "basis": "_file_image",
+    "tga": "_file_image",
+    "xpm": "_file_image",
+    "icns": "_file_image",
+    "fits": "_file_dataset",
+    "nc": "_file_dataset",
+    "3mf": "_file_model3d",
+    "kicad_mod": "_file_pcb",
+    "kicad_sym": "_file_pcb",
+    "kicad_pro": "_file_pcb",
+    "kicad_prl": "_file_pcb",
+    "kicad_dru": "_file_pcb",
+    "kicad_wks": "_file_pcb",
+    "hex": "_file_binary",
+    "uf2": "_file_binary",
+    "plist": "_file_xcode",
+    "entitlements": "_file_xcode",
+    "xcworkspacedata": "_file_xcode",
+    "xcprivacy": "_file_xcode",
+    "storyboard": "_file_xcode",
+    "xib": "_file_xcode",
+    "pub": "_file_cert",
+    "csr": "_file_cert",
+    "der": "_file_cert",
+    "asc": "_file_cert",
+    "sig": "_file_cert",
     "spec.ts": "_file_typescript_spec",
     "test.ts": "_file_typescript_test",
     "d.ts": "_file_typescript_d",
@@ -2194,7 +2340,7 @@
     "component.ts": "_file_typescript_component",
     "service.ts": "_file_typescript_service",
     "stories.ts": "_file_typescript_stories",
-    "config.ts": "_file_typescript_config",
+    "config.ts": "_file_tsconfig",
     "guard.ts": "_file_typescript_guard",
     "pipe.ts": "_file_typescript_pipe",
     "directive.ts": "_file_typescript_directive",
@@ -2212,9 +2358,9 @@
     "component.tsx": "_file_jsx_component",
     "spec.js": "_file_javascript_spec",
     "test.js": "_file_javascript_test",
-    "config.js": "_file_javascript_config",
+    "config.js": "_file_jsconfig",
     "min.js": "_file_javascript_min",
-    "module.js": "_file_javascript_module",
+    "module.js": "_file_mjs",
     "spec.jsx": "_file_jsx_spec",
     "test.jsx": "_file_jsx_test",
     "stories.jsx": "_file_jsx_stories",
@@ -2308,7 +2454,6 @@
     ".browserslistrc": "_file_browserslist",
     "jenkinsfile": "_file_jenkins",
     ".travis.yml": "_file_travis",
-    ".circleci": "_file_circleci",
     ".gitlab-ci.yml": "_file_gitlabci",
     "bitbucket-pipelines.yml": "_file_bitbucket",
     "renovate.json": "_file_renovate",
@@ -2493,7 +2638,110 @@
     "bootstrap.min.css": "_file_bootstrap",
     "bootstrap.js": "_file_bootstrap",
     "bootstrap.min.js": "_file_bootstrap",
-    "bootstrap.bundle.min.js": "_file_bootstrap"
+    "bootstrap.bundle.min.js": "_file_bootstrap",
+    "dependabot.yml": "_file_dependabot",
+    "dependabot.yaml": "_file_dependabot",
+    "conftest.py": "_file_pytest",
+    "pytest.ini": "_file_pytest",
+    ".clang-format": "_file_llvm",
+    "_clang-format": "_file_llvm",
+    ".clang-tidy": "_file_llvm",
+    ".clangd": "_file_llvm",
+    ".pre-commit-config.yaml": "_file_precommit",
+    ".pre-commit-config.yml": "_file_precommit",
+    ".pre-commit-hooks.yaml": "_file_precommit",
+    "codecov.yml": "_file_codecov",
+    "codecov.yaml": "_file_codecov",
+    ".codecov.yml": "_file_codecov",
+    "ruff.toml": "_file_ruff",
+    ".ruff.toml": "_file_ruff",
+    "uv.lock": "_file_uv",
+    "uv.toml": "_file_uv",
+    ".terraform.lock.hcl": "_file_terraform",
+    "docker-bake.hcl": "_file_docker",
+    "skill.md": "_file_ai",
+    "gemini.md": "_file_ai",
+    "mcp.json": "_file_mcp",
+    ".mcp.json": "_file_mcp",
+    "compose.yaml": "_file_docker",
+    "compose.yml": "_file_docker",
+    "compose.override.yaml": "_file_docker",
+    "compose.override.yml": "_file_docker",
+    "docker-compose.override.yml": "_file_docker",
+    "docker-compose.override.yaml": "_file_docker",
+    ".helmignore": "_file_helm",
+    "chart.lock": "_file_helm",
+    "values.schema.json": "_file_helm",
+    "helmfile.yaml": "_file_helm",
+    "setup.cfg": "_file_python_config",
+    "tox.ini": "_file_python_config",
+    "mypy.ini": "_file_python_config",
+    ".mypy.ini": "_file_python_config",
+    ".flake8": "_file_python_config",
+    ".pylintrc": "_file_python_config",
+    "pylintrc": "_file_python_config",
+    ".coveragerc": "_file_python_config",
+    "setup.py": "_file_python",
+    "manifest.in": "_file_python",
+    "py.typed": "_file_python",
+    "requirements.in": "_file_python",
+    "pipfile": "_file_python",
+    "pipfile.lock": "_file_python",
+    ".python-version": "_file_python",
+    "rust-toolchain": "_file_rust",
+    "rust-toolchain.toml": "_file_rust",
+    "clippy.toml": "_file_rust",
+    ".clippy.toml": "_file_rust",
+    "rustfmt.toml": "_file_rust",
+    ".rustfmt.toml": "_file_rust",
+    ".cargo/config.toml": "_file_rust",
+    ".cargo/config": "_file_rust",
+    "go.work": "_file_go",
+    "go.work.sum": "_file_go",
+    ".golangci.yml": "_file_go",
+    ".golangci.yaml": "_file_go",
+    ".go-version": "_file_go",
+    "cmakepresets.json": "_file_cmake",
+    "cmakeuserpresets.json": "_file_cmake",
+    "meson.build": "_file_makefile",
+    "meson_options.txt": "_file_makefile",
+    "meson.options": "_file_makefile",
+    "justfile": "_file_makefile",
+    ".justfile": "_file_makefile",
+    "taskfile.yml": "_file_makefile",
+    "taskfile.yaml": "_file_makefile",
+    "settings.gradle.kts": "_file_gradle",
+    "directory.packages.props": "_file_nuget",
+    "owners": "_file_codeowners",
+    "owners_aliases": "_file_codeowners",
+    "copyright": "_file_license",
+    "patents": "_file_license",
+    "unlicense": "_file_license",
+    "license.rst": "_file_license",
+    "license-mit": "_file_license",
+    "license-apache": "_file_license",
+    "license_apache2": "_file_license",
+    "license.bsd": "_file_license",
+    "licenses.txt": "_file_license",
+    "licenses.md": "_file_license",
+    "citation.cff": "_file_notice",
+    ".yamllint": "_file_yaml",
+    ".yamllint.yml": "_file_yaml",
+    ".yamllint.yaml": "_file_yaml",
+    ".shellcheckrc": "_file_shell",
+    ".markdownlint.json": "_file_markdown",
+    ".markdownlint.jsonc": "_file_markdown",
+    ".markdownlint.yaml": "_file_markdown",
+    ".markdownlint.yml": "_file_markdown",
+    ".markdownlintrc": "_file_markdown",
+    ".markdownlint-cli2.jsonc": "_file_markdown",
+    ".markdownlint-cli2.yaml": "_file_markdown",
+    ".keep": "_file_git",
+    ".env.local.example": "_file_env",
+    ".env.sample": "_file_env",
+    ".env.template": "_file_env",
+    ".env.dist": "_file_env",
+    ".flaskenv": "_file_env"
   },
   "languageIds": {
     "javascript": "_file_javascript",
@@ -2538,7 +2786,7 @@
     "markdown": "_file_markdown",
     "html": "_file_html",
     "css": "_file_css",
-    "scss": "_file_scss",
+    "scss": "_file_sass",
     "sass": "_file_sass",
     "less": "_file_less",
     "vue": "_file_vue",
@@ -2600,6 +2848,19 @@
     "glsl": "_file_shader",
     "cuda-cpp": "_file_cuda",
     "awk": "_file_awk",
-    "http": "_file_http"
+    "http": "_file_http",
+    "dotenv": "_file_env",
+    "dockercompose": "_file_docker",
+    "jsonl": "_file_json",
+    "snippets": "_file_json",
+    "xsl": "_file_xml",
+    "jade": "_file_pug",
+    "juliamarkdown": "_file_julia",
+    "razor": "_file_razor",
+    "restructuredtext": "_file_restructuredtext",
+    "prompt": "_file_ai_prompt",
+    "instructions": "_file_ai",
+    "chatagent": "_file_ai_agent",
+    "skill": "_file_ai"
   }
 }

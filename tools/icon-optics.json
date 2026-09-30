@@ -30,6 +30,7 @@
    "solid": 0.46
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "15fc39e64565"
  },
  "file-ada": {
@@ -63,7 +64,76 @@
    "solid": 0.523
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f3775c7b17c5"
+ },
+ "file-ai-agent": {
+  "name": "file-ai-agent",
+  "box": {
+   "left": 3.625,
+   "top": 2.5,
+   "right": 26.875,
+   "bottom": 28.5
+  },
+  "massCentre": {
+   "x": 15.927,
+   "y": 15.325
+  },
+  "inkArea": 431.25,
+  "coverage": 0.418,
+  "strokeWidth": 10.044,
+  "holeArea": 4.906,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 41.625,
+  "atSixteen": {
+   "lit": 122,
+   "solid": 0.787
+  },
+  "atThirtyTwo": {
+   "lit": 458,
+   "solid": 0.867
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "ffd992313441"
+ },
+ "file-ai-prompt": {
+  "name": "file-ai-prompt",
+  "box": {
+   "left": 5.625,
+   "top": 1.875,
+   "right": 25.5,
+   "bottom": 28.875
+  },
+  "massCentre": {
+   "x": 15.6,
+   "y": 15.397
+  },
+  "inkArea": 218.422,
+  "coverage": 0.21,
+  "strokeWidth": 6.866,
+  "holeArea": 0,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 37.703,
+  "atSixteen": {
+   "lit": 63,
+   "solid": 0.794
+  },
+  "atThirtyTwo": {
+   "lit": 239,
+   "solid": 0.816
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "c9ef83c488e3"
  },
  "file-ai": {
   "name": "file-ai",
@@ -96,7 +166,8 @@
    "solid": 0.765
   },
   "pictogram": null,
-  "hash": "933cead8a10e"
+  "lookalikes": [],
+  "hash": "b792047072b4"
  },
  "file-angular": {
   "name": "file-angular",
@@ -129,6 +200,7 @@
    "solid": 0.705
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "11ec42be0b03"
  },
  "file-ansible": {
@@ -162,6 +234,12 @@
    "solid": 0.836
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-asciidoc",
+    "difference": 9.601
+   }
+  ],
   "hash": "386ed23fa8f5"
  },
  "file-applescript": {
@@ -195,7 +273,8 @@
    "solid": 0.795
   },
   "pictogram": null,
-  "hash": "b005dcca19c4"
+  "lookalikes": [],
+  "hash": "148fe1c65ee8"
  },
  "file-archive": {
   "name": "file-archive",
@@ -228,7 +307,8 @@
    "solid": 0.59
   },
   "pictogram": null,
-  "hash": "19180387dc46"
+  "lookalikes": [],
+  "hash": "cfd65ac9ffcf"
  },
  "file-arduino": {
   "name": "file-arduino",
@@ -261,6 +341,7 @@
    "solid": 0.627
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d6c7c584d209"
  },
  "file-asciidoc": {
@@ -294,6 +375,12 @@
    "solid": 0.779
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-ansible",
+    "difference": 9.601
+   }
+  ],
   "hash": "37aff1951830"
  },
  "file-assembly": {
@@ -327,6 +414,7 @@
    "solid": 0.47
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "9679c36f4c0b"
  },
  "file-astro": {
@@ -360,6 +448,7 @@
    "solid": 0.759
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "81a03b2e496a"
  },
  "file-audio": {
@@ -393,7 +482,8 @@
    "solid": 0.65
   },
   "pictogram": null,
-  "hash": "5de5d13dee5a"
+  "lookalikes": [],
+  "hash": "eea8dc210d87"
  },
  "file-audioproject": {
   "name": "file-audioproject",
@@ -404,29 +494,30 @@
    "bottom": 28.875
   },
   "massCentre": {
-   "x": 15.43,
-   "y": 15.396
+   "x": 15.323,
+   "y": 15.399
   },
-  "inkArea": 270.5,
-  "coverage": 0.259,
-  "strokeWidth": 4.26,
+  "inkArea": 170.594,
+  "coverage": 0.159,
+  "strokeWidth": 2.008,
   "holeArea": 0,
   "cornerFill": 0,
   "shadowReach": {
-   "right": 0.75,
+   "right": 0.875,
    "bottom": 1
   },
-  "shadowArea": 55.5,
+  "shadowArea": 69.781,
   "atSixteen": {
-   "lit": 90,
-   "solid": 0.556
+   "lit": 75,
+   "solid": 0.227
   },
   "atThirtyTwo": {
-   "lit": 318,
-   "solid": 0.682
+   "lit": 230,
+   "solid": 0.491
   },
   "pictogram": null,
-  "hash": "b664964240bb"
+  "lookalikes": [],
+  "hash": "28dc4b1be8e6"
  },
  "file-autohotkey": {
   "name": "file-autohotkey",
@@ -459,7 +550,13 @@
    "solid": 0.878
   },
   "pictogram": null,
-  "hash": "e9a6ca52cfa2"
+  "lookalikes": [
+   {
+    "name": "file-keymap",
+    "difference": 9.505
+   }
+  ],
+  "hash": "f74784e4e57e"
  },
  "file-awk": {
   "name": "file-awk",
@@ -492,7 +589,17 @@
    "solid": 0.84
   },
   "pictogram": null,
-  "hash": "8e8c6c579211"
+  "lookalikes": [
+   {
+    "name": "file-contact",
+    "difference": 10.131
+   },
+   {
+    "name": "file-robots",
+    "difference": 10.746
+   }
+  ],
+  "hash": "8addf0b13ce9"
  },
  "file-azure": {
   "name": "file-azure",
@@ -525,6 +632,7 @@
    "solid": 0.895
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "a60af4b5424f"
  },
  "file-babel": {
@@ -558,6 +666,7 @@
    "solid": 0.608
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4d26c52e6c7b"
  },
  "file-backup": {
@@ -591,7 +700,8 @@
    "solid": 0.827
   },
   "pictogram": null,
-  "hash": "a0af106a4757"
+  "lookalikes": [],
+  "hash": "bebff487c396"
  },
  "file-batch": {
   "name": "file-batch",
@@ -624,6 +734,7 @@
    "solid": 0.545
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4692bb1048b6"
  },
  "file-bazel": {
@@ -657,6 +768,7 @@
    "solid": 0.748
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b4ff06c200a0"
  },
  "file-bi": {
@@ -690,40 +802,42 @@
    "solid": 0.616
   },
   "pictogram": null,
-  "hash": "d6c9732506e3"
+  "lookalikes": [],
+  "hash": "92436d31a946"
  },
  "file-binary": {
   "name": "file-binary",
   "box": {
-   "left": 4.375,
-   "top": 3.25,
-   "right": 26.875,
-   "bottom": 27.625
+   "left": 5.875,
+   "top": 2,
+   "right": 25.125,
+   "bottom": 29
   },
   "massCentre": {
-   "x": 15.604,
-   "y": 15.397
+   "x": 15.636,
+   "y": 15.241
   },
-  "inkArea": 513.188,
-  "coverage": 0.498,
-  "strokeWidth": 11.883,
-  "holeArea": 0,
-  "cornerFill": 0.563,
+  "inkArea": 191.078,
+  "coverage": 0.179,
+  "strokeWidth": 2.273,
+  "holeArea": 73.781,
+  "cornerFill": 0.09,
   "shadowReach": {
-   "right": 0.75,
+   "right": 0.875,
    "bottom": 1
   },
-  "shadowArea": 40.172,
+  "shadowArea": 77.469,
   "atSixteen": {
-   "lit": 146,
-   "solid": 0.822
+   "lit": 76,
+   "solid": 0.303
   },
   "atThirtyTwo": {
-   "lit": 537,
-   "solid": 0.896
+   "lit": 247,
+   "solid": 0.547
   },
   "pictogram": null,
-  "hash": "b345ba095ff2"
+  "lookalikes": [],
+  "hash": "b90318559b20"
  },
  "file-bitbucket": {
   "name": "file-bitbucket",
@@ -756,6 +870,7 @@
    "solid": 0.859
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "eb3c835091b2"
  },
  "file-blender": {
@@ -789,6 +904,7 @@
    "solid": 0.683
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "a1b3dd7c907b"
  },
  "file-bootstrap": {
@@ -822,6 +938,7 @@
    "solid": 0.73
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "14b03b31efb9"
  },
  "file-browserslist": {
@@ -855,7 +972,8 @@
    "solid": 0.603
   },
   "pictogram": null,
-  "hash": "e7edbafa92d6"
+  "lookalikes": [],
+  "hash": "08e4e908508a"
  },
  "file-bun": {
   "name": "file-bun",
@@ -888,6 +1006,7 @@
    "solid": 0.813
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4827d273c747"
  },
  "file-c": {
@@ -921,6 +1040,7 @@
    "solid": 0.831
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "0833ecbdd91c"
  },
  "file-cad": {
@@ -954,7 +1074,8 @@
    "solid": 0.682
   },
   "pictogram": null,
-  "hash": "e6a63a8d313c"
+  "lookalikes": [],
+  "hash": "dac9bacd5b77"
  },
  "file-calendar": {
   "name": "file-calendar",
@@ -987,7 +1108,8 @@
    "solid": 0.632
   },
   "pictogram": null,
-  "hash": "ab2399c871e4"
+  "lookalikes": [],
+  "hash": "dd39496ab55b"
  },
  "file-capture": {
   "name": "file-capture",
@@ -1020,7 +1142,8 @@
    "solid": 0.764
   },
   "pictogram": null,
-  "hash": "4e99d97193ba"
+  "lookalikes": [],
+  "hash": "0a3e08972277"
  },
  "file-cert": {
   "name": "file-cert",
@@ -1053,7 +1176,8 @@
    "solid": 0.884
   },
   "pictogram": null,
-  "hash": "4cbf5f4945d2"
+  "lookalikes": [],
+  "hash": "b261ac6a78ff"
  },
  "file-changelog": {
   "name": "file-changelog",
@@ -1086,7 +1210,17 @@
    "solid": 0.886
   },
   "pictogram": null,
-  "hash": "e5aab2eb6b59"
+  "lookalikes": [
+   {
+    "name": "file-razor",
+    "difference": 10.173
+   },
+   {
+    "name": "file-issuetemplate",
+    "difference": 11.479
+   }
+  ],
+  "hash": "3ee4a53e23d3"
  },
  "file-circleci": {
   "name": "file-circleci",
@@ -1119,6 +1253,7 @@
    "solid": 0.813
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "1f3797c57807"
  },
  "file-clojure": {
@@ -1152,6 +1287,7 @@
    "solid": 0.729
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c3174a88edd2"
  },
  "file-cloudconfig": {
@@ -1185,7 +1321,8 @@
    "solid": 0.888
   },
   "pictogram": null,
-  "hash": "7bc5ec392bd4"
+  "lookalikes": [],
+  "hash": "94e8573f00c3"
  },
  "file-cloudflare": {
   "name": "file-cloudflare",
@@ -1218,6 +1355,7 @@
    "solid": 0.673
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f3e0f5eaa81d"
  },
  "file-cmake": {
@@ -1251,6 +1389,7 @@
    "solid": 0.811
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "145cdf8b794e"
  },
  "file-cobol": {
@@ -1284,6 +1423,7 @@
    "solid": 0.516
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "76321d8f869c"
  },
  "file-cocoapods": {
@@ -1317,7 +1457,42 @@
    "solid": 0.727
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "ed4c788e860e"
+ },
+ "file-codecov": {
+  "name": "file-codecov",
+  "box": {
+   "left": 2.125,
+   "top": 3.875,
+   "right": 29.125,
+   "bottom": 29.75
+  },
+  "massCentre": {
+   "x": 15.593,
+   "y": 13.942
+  },
+  "inkArea": 208.891,
+  "coverage": 0.198,
+  "strokeWidth": 3.261,
+  "holeArea": 0.016,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 0.875
+  },
+  "shadowArea": 64.828,
+  "atSixteen": {
+   "lit": 71,
+   "solid": 0.437
+  },
+  "atThirtyTwo": {
+   "lit": 250,
+   "solid": 0.66
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "be67feb3b762"
  },
  "file-codeowners": {
   "name": "file-codeowners",
@@ -1350,7 +1525,8 @@
    "solid": 0.738
   },
   "pictogram": null,
-  "hash": "0d0bb3757d6d"
+  "lookalikes": [],
+  "hash": "bb2e3a620a44"
  },
  "file-coffeescript": {
   "name": "file-coffeescript",
@@ -1383,6 +1559,7 @@
    "solid": 0.667
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "46545ac852a5"
  },
  "file-colortheme": {
@@ -1416,7 +1593,8 @@
    "solid": 0.901
   },
   "pictogram": null,
-  "hash": "d8b395d4c7f5"
+  "lookalikes": [],
+  "hash": "a9f0b7a81db9"
  },
  "file-commitconfig": {
   "name": "file-commitconfig",
@@ -1449,6 +1627,7 @@
    "solid": 0.853
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b04c999e9dea"
  },
  "file-composer": {
@@ -1482,7 +1661,13 @@
    "solid": 0.683
   },
   "pictogram": null,
-  "hash": "adb0a6d09ff3"
+  "lookalikes": [
+   {
+    "name": "file-package",
+    "difference": 10.909
+   }
+  ],
+  "hash": "7eb22725fafe"
  },
  "file-conda": {
   "name": "file-conda",
@@ -1515,6 +1700,7 @@
    "solid": 0.616
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "fc987c4d6112"
  },
  "file-contact": {
@@ -1548,7 +1734,17 @@
    "solid": 0.827
   },
   "pictogram": null,
-  "hash": "2920ef094603"
+  "lookalikes": [
+   {
+    "name": "file-awk",
+    "difference": 10.131
+   },
+   {
+    "name": "file-robots",
+    "difference": 10.854
+   }
+  ],
+  "hash": "e31f9400b4fd"
  },
  "file-cpp": {
   "name": "file-cpp",
@@ -1581,6 +1777,16 @@
    "solid": 0.809
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-dependabot",
+    "difference": 11.29
+   },
+   {
+    "name": "file-kubernetes",
+    "difference": 11.652
+   }
+  ],
   "hash": "aa33ca9167da"
  },
  "file-crystal": {
@@ -1614,6 +1820,7 @@
    "solid": 0.831
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6de65da8378e"
  },
  "file-csharp": {
@@ -1647,6 +1854,7 @@
    "solid": 0.887
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "598544ef1196"
  },
  "file-css-module": {
@@ -1680,6 +1888,12 @@
    "solid": 0.618
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-scss-module",
+    "difference": 11.282
+   }
+  ],
   "hash": "b04fa566c4ad"
  },
  "file-css": {
@@ -1713,6 +1927,7 @@
    "solid": 0.887
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f42bc09a108b"
  },
  "file-csv": {
@@ -1746,7 +1961,13 @@
    "solid": 0.542
   },
   "pictogram": null,
-  "hash": "0bc5898513d8"
+  "lookalikes": [
+   {
+    "name": "file-typescript-entity",
+    "difference": 10.82
+   }
+  ],
+  "hash": "d7d333f42394"
  },
  "file-cuda": {
   "name": "file-cuda",
@@ -1779,7 +2000,8 @@
    "solid": 0.794
   },
   "pictogram": null,
-  "hash": "385d6d4a3cb9"
+  "lookalikes": [],
+  "hash": "2e5774efc886"
  },
  "file-cypress": {
   "name": "file-cypress",
@@ -1812,6 +2034,7 @@
    "solid": 0.555
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "cd72b0112bca"
  },
  "file-dart": {
@@ -1845,40 +2068,47 @@
    "solid": 0.859
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "2b8bb6d4399c"
  },
  "file-dataset": {
   "name": "file-dataset",
   "box": {
-   "left": 3.625,
-   "top": 4.75,
-   "right": 28.125,
-   "bottom": 25.5
+   "left": 3.375,
+   "top": 2.25,
+   "right": 30.375,
+   "bottom": 25.25
   },
   "massCentre": {
-   "x": 15.361,
-   "y": 15.633
+   "x": 14.312,
+   "y": 17.02
   },
-  "inkArea": 465.984,
-  "coverage": 0.453,
-  "strokeWidth": 10.821,
+  "inkArea": 220.797,
+  "coverage": 0.206,
+  "strokeWidth": 2.726,
   "holeArea": 0,
-  "cornerFill": 0.714,
+  "cornerFill": 0.678,
   "shadowReach": {
-   "right": 0.625,
+   "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 37.875,
+  "shadowArea": 77,
   "atSixteen": {
-   "lit": 130,
-   "solid": 0.838
+   "lit": 81,
+   "solid": 0.37
   },
   "atThirtyTwo": {
-   "lit": 505,
-   "solid": 0.867
+   "lit": 285,
+   "solid": 0.516
   },
   "pictogram": null,
-  "hash": "0b1a7deb04ad"
+  "lookalikes": [
+   {
+    "name": "file-statistics",
+    "difference": 11.275
+   }
+  ],
+  "hash": "874bbfc37a8d"
  },
  "file-debug": {
   "name": "file-debug",
@@ -1911,7 +2141,8 @@
    "solid": 0.732
   },
   "pictogram": null,
-  "hash": "e13b7c7e4672"
+  "lookalikes": [],
+  "hash": "5966a2002299"
  },
  "file-deno": {
   "name": "file-deno",
@@ -1944,7 +2175,51 @@
    "solid": 0.741
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4fc32e1489ed"
+ },
+ "file-dependabot": {
+  "name": "file-dependabot",
+  "box": {
+   "left": 3.375,
+   "top": 2.5,
+   "right": 27.75,
+   "bottom": 28.5
+  },
+  "massCentre": {
+   "x": 15.596,
+   "y": 15.306
+  },
+  "inkArea": 332.609,
+  "coverage": 0.319,
+  "strokeWidth": 4.816,
+  "holeArea": 125.016,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.875,
+   "bottom": 1
+  },
+  "shadowArea": 68.469,
+  "atSixteen": {
+   "lit": 107,
+   "solid": 0.589
+  },
+  "atThirtyTwo": {
+   "lit": 374,
+   "solid": 0.727
+  },
+  "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-cpp",
+    "difference": 11.29
+   },
+   {
+    "name": "file-kubernetes",
+    "difference": 11.937
+   }
+  ],
+  "hash": "b50236022f00"
  },
  "file-design": {
   "name": "file-design",
@@ -1977,7 +2252,8 @@
    "solid": 0.76
   },
   "pictogram": null,
-  "hash": "96066bca10e0"
+  "lookalikes": [],
+  "hash": "2530bc4519a8"
  },
  "file-devcontainer": {
   "name": "file-devcontainer",
@@ -2010,7 +2286,42 @@
    "solid": 0.733
   },
   "pictogram": null,
-  "hash": "ddfe7597242a"
+  "lookalikes": [],
+  "hash": "4af37aa30d46"
+ },
+ "file-devicetree": {
+  "name": "file-devicetree",
+  "box": {
+   "left": 2.375,
+   "top": 2.125,
+   "right": 28.875,
+   "bottom": 28.625
+  },
+  "massCentre": {
+   "x": 15.599,
+   "y": 15.395
+  },
+  "inkArea": 458.734,
+  "coverage": 0.443,
+  "strokeWidth": 7.14,
+  "holeArea": 14.063,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 56.703,
+  "atSixteen": {
+   "lit": 132,
+   "solid": 0.75
+  },
+  "atThirtyTwo": {
+   "lit": 496,
+   "solid": 0.839
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "c3005aa00157"
  },
  "file-diagram": {
   "name": "file-diagram",
@@ -2043,7 +2354,8 @@
    "solid": 0.677
   },
   "pictogram": null,
-  "hash": "da7bc68fe166"
+  "lookalikes": [],
+  "hash": "fd51b2188861"
  },
  "file-diff": {
   "name": "file-diff",
@@ -2076,7 +2388,8 @@
    "solid": 0.638
   },
   "pictogram": null,
-  "hash": "4daa275cdb49"
+  "lookalikes": [],
+  "hash": "d6613e3b9038"
  },
  "file-diskimage": {
   "name": "file-diskimage",
@@ -2109,7 +2422,8 @@
    "solid": 0.859
   },
   "pictogram": null,
-  "hash": "ef0f4ca77797"
+  "lookalikes": [],
+  "hash": "83fbd9664eb4"
  },
  "file-django": {
   "name": "file-django",
@@ -2142,6 +2456,7 @@
    "solid": 0.681
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f91cdb0ae0e2"
  },
  "file-docker": {
@@ -2175,6 +2490,7 @@
    "solid": 0.763
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "bfdfae7d4b98"
  },
  "file-ebook": {
@@ -2208,7 +2524,8 @@
    "solid": 0.805
   },
   "pictogram": null,
-  "hash": "219878981c67"
+  "lookalikes": [],
+  "hash": "c39503ecf638"
  },
  "file-editorconfig": {
   "name": "file-editorconfig",
@@ -2241,6 +2558,7 @@
    "solid": 0.61
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "926bc82caffb"
  },
  "file-ejs": {
@@ -2274,6 +2592,7 @@
    "solid": 0.605
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "fa3d8d8425a4"
  },
  "file-electron": {
@@ -2307,7 +2626,8 @@
    "solid": 0.832
   },
   "pictogram": null,
-  "hash": "765418a57a1c"
+  "lookalikes": [],
+  "hash": "d0c5b7fa2b2b"
  },
  "file-elixir": {
   "name": "file-elixir",
@@ -2340,6 +2660,7 @@
    "solid": 0.869
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b7392457bae6"
  },
  "file-elm": {
@@ -2373,6 +2694,7 @@
    "solid": 0.714
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "79285e1496d9"
  },
  "file-email": {
@@ -2406,7 +2728,8 @@
    "solid": 0.64
   },
   "pictogram": null,
-  "hash": "4057d648c23c"
+  "lookalikes": [],
+  "hash": "b13f80248b80"
  },
  "file-env": {
   "name": "file-env",
@@ -2439,6 +2762,12 @@
    "solid": 0.883
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-javascript",
+    "difference": 7.521
+   }
+  ],
   "hash": "f3ba094c0471"
  },
  "file-erlang": {
@@ -2472,6 +2801,7 @@
    "solid": 0.665
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "94c67243cca9"
  },
  "file-esbuild": {
@@ -2505,6 +2835,7 @@
    "solid": 0.818
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "9eb2244205a7"
  },
  "file-eslint": {
@@ -2538,6 +2869,7 @@
    "solid": 0.701
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6e19f8d96af3"
  },
  "file-excel": {
@@ -2571,40 +2903,42 @@
    "solid": 0.89
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "2d6d59eefff9"
  },
  "file-feed": {
   "name": "file-feed",
   "box": {
-   "left": 3.375,
+   "left": 2.25,
    "top": 1.75,
    "right": 29.25,
-   "bottom": 27.625
+   "bottom": 28.75
   },
   "massCentre": {
-   "x": 14.893,
-   "y": 16.09
+   "x": 15.452,
+   "y": 15.526
   },
-  "inkArea": 491.406,
-  "coverage": 0.478,
-  "strokeWidth": 10.966,
+  "inkArea": 176.469,
+  "coverage": 0.167,
+  "strokeWidth": 2.71,
   "holeArea": 0,
-  "cornerFill": 0.65,
+  "cornerFill": 0.594,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 39.578,
+  "shadowArea": 53.703,
   "atSixteen": {
-   "lit": 138,
-   "solid": 0.783
+   "lit": 65,
+   "solid": 0.354
   },
   "atThirtyTwo": {
-   "lit": 529,
-   "solid": 0.868
+   "lit": 224,
+   "solid": 0.603
   },
   "pictogram": null,
-  "hash": "7d3a42f020bc"
+  "lookalikes": [],
+  "hash": "5d9fe610f7c0"
  },
  "file-figma": {
   "name": "file-figma",
@@ -2637,6 +2971,7 @@
    "solid": 0.556
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b9bde097a386"
  },
  "file-firebase": {
@@ -2670,6 +3005,7 @@
    "solid": 0.53
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "60975ab8cbfc"
  },
  "file-fish": {
@@ -2703,6 +3039,7 @@
    "solid": 0.171
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "ab1b4fd40a91"
  },
  "file-flutter": {
@@ -2736,6 +3073,7 @@
    "solid": 0.765
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "46169a68b7b2"
  },
  "file-font": {
@@ -2769,7 +3107,8 @@
    "solid": 0.704
   },
   "pictogram": null,
-  "hash": "e2b951477a0e"
+  "lookalikes": [],
+  "hash": "23adbfbfadff"
  },
  "file-fortran": {
   "name": "file-fortran",
@@ -2802,6 +3141,7 @@
    "solid": 0.701
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "93b13637fb93"
  },
  "file-fsharp": {
@@ -2835,6 +3175,7 @@
    "solid": 0.808
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "bce815f0cf0f"
  },
  "file-game": {
@@ -2868,7 +3209,8 @@
    "solid": 0.57
   },
   "pictogram": null,
-  "hash": "6e2d9c302400"
+  "lookalikes": [],
+  "hash": "feaa0455c2b0"
  },
  "file-gcode": {
   "name": "file-gcode",
@@ -2901,7 +3243,8 @@
    "solid": 0.735
   },
   "pictogram": null,
-  "hash": "fd6cca554fb7"
+  "lookalikes": [],
+  "hash": "539c1e8e9805"
  },
  "file-geo": {
   "name": "file-geo",
@@ -2934,7 +3277,8 @@
    "solid": 0.862
   },
   "pictogram": null,
-  "hash": "e675b1042295"
+  "lookalikes": [],
+  "hash": "36fefb55ee5e"
  },
  "file-git": {
   "name": "file-git",
@@ -2967,6 +3311,7 @@
    "solid": 0.764
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "55d2439b118e"
  },
  "file-githubactions": {
@@ -3000,6 +3345,7 @@
    "solid": 0.37
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "a8ac8555d87e"
  },
  "file-gitlabci": {
@@ -3033,6 +3379,7 @@
    "solid": 0.873
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4e7143693fe2"
  },
  "file-gleam": {
@@ -3066,6 +3413,7 @@
    "solid": 0.849
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "019b3c44c057"
  },
  "file-go": {
@@ -3099,6 +3447,7 @@
    "solid": 0.56
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b7348a830840"
  },
  "file-godot": {
@@ -3132,6 +3481,7 @@
    "solid": 0.765
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f3d7a86cd707"
  },
  "file-gradle": {
@@ -3165,6 +3515,7 @@
    "solid": 0.773
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b42d150b3d08"
  },
  "file-grafana": {
@@ -3198,6 +3549,7 @@
    "solid": 0.683
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "66cd28808f58"
  },
  "file-graphql": {
@@ -3231,6 +3583,7 @@
    "solid": 0.457
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "28988fa96f33"
  },
  "file-groovy": {
@@ -3264,6 +3617,7 @@
    "solid": 0.698
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "94a36c1bfda1"
  },
  "file-handlebars": {
@@ -3297,6 +3651,7 @@
    "solid": 0.66
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "40bcce04ff46"
  },
  "file-haskell": {
@@ -3330,6 +3685,7 @@
    "solid": 0.687
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "00384ccf5dea"
  },
  "file-haxe": {
@@ -3363,7 +3719,42 @@
    "solid": 0.061
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f600e0a54d33"
+ },
+ "file-hcl": {
+  "name": "file-hcl",
+  "box": {
+   "left": 2.875,
+   "top": 1.875,
+   "right": 28.375,
+   "bottom": 28.875
+  },
+  "massCentre": {
+   "x": 15.602,
+   "y": 15.406
+  },
+  "inkArea": 356.984,
+  "coverage": 0.341,
+  "strokeWidth": 3.654,
+  "holeArea": 0,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 0.875
+  },
+  "shadowArea": 87.188,
+  "atSixteen": {
+   "lit": 122,
+   "solid": 0.492
+  },
+  "atThirtyTwo": {
+   "lit": 426,
+   "solid": 0.662
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "2c548ad1627e"
  },
  "file-helm": {
   "name": "file-helm",
@@ -3396,6 +3787,7 @@
    "solid": 0.483
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "3d05ae8d6030"
  },
  "file-homebrew": {
@@ -3429,40 +3821,42 @@
    "solid": 0.344
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c8d7bbcd457a"
  },
  "file-hosts": {
   "name": "file-hosts",
   "box": {
-   "left": 2.125,
-   "top": 2.375,
-   "right": 29.125,
-   "bottom": 26.5
+   "left": 3.25,
+   "top": 3,
+   "right": 26.875,
+   "bottom": 27.625
   },
   "massCentre": {
-   "x": 15.599,
-   "y": 16.342
+   "x": 16.135,
+   "y": 15.439
   },
-  "inkArea": 244.75,
-  "coverage": 0.234,
-  "strokeWidth": 3.429,
-  "holeArea": 0,
-  "cornerFill": 0.122,
+  "inkArea": 501.703,
+  "coverage": 0.485,
+  "strokeWidth": 8.744,
+  "holeArea": 24.328,
+  "cornerFill": 0.464,
   "shadowReach": {
-   "right": 0.75,
-   "bottom": 1
+   "right": 0.875,
+   "bottom": 1.125
   },
-  "shadowArea": 66.125,
+  "shadowArea": 56.797,
   "atSixteen": {
-   "lit": 87,
-   "solid": 0.448
+   "lit": 142,
+   "solid": 0.775
   },
   "atThirtyTwo": {
-   "lit": 275,
-   "solid": 0.764
+   "lit": 524,
+   "solid": 0.91
   },
   "pictogram": null,
-  "hash": "b1ed6db9d231"
+  "lookalikes": [],
+  "hash": "759360efc1ae"
  },
  "file-htaccess": {
   "name": "file-htaccess",
@@ -3495,6 +3889,7 @@
    "solid": 0.602
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "0d72c683d54f"
  },
  "file-html": {
@@ -3528,6 +3923,7 @@
    "solid": 0.878
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "ec6a0bf12768"
  },
  "file-http": {
@@ -3561,7 +3957,8 @@
    "solid": 0.886
   },
   "pictogram": null,
-  "hash": "3e0481d273ac"
+  "lookalikes": [],
+  "hash": "6e522c223b4e"
  },
  "file-husky": {
   "name": "file-husky",
@@ -3594,7 +3991,8 @@
    "solid": 0.819
   },
   "pictogram": null,
-  "hash": "393296915753"
+  "lookalikes": [],
+  "hash": "f9f0d675fff4"
  },
  "file-image": {
   "name": "file-image",
@@ -3627,7 +4025,8 @@
    "solid": 0.768
   },
   "pictogram": null,
-  "hash": "a460f6aa9897"
+  "lookalikes": [],
+  "hash": "c99d5b83970d"
  },
  "file-ini": {
   "name": "file-ini",
@@ -3660,6 +4059,7 @@
    "solid": 0.428
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f368f474a543"
  },
  "file-issuetemplate": {
@@ -3693,7 +4093,17 @@
    "solid": 0.895
   },
   "pictogram": null,
-  "hash": "802a646d68bd"
+  "lookalikes": [
+   {
+    "name": "file-razor",
+    "difference": 10.689
+   },
+   {
+    "name": "file-changelog",
+    "difference": 11.479
+   }
+  ],
+  "hash": "6eb20cba725f"
  },
  "file-java": {
   "name": "file-java",
@@ -3726,106 +4136,42 @@
    "solid": 0.138
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "55d25f574bf5"
- },
- "file-javascript-config": {
-  "name": "file-javascript-config",
-  "box": {
-   "left": 2,
-   "top": 2,
-   "right": 29,
-   "bottom": 29.125
-  },
-  "massCentre": {
-   "x": 15.753,
-   "y": 15.251
-  },
-  "inkArea": 339.188,
-  "coverage": 0.328,
-  "strokeWidth": 7.831,
-  "holeArea": 0,
-  "cornerFill": 0.161,
-  "shadowReach": {
-   "right": 0.75,
-   "bottom": 1
-  },
-  "shadowArea": 51.359,
-  "atSixteen": {
-   "lit": 100,
-   "solid": 0.72
-  },
-  "atThirtyTwo": {
-   "lit": 365,
-   "solid": 0.841
-  },
-  "pictogram": null,
-  "hash": "4c7b48ad2b87"
  },
  "file-javascript-min": {
   "name": "file-javascript-min",
   "box": {
-   "left": 3.625,
-   "top": 3.375,
-   "right": 27.625,
-   "bottom": 27.375
+   "left": 2.125,
+   "top": 1.875,
+   "right": 29.125,
+   "bottom": 28.875
   },
   "massCentre": {
-   "x": 15.6,
-   "y": 15.405
+   "x": 15.61,
+   "y": 15.395
   },
-  "inkArea": 572.578,
-  "coverage": 0.556,
-  "strokeWidth": 12.584,
+  "inkArea": 147.344,
+  "coverage": 0.138,
+  "strokeWidth": 2.94,
   "holeArea": 0,
-  "cornerFill": 0.897,
+  "cornerFill": 0.38,
   "shadowReach": {
    "right": 0.75,
-   "bottom": 1.125
-  },
-  "shadowArea": 43.203,
-  "atSixteen": {
-   "lit": 164,
-   "solid": 0.738
-  },
-  "atThirtyTwo": {
-   "lit": 616,
-   "solid": 0.859
-  },
-  "pictogram": null,
-  "hash": "4c9252fa6195"
- },
- "file-javascript-module": {
-  "name": "file-javascript-module",
-  "box": {
-   "left": 2.875,
-   "top": 2.75,
-   "right": 28.25,
-   "bottom": 28.125
-  },
-  "massCentre": {
-   "x": 15.6,
-   "y": 15.406
-  },
-  "inkArea": 515.953,
-  "coverage": 0.498,
-  "strokeWidth": 6.37,
-  "holeArea": 0,
-  "cornerFill": 0.865,
-  "shadowReach": {
-   "right": 0.875,
    "bottom": 1
   },
-  "shadowArea": 78.109,
+  "shadowArea": 55.313,
   "atSixteen": {
-   "lit": 157,
-   "solid": 0.669
+   "lit": 50,
+   "solid": 0.38
   },
   "atThirtyTwo": {
-   "lit": 577,
-   "solid": 0.82
+   "lit": 201,
+   "solid": 0.592
   },
   "pictogram": null,
-  "hash": "cd45b909f813"
+  "lookalikes": [],
+  "hash": "99d1e1cb97fe"
  },
  "file-javascript-spec": {
   "name": "file-javascript-spec",
@@ -3858,40 +4204,47 @@
    "solid": 0.734
   },
   "pictogram": null,
-  "hash": "31ceeee5e34b"
+  "lookalikes": [],
+  "hash": "8dceeac378f4"
  },
  "file-javascript-test": {
   "name": "file-javascript-test",
   "box": {
-   "left": 0.75,
+   "left": 2.375,
    "top": 3,
-   "right": 27.75,
+   "right": 29.375,
    "bottom": 27.75
   },
   "massCentre": {
-   "x": 17.054,
-   "y": 15.406
+   "x": 15.36,
+   "y": 15.431
   },
-  "inkArea": 340.313,
-  "coverage": 0.328,
-  "strokeWidth": 5.246,
+  "inkArea": 176.609,
+  "coverage": 0.166,
+  "strokeWidth": 2.312,
   "holeArea": 0,
   "cornerFill": 0.272,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 67.969,
+  "shadowArea": 86.094,
   "atSixteen": {
-   "lit": 111,
-   "solid": 0.622
+   "lit": 76,
+   "solid": 0.197
   },
   "atThirtyTwo": {
-   "lit": 383,
-   "solid": 0.731
+   "lit": 232,
+   "solid": 0.401
   },
   "pictogram": null,
-  "hash": "73a424eb7768"
+  "lookalikes": [
+   {
+    "name": "file-jsx-test",
+    "difference": 10.899
+   }
+  ],
+  "hash": "c34a2529f727"
  },
  "file-javascript": {
   "name": "file-javascript",
@@ -3924,6 +4277,12 @@
    "solid": 0.883
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-env",
+    "difference": 7.521
+   }
+  ],
   "hash": "586cf0e14f57"
  },
  "file-jenkins": {
@@ -3957,6 +4316,7 @@
    "solid": 0.776
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c6ffe648a27f"
  },
  "file-jest": {
@@ -3990,40 +4350,42 @@
    "solid": 0.738
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "36d2066ab00b"
  },
  "file-jinja": {
   "name": "file-jinja",
   "box": {
-   "left": 2.125,
-   "top": 4.5,
-   "right": 29.125,
-   "bottom": 26.25
+   "left": 2.25,
+   "top": 4.125,
+   "right": 29.25,
+   "bottom": 28
   },
   "massCentre": {
-   "x": 15.596,
-   "y": 15.408
+   "x": 15.444,
+   "y": 14.725
   },
-  "inkArea": 151.078,
-  "coverage": 0.143,
-  "strokeWidth": 2.704,
-  "holeArea": 0,
-  "cornerFill": 0,
+  "inkArea": 294.422,
+  "coverage": 0.283,
+  "strokeWidth": 4.04,
+  "holeArea": 11.688,
+  "cornerFill": 0.227,
   "shadowReach": {
-   "right": 0.625,
-   "bottom": 1
+   "right": 0.75,
+   "bottom": 1.125
   },
-  "shadowArea": 50.859,
+  "shadowArea": 64.406,
   "atSixteen": {
-   "lit": 53,
-   "solid": 0.358
+   "lit": 94,
+   "solid": 0.574
   },
   "atThirtyTwo": {
-   "lit": 191,
-   "solid": 0.618
+   "lit": 331,
+   "solid": 0.764
   },
   "pictogram": null,
-  "hash": "811aad398044"
+  "lookalikes": [],
+  "hash": "9f608b4ec849"
  },
  "file-jsconfig": {
   "name": "file-jsconfig",
@@ -4056,7 +4418,8 @@
    "solid": 0.841
   },
   "pictogram": null,
-  "hash": "4c7b48ad2b87"
+  "lookalikes": [],
+  "hash": "a0bec96a21f8"
  },
  "file-json": {
   "name": "file-json",
@@ -4089,6 +4452,7 @@
    "solid": 0.618
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4f87f5006da7"
  },
  "file-jsx-component": {
@@ -4122,7 +4486,8 @@
    "solid": 0.936
   },
   "pictogram": null,
-  "hash": "fa67c56deef0"
+  "lookalikes": [],
+  "hash": "43523a4182c0"
  },
  "file-jsx-spec": {
   "name": "file-jsx-spec",
@@ -4155,7 +4520,8 @@
    "solid": 0.734
   },
   "pictogram": null,
-  "hash": "17bd14378a60"
+  "lookalikes": [],
+  "hash": "b080e6602a3d"
  },
  "file-jsx-stories": {
   "name": "file-jsx-stories",
@@ -4188,40 +4554,51 @@
    "solid": 0.878
   },
   "pictogram": null,
-  "hash": "666c07876df8"
+  "lookalikes": [],
+  "hash": "4248a621d90c"
  },
  "file-jsx-test": {
   "name": "file-jsx-test",
   "box": {
-   "left": 0.75,
+   "left": 2.375,
    "top": 3,
-   "right": 27.75,
+   "right": 29.375,
    "bottom": 27.75
   },
   "massCentre": {
-   "x": 17.054,
-   "y": 15.406
+   "x": 15.36,
+   "y": 15.431
   },
-  "inkArea": 340.313,
-  "coverage": 0.328,
-  "strokeWidth": 5.246,
+  "inkArea": 176.609,
+  "coverage": 0.166,
+  "strokeWidth": 2.312,
   "holeArea": 0,
   "cornerFill": 0.272,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 67.969,
+  "shadowArea": 86.094,
   "atSixteen": {
-   "lit": 111,
-   "solid": 0.622
+   "lit": 76,
+   "solid": 0.197
   },
   "atThirtyTwo": {
-   "lit": 383,
-   "solid": 0.731
+   "lit": 232,
+   "solid": 0.401
   },
   "pictogram": null,
-  "hash": "14dfccb86603"
+  "lookalikes": [
+   {
+    "name": "file-javascript-test",
+    "difference": 10.899
+   },
+   {
+    "name": "file-typescript-test",
+    "difference": 11.261
+   }
+  ],
+  "hash": "8a87dbc568ac"
  },
  "file-jsx": {
   "name": "file-jsx",
@@ -4254,6 +4631,7 @@
    "solid": 0.401
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d850da3eac74"
  },
  "file-julia": {
@@ -4287,6 +4665,7 @@
    "solid": 0.84
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "88da9eb3b156"
  },
  "file-jupyter": {
@@ -4320,6 +4699,7 @@
    "solid": 0.519
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "11102b2bc98a"
  },
  "file-keymap": {
@@ -4353,7 +4733,13 @@
    "solid": 0.878
   },
   "pictogram": null,
-  "hash": "cd25a9654288"
+  "lookalikes": [
+   {
+    "name": "file-autohotkey",
+    "difference": 9.505
+   }
+  ],
+  "hash": "bd2eb46439a4"
  },
  "file-kotlin": {
   "name": "file-kotlin",
@@ -4386,6 +4772,7 @@
    "solid": 0.875
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "9463b898921c"
  },
  "file-kubernetes": {
@@ -4419,6 +4806,16 @@
    "solid": 0.697
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-cpp",
+    "difference": 11.652
+   },
+   {
+    "name": "file-dependabot",
+    "difference": 11.937
+   }
+  ],
   "hash": "811f05bd12cd"
  },
  "file-laravel": {
@@ -4452,6 +4849,7 @@
    "solid": 0.481
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "952addafb5db"
  },
  "file-latex": {
@@ -4485,6 +4883,7 @@
    "solid": 0.704
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "646f3d01318d"
  },
  "file-lerna": {
@@ -4518,6 +4917,7 @@
    "solid": 0.672
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "8e1cfab4303a"
  },
  "file-less": {
@@ -4551,6 +4951,7 @@
    "solid": 0.48
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "be62ce30ba63"
  },
  "file-license": {
@@ -4584,7 +4985,8 @@
    "solid": 0.799
   },
   "pictogram": null,
-  "hash": "2044c08c030c"
+  "lookalikes": [],
+  "hash": "822dd1ba3c29"
  },
  "file-liquid": {
   "name": "file-liquid",
@@ -4617,7 +5019,13 @@
    "solid": 0.892
   },
   "pictogram": null,
-  "hash": "fa97a0931bbf"
+  "lookalikes": [
+   {
+    "name": "file-schedule",
+    "difference": 9.983
+   }
+  ],
+  "hash": "40f18d12cff0"
  },
  "file-lisp": {
   "name": "file-lisp",
@@ -4650,7 +5058,47 @@
    "solid": 0.66
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-scheme",
+    "difference": 8.463
+   }
+  ],
   "hash": "352e029a76d3"
+ },
+ "file-llvm": {
+  "name": "file-llvm",
+  "box": {
+   "left": 2.25,
+   "top": 5.375,
+   "right": 29,
+   "bottom": 25.625
+  },
+  "massCentre": {
+   "x": 15.642,
+   "y": 15.237
+  },
+  "inkArea": 196.25,
+  "coverage": 0.183,
+  "strokeWidth": 2.082,
+  "holeArea": 4.844,
+  "cornerFill": 0.048,
+  "shadowReach": {
+   "right": 0.125,
+   "bottom": 1
+  },
+  "shadowArea": 69.375,
+  "atSixteen": {
+   "lit": 71,
+   "solid": 0.394
+  },
+  "atThirtyTwo": {
+   "lit": 236,
+   "solid": 0.602
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "3ab584904cdc"
  },
  "file-lock": {
   "name": "file-lock",
@@ -4683,40 +5131,42 @@
    "solid": 0.828
   },
   "pictogram": null,
-  "hash": "8d25e81781f4"
+  "lookalikes": [],
+  "hash": "ea9a5f1b9e02"
  },
  "file-log": {
   "name": "file-log",
   "box": {
-   "left": 1.125,
-   "top": 5.5,
-   "right": 27.375,
-   "bottom": 25.25
+   "left": 1.75,
+   "top": 5.125,
+   "right": 28.625,
+   "bottom": 25.625
   },
   "massCentre": {
-   "x": 16.989,
-   "y": 15.406
+   "x": 16.02,
+   "y": 15.391
   },
-  "inkArea": 361.688,
-  "coverage": 0.349,
-  "strokeWidth": 6.706,
+  "inkArea": 231.531,
+  "coverage": 0.22,
+  "strokeWidth": 2.826,
   "holeArea": 0,
-  "cornerFill": 0.859,
+  "cornerFill": 0.906,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 52.328,
+  "shadowArea": 85.438,
   "atSixteen": {
-   "lit": 112,
-   "solid": 0.652
+   "lit": 84,
+   "solid": 0.262
   },
   "atThirtyTwo": {
-   "lit": 406,
-   "solid": 0.8
+   "lit": 283,
+   "solid": 0.562
   },
   "pictogram": null,
-  "hash": "e689bbce3c70"
+  "lookalikes": [],
+  "hash": "65e543ec390e"
  },
  "file-lua": {
   "name": "file-lua",
@@ -4749,6 +5199,7 @@
    "solid": 0.839
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c129dc8ce4e8"
  },
  "file-makefile": {
@@ -4782,7 +5233,13 @@
    "solid": 0.797
   },
   "pictogram": null,
-  "hash": "5181d4515615"
+  "lookalikes": [
+   {
+    "name": "file-msbuild",
+    "difference": 10.634
+   }
+  ],
+  "hash": "b31a6c87247c"
  },
  "file-manifest": {
   "name": "file-manifest",
@@ -4815,7 +5272,8 @@
    "solid": 0.603
   },
   "pictogram": null,
-  "hash": "55675dc26843"
+  "lookalikes": [],
+  "hash": "fddb11d538b0"
  },
  "file-markdown": {
   "name": "file-markdown",
@@ -4848,73 +5306,76 @@
    "solid": 0.735
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e8e3640d063e"
  },
  "file-math": {
   "name": "file-math",
   "box": {
-   "left": 3.25,
-   "top": 3.75,
-   "right": 28,
-   "bottom": 27.5
+   "left": 1.5,
+   "top": 2.25,
+   "right": 28.5,
+   "bottom": 28.125
   },
   "massCentre": {
-   "x": 15.597,
-   "y": 15.18
+   "x": 16.23,
+   "y": 15.651
   },
-  "inkArea": 521.719,
-  "coverage": 0.503,
-  "strokeWidth": 11.642,
+  "inkArea": 167.203,
+  "coverage": 0.156,
+  "strokeWidth": 2.31,
   "holeArea": 0,
-  "cornerFill": 0.444,
+  "cornerFill": 0.178,
   "shadowReach": {
-   "right": 0.75,
+   "right": 0.625,
    "bottom": 1
   },
-  "shadowArea": 40.672,
+  "shadowArea": 73.688,
   "atSixteen": {
-   "lit": 143,
-   "solid": 0.832
+   "lit": 68,
+   "solid": 0.294
   },
   "atThirtyTwo": {
-   "lit": 555,
-   "solid": 0.885
+   "lit": 220,
+   "solid": 0.473
   },
   "pictogram": null,
-  "hash": "b7378ace5096"
+  "lookalikes": [],
+  "hash": "e83918897f25"
  },
  "file-matlab": {
   "name": "file-matlab",
   "box": {
-   "left": 3.25,
-   "top": 3.75,
-   "right": 28,
-   "bottom": 27.5
+   "left": 1.5,
+   "top": 2.25,
+   "right": 28.5,
+   "bottom": 28.125
   },
   "massCentre": {
-   "x": 15.597,
-   "y": 15.18
+   "x": 16.23,
+   "y": 15.651
   },
-  "inkArea": 521.719,
-  "coverage": 0.503,
-  "strokeWidth": 11.642,
+  "inkArea": 167.203,
+  "coverage": 0.156,
+  "strokeWidth": 2.31,
   "holeArea": 0,
-  "cornerFill": 0.444,
+  "cornerFill": 0.178,
   "shadowReach": {
-   "right": 0.75,
+   "right": 0.625,
    "bottom": 1
   },
-  "shadowArea": 40.672,
+  "shadowArea": 73.688,
   "atSixteen": {
-   "lit": 143,
-   "solid": 0.832
+   "lit": 68,
+   "solid": 0.294
   },
   "atThirtyTwo": {
-   "lit": 555,
-   "solid": 0.885
+   "lit": 220,
+   "solid": 0.473
   },
   "pictogram": null,
-  "hash": "cc8a019a7fe3"
+  "lookalikes": [],
+  "hash": "80ceddff6241"
  },
  "file-maven": {
   "name": "file-maven",
@@ -4947,7 +5408,42 @@
    "solid": 0.597
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4efbec485a76"
+ },
+ "file-mcp": {
+  "name": "file-mcp",
+  "box": {
+   "left": 3,
+   "top": 2.75,
+   "right": 27.25,
+   "bottom": 29.875
+  },
+  "massCentre": {
+   "x": 16.078,
+   "y": 14.481
+  },
+  "inkArea": 201.422,
+  "coverage": 0.189,
+  "strokeWidth": 2.418,
+  "holeArea": 0,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 0.875
+  },
+  "shadowArea": 111.078,
+  "atSixteen": {
+   "lit": 85,
+   "solid": 0.188
+  },
+  "atThirtyTwo": {
+   "lit": 263,
+   "solid": 0.506
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "c7307a0fdb87"
  },
  "file-mdx": {
   "name": "file-mdx",
@@ -4980,6 +5476,7 @@
    "solid": 0.71
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "006fc0b49f49"
  },
  "file-mjs": {
@@ -5013,7 +5510,8 @@
    "solid": 0.82
   },
   "pictogram": null,
-  "hash": "cd45b909f813"
+  "lookalikes": [],
+  "hash": "e09c20b0668f"
  },
  "file-mlmodel": {
   "name": "file-mlmodel",
@@ -5046,7 +5544,8 @@
    "solid": 0.907
   },
   "pictogram": null,
-  "hash": "d17e7af7c356"
+  "lookalikes": [],
+  "hash": "02d7f4a09ce1"
  },
  "file-mocha": {
   "name": "file-mocha",
@@ -5079,6 +5578,7 @@
    "solid": 0.482
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4f818c60f08a"
  },
  "file-model3d": {
@@ -5112,7 +5612,13 @@
    "solid": 0.92
   },
   "pictogram": null,
-  "hash": "41cb3a3e3076"
+  "lookalikes": [
+   {
+    "name": "file-vhdl",
+    "difference": 11.693
+   }
+  ],
+  "hash": "32c7ddc329b4"
  },
  "file-mongodb": {
   "name": "file-mongodb",
@@ -5145,7 +5651,47 @@
    "solid": 0.779
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "fe438dd90d7c"
+ },
+ "file-msbuild": {
+  "name": "file-msbuild",
+  "box": {
+   "left": 2,
+   "top": 3.75,
+   "right": 29,
+   "bottom": 29
+  },
+  "massCentre": {
+   "x": 15.746,
+   "y": 14.413
+  },
+  "inkArea": 275.938,
+  "coverage": 0.266,
+  "strokeWidth": 5.498,
+  "holeArea": 37.094,
+  "cornerFill": 0.082,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 63.188,
+  "atSixteen": {
+   "lit": 88,
+   "solid": 0.602
+  },
+  "atThirtyTwo": {
+   "lit": 311,
+   "solid": 0.797
+  },
+  "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-makefile",
+    "difference": 10.634
+   }
+  ],
+  "hash": "16f9d986d685"
  },
  "file-mysql": {
   "name": "file-mysql",
@@ -5178,7 +5724,8 @@
    "solid": 0.757
   },
   "pictogram": null,
-  "hash": "f67a7bfa89ec"
+  "lookalikes": [],
+  "hash": "c4cf65cf6791"
  },
  "file-netlify": {
   "name": "file-netlify",
@@ -5211,6 +5758,7 @@
    "solid": 0.399
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d38ccf7761c1"
  },
  "file-nextjs": {
@@ -5244,6 +5792,7 @@
    "solid": 0.826
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4be599c941e8"
  },
  "file-nginx": {
@@ -5277,6 +5826,7 @@
    "solid": 0.763
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d2bed4c6c1cc"
  },
  "file-nim": {
@@ -5310,6 +5860,7 @@
    "solid": 0.743
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "969ceb97e865"
  },
  "file-nix": {
@@ -5343,6 +5894,7 @@
    "solid": 0.638
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "1028cff74340"
  },
  "file-nodejs": {
@@ -5376,6 +5928,7 @@
    "solid": 0.458
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "70f94675eaf4"
  },
  "file-notice": {
@@ -5409,7 +5962,8 @@
    "solid": 0.79
   },
   "pictogram": null,
-  "hash": "27386c94fad2"
+  "lookalikes": [],
+  "hash": "da1a448d4d44"
  },
  "file-npm": {
   "name": "file-npm",
@@ -5442,6 +5996,12 @@
    "solid": 0.859
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-powerpoint",
+    "difference": 10.173
+   }
+  ],
   "hash": "cbc0fd10fd4e"
  },
  "file-nuget": {
@@ -5475,6 +6035,7 @@
    "solid": 0.77
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "cc7395b93303"
  },
  "file-nuxt": {
@@ -5508,6 +6069,7 @@
    "solid": 0.652
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "9bfcc5a141a6"
  },
  "file-nx": {
@@ -5541,6 +6103,7 @@
    "solid": 0.628
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "1ca31e801508"
  },
  "file-objectivec": {
@@ -5574,6 +6137,7 @@
    "solid": 0.598
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "3dcf7894e57d"
  },
  "file-ocaml": {
@@ -5607,6 +6171,7 @@
    "solid": 0.808
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e48aeb920bb9"
  },
  "file-openapi": {
@@ -5640,6 +6205,7 @@
    "solid": 0.666
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e48a6e4fbd8b"
  },
  "file-package": {
@@ -5673,7 +6239,13 @@
    "solid": 0.683
   },
   "pictogram": null,
-  "hash": "82f0076f419a"
+  "lookalikes": [
+   {
+    "name": "file-composer",
+    "difference": 10.909
+   }
+  ],
+  "hash": "77031bd5c49a"
  },
  "file-packer": {
   "name": "file-packer",
@@ -5706,6 +6278,7 @@
    "solid": 0.731
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6022c92bb698"
  },
  "file-pascal": {
@@ -5739,6 +6312,7 @@
    "solid": 0.617
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "5acf447c8a52"
  },
  "file-pcb": {
@@ -5772,7 +6346,8 @@
    "solid": 0.844
   },
   "pictogram": null,
-  "hash": "9d27fc2dfea3"
+  "lookalikes": [],
+  "hash": "27dd7479c453"
  },
  "file-pdf": {
   "name": "file-pdf",
@@ -5805,6 +6380,7 @@
    "solid": 0.488
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "630fa7e33388"
  },
  "file-perl": {
@@ -5838,6 +6414,7 @@
    "solid": 0.615
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "00e71f1be812"
  },
  "file-php": {
@@ -5871,6 +6448,7 @@
    "solid": 0.625
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "7173accdf565"
  },
  "file-playwright": {
@@ -5904,7 +6482,8 @@
    "solid": 0.753
   },
   "pictogram": null,
-  "hash": "fd229672eb66"
+  "lookalikes": [],
+  "hash": "ad558099d1ff"
  },
  "file-pnpm": {
   "name": "file-pnpm",
@@ -5937,6 +6516,7 @@
    "solid": 0.68
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f23e5f034dff"
  },
  "file-poetry": {
@@ -5970,6 +6550,7 @@
    "solid": 0.831
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f5322352ae14"
  },
  "file-postcss": {
@@ -6003,6 +6584,7 @@
    "solid": 0.354
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e652564b465c"
  },
  "file-postgresql": {
@@ -6036,6 +6618,7 @@
    "solid": 0.133
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "612f14ebb97b"
  },
  "file-postman": {
@@ -6069,6 +6652,7 @@
    "solid": 0.824
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "13c95536729d"
  },
  "file-powerpoint": {
@@ -6102,6 +6686,16 @@
    "solid": 0.89
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-npm",
+    "difference": 10.173
+   },
+   {
+    "name": "file-swift",
+    "difference": 10.533
+   }
+  ],
   "hash": "6873316da724"
  },
  "file-powershell": {
@@ -6135,7 +6729,42 @@
    "solid": 0.884
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "0fdfcac35467"
+ },
+ "file-precommit": {
+  "name": "file-precommit",
+  "box": {
+   "left": 2.125,
+   "top": 1.875,
+   "right": 29.125,
+   "bottom": 28.875
+  },
+  "massCentre": {
+   "x": 15.599,
+   "y": 15.46
+  },
+  "inkArea": 335.656,
+  "coverage": 0.319,
+  "strokeWidth": 3.423,
+  "holeArea": 81.375,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 93.328,
+  "atSixteen": {
+   "lit": 114,
+   "solid": 0.439
+  },
+  "atThirtyTwo": {
+   "lit": 416,
+   "solid": 0.659
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "dfa542e4a6c2"
  },
  "file-prettier": {
   "name": "file-prettier",
@@ -6168,6 +6797,7 @@
    "solid": 0.695
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "9529431f73b3"
  },
  "file-prisma": {
@@ -6201,6 +6831,7 @@
    "solid": 0.686
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e9803867dc51"
  },
  "file-procfile": {
@@ -6234,40 +6865,42 @@
    "solid": 0.71
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "3dde0bf74fcb"
  },
  "file-prolog": {
   "name": "file-prolog",
   "box": {
-   "left": 2.75,
-   "top": 4.75,
+   "left": 2.875,
+   "top": 7.625,
    "right": 28.375,
-   "bottom": 26.125
+   "bottom": 23.25
   },
   "massCentre": {
-   "x": 15.599,
-   "y": 15.392
+   "x": 15.248,
+   "y": 15.924
   },
-  "inkArea": 419.563,
-  "coverage": 0.407,
-  "strokeWidth": 11.924,
-  "holeArea": 0,
-  "cornerFill": 0,
+  "inkArea": 201.438,
+  "coverage": 0.189,
+  "strokeWidth": 2.078,
+  "holeArea": 56.031,
+  "cornerFill": 0.693,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 35.063,
+  "shadowArea": 89.734,
   "atSixteen": {
-   "lit": 116,
-   "solid": 0.819
+   "lit": 82,
+   "solid": 0.122
   },
   "atThirtyTwo": {
-   "lit": 439,
-   "solid": 0.907
+   "lit": 285,
+   "solid": 0.533
   },
   "pictogram": null,
-  "hash": "b1de1b63e2f2"
+  "lookalikes": [],
+  "hash": "357790e4b363"
  },
  "file-prometheus": {
   "name": "file-prometheus",
@@ -6300,6 +6933,7 @@
    "solid": 0.69
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "49e5e5667124"
  },
  "file-protobuf": {
@@ -6333,6 +6967,7 @@
    "solid": 0.78
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "04d7c6f0f134"
  },
  "file-prtemplate": {
@@ -6366,7 +7001,8 @@
    "solid": 0.727
   },
   "pictogram": null,
-  "hash": "4d04293dae33"
+  "lookalikes": [],
+  "hash": "3f64ed4a3572"
  },
  "file-pug": {
   "name": "file-pug",
@@ -6399,6 +7035,7 @@
    "solid": 0.596
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6f1d3dc5324f"
  },
  "file-pulumi": {
@@ -6432,6 +7069,7 @@
    "solid": 0.621
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "a88b61dc9b41"
  },
  "file-purescript": {
@@ -6465,7 +7103,76 @@
    "solid": 0.424
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e37e35af4675"
+ },
+ "file-pytest": {
+  "name": "file-pytest",
+  "box": {
+   "left": 4.75,
+   "top": 3,
+   "right": 28.375,
+   "bottom": 30
+  },
+  "massCentre": {
+   "x": 14.682,
+   "y": 14.342
+  },
+  "inkArea": 325.813,
+  "coverage": 0.31,
+  "strokeWidth": 2.707,
+  "holeArea": 0,
+  "cornerFill": 0.357,
+  "shadowReach": {
+   "right": 0.625,
+   "bottom": 1
+  },
+  "shadowArea": 108.563,
+  "atSixteen": {
+   "lit": 114,
+   "solid": 0.377
+  },
+  "atThirtyTwo": {
+   "lit": 394,
+   "solid": 0.716
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "4bb85f2342b4"
+ },
+ "file-python-config": {
+  "name": "file-python-config",
+  "box": {
+   "left": 2,
+   "top": 2,
+   "right": 29,
+   "bottom": 29.125
+  },
+  "massCentre": {
+   "x": 15.753,
+   "y": 15.251
+  },
+  "inkArea": 339.188,
+  "coverage": 0.328,
+  "strokeWidth": 7.831,
+  "holeArea": 0,
+  "cornerFill": 0.161,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 51.359,
+  "atSixteen": {
+   "lit": 100,
+   "solid": 0.72
+  },
+  "atThirtyTwo": {
+   "lit": 365,
+   "solid": 0.841
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "1fdc31ada741"
  },
  "file-python": {
   "name": "file-python",
@@ -6498,6 +7205,7 @@
    "solid": 0.784
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d1085bed8f61"
  },
  "file-qt": {
@@ -6531,6 +7239,7 @@
    "solid": 0.696
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b4e80124d9e3"
  },
  "file-r": {
@@ -6564,6 +7273,7 @@
    "solid": 0.727
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6fa4dfd6d8de"
  },
  "file-racket": {
@@ -6597,6 +7307,7 @@
    "solid": 0.796
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "320bb696bdb2"
  },
  "file-raw": {
@@ -6630,7 +7341,55 @@
    "solid": 0.851
   },
   "pictogram": null,
-  "hash": "39f2ce7054eb"
+  "lookalikes": [],
+  "hash": "a1701a8fe00f"
+ },
+ "file-razor": {
+  "name": "file-razor",
+  "box": {
+   "left": 2.875,
+   "top": 2.625,
+   "right": 28.375,
+   "bottom": 28.25
+  },
+  "massCentre": {
+   "x": 15.543,
+   "y": 15.364
+  },
+  "inkArea": 506.25,
+  "coverage": 0.491,
+  "strokeWidth": 14.014,
+  "holeArea": 0,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.875,
+   "bottom": 1
+  },
+  "shadowArea": 36.141,
+  "atSixteen": {
+   "lit": 137,
+   "solid": 0.839
+  },
+  "atThirtyTwo": {
+   "lit": 529,
+   "solid": 0.917
+  },
+  "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-changelog",
+    "difference": 10.173
+   },
+   {
+    "name": "file-issuetemplate",
+    "difference": 10.689
+   },
+   {
+    "name": "file-typescript-service",
+    "difference": 11.676
+   }
+  ],
+  "hash": "2b2181dee570"
  },
  "file-redis": {
   "name": "file-redis",
@@ -6663,6 +7422,7 @@
    "solid": 0.8
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "47fd18a14d5b"
  },
  "file-renovate": {
@@ -6696,7 +7456,42 @@
    "solid": 0.522
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "2b3e8a3c01cf"
+ },
+ "file-restructuredtext": {
+  "name": "file-restructuredtext",
+  "box": {
+   "left": 2.875,
+   "top": 7,
+   "right": 28.375,
+   "bottom": 23.75
+  },
+  "massCentre": {
+   "x": 14.593,
+   "y": 16.049
+  },
+  "inkArea": 201.625,
+  "coverage": 0.19,
+  "strokeWidth": 2.099,
+  "holeArea": 10.844,
+  "cornerFill": 0.784,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1.125
+  },
+  "shadowArea": 92.719,
+  "atSixteen": {
+   "lit": 84,
+   "solid": 0.286
+  },
+  "atThirtyTwo": {
+   "lit": 267,
+   "solid": 0.498
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "068c039417dd"
  },
  "file-robots": {
   "name": "file-robots",
@@ -6729,7 +7524,17 @@
    "solid": 0.837
   },
   "pictogram": null,
-  "hash": "f0250459d795"
+  "lookalikes": [
+   {
+    "name": "file-awk",
+    "difference": 10.746
+   },
+   {
+    "name": "file-contact",
+    "difference": 10.854
+   }
+  ],
+  "hash": "0153d520085f"
  },
  "file-rollup": {
   "name": "file-rollup",
@@ -6762,6 +7567,7 @@
    "solid": 0.73
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "3d42d4effee8"
  },
  "file-ruby": {
@@ -6795,7 +7601,42 @@
    "solid": 0.792
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "7e2a999a73cf"
+ },
+ "file-ruff": {
+  "name": "file-ruff",
+  "box": {
+   "left": 3.5,
+   "top": 3.375,
+   "right": 27.625,
+   "bottom": 27.5
+  },
+  "massCentre": {
+   "x": 15.606,
+   "y": 15.422
+  },
+  "inkArea": 489.766,
+  "coverage": 0.471,
+  "strokeWidth": 6.959,
+  "holeArea": 83.797,
+  "cornerFill": 0.744,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 62.094,
+  "atSixteen": {
+   "lit": 150,
+   "solid": 0.693
+  },
+  "atThirtyTwo": {
+   "lit": 541,
+   "solid": 0.776
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "46f0f7dc995b"
  },
  "file-rust": {
   "name": "file-rust",
@@ -6828,6 +7669,7 @@
    "solid": 0.684
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b449dcb1cf64"
  },
  "file-sass": {
@@ -6861,6 +7703,7 @@
    "solid": 0.787
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "bc168b633b21"
  },
  "file-scala": {
@@ -6894,6 +7737,7 @@
    "solid": 0.733
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "554fb4dca7c8"
  },
  "file-schedule": {
@@ -6927,7 +7771,13 @@
    "solid": 0.859
   },
   "pictogram": null,
-  "hash": "cae51ed6c1c0"
+  "lookalikes": [
+   {
+    "name": "file-liquid",
+    "difference": 9.983
+   }
+  ],
+  "hash": "61750eb77bd6"
  },
  "file-scheme": {
   "name": "file-scheme",
@@ -6960,7 +7810,13 @@
    "solid": 0.66
   },
   "pictogram": null,
-  "hash": "b94a390779de"
+  "lookalikes": [
+   {
+    "name": "file-lisp",
+    "difference": 8.463
+   }
+  ],
+  "hash": "8e7144118c6c"
  },
  "file-scss-module": {
   "name": "file-scss-module",
@@ -6993,40 +7849,13 @@
    "solid": 0.618
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-css-module",
+    "difference": 11.282
+   }
+  ],
   "hash": "56e94fcd922e"
- },
- "file-scss": {
-  "name": "file-scss",
-  "box": {
-   "left": 2.75,
-   "top": 2.5,
-   "right": 28.25,
-   "bottom": 28
-  },
-  "massCentre": {
-   "x": 15.684,
-   "y": 15.494
-  },
-  "inkArea": 439.656,
-  "coverage": 0.421,
-  "strokeWidth": 4.895,
-  "holeArea": 70.344,
-  "cornerFill": 0,
-  "shadowReach": {
-   "right": 0.75,
-   "bottom": 1.125
-  },
-  "shadowArea": 88.734,
-  "atSixteen": {
-   "lit": 140,
-   "solid": 0.6
-  },
-  "atThirtyTwo": {
-   "lit": 489,
-   "solid": 0.787
-  },
-  "pictogram": null,
-  "hash": "bc168b633b21"
  },
  "file-secrets": {
   "name": "file-secrets",
@@ -7059,7 +7888,8 @@
    "solid": 0.909
   },
   "pictogram": null,
-  "hash": "42f1e73bc15c"
+  "lookalikes": [],
+  "hash": "7b237a871a3b"
  },
  "file-securitypolicy": {
   "name": "file-securitypolicy",
@@ -7092,7 +7922,8 @@
    "solid": 0.875
   },
   "pictogram": null,
-  "hash": "5bedc7ba473f"
+  "lookalikes": [],
+  "hash": "ee5c7dd4a564"
  },
  "file-sentry": {
   "name": "file-sentry",
@@ -7125,6 +7956,7 @@
    "solid": 0.54
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d0fb45af8c02"
  },
  "file-serverless": {
@@ -7158,6 +7990,7 @@
    "solid": 0.621
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "091f74d1bc58"
  },
  "file-shader": {
@@ -7191,7 +8024,8 @@
    "solid": 0.794
   },
   "pictogram": null,
-  "hash": "3fc45a27e2ca"
+  "lookalikes": [],
+  "hash": "2eb027ed85de"
  },
  "file-shell": {
   "name": "file-shell",
@@ -7224,6 +8058,7 @@
    "solid": 0.491
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "adbc1b598238"
  },
  "file-shortcut": {
@@ -7257,7 +8092,8 @@
    "solid": 0.872
   },
   "pictogram": null,
-  "hash": "5de43e6b3216"
+  "lookalikes": [],
+  "hash": "15cd196b9e42"
  },
  "file-sitemap": {
   "name": "file-sitemap",
@@ -7290,7 +8126,42 @@
    "solid": 0.671
   },
   "pictogram": null,
-  "hash": "52076b7f0d06"
+  "lookalikes": [],
+  "hash": "9bde2c7d40d9"
+ },
+ "file-snapshot": {
+  "name": "file-snapshot",
+  "box": {
+   "left": 2.875,
+   "top": 2.625,
+   "right": 28.375,
+   "bottom": 28.125
+  },
+  "massCentre": {
+   "x": 15.599,
+   "y": 15.397
+  },
+  "inkArea": 478.969,
+  "coverage": 0.464,
+  "strokeWidth": 10.629,
+  "holeArea": 29.641,
+  "cornerFill": 0,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 44.188,
+  "atSixteen": {
+   "lit": 132,
+   "solid": 0.818
+  },
+  "atThirtyTwo": {
+   "lit": 510,
+   "solid": 0.886
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "803d40bcbfd7"
  },
  "file-solidity": {
   "name": "file-solidity",
@@ -7323,6 +8194,7 @@
    "solid": 0.621
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "6a2806a6d6dd"
  },
  "file-sonarqube": {
@@ -7356,6 +8228,7 @@
    "solid": 0.507
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b24a65535d23"
  },
  "file-sourcemap": {
@@ -7389,7 +8262,8 @@
    "solid": 0.788
   },
   "pictogram": null,
-  "hash": "080143ac2e3c"
+  "lookalikes": [],
+  "hash": "7b5062bb15c3"
  },
  "file-spring": {
   "name": "file-spring",
@@ -7422,6 +8296,7 @@
    "solid": 0.668
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f9a24cf0c8e1"
  },
  "file-sql": {
@@ -7455,7 +8330,8 @@
    "solid": 0.757
   },
   "pictogram": null,
-  "hash": "58c313ffc323"
+  "lookalikes": [],
+  "hash": "c9b13692ee40"
  },
  "file-sqlite": {
   "name": "file-sqlite",
@@ -7488,40 +8364,47 @@
    "solid": 0.774
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c0afb753b6be"
  },
  "file-statistics": {
   "name": "file-statistics",
   "box": {
-   "left": 3.625,
-   "top": 4.75,
-   "right": 28.125,
-   "bottom": 25.5
+   "left": 3.375,
+   "top": 2.25,
+   "right": 30.375,
+   "bottom": 25.25
   },
   "massCentre": {
-   "x": 15.361,
-   "y": 15.633
+   "x": 14.312,
+   "y": 17.02
   },
-  "inkArea": 465.984,
-  "coverage": 0.453,
-  "strokeWidth": 10.821,
+  "inkArea": 220.797,
+  "coverage": 0.206,
+  "strokeWidth": 2.726,
   "holeArea": 0,
-  "cornerFill": 0.714,
+  "cornerFill": 0.678,
   "shadowReach": {
-   "right": 0.625,
+   "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 37.875,
+  "shadowArea": 77,
   "atSixteen": {
-   "lit": 130,
-   "solid": 0.838
+   "lit": 81,
+   "solid": 0.37
   },
   "atThirtyTwo": {
-   "lit": 505,
-   "solid": 0.867
+   "lit": 285,
+   "solid": 0.516
   },
   "pictogram": null,
-  "hash": "9b11bcfc0b25"
+  "lookalikes": [
+   {
+    "name": "file-dataset",
+    "difference": 11.275
+   }
+  ],
+  "hash": "b94973bfcbea"
  },
  "file-storybook": {
   "name": "file-storybook",
@@ -7554,6 +8437,7 @@
    "solid": 0.751
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "e213c20271d3"
  },
  "file-stylelint": {
@@ -7587,6 +8471,7 @@
    "solid": 0.665
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "87e725ed3b16"
  },
  "file-stylus": {
@@ -7620,6 +8505,7 @@
    "solid": 0.594
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d05a49d4eaf0"
  },
  "file-subtitle": {
@@ -7653,6 +8539,7 @@
    "solid": 0.78
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "89cf1ea6d618"
  },
  "file-svelte": {
@@ -7686,6 +8573,7 @@
    "solid": 0.696
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "4bc71f96a3fb"
  },
  "file-swagger": {
@@ -7719,6 +8607,7 @@
    "solid": 0.388
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f92af17a4410"
  },
  "file-swift": {
@@ -7752,6 +8641,12 @@
    "solid": 0.919
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-powerpoint",
+    "difference": 10.533
+   }
+  ],
   "hash": "615357f0c7a7"
  },
  "file-tailwind": {
@@ -7785,6 +8680,7 @@
    "solid": 0.672
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c2d04f5c8543"
  },
  "file-tauri": {
@@ -7818,6 +8714,7 @@
    "solid": 0.632
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "058714abca8a"
  },
  "file-tcl": {
@@ -7851,6 +8748,7 @@
    "solid": 0.551
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f07fbbd311ae"
  },
  "file-temp": {
@@ -7884,7 +8782,42 @@
    "solid": 0.846
   },
   "pictogram": null,
-  "hash": "e5d77a482f6c"
+  "lookalikes": [],
+  "hash": "7bd9de2eb1a4"
+ },
+ "file-template": {
+  "name": "file-template",
+  "box": {
+   "left": 3.625,
+   "top": 1.25,
+   "right": 27.625,
+   "bottom": 28.25
+  },
+  "massCentre": {
+   "x": 15.599,
+   "y": 16.086
+  },
+  "inkArea": 281.813,
+  "coverage": 0.265,
+  "strokeWidth": 3.016,
+  "holeArea": 96.891,
+  "cornerFill": 0.337,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 88.234,
+  "atSixteen": {
+   "lit": 90,
+   "solid": 0.578
+  },
+  "atThirtyTwo": {
+   "lit": 361,
+   "solid": 0.524
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "693050c4d2ce"
  },
  "file-terraform": {
   "name": "file-terraform",
@@ -7917,6 +8850,7 @@
    "solid": 0.734
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "dc396620be6a"
  },
  "file-text": {
@@ -7950,7 +8884,8 @@
    "solid": 0.577
   },
   "pictogram": null,
-  "hash": "7cc0883b98e0"
+  "lookalikes": [],
+  "hash": "72e2a2df2cd3"
  },
  "file-toml": {
   "name": "file-toml",
@@ -7983,6 +8918,7 @@
    "solid": 0.79
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f47ec2d152fe"
  },
  "file-torrent": {
@@ -8016,7 +8952,42 @@
    "solid": 0.763
   },
   "pictogram": null,
-  "hash": "9a4c6c25335b"
+  "lookalikes": [],
+  "hash": "f7009e3d86fe"
+ },
+ "file-translation": {
+  "name": "file-translation",
+  "box": {
+   "left": 2.25,
+   "top": 3.125,
+   "right": 29.125,
+   "bottom": 27.375
+  },
+  "massCentre": {
+   "x": 15.471,
+   "y": 15.586
+  },
+  "inkArea": 237.031,
+  "coverage": 0.225,
+  "strokeWidth": 3.241,
+  "holeArea": 10.984,
+  "cornerFill": 0.217,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1
+  },
+  "shadowArea": 69.438,
+  "atSixteen": {
+   "lit": 82,
+   "solid": 0.427
+  },
+  "atThirtyTwo": {
+   "lit": 275,
+   "solid": 0.658
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "092da6ba4acc"
  },
  "file-travis": {
   "name": "file-travis",
@@ -8049,7 +9020,8 @@
    "solid": 0.616
   },
   "pictogram": null,
-  "hash": "7df83186c2a4"
+  "lookalikes": [],
+  "hash": "213d7f280056"
  },
  "file-tsconfig": {
   "name": "file-tsconfig",
@@ -8082,7 +9054,8 @@
    "solid": 0.841
   },
   "pictogram": null,
-  "hash": "1d60589f6311"
+  "lookalikes": [],
+  "hash": "9fe5bae89bd3"
  },
  "file-turborepo": {
   "name": "file-turborepo",
@@ -8115,6 +9088,7 @@
    "solid": 0.721
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "34d15ef2b740"
  },
  "file-twig": {
@@ -8148,7 +9122,8 @@
    "solid": 0.904
   },
   "pictogram": null,
-  "hash": "4faefdcb6b29"
+  "lookalikes": [],
+  "hash": "5fed4e7a2cfc"
  },
  "file-typescript-component": {
   "name": "file-typescript-component",
@@ -8181,40 +9156,17 @@
    "solid": 0.936
   },
   "pictogram": null,
-  "hash": "591f7e481df9"
- },
- "file-typescript-config": {
-  "name": "file-typescript-config",
-  "box": {
-   "left": 2,
-   "top": 2,
-   "right": 29,
-   "bottom": 29.125
-  },
-  "massCentre": {
-   "x": 15.753,
-   "y": 15.251
-  },
-  "inkArea": 339.188,
-  "coverage": 0.328,
-  "strokeWidth": 7.831,
-  "holeArea": 0,
-  "cornerFill": 0.161,
-  "shadowReach": {
-   "right": 0.75,
-   "bottom": 1
-  },
-  "shadowArea": 51.359,
-  "atSixteen": {
-   "lit": 100,
-   "solid": 0.72
-  },
-  "atThirtyTwo": {
-   "lit": 365,
-   "solid": 0.841
-  },
-  "pictogram": null,
-  "hash": "1d60589f6311"
+  "lookalikes": [
+   {
+    "name": "file-typescript-guard",
+    "difference": 11.038
+   },
+   {
+    "name": "file-typescript-service",
+    "difference": 11.596
+   }
+  ],
+  "hash": "022ffa81e47f"
  },
  "file-typescript-controller": {
   "name": "file-typescript-controller",
@@ -8247,7 +9199,8 @@
    "solid": 0.68
   },
   "pictogram": null,
-  "hash": "d1f90579d05b"
+  "lookalikes": [],
+  "hash": "04976c69de09"
  },
  "file-typescript-d": {
   "name": "file-typescript-d",
@@ -8280,7 +9233,13 @@
    "solid": 0.938
   },
   "pictogram": null,
-  "hash": "0a558f2e8097"
+  "lookalikes": [
+   {
+    "name": "file-typescript-guard",
+    "difference": 10.067
+   }
+  ],
+  "hash": "1cfd719f56b0"
  },
  "file-typescript-directive": {
   "name": "file-typescript-directive",
@@ -8313,40 +9272,42 @@
    "solid": 0.716
   },
   "pictogram": null,
-  "hash": "a6b0894ebf67"
+  "lookalikes": [],
+  "hash": "508b946bccb2"
  },
  "file-typescript-dto": {
   "name": "file-typescript-dto",
   "box": {
    "left": 2.125,
-   "top": 2,
-   "right": 29,
+   "top": 1.875,
+   "right": 29.125,
    "bottom": 28.875
   },
   "massCentre": {
-   "x": 15.603,
-   "y": 15.395
+   "x": 15.599,
+   "y": 15.401
   },
-  "inkArea": 459.016,
-  "coverage": 0.443,
-  "strokeWidth": 9.192,
+  "inkArea": 196.859,
+  "coverage": 0.185,
+  "strokeWidth": 2.805,
   "holeArea": 0,
-  "cornerFill": 0.016,
+  "cornerFill": 0.017,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 50.172,
+  "shadowArea": 72.344,
   "atSixteen": {
-   "lit": 130,
-   "solid": 0.769
+   "lit": 69,
+   "solid": 0.333
   },
   "atThirtyTwo": {
-   "lit": 472,
-   "solid": 0.896
+   "lit": 253,
+   "solid": 0.597
   },
   "pictogram": null,
-  "hash": "fde30f10a73e"
+  "lookalikes": [],
+  "hash": "688edbd4c6ef"
  },
  "file-typescript-entity": {
   "name": "file-typescript-entity",
@@ -8379,7 +9340,13 @@
    "solid": 0.542
   },
   "pictogram": null,
-  "hash": "93101d761f4e"
+  "lookalikes": [
+   {
+    "name": "file-csv",
+    "difference": 10.82
+   }
+  ],
+  "hash": "94fe57ca1de4"
  },
  "file-typescript-guard": {
   "name": "file-typescript-guard",
@@ -8412,7 +9379,29 @@
    "solid": 0.875
   },
   "pictogram": null,
-  "hash": "51b8f844542b"
+  "lookalikes": [
+   {
+    "name": "file-typescript-stories",
+    "difference": 9.567
+   },
+   {
+    "name": "file-typescript-d",
+    "difference": 10.067
+   },
+   {
+    "name": "file-typescript-service",
+    "difference": 10.989
+   },
+   {
+    "name": "file-typescript-component",
+    "difference": 11.038
+   },
+   {
+    "name": "file-typescript-model",
+    "difference": 11.709
+   }
+  ],
+  "hash": "ec247b33db87"
  },
  "file-typescript-model": {
   "name": "file-typescript-model",
@@ -8445,7 +9434,17 @@
    "solid": 0.757
   },
   "pictogram": null,
-  "hash": "82807072420b"
+  "lookalikes": [
+   {
+    "name": "file-typescript-stories",
+    "difference": 10.986
+   },
+   {
+    "name": "file-typescript-guard",
+    "difference": 11.709
+   }
+  ],
+  "hash": "52aa2f188ca6"
  },
  "file-typescript-module": {
   "name": "file-typescript-module",
@@ -8478,7 +9477,13 @@
    "solid": 0.82
   },
   "pictogram": null,
-  "hash": "e050d5e19a37"
+  "lookalikes": [
+   {
+    "name": "file-vhdl",
+    "difference": 11.691
+   }
+  ],
+  "hash": "2c2775bf8f0f"
  },
  "file-typescript-pipe": {
   "name": "file-typescript-pipe",
@@ -8511,7 +9516,8 @@
    "solid": 0.818
   },
   "pictogram": null,
-  "hash": "923461aa142d"
+  "lookalikes": [],
+  "hash": "3c3b4b5eafc1"
  },
  "file-typescript-service": {
   "name": "file-typescript-service",
@@ -8544,7 +9550,21 @@
    "solid": 0.845
   },
   "pictogram": null,
-  "hash": "84a16d142374"
+  "lookalikes": [
+   {
+    "name": "file-typescript-guard",
+    "difference": 10.989
+   },
+   {
+    "name": "file-typescript-component",
+    "difference": 11.596
+   },
+   {
+    "name": "file-razor",
+    "difference": 11.676
+   }
+  ],
+  "hash": "381867bbfb80"
  },
  "file-typescript-spec": {
   "name": "file-typescript-spec",
@@ -8577,7 +9597,8 @@
    "solid": 0.734
   },
   "pictogram": null,
-  "hash": "91c52d291723"
+  "lookalikes": [],
+  "hash": "4f80236a906b"
  },
  "file-typescript-stories": {
   "name": "file-typescript-stories",
@@ -8610,40 +9631,56 @@
    "solid": 0.878
   },
   "pictogram": null,
-  "hash": "2db3ff2c21a9"
+  "lookalikes": [
+   {
+    "name": "file-typescript-guard",
+    "difference": 9.567
+   },
+   {
+    "name": "file-typescript-model",
+    "difference": 10.986
+   }
+  ],
+  "hash": "81159eb793ef"
  },
  "file-typescript-test": {
   "name": "file-typescript-test",
   "box": {
-   "left": 0.75,
+   "left": 2.375,
    "top": 3,
-   "right": 27.75,
+   "right": 29.375,
    "bottom": 27.75
   },
   "massCentre": {
-   "x": 17.054,
-   "y": 15.406
+   "x": 15.36,
+   "y": 15.431
   },
-  "inkArea": 340.313,
-  "coverage": 0.328,
-  "strokeWidth": 5.246,
+  "inkArea": 176.609,
+  "coverage": 0.166,
+  "strokeWidth": 2.312,
   "holeArea": 0,
   "cornerFill": 0.272,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 67.969,
+  "shadowArea": 86.094,
   "atSixteen": {
-   "lit": 111,
-   "solid": 0.622
+   "lit": 76,
+   "solid": 0.197
   },
   "atThirtyTwo": {
-   "lit": 383,
-   "solid": 0.731
+   "lit": 232,
+   "solid": 0.401
   },
   "pictogram": null,
-  "hash": "ffc8baeab54c"
+  "lookalikes": [
+   {
+    "name": "file-jsx-test",
+    "difference": 11.261
+   }
+  ],
+  "hash": "7386a7455e83"
  },
  "file-typescript": {
   "name": "file-typescript",
@@ -8676,6 +9713,12 @@
    "solid": 0.884
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-word",
+    "difference": 11.827
+   }
+  ],
   "hash": "b116c2b6235c"
  },
  "file-unitfile": {
@@ -8709,7 +9752,8 @@
    "solid": 0.819
   },
   "pictogram": null,
-  "hash": "a4caac72d97d"
+  "lookalikes": [],
+  "hash": "b3fae2792b3a"
  },
  "file-unity": {
   "name": "file-unity",
@@ -8742,6 +9786,7 @@
    "solid": 0.724
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "70caf5494aaa"
  },
  "file-unreal": {
@@ -8775,7 +9820,42 @@
    "solid": 0.401
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "79af6dda5ec2"
+ },
+ "file-uv": {
+  "name": "file-uv",
+  "box": {
+   "left": 3.375,
+   "top": 3.125,
+   "right": 27.875,
+   "bottom": 27.5
+  },
+  "massCentre": {
+   "x": 15.579,
+   "y": 15.467
+  },
+  "inkArea": 555.516,
+  "coverage": 0.537,
+  "strokeWidth": 8.555,
+  "holeArea": 0,
+  "cornerFill": 0.857,
+  "shadowReach": {
+   "right": 0.75,
+   "bottom": 1.125
+  },
+  "shadowArea": 56.797,
+  "atSixteen": {
+   "lit": 165,
+   "solid": 0.703
+  },
+  "atThirtyTwo": {
+   "lit": 601,
+   "solid": 0.799
+  },
+  "pictogram": null,
+  "lookalikes": [],
+  "hash": "4bcf9c939cbf"
  },
  "file-vagrant": {
   "name": "file-vagrant",
@@ -8808,6 +9888,7 @@
    "solid": 0.864
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "2f99c16f5dd0"
  },
  "file-vault": {
@@ -8841,6 +9922,7 @@
    "solid": 0.779
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "1d84d98ab991"
  },
  "file-vbnet": {
@@ -8874,6 +9956,7 @@
    "solid": 0.42
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "f9a15ecbe4f9"
  },
  "file-vector": {
@@ -8907,7 +9990,8 @@
    "solid": 0.681
   },
   "pictogram": null,
-  "hash": "6ced5bcdf77f"
+  "lookalikes": [],
+  "hash": "0ae23d30a86f"
  },
  "file-vercel": {
   "name": "file-vercel",
@@ -8940,6 +10024,7 @@
    "solid": 0.915
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c25466c2e042"
  },
  "file-verilog": {
@@ -8973,7 +10058,8 @@
    "solid": 0.844
   },
   "pictogram": null,
-  "hash": "18a02d6377be"
+  "lookalikes": [],
+  "hash": "d24deb8a35bf"
  },
  "file-vhdl": {
   "name": "file-vhdl",
@@ -9006,7 +10092,21 @@
    "solid": 0.844
   },
   "pictogram": null,
-  "hash": "20273169eacf"
+  "lookalikes": [
+   {
+    "name": "file-typescript-module",
+    "difference": 11.691
+   },
+   {
+    "name": "file-model3d",
+    "difference": 11.693
+   },
+   {
+    "name": "file-webassembly",
+    "difference": 11.997
+   }
+  ],
+  "hash": "32e1036263cd"
  },
  "file-video": {
   "name": "file-video",
@@ -9039,7 +10139,8 @@
    "solid": 0.641
   },
   "pictogram": null,
-  "hash": "cfdc73334d94"
+  "lookalikes": [],
+  "hash": "99b0bc1390f6"
  },
  "file-videoproject": {
   "name": "file-videoproject",
@@ -9072,7 +10173,8 @@
    "solid": 0.772
   },
   "pictogram": null,
-  "hash": "ea5510999f3c"
+  "lookalikes": [],
+  "hash": "1f5922b12f3a"
  },
  "file-vim": {
   "name": "file-vim",
@@ -9105,6 +10207,7 @@
    "solid": 0.828
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "00c29923a440"
  },
  "file-vite": {
@@ -9138,6 +10241,7 @@
    "solid": 0.897
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "989e8b2dc485"
  },
  "file-vitest": {
@@ -9171,6 +10275,7 @@
    "solid": 0.847
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "d0cc8bc4a3a0"
  },
  "file-vue": {
@@ -9204,6 +10309,7 @@
    "solid": 0.804
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "826f4d81e978"
  },
  "file-waveform": {
@@ -9215,29 +10321,30 @@
    "bottom": 24.125
   },
   "massCentre": {
-   "x": 15.597,
-   "y": 15.403
+   "x": 15.612,
+   "y": 15.409
   },
-  "inkArea": 173.469,
-  "coverage": 0.166,
-  "strokeWidth": 5.207,
+  "inkArea": 85.281,
+  "coverage": 0.08,
+  "strokeWidth": 2.244,
   "holeArea": 0,
   "cornerFill": 0,
   "shadowReach": {
    "right": 0.75,
    "bottom": 1
   },
-  "shadowArea": 33.547,
+  "shadowArea": 38.391,
   "atSixteen": {
-   "lit": 57,
-   "solid": 0.596
+   "lit": 38,
+   "solid": 0.289
   },
   "atThirtyTwo": {
-   "lit": 196,
-   "solid": 0.73
+   "lit": 110,
+   "solid": 0.527
   },
   "pictogram": null,
-  "hash": "4ee587b64846"
+  "lookalikes": [],
+  "hash": "5a92c4ee73e4"
  },
  "file-webassembly": {
   "name": "file-webassembly",
@@ -9270,6 +10377,12 @@
    "solid": 0.727
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-vhdl",
+    "difference": 11.997
+   }
+  ],
   "hash": "afcc9912e667"
  },
  "file-webpack": {
@@ -9303,6 +10416,7 @@
    "solid": 0.711
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "76cb0aa082c2"
  },
  "file-word": {
@@ -9336,6 +10450,12 @@
    "solid": 0.89
   },
   "pictogram": null,
+  "lookalikes": [
+   {
+    "name": "file-typescript",
+    "difference": 11.827
+   }
+  ],
   "hash": "d2b444b9d4d2"
  },
  "file-workspace": {
@@ -9369,7 +10489,8 @@
    "solid": 0.745
   },
   "pictogram": null,
-  "hash": "c083e8816639"
+  "lookalikes": [],
+  "hash": "4b295824264b"
  },
  "file-xcode": {
   "name": "file-xcode",
@@ -9402,6 +10523,7 @@
    "solid": 0.615
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "b36be059ccb7"
  },
  "file-xml": {
@@ -9435,6 +10557,7 @@
    "solid": 0.651
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "217126677131"
  },
  "file-yaml": {
@@ -9468,6 +10591,7 @@
    "solid": 0.602
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "5e1c00e2d245"
  },
  "file-yarnlock": {
@@ -9501,6 +10625,7 @@
    "solid": 0.929
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "87da0938b72d"
  },
  "file-zig": {
@@ -9534,6 +10659,7 @@
    "solid": 0.775
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "ebd5bf92fc0a"
  },
  "file-zsh": {
@@ -9567,6 +10693,7 @@
    "solid": 0.367
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "c52f7315c1cb"
  },
  "folder-ai-open": {
@@ -9611,6 +10738,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "3772a86d3bd3"
  },
  "folder-ai": {
@@ -9655,6 +10783,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "fdfa4750a489"
  },
  "folder-api-open": {
@@ -9699,6 +10828,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "551e495cfc4b"
  },
  "folder-api": {
@@ -9743,6 +10873,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "12e011be7278"
  },
  "folder-archive-open": {
@@ -9787,6 +10918,7 @@
     "bottom": 23.875
    }
   },
+  "lookalikes": [],
   "hash": "f97903b86f3b"
  },
  "folder-archive": {
@@ -9831,6 +10963,7 @@
     "bottom": 23.125
    }
   },
+  "lookalikes": [],
   "hash": "e1cdae891aca"
  },
  "folder-assets-open": {
@@ -9875,6 +11008,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "b85cd522dad9"
  },
  "folder-assets": {
@@ -9919,6 +11053,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "9a560b2f5110"
  },
  "folder-audio-open": {
@@ -9963,6 +11098,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "e1b5d96ac0e5"
  },
  "folder-audio": {
@@ -10007,6 +11143,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "e7a1b12164d2"
  },
  "folder-benchmarks-open": {
@@ -10051,6 +11188,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "41281feb5adf"
  },
  "folder-benchmarks": {
@@ -10095,6 +11233,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "152fa9e0c931"
  },
  "folder-build-open": {
@@ -10139,6 +11278,7 @@
     "bottom": 25.5
    }
   },
+  "lookalikes": [],
   "hash": "0a1996289e84"
  },
  "folder-build": {
@@ -10183,6 +11323,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "050f66dde567"
  },
  "folder-components-open": {
@@ -10227,6 +11368,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "1a8c9b0bd14d"
  },
  "folder-components": {
@@ -10271,6 +11413,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "2acc40827af6"
  },
  "folder-config-open": {
@@ -10315,6 +11458,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "ab18d313d48c"
  },
  "folder-config": {
@@ -10359,6 +11503,7 @@
     "bottom": 24.25
    }
   },
+  "lookalikes": [],
   "hash": "c670e8d390f0"
  },
  "folder-constants-open": {
@@ -10403,6 +11548,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "8c10cc8851dd"
  },
  "folder-constants": {
@@ -10447,6 +11593,7 @@
     "bottom": 24.125
    }
   },
+  "lookalikes": [],
   "hash": "07ece2d24cb5"
  },
  "folder-context-open": {
@@ -10491,6 +11638,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "0c120c863d5e"
  },
  "folder-context": {
@@ -10535,6 +11683,7 @@
     "bottom": 24.125
    }
   },
+  "lookalikes": [],
   "hash": "2412341bf045"
  },
  "folder-controllers-open": {
@@ -10579,6 +11728,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "90807c576375"
  },
  "folder-controllers": {
@@ -10623,6 +11773,7 @@
     "bottom": 24.125
    }
   },
+  "lookalikes": [],
   "hash": "76a5cd552a4f"
  },
  "folder-core-open": {
@@ -10667,6 +11818,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "a4ed8a5970be"
  },
  "folder-core": {
@@ -10711,6 +11863,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "1840374cd74f"
  },
  "folder-database-open": {
@@ -10755,6 +11908,7 @@
     "bottom": 25.5
    }
   },
+  "lookalikes": [],
   "hash": "378527a76023"
  },
  "folder-database": {
@@ -10799,6 +11953,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "7e4ae7538d83"
  },
  "folder-design-open": {
@@ -10843,6 +11998,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "17b4afc40ce6"
  },
  "folder-design": {
@@ -10887,6 +12043,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "90d5729f1ac3"
  },
  "folder-docker-open": {
@@ -10931,6 +12088,7 @@
     "bottom": 24
    }
   },
+  "lookalikes": [],
   "hash": "d94516cbd41c"
  },
  "folder-docker": {
@@ -10975,6 +12133,7 @@
     "bottom": 23.25
    }
   },
+  "lookalikes": [],
   "hash": "1aebc8619d27"
  },
  "folder-docs-open": {
@@ -11019,6 +12178,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "1505292bae79"
  },
  "folder-docs": {
@@ -11063,6 +12223,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "bc8ba7c8a61f"
  },
  "folder-fonts-open": {
@@ -11107,6 +12268,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "2920648d11e5"
  },
  "folder-fonts": {
@@ -11151,6 +12313,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "61e4d3afe70b"
  },
  "folder-functions-open": {
@@ -11195,6 +12358,7 @@
     "bottom": 25.375
    }
   },
+  "lookalikes": [],
   "hash": "dbd3820ed169"
  },
  "folder-functions": {
@@ -11239,6 +12403,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "de96c8685bd7"
  },
  "folder-guards-open": {
@@ -11283,6 +12448,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "5f8b2fbf9374"
  },
  "folder-guards": {
@@ -11327,6 +12493,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "9f4395ef99a0"
  },
  "folder-helpers-open": {
@@ -11371,6 +12538,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "de626ddebbac"
  },
  "folder-helpers": {
@@ -11415,6 +12583,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "da4d04267381"
  },
  "folder-hooks-open": {
@@ -11459,6 +12628,7 @@
     "bottom": 25
    }
   },
+  "lookalikes": [],
   "hash": "f6f21e3a60f7"
  },
  "folder-hooks": {
@@ -11503,6 +12673,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "158f3fb6ff33"
  },
  "folder-i18n-open": {
@@ -11547,6 +12718,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "35f51c1c38d3"
  },
  "folder-i18n": {
@@ -11591,6 +12763,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "696c43c0c8c4"
  },
  "folder-icons-open": {
@@ -11635,6 +12808,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "a404216d4369"
  },
  "folder-icons": {
@@ -11679,6 +12853,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "a3147f58b725"
  },
  "folder-images-open": {
@@ -11723,6 +12898,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "3b6ac5dd42e4"
  },
  "folder-images": {
@@ -11767,6 +12943,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "889d92b3fcf6"
  },
  "folder-jobs-open": {
@@ -11811,6 +12988,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "61ba7ee99708"
  },
  "folder-jobs": {
@@ -11855,6 +13033,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "226f9afeb19d"
  },
  "folder-keys-open": {
@@ -11899,6 +13078,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "efbe8705b7c7"
  },
  "folder-keys": {
@@ -11943,6 +13123,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "b4058a30932e"
  },
  "folder-layouts-open": {
@@ -11987,6 +13168,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "be09cfb1b0b8"
  },
  "folder-layouts": {
@@ -12031,6 +13213,7 @@
     "bottom": 23.75
    }
   },
+  "lookalikes": [],
   "hash": "c531c5c86ab4"
  },
  "folder-logs-open": {
@@ -12075,6 +13258,7 @@
     "bottom": 24.625
    }
   },
+  "lookalikes": [],
   "hash": "656d3abfe290"
  },
  "folder-logs": {
@@ -12119,6 +13303,7 @@
     "bottom": 24
    }
   },
+  "lookalikes": [],
   "hash": "d65ad91cd74b"
  },
  "folder-media-open": {
@@ -12163,6 +13348,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "cf5691672a11"
  },
  "folder-media": {
@@ -12207,6 +13393,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "124d93ce1558"
  },
  "folder-middleware-open": {
@@ -12251,6 +13438,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "7b4aefb1f899"
  },
  "folder-middleware": {
@@ -12295,6 +13483,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "a9e2f7f07a9c"
  },
  "folder-mocks-open": {
@@ -12339,6 +13528,7 @@
     "bottom": 25.5
    }
   },
+  "lookalikes": [],
   "hash": "899ebb1e1748"
  },
  "folder-mocks": {
@@ -12383,6 +13573,7 @@
     "bottom": 25
    }
   },
+  "lookalikes": [],
   "hash": "f5c5b684a33b"
  },
  "folder-models-open": {
@@ -12427,6 +13618,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "db161a2bd817"
  },
  "folder-models": {
@@ -12471,6 +13663,7 @@
     "bottom": 23.75
    }
   },
+  "lookalikes": [],
   "hash": "04eb48084d9c"
  },
  "folder-open": {
@@ -12504,6 +13697,7 @@
    "solid": 0.871
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "ff6fe8e31522"
  },
  "folder-packages-open": {
@@ -12548,6 +13742,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "890035794d9e"
  },
  "folder-packages": {
@@ -12592,6 +13787,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "462cb5d6ef95"
  },
  "folder-plugins-open": {
@@ -12636,6 +13832,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "80ed1c0701ed"
  },
  "folder-plugins": {
@@ -12680,6 +13877,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "5842cf82c9fe"
  },
  "folder-public-open": {
@@ -12724,6 +13922,7 @@
     "bottom": 24.25
    }
   },
+  "lookalikes": [],
   "hash": "3b15425a3f9e"
  },
  "folder-public": {
@@ -12768,6 +13967,7 @@
     "bottom": 23.625
    }
   },
+  "lookalikes": [],
   "hash": "85e2a385e644"
  },
  "folder-routes-open": {
@@ -12812,6 +14012,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "27ebd27a8a41"
  },
  "folder-routes": {
@@ -12856,6 +14057,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "92e24b92b8f7"
  },
  "folder-schemas-open": {
@@ -12900,6 +14102,7 @@
     "bottom": 25.375
    }
   },
+  "lookalikes": [],
   "hash": "7c46dae00394"
  },
  "folder-schemas": {
@@ -12944,6 +14147,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "22f67574885e"
  },
  "folder-scripts-open": {
@@ -12988,6 +14192,7 @@
     "bottom": 23.875
    }
   },
+  "lookalikes": [],
   "hash": "027c22e7cf95"
  },
  "folder-scripts": {
@@ -13032,6 +14237,7 @@
     "bottom": 23.125
    }
   },
+  "lookalikes": [],
   "hash": "e6fced371a8c"
  },
  "folder-security-open": {
@@ -13076,6 +14282,7 @@
     "bottom": 24.375
    }
   },
+  "lookalikes": [],
   "hash": "e827e2ce9c9b"
  },
  "folder-security": {
@@ -13120,6 +14327,7 @@
     "bottom": 23.75
    }
   },
+  "lookalikes": [],
   "hash": "5e61da3f52b5"
  },
  "folder-server-open": {
@@ -13164,6 +14372,7 @@
     "bottom": 25
    }
   },
+  "lookalikes": [],
   "hash": "cd101d46aec4"
  },
  "folder-server": {
@@ -13208,6 +14417,7 @@
     "bottom": 24.5
    }
   },
+  "lookalikes": [],
   "hash": "5e691d602c80"
  },
  "folder-services-open": {
@@ -13252,6 +14462,7 @@
     "bottom": 25.375
    }
   },
+  "lookalikes": [],
   "hash": "26894084b053"
  },
  "folder-services": {
@@ -13296,6 +14507,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "30beb042b5b6"
  },
  "folder-shared-open": {
@@ -13340,6 +14552,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "14e1ddd33162"
  },
  "folder-shared": {
@@ -13384,6 +14597,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "1e40f5a09f23"
  },
  "folder-store-open": {
@@ -13428,6 +14642,7 @@
     "bottom": 25.375
    }
   },
+  "lookalikes": [],
   "hash": "a39524381294"
  },
  "folder-store": {
@@ -13472,6 +14687,7 @@
     "bottom": 24.875
    }
   },
+  "lookalikes": [],
   "hash": "b5424e5abf31"
  },
  "folder-styles-open": {
@@ -13516,6 +14732,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "508bb4dea1bb"
  },
  "folder-styles": {
@@ -13560,6 +14777,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "046cc565d27a"
  },
  "folder-temp-open": {
@@ -13604,6 +14822,7 @@
     "bottom": 25.375
    }
   },
+  "lookalikes": [],
   "hash": "3c713af1f60e"
  },
  "folder-temp": {
@@ -13648,6 +14867,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "9cfe799802fc"
  },
  "folder-tests-open": {
@@ -13692,6 +14912,7 @@
     "bottom": 24.625
    }
   },
+  "lookalikes": [],
   "hash": "618ed5c66063"
  },
  "folder-tests": {
@@ -13736,6 +14957,7 @@
     "bottom": 24
    }
   },
+  "lookalikes": [],
   "hash": "4ffe92080856"
  },
  "folder-themes-open": {
@@ -13780,6 +15002,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "0558027be550"
  },
  "folder-themes": {
@@ -13824,6 +15047,7 @@
     "bottom": 24.75
    }
   },
+  "lookalikes": [],
   "hash": "9917ccce25d4"
  },
  "folder-types-open": {
@@ -13868,6 +15092,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "091f20d4c337"
  },
  "folder-types": {
@@ -13912,6 +15137,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "62e770092937"
  },
  "folder-utils-open": {
@@ -13956,6 +15182,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "57f75c904bfb"
  },
  "folder-utils": {
@@ -14000,6 +15227,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "09a8876013b3"
  },
  "folder-validators-open": {
@@ -14044,6 +15272,7 @@
     "bottom": 25.625
    }
   },
+  "lookalikes": [],
   "hash": "6b7a583b64bb"
  },
  "folder-validators": {
@@ -14088,6 +15317,7 @@
     "bottom": 25.25
    }
   },
+  "lookalikes": [],
   "hash": "0f084460bd9c"
  },
  "folder-views-open": {
@@ -14132,6 +15362,7 @@
     "bottom": 23.875
    }
   },
+  "lookalikes": [],
   "hash": "bae3dde8d85f"
  },
  "folder-views": {
@@ -14176,6 +15407,7 @@
     "bottom": 23.125
    }
   },
+  "lookalikes": [],
   "hash": "642ccdc8ffea"
  },
  "folder-workflows-open": {
@@ -14220,6 +15452,7 @@
     "bottom": 25.5
    }
   },
+  "lookalikes": [],
   "hash": "76ba5751580a"
  },
  "folder-workflows": {
@@ -14264,6 +15497,7 @@
     "bottom": 25.125
    }
   },
+  "lookalikes": [],
   "hash": "55dce7f4388c"
  },
  "folder": {
@@ -14297,6 +15531,7 @@
    "solid": 0.945
   },
   "pictogram": null,
+  "lookalikes": [],
   "hash": "7bdd38128e4f"
  }
 }

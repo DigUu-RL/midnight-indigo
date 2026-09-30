@@ -5,7 +5,8 @@
  *
  * tools/icon-optics.json is what tools/audit-icons.ts measured; this checks
  * that it is the audit of THESE icons (every SVG, by hash) and that every icon
- * stays inside tools/icon-optics.ts -> OPTICAL_LIMITS. The shadow's colour is
+ * stays inside tools/icon-optics.ts -> OPTICAL_LIMITS, no two file icons among
+ * them looking alike at 16px. The shadow's colour is
  * read straight from each SVG, since it is paint and not geometry.
  */
 
@@ -21,6 +22,7 @@ import {
   OPTICAL_LIMITS,
   OPTICS_FILE,
   REVIEWED_LINE_ART,
+  REVIEWED_LOOKALIKES,
   type IconOptics,
   type OpticsReport,
 } from './icon-optics.ts';
@@ -116,6 +118,28 @@ for (const iconName of iconNames) {
       problems.push(`${iconName}: shadow ${shadowColour} is saturated ${round(saturationOf(shadowColour))} (limit ${OPTICAL_LIMITS.shadowSaturation})`);
     }
   }
+}
+
+/* ---------------- no two file icons look alike ---------------- */
+
+const lookalikePairs: Set<string> = new Set();
+for (const iconName of iconNames) {
+  for (const lookalike of report[iconName]?.lookalikes ?? []) {
+    if (lookalike.difference >= OPTICAL_LIMITS.minLookDifference) continue;
+    const pair: string = [iconName, lookalike.name].sort().join(' / ');
+    if (lookalikePairs.has(pair)) continue;
+    lookalikePairs.add(pair);
+    if (REVIEWED_LOOKALIKES[pair]) continue;
+    problems.push(
+      lookalike.difference === 0
+        ? `${pair} look the same at 16px — they are one icon twice; point one's associations at the other`
+        : `${pair} are ${round(lookalike.difference)} apart at 16px (limit ${OPTICAL_LIMITS.minLookDifference}) — ` +
+            'tell them apart by glyph or colour, or review them and add the pair to REVIEWED_LOOKALIKES with a reason'
+    );
+  }
+}
+for (const reviewedPair of Object.keys(REVIEWED_LOOKALIKES)) {
+  if (!lookalikePairs.has(reviewedPair)) problems.push(`REVIEWED_LOOKALIKES excuses ${reviewedPair}, which now look apart on their own — remove it`);
 }
 
 /* An exception for an icon that no longer needs one is a note nobody will re-read. */

@@ -44,7 +44,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { glyphs, unusedPictograms, type GlyphName } from './glyphs.ts';
+import { glyphs, NO_SURFACE, SURFACE_EXPOSURE_LIMIT, unusedPictograms, type GlyphName } from './glyphs.ts';
 import { marks, unusedImports } from './marks.ts';
 import { filledPath, roundedRectanglePath, type Colour, type InkPalette } from './shapes.ts';
 import {
@@ -63,7 +63,7 @@ import {
 import {
   LINE_ART_CONTRAST,
   readableOnGround,
-  lighterTint,
+  surfaceTint,
   castShadow,
   folderAccent,
   folderTones,
@@ -74,7 +74,7 @@ import { ARTWORK_CENTRE, FOLDER_PICTOGRAM_PLACEMENT, type Bounds } from './icon-
 
 /** What tools/measure.ts records for one piece of artwork and one text run. */
 type MeasuredBounds = { cx: number; cy: number; w: number; h: number };
-type MeasuredArtwork = MeasuredBounds & { mx: number; my: number; fill: number; stroke: number };
+type MeasuredArtwork = MeasuredBounds & { mx: number; my: number; fill: number; stroke: number; surfaceExposure?: number };
 type MeasuredTextMetrics = MeasuredBounds & { dx: number; dy: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -323,12 +323,16 @@ function officialPaletteFor(spec: FileSpec): readonly Colour[] {
 }
 
 /**
- * Pictograms are duotone: the identity colour plus a lighter tint of it. A spec
+ * Pictograms are duotone: the identity colour plus a surface tone of it. A spec
  * only ever names the identity colour, so the pair is derived here — that way
  * every pictogram gets one for free, and adding a language means adding one
  * colour rather than two.
  */
-const withDerivedTint = (ink: InkPalette): InkPalette => (ink.length > 1 ? ink : [ink[0], lighterTint(ink[0])]);
+const withDerivedTint = (ink: InkPalette): InkPalette => (ink.length > 1 ? ink : [ink[0], surfaceTint(ink[0])]);
+
+/** A surface its ink does not hold is left out (tools/glyphs.ts), as tools/measure.ts measured it. */
+const pictogramPalette = (name: GlyphName, ink: InkPalette): InkPalette =>
+  (measuredArtworkBounds[`glyph:${name}`]?.surfaceExposure ?? 0) > SURFACE_EXPOSURE_LIMIT ? [ink[0], NO_SURFACE] : withDerivedTint(ink);
 
 /**
  * Draws a spec's artwork — everything but the lettering — with resolved ink,
@@ -337,7 +341,7 @@ const withDerivedTint = (ink: InkPalette): InkPalette => (ink.length > 1 ? ink :
 function renderArtwork(spec: FileSpec, ink: InkPalette): { body: string; stroke: number } {
   const scale = spec.scale ? ARTWORK_SIZE * spec.scale : ARTWORK_SIZE;
   if (spec.mark) return placeArtwork('mark', spec.mark, marks[spec.mark].draw(ink), scale);
-  if (spec.glyph) return placeArtwork('glyph', spec.glyph, glyphs[spec.glyph](withDerivedTint(ink)), scale);
+  if (spec.glyph) return placeArtwork('glyph', spec.glyph, glyphs[spec.glyph](pictogramPalette(spec.glyph, ink)), scale);
   return { body: '', stroke: Infinity };
 }
 

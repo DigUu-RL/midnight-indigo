@@ -7,27 +7,29 @@
     "mx": 0.109,
     "my": 0.127,
     "fill": 0.946,
-    "stroke": 1.679
+    "stroke": 1.679,
+    "surfaceExposure": 0
   },
   "glyph:logLines": {
     "cx": 0,
     "cy": 0,
-    "w": 18,
-    "h": 13.5,
-    "mx": 1.906,
+    "w": 18.8,
+    "h": 14.3,
+    "mx": 0.599,
     "my": 0,
-    "fill": 0.698,
-    "stroke": 4.539
+    "fill": 0.417,
+    "stroke": 1.951
   },
   "glyph:listCheck": {
     "cx": 0,
     "cy": 0,
     "w": 18,
     "h": 16.5,
-    "mx": 1.869,
-    "my": 0.019,
-    "fill": 0.508,
-    "stroke": 3.482
+    "mx": -0.339,
+    "my": 0.038,
+    "fill": 0.258,
+    "stroke": 1.508,
+    "surfaceExposure": 0.324
   },
   "glyph:grid": {
     "cx": 0,
@@ -37,7 +39,8 @@
     "mx": -1.017,
     "my": 0.377,
     "fill": 0.996,
-    "stroke": 2.149
+    "stroke": 2.149,
+    "surfaceExposure": 0
   },
   "glyph:cylinder": {
     "cx": 0,
@@ -47,17 +50,18 @@
     "mx": -0.004,
     "my": -1.444,
     "fill": 0.888,
-    "stroke": 3.502
+    "stroke": 3.502,
+    "surfaceExposure": 0
   },
   "glyph:scatter": {
     "cx": 0,
     "cy": 0,
-    "w": 19.5,
-    "h": 16.5,
-    "mx": -0.383,
-    "my": 0.381,
-    "fill": 0.922,
-    "stroke": 8.615
+    "w": 20.3,
+    "h": 17.3,
+    "mx": -1.939,
+    "my": 2.469,
+    "fill": 0.349,
+    "stroke": 2.006
   },
   "glyph:pie": {
     "cx": 0,
@@ -67,7 +71,8 @@
     "mx": -1.453,
     "my": -0.833,
     "fill": 0.714,
-    "stroke": 2.227
+    "stroke": 2.227,
+    "surfaceExposure": 0
   },
   "glyph:book": {
     "cx": 0,
@@ -77,7 +82,8 @@
     "mx": -0.084,
     "my": -0.58,
     "fill": 0.917,
-    "stroke": 6.269
+    "stroke": 6.269,
+    "surfaceExposure": 0
   },
   "glyph:ebook": {
     "cx": 0,
@@ -87,7 +93,8 @@
     "mx": -0.242,
     "my": -0.114,
     "fill": 0.917,
-    "stroke": 4.608
+    "stroke": 4.608,
+    "surfaceExposure": 0
   },
   "glyph:certificate": {
     "cx": 0.75,
@@ -97,7 +104,8 @@
     "mx": -0.405,
     "my": -0.488,
     "fill": 0.834,
-    "stroke": 5.118
+    "stroke": 5.118,
+    "surfaceExposure": 0
   },
   "glyph:history": {
     "cx": -0.375,
@@ -107,7 +115,8 @@
     "mx": -0.068,
     "my": -0.174,
     "fill": 0.759,
-    "stroke": 8.912
+    "stroke": 8.912,
+    "surfaceExposure": 0.093
   },
   "glyph:padlock": {
     "cx": 0,
@@ -117,7 +126,8 @@
     "mx": 0,
     "my": 1.291,
     "fill": 0.805,
-    "stroke": 6.139
+    "stroke": 6.139,
+    "surfaceExposure": 0
   },
   "glyph:key": {
     "cx": 0.375,
@@ -127,7 +137,8 @@
     "mx": 0.903,
     "my": -0.964,
     "fill": 0.574,
-    "stroke": 7.842
+    "stroke": 7.842,
+    "surfaceExposure": 0
   },
   "glyph:fingerprint": {
     "cx": -0.25,
@@ -137,7 +148,8 @@
     "mx": 0.039,
     "my": -0.218,
     "fill": 0.752,
-    "stroke": 9.248
+    "stroke": 9.248,
+    "surfaceExposure": 0.048
   },
   "glyph:scroll": {
     "cx": -0.75,
@@ -147,7 +159,8 @@
     "mx": -0.03,
     "my": -0.593,
     "fill": 0.724,
-    "stroke": 5.254
+    "stroke": 5.254,
+    "surfaceExposure": 0
   },
   "glyph:gitDiff": {
     "cx": 0,
@@ -157,7 +170,8 @@
     "mx": 0,
     "my": -0.001,
     "fill": 0.345,
-    "stroke": 2.262
+    "stroke": 2.262,
+    "surfaceExposure": 0
   },
   "glyph:gitCommit": {
     "cx": 0,
@@ -177,17 +191,19 @@
     "mx": 0.167,
     "my": -0.031,
     "fill": 0.39,
-    "stroke": 2.271
+    "stroke": 2.271,
+    "surfaceExposure": 0
   },
   "glyph:binary": {
-    "cx": 0,
+    "cx": 0.2,
     "cy": 0,
-    "w": 18,
+    "w": 13.9,
     "h": 19.5,
-    "mx": 0.009,
-    "my": -0.006,
-    "fill": 0.936,
-    "stroke": 9.482
+    "mx": 0.247,
+    "my": -0.204,
+    "fill": 0.503,
+    "stroke": 1.59,
+    "surfaceExposure": 0.325
   },
   "glyph:picture": {
     "cx": 0,
@@ -197,7 +213,8 @@
     "mx": 0.292,
     "my": -1.122,
     "fill": 0.994,
-    "stroke": 4.666
+    "stroke": 4.666,
+    "surfaceExposure": 0
   },
   "glyph:typeA": {
     "cx": -0.375,
@@ -207,7 +224,8 @@
     "mx": 0.432,
     "my": 1.077,
     "fill": 0.415,
-    "stroke": 3.133
+    "stroke": 3.133,
+    "surfaceExposure": 0
   },
   "glyph:musicNote": {
     "cx": -1.125,
@@ -217,7 +235,8 @@
     "mx": 0.156,
     "my": 0.34,
     "fill": 0.451,
-    "stroke": 2.343
+    "stroke": 2.343,
+    "surfaceExposure": 0
   },
   "glyph:film": {
     "cx": 0,
@@ -227,7 +246,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.994,
-    "stroke": 3.23
+    "stroke": 3.23,
+    "surfaceExposure": 0
   },
   "glyph:clapper": {
     "cx": -0.375,
@@ -237,7 +257,8 @@
     "mx": -0.226,
     "my": -1.351,
     "fill": 0.809,
-    "stroke": 2.195
+    "stroke": 2.195,
+    "surfaceExposure": 0
   },
   "glyph:subtitle": {
     "cx": 0,
@@ -257,7 +278,8 @@
     "mx": 0.177,
     "my": -1.058,
     "fill": 0.375,
-    "stroke": 1.76
+    "stroke": 1.76,
+    "surfaceExposure": 0
   },
   "glyph:disk": {
     "cx": 0,
@@ -267,7 +289,8 @@
     "mx": -0.317,
     "my": 0.132,
     "fill": 0.787,
-    "stroke": 6.604
+    "stroke": 6.604,
+    "surfaceExposure": 0
   },
   "glyph:floppy": {
     "cx": 0,
@@ -277,7 +300,8 @@
     "mx": -0.23,
     "my": -0.47,
     "fill": 0.969,
-    "stroke": 6.058
+    "stroke": 6.058,
+    "surfaceExposure": 0
   },
   "glyph:vectorPen": {
     "cx": 0,
@@ -287,7 +311,8 @@
     "mx": 0,
     "my": -0.087,
     "fill": 0.388,
-    "stroke": 2.7
+    "stroke": 2.7,
+    "surfaceExposure": 0
   },
   "glyph:camera": {
     "cx": 0,
@@ -297,17 +322,19 @@
     "mx": 0,
     "my": 0.219,
     "fill": 0.913,
-    "stroke": 7.156
+    "stroke": 7.156,
+    "surfaceExposure": 0
   },
   "glyph:waveform": {
     "cx": 0,
     "cy": 0,
     "w": 16.5,
     "h": 19.5,
-    "mx": -0.242,
-    "my": -0.001,
-    "fill": 0.434,
-    "stroke": 3.002
+    "mx": -0.396,
+    "my": -0.002,
+    "fill": 0.266,
+    "stroke": 1.392,
+    "surfaceExposure": 0.227
   },
   "glyph:package": {
     "cx": 0,
@@ -317,7 +344,8 @@
     "mx": -1.14,
     "my": 0.435,
     "fill": 0.765,
-    "stroke": 3.003
+    "stroke": 3.003,
+    "surfaceExposure": 0
   },
   "glyph:mesh": {
     "cx": 0,
@@ -327,7 +355,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.9,
-    "stroke": 9.767
+    "stroke": 9.767,
+    "surfaceExposure": 0
   },
   "glyph:squares": {
     "cx": 0,
@@ -337,7 +366,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.799,
-    "stroke": 4.121
+    "stroke": 4.121,
+    "surfaceExposure": 0
   },
   "glyph:folders": {
     "cx": 0.375,
@@ -347,7 +377,8 @@
     "mx": 1.222,
     "my": -0.76,
     "fill": 0.874,
-    "stroke": 2.855
+    "stroke": 2.855,
+    "surfaceExposure": 0
   },
   "glyph:container": {
     "cx": 0,
@@ -357,7 +388,8 @@
     "mx": 1.251,
     "my": 0,
     "fill": 0.854,
-    "stroke": 3.438
+    "stroke": 3.438,
+    "surfaceExposure": 0
   },
   "glyph:flask": {
     "cx": 0,
@@ -367,7 +399,8 @@
     "mx": -0.134,
     "my": 2.646,
     "fill": 0.589,
-    "stroke": 3.076
+    "stroke": 3.076,
+    "surfaceExposure": 0
   },
   "glyph:testTube": {
     "cx": 0.375,
@@ -377,7 +410,8 @@
     "mx": -1.43,
     "my": 1.602,
     "fill": 0.456,
-    "stroke": 3.949
+    "stroke": 3.949,
+    "surfaceExposure": 0
   },
   "glyph:wrench": {
     "cx": 0,
@@ -387,17 +421,19 @@
     "mx": 0.223,
     "my": -0.221,
     "fill": 0.465,
-    "stroke": 5.629
+    "stroke": 5.629,
+    "surfaceExposure": 0
   },
   "glyph:compress": {
     "cx": 0,
     "cy": 0,
-    "w": 18,
-    "h": 18,
-    "mx": 0,
-    "my": 0,
-    "fill": 0.994,
-    "stroke": 9.419
+    "w": 16.5,
+    "h": 16.5,
+    "mx": 0.001,
+    "my": -0.002,
+    "fill": 0.197,
+    "stroke": 1.725,
+    "surfaceExposure": 0.522
   },
   "glyph:tag": {
     "cx": 1.125,
@@ -407,7 +443,8 @@
     "mx": 0.081,
     "my": 0.081,
     "fill": 0.652,
-    "stroke": 10.418
+    "stroke": 10.418,
+    "surfaceExposure": 0
   },
   "glyph:puzzle": {
     "cx": -1.125,
@@ -417,7 +454,8 @@
     "mx": -0.23,
     "my": 0.45,
     "fill": 0.727,
-    "stroke": 7.875
+    "stroke": 7.875,
+    "surfaceExposure": 0
   },
   "glyph:gear": {
     "cx": 0,
@@ -427,7 +465,8 @@
     "mx": -0.002,
     "my": 0.001,
     "fill": 0.722,
-    "stroke": 6.658
+    "stroke": 6.658,
+    "surfaceExposure": 0
   },
   "glyph:gearFine": {
     "cx": 0,
@@ -437,7 +476,8 @@
     "mx": 0,
     "my": -0.001,
     "fill": 0.572,
-    "stroke": 5.694
+    "stroke": 5.694,
+    "surfaceExposure": 0
   },
   "glyph:shield": {
     "cx": 0,
@@ -447,7 +487,8 @@
     "mx": -0.002,
     "my": -0.162,
     "fill": 0.834,
-    "stroke": 9.673
+    "stroke": 9.673,
+    "surfaceExposure": 0
   },
   "glyph:shieldWarning": {
     "cx": 0,
@@ -457,7 +498,8 @@
     "mx": -0.003,
     "my": -0.162,
     "fill": 0.834,
-    "stroke": 9.673
+    "stroke": 9.673,
+    "surfaceExposure": 0
   },
   "glyph:funnel": {
     "cx": 0,
@@ -467,7 +509,8 @@
     "mx": -0.044,
     "my": -1.971,
     "fill": 0.507,
-    "stroke": 6.37
+    "stroke": 6.37,
+    "surfaceExposure": 0
   },
   "glyph:wand": {
     "cx": 1.125,
@@ -477,7 +520,8 @@
     "mx": 0.235,
     "my": 0.484,
     "fill": 0.444,
-    "stroke": 2.908
+    "stroke": 2.908,
+    "surfaceExposure": 0
   },
   "glyph:sliders": {
     "cx": 0,
@@ -487,7 +531,8 @@
     "mx": 0.316,
     "my": 0,
     "fill": 0.341,
-    "stroke": 2.326
+    "stroke": 2.326,
+    "surfaceExposure": 0
   },
   "glyph:exchange": {
     "cx": 0,
@@ -495,9 +540,10 @@
     "w": 16.5,
     "h": 16.5,
     "mx": 0,
-    "my": 0,
-    "fill": 0.635,
-    "stroke": 5.6
+    "my": -0.001,
+    "fill": 0.263,
+    "stroke": 1.663,
+    "surfaceExposure": 0.249
   },
   "glyph:braces": {
     "cx": 0,
@@ -547,7 +593,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.994,
-    "stroke": 9.354
+    "stroke": 9.354,
+    "surfaceExposure": 0
   },
   "glyph:browser": {
     "cx": 0,
@@ -557,7 +604,8 @@
     "mx": 0,
     "my": -1.951,
     "fill": 0.994,
-    "stroke": 2.871
+    "stroke": 2.871,
+    "surfaceExposure": 0
   },
   "glyph:hammer": {
     "cx": 1.125,
@@ -567,7 +615,8 @@
     "mx": 1.36,
     "my": -1.963,
     "fill": 0.461,
-    "stroke": 4.426
+    "stroke": 4.426,
+    "surfaceExposure": 0
   },
   "glyph:palette": {
     "cx": 0,
@@ -577,7 +626,8 @@
     "mx": -0.397,
     "my": -0.907,
     "fill": 0.723,
-    "stroke": 9.561
+    "stroke": 9.561,
+    "surfaceExposure": 0
   },
   "glyph:circuit": {
     "cx": 0,
@@ -587,7 +637,8 @@
     "mx": 0,
     "my": -0.008,
     "fill": 0.994,
-    "stroke": 8.3
+    "stroke": 8.3,
+    "surfaceExposure": 0
   },
   "glyph:gpu": {
     "cx": 0,
@@ -597,7 +648,8 @@
     "mx": -0.284,
     "my": -0.419,
     "fill": 0.89,
-    "stroke": 5.091
+    "stroke": 5.091,
+    "surfaceExposure": 0
   },
   "glyph:printer": {
     "cx": 0,
@@ -607,7 +659,8 @@
     "mx": -0.001,
     "my": -0.354,
     "fill": 0.844,
-    "stroke": 3.872
+    "stroke": 3.872,
+    "surfaceExposure": 0
   },
   "glyph:flow": {
     "cx": 0,
@@ -617,7 +670,8 @@
     "mx": -1.713,
     "my": 1.409,
     "fill": 0.229,
-    "stroke": 2.633
+    "stroke": 2.633,
+    "surfaceExposure": 0
   },
   "glyph:atom": {
     "cx": 0,
@@ -627,7 +681,8 @@
     "mx": -0.007,
     "my": 0.001,
     "fill": 0.837,
-    "stroke": 4.638
+    "stroke": 4.638,
+    "surfaceExposure": 0
   },
   "glyph:robot": {
     "cx": 0,
@@ -637,7 +692,8 @@
     "mx": 0,
     "my": 0.468,
     "fill": 0.809,
-    "stroke": 6.522
+    "stroke": 6.522,
+    "surfaceExposure": 0
   },
   "glyph:leaf": {
     "cx": 0,
@@ -647,7 +703,8 @@
     "mx": 0.358,
     "my": -0.362,
     "fill": 0.725,
-    "stroke": 8.355
+    "stroke": 8.355,
+    "surfaceExposure": 0
   },
   "glyph:drop": {
     "cx": 0,
@@ -657,7 +714,8 @@
     "mx": -0.002,
     "my": 0.203,
     "fill": 0.723,
-    "stroke": 9.997
+    "stroke": 9.997,
+    "surfaceExposure": 0
   },
   "glyph:brain": {
     "cx": 0,
@@ -667,7 +725,8 @@
     "mx": -0.002,
     "my": -0.376,
     "fill": 0.769,
-    "stroke": 10.444
+    "stroke": 10.444,
+    "surfaceExposure": 0
   },
   "glyph:command": {
     "cx": 0,
@@ -677,7 +736,8 @@
     "mx": 0,
     "my": -0.001,
     "fill": 0.662,
-    "stroke": 3.569
+    "stroke": 3.569,
+    "surfaceExposure": 0
   },
   "glyph:dog": {
     "cx": 0,
@@ -687,7 +747,8 @@
     "mx": 0,
     "my": 0.165,
     "fill": 0.816,
-    "stroke": 5.375
+    "stroke": 5.375,
+    "surfaceExposure": 0
   },
   "glyph:timer": {
     "cx": 0,
@@ -697,7 +758,8 @@
     "mx": -0.002,
     "my": 0.387,
     "fill": 0.697,
-    "stroke": 8.231
+    "stroke": 8.231,
+    "surfaceExposure": 0
   },
   "glyph:compass": {
     "cx": 0.75,
@@ -707,7 +769,8 @@
     "mx": 0.521,
     "my": -0.439,
     "fill": 0.367,
-    "stroke": 2.383
+    "stroke": 2.383,
+    "surfaceExposure": 0
   },
   "glyph:shapes": {
     "cx": -0.375,
@@ -717,7 +780,8 @@
     "mx": 0.53,
     "my": 0.205,
     "fill": 0.571,
-    "stroke": 4.474
+    "stroke": 4.474,
+    "surfaceExposure": 0
   },
   "glyph:diagram": {
     "cx": 0,
@@ -727,7 +791,8 @@
     "mx": 0.626,
     "my": 0.504,
     "fill": 0.423,
-    "stroke": 2.063
+    "stroke": 2.063,
+    "surfaceExposure": 0
   },
   "glyph:treeStructure": {
     "cx": -1.125,
@@ -737,17 +802,19 @@
     "mx": 1.48,
     "my": 0,
     "fill": 0.467,
-    "stroke": 3.32
+    "stroke": 3.32,
+    "surfaceExposure": 0
   },
   "glyph:rss": {
     "cx": 1.125,
     "cy": -1.125,
     "w": 15.75,
     "h": 15.75,
-    "mx": 0.27,
-    "my": -0.274,
-    "fill": 0.735,
-    "stroke": 6.664
+    "mx": 0.97,
+    "my": -0.976,
+    "fill": 0.24,
+    "stroke": 1.561,
+    "surfaceExposure": 0.308
   },
   "glyph:send": {
     "cx": -0.75,
@@ -757,7 +824,8 @@
     "mx": 0.978,
     "my": -0.981,
     "fill": 0.481,
-    "stroke": 6.943
+    "stroke": 6.943,
+    "surfaceExposure": 0
   },
   "glyph:keyboard": {
     "cx": 0,
@@ -767,7 +835,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.994,
-    "stroke": 9.156
+    "stroke": 9.156,
+    "surfaceExposure": 0
   },
   "glyph:users": {
     "cx": 0,
@@ -777,7 +846,8 @@
     "mx": -0.001,
     "my": -0.635,
     "fill": 0.465,
-    "stroke": 3.655
+    "stroke": 3.655,
+    "surfaceExposure": 0.135
   },
   "glyph:chat": {
     "cx": 0,
@@ -787,7 +857,8 @@
     "mx": -0.32,
     "my": 0.317,
     "fill": 0.82,
-    "stroke": 10.4
+    "stroke": 10.4,
+    "surfaceExposure": 0
   },
   "glyph:cloud": {
     "cx": 0,
@@ -797,7 +868,8 @@
     "mx": 0.51,
     "my": 0.762,
     "fill": 0.771,
-    "stroke": 9.994
+    "stroke": 9.994,
+    "surfaceExposure": 0
   },
   "glyph:network": {
     "cx": 0,
@@ -807,17 +879,30 @@
     "mx": 0,
     "my": 1.1,
     "fill": 0.37,
-    "stroke": 2.607
+    "stroke": 2.607,
+    "surfaceExposure": 0
+  },
+  "glyph:addressBook": {
+    "cx": -0.375,
+    "cy": 0,
+    "w": 18.75,
+    "h": 19.5,
+    "mx": 0.472,
+    "my": 0.076,
+    "fill": 0.901,
+    "stroke": 6.818,
+    "surfaceExposure": 0
   },
   "glyph:wave": {
     "cx": 0,
     "cy": 0,
     "w": 21,
     "h": 13.5,
-    "mx": -0.001,
-    "my": 0.003,
-    "fill": 0.367,
-    "stroke": 4.003
+    "mx": 0,
+    "my": 0.002,
+    "fill": 0.179,
+    "stroke": 1.71,
+    "surfaceExposure": 0.385
   },
   "glyph:mapFold": {
     "cx": 0,
@@ -827,7 +912,8 @@
     "mx": 0,
     "my": 0,
     "fill": 0.838,
-    "stroke": 2.813
+    "stroke": 2.813,
+    "surfaceExposure": 0
   },
   "glyph:mapPin": {
     "cx": 0,
@@ -837,7 +923,8 @@
     "mx": -0.002,
     "my": -0.862,
     "fill": 0.722,
-    "stroke": 7.458
+    "stroke": 7.458,
+    "surfaceExposure": 0
   },
   "glyph:magnet": {
     "cx": -0.375,
@@ -847,7 +934,8 @@
     "mx": -0.322,
     "my": 0.338,
     "fill": 0.569,
-    "stroke": 2.782
+    "stroke": 2.782,
+    "surfaceExposure": 0
   },
   "glyph:gamepad": {
     "cx": 0,
@@ -857,17 +945,19 @@
     "mx": 1.304,
     "my": 0.541,
     "fill": 0.763,
-    "stroke": 2.157
+    "stroke": 2.157,
+    "surfaceExposure": 0
   },
   "glyph:math": {
     "cx": 0,
     "cy": 0.375,
     "w": 18,
     "h": 17.25,
-    "mx": -0.006,
-    "my": 0.053,
-    "fill": 0.887,
-    "stroke": 8.337
+    "mx": 0.864,
+    "my": 0.706,
+    "fill": 0.233,
+    "stroke": 1.492,
+    "surfaceExposure": 0.355
   },
   "glyph:sparkle": {
     "cx": 0.375,
@@ -877,7 +967,8 @@
     "mx": -0.291,
     "my": 0.283,
     "fill": 0.345,
-    "stroke": 3.797
+    "stroke": 3.797,
+    "surfaceExposure": 0
   },
   "glyph:link": {
     "cx": 0,
@@ -887,7 +978,8 @@
     "mx": 0.001,
     "my": -0.001,
     "fill": 0.566,
-    "stroke": 8.659
+    "stroke": 8.659,
+    "surfaceExposure": 0.068
   },
   "glyph:bug": {
     "cx": 0,
@@ -897,7 +989,8 @@
     "mx": -0.003,
     "my": 1.379,
     "fill": 0.66,
-    "stroke": 3.357
+    "stroke": 3.357,
+    "surfaceExposure": 0
   },
   "glyph:envelope": {
     "cx": 0,
@@ -907,7 +1000,8 @@
     "mx": 0,
     "my": -1.459,
     "fill": 0.996,
-    "stroke": 2.828
+    "stroke": 2.828,
+    "surfaceExposure": 0
   },
   "glyph:calendar": {
     "cx": 0,
@@ -917,7 +1011,8 @@
     "mx": 0.086,
     "my": -1.813,
     "fill": 0.929,
-    "stroke": 2.43
+    "stroke": 2.43,
+    "surfaceExposure": 0
   },
   "glyph:contactCard": {
     "cx": 0,
@@ -927,7 +1022,8 @@
     "mx": 0.067,
     "my": 0.017,
     "fill": 0.994,
-    "stroke": 8.129
+    "stroke": 8.129,
+    "surfaceExposure": 0
   },
   "glyph:trash": {
     "cx": 0,
@@ -937,7 +1033,84 @@
     "mx": 0,
     "my": 0.004,
     "fill": 0.785,
-    "stroke": 6.444
+    "stroke": 6.444,
+    "surfaceExposure": 0
+  },
+  "glyph:headCircuit": {
+    "cx": -0.375,
+    "cy": 0,
+    "w": 18.75,
+    "h": 21,
+    "mx": 0.163,
+    "my": -0.124,
+    "fill": 0.724,
+    "stroke": 8.107,
+    "surfaceExposure": 0.063
+  },
+  "glyph:lightning": {
+    "cx": 0,
+    "cy": 0,
+    "w": 16.5,
+    "h": 22.5,
+    "mx": -0.003,
+    "my": 0.002,
+    "fill": 0.407,
+    "stroke": 5.696,
+    "surfaceExposure": 0
+  },
+  "glyph:at": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": -0.092,
+    "my": -0.055,
+    "fill": 0.778,
+    "stroke": 10.698,
+    "surfaceExposure": 0.024
+  },
+  "glyph:translate": {
+    "cx": 0.75,
+    "cy": -0.375,
+    "w": 21.8,
+    "h": 19.55,
+    "mx": 0.552,
+    "my": -0.072,
+    "fill": 0.376,
+    "stroke": 2.57
+  },
+  "glyph:stamp": {
+    "cx": 0,
+    "cy": -0.375,
+    "w": 18,
+    "h": 20.25,
+    "mx": 0,
+    "my": 0.673,
+    "fill": 0.577,
+    "stroke": 2.184,
+    "surfaceExposure": 0
+  },
+  "glyph:aperture": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": 0,
+    "my": 0,
+    "fill": 0.787,
+    "stroke": 8.124,
+    "surfaceExposure": 0
+  },
+  "glyph:cpu": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 21,
+    "mx": 0,
+    "my": 0,
+    "fill": 0.67,
+    "stroke": 5.555,
+    "surfaceExposure": 0
   },
   "glyph:puzzleSolid": {
     "cx": -1.125,
@@ -2958,5 +3131,105 @@
     "my": -0.265,
     "fill": 0.556,
     "stroke": 2.012
+  },
+  "mark:codecov": {
+    "cx": 0,
+    "cy": -0.025,
+    "w": 24,
+    "h": 23.05,
+    "mx": 0.017,
+    "my": -2.609,
+    "fill": 0.294,
+    "stroke": 2.842
+  },
+  "mark:dependabot": {
+    "cx": 0,
+    "cy": 0,
+    "w": 22.5,
+    "h": 24,
+    "mx": -0.008,
+    "my": -0.175,
+    "fill": 0.723,
+    "stroke": 4.378
+  },
+  "mark:hashicorp": {
+    "cx": 0,
+    "cy": 0,
+    "w": 22.7,
+    "h": 24,
+    "mx": 0,
+    "my": 0,
+    "fill": 0.515,
+    "stroke": 3.21
+  },
+  "mark:jinja": {
+    "cx": 0,
+    "cy": 0,
+    "w": 24,
+    "h": 21.3,
+    "mx": -0.267,
+    "my": -1.192,
+    "fill": 0.471,
+    "stroke": 3.542
+  },
+  "mark:llvm": {
+    "cx": -0.025,
+    "cy": 0.075,
+    "w": 23.95,
+    "h": 17.95,
+    "mx": 0.043,
+    "my": -0.221,
+    "fill": 0.358,
+    "stroke": 1.714
+  },
+  "mark:mcp": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21.6,
+    "h": 24,
+    "mx": 0.833,
+    "my": -1.641,
+    "fill": 0.301,
+    "stroke": 2.091
+  },
+  "mark:precommit": {
+    "cx": 0,
+    "cy": 0,
+    "w": 24,
+    "h": 24,
+    "mx": -0.003,
+    "my": 0.104,
+    "fill": 0.573,
+    "stroke": 2.986
+  },
+  "mark:pytest": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 24,
+    "mx": -1.633,
+    "my": -1.887,
+    "fill": 0.504,
+    "stroke": 2.359
+  },
+  "mark:ruff": {
+    "cx": 0,
+    "cy": 0,
+    "w": 24,
+    "h": 24,
+    "mx": 0.015,
+    "my": 0.013,
+    "fill": 0.987,
+    "stroke": 6.807
+  },
+  "mark:uv": {
+    "cx": 0,
+    "cy": 0,
+    "w": 24,
+    "h": 24,
+    "mx": -0.04,
+    "my": 0.13,
+    "fill": 0.934,
+    "stroke": 8.383
   }
 }

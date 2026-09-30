@@ -29,6 +29,15 @@
  *     The tint is the SURFACE — the glass of the flask, the page of the
  *     document, the body of the disc. The ink is what is ON that surface.
  *
+ *     A surface has to be HELD by its ink, as the flask's liquid is held by the
+ *     glass. Some of upstream's are not: a free panel behind the drawing, whose
+ *     edge the ink runs across — the square behind the math operators, the
+ *     slab behind the binary digits, the half-filled bowl of 文 in the
+ *     translation glyph. Painted, that edge reads as a second, wrong outline
+ *     and the drawing as something leaking off it. tools/measure.ts measures
+ *     how much of each surface's edge meets the ground rather than ink, and
+ *     over SURFACE_EXPOSURE_LIMIT the surface is not drawn (M12).
+ *
  *   THE FALLBACK. A pictogram painted with a single colour (a folder pictogram
  *   sunk into its body, a measuring pass) gets slot 0 for both, so nothing has
  *   to special-case a palette of one.
@@ -47,6 +56,20 @@ const GLYPH_BOX = 24;
 
 const roundToHundredThousandths = (v: number): number => Number(v.toFixed(5));
 
+/** Paint a slot with this and its parts are left out: how a pictogram is drawn without its surface. */
+export const NO_SURFACE: Colour = 'none';
+
+/**
+ * The share of a surface's edge that may meet the ground rather than ink. A
+ * held surface still shows some — the flask's liquid has an open top — and the
+ * set's held surfaces measure 0.14 at most (the group behind `users`); the
+ * free panels start at 0.23 (`waveform`) and run to 0.52 (`compress`).
+ */
+export const SURFACE_EXPOSURE_LIMIT = 0.2;
+
+/** Whether a pictogram has a surface at all, which is what measure.ts has to look at. */
+export const hasSurface = (name: GlyphName): boolean => pictogramPaths[name].parts.some((part) => part.c === 1);
+
 /**
  * Turns one piece of imported artwork into a pictogram.
  *
@@ -61,7 +84,10 @@ function imported(art: PictogramArt): Pictogram {
   const scale = roundToHundredThousandths(GLYPH_BOX / art.box);
   return (palette) => {
     const paint = (slot: number): Colour => palette[slot] ?? palette[0];
-    const body = art.parts.map((p) => filledPath(p.d, paint(p.c), p.evenOdd === true)).join('');
+    const body = art.parts
+      .filter((p) => paint(p.c) !== NO_SURFACE)
+      .map((p) => filledPath(p.d, paint(p.c), p.evenOdd === true))
+      .join('');
     return `<g transform="translate(-12 -12) scale(${scale})">${body}</g>`;
   };
 }

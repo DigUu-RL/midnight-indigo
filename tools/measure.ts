@@ -35,7 +35,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { findBrowser } from './browser.ts';
-import { glyphs, type GlyphName } from './glyphs.ts';
+import { glyphs, hasSurface, NO_SURFACE, SURFACE_EXPOSURE_LIMIT, type GlyphName } from './glyphs.ts';
 import { marks, type MarkName } from './marks.ts';
 import { FONT_STACK, FONT_WEIGHT, letteringRuns, textMetricsKey } from './icon-spec.ts';
 
@@ -48,7 +48,7 @@ type TextMetrics = Bounds & { dx: number; dy: number };
  * encloses, so a ring counts as a disc — and its mean stroke thickness, twice
  * the ink area over its outline. build-icons.ts centres and sizes from these.
  */
-type ArtworkMetrics = Bounds & { mx: number; my: number; fill: number; stroke: number };
+type ArtworkMetrics = Bounds & { mx: number; my: number; fill: number; stroke: number; surfaceExposure?: number };
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.join(os.tmpdir(), 'midnight-indigo-measure.html');
@@ -82,8 +82,76 @@ const artJob = (kind: string, id: string, body: string) => ({
     `${body}</svg>`,
 });
 
+/* ---------------- how much of each surface stands free (M12) ---------------- */
+
+const renderInBrowser = (script: string): string => {
+  fs.writeFileSync(HTML, `<!doctype html><meta charset="utf-8"><body><pre id="out"></pre><script>${script}<\/script></body>`, 'utf8');
+  const dom: string = execFileSync(
+    findBrowser(),
+    ['--headless', '--disable-gpu', '--virtual-time-budget=120000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
+    { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
+  );
+  const match: RegExpMatchArray | null = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
+  if (!match || !match[1].trim()) throw new Error('measurement page produced no output');
+  return match[1].replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+};
+
+/*
+ * The ink white and the surface red, on black. A surface pixel on the edge of
+ * the surface is HELD when ink lies within HOLD_RADIUS of it and EXPOSED when
+ * it meets the ground with no ink that close: the share of exposed edge is how
+ * free the surface stands. The radius is a fifth of a unit, so a surface that
+ * stops a hair short of its outline still counts as held.
+ */
+const surfaceGlyphs: GlyphName[] = glyphNames.filter(hasSurface);
+const surfaceJobs = surfaceGlyphs.map((name: GlyphName) => artJob('surface', name, glyphs[name](['#fff', '#f00'])));
+const exposureScript = `
+const jobs = ${JSON.stringify(surfaceJobs)};
+const PX = 20;
+const HOLD_RADIUS = 4;
+const out = {};
+(async () => {
+  for (const job of jobs) {
+    const S = job.span * PX;
+    const canvas = document.createElement('canvas'); canvas.width = S; canvas.height = S;
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    const image = new Image();
+    image.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(job.svg)));
+    await image.decode();
+    context.drawImage(image, 0, 0, S, S);
+    const data = context.getImageData(0, 0, S, S).data;
+    const kind = new Uint8Array(S * S); // 0 ground, 1 surface, 2 ink, 3 blend
+    for (let index = 0; index < S * S; index++) {
+      const red = data[index * 4], green = data[index * 4 + 1], blue = data[index * 4 + 2];
+      kind[index] = red + green + blue < 60 ? 0 : red > 200 && green < 40 ? 1 : green > 200 ? 2 : 3;
+    }
+    const inkNear = (x, y) => {
+      for (let dy = -HOLD_RADIUS; dy <= HOLD_RADIUS; dy++) for (let dx = -HOLD_RADIUS; dx <= HOLD_RADIUS; dx++) {
+        const nx = x + dx, ny = y + dy;
+        if (nx >= 0 && ny >= 0 && nx < S && ny < S && kind[ny * S + nx] === 2) return true;
+      }
+      return false;
+    };
+    let edge = 0, exposed = 0;
+    for (let y = 1; y < S - 1; y++) for (let x = 1; x < S - 1; x++) {
+      if (kind[y * S + x] !== 1) continue;
+      const neighbours = [kind[y * S + x - 1], kind[y * S + x + 1], kind[(y - 1) * S + x], kind[(y + 1) * S + x]];
+      if (neighbours.every((neighbour) => neighbour === 1)) continue;
+      edge++;
+      if (neighbours.some((neighbour) => neighbour === 0 || neighbour === 3) && !inkNear(x, y)) exposed++;
+    }
+    out[job.id] = edge ? exposed / edge : 0;
+  }
+  document.getElementById('out').textContent = JSON.stringify(out);
+})();
+`;
+const surfaceExposure: Record<string, number> = JSON.parse(renderInBrowser(exposureScript));
+/** A pictogram is measured as it will be drawn: without its surface, when the surface stands free. */
+const drawnForMeasuring = (name: GlyphName): string =>
+  glyphs[name]((surfaceExposure[name] ?? 0) > SURFACE_EXPOSURE_LIMIT ? [WHITE[0], NO_SURFACE] : WHITE);
+
 const jobs = [
-  ...glyphNames.map((n) => artJob('glyph', n, glyphs[n](WHITE))),
+  ...glyphNames.map((n) => artJob('glyph', n, drawnForMeasuring(n))),
   ...markNames.map((n) => artJob('mark', n, marks[n].draw(WHITE))),
   ...runs.map((r) => ({
     kind: 'text',
@@ -160,27 +228,14 @@ const out = [];
 })();
 `;
 
-fs.writeFileSync(
-  HTML,
-  `<!doctype html><meta charset="utf-8"><body><pre id="out"></pre><script>${script}<\/script></body>`,
-  'utf8'
-);
-
-const dom = execFileSync(
-  findBrowser(),
-  ['--headless', '--disable-gpu', '--virtual-time-budget=120000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
-  { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
-);
-
-const m = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
-if (!m || !m[1].trim()) throw new Error('measurement page produced no output');
+const measured: string = renderInBrowser(script);
 
 const round = (v: string | number): number => Number(Number(v).toFixed(3));
 const artBounds: Record<string, ArtworkMetrics> = {};
 const textMetrics: Record<string, TextMetrics> = {};
 const empty: string[] = [];
 
-for (const line of m[1].trim().split('\u0002')) {
+for (const line of measured.trim().split('\u0002')) {
   const [kind, id, cx, cy, w, h, mx, my, fill, stroke] = line.split('\u0001');
   if (cx === 'EMPTY') {
     empty.push(`${kind} ${id}`);
@@ -193,6 +248,7 @@ for (const line of m[1].trim().split('\u0002')) {
 }
 
 if (empty.length) throw new Error(`nothing rendered for: ${empty.join(', ')}`);
+for (const [name, exposure] of Object.entries(surfaceExposure)) artBounds[`glyph:${name}`].surfaceExposure = round(exposure);
 const missingArt = [
   ...glyphNames.map((n) => `glyph:${n}`),
   ...markNames.map((n) => `mark:${n}`),
@@ -208,3 +264,8 @@ const wide = Object.entries(artBounds).filter(([, b]) => Math.max(b.w, b.h) / Ma
 console.log(`measured ${glyphNames.length} pictograms and ${markNames.length} marks -> tools/glyph-bounds.json`);
 console.log(`  ${wide.length} are more than 2.5x longer than they are tall: ${wide.map(([k]) => k).join(', ') || '—'}`);
 console.log(`measured ${runs.length} text runs -> tools/text-bounds.json`);
+const freeSurfaces: string[] = Object.entries(surfaceExposure)
+  .filter(([, exposure]) => exposure > SURFACE_EXPOSURE_LIMIT)
+  .map(([name, exposure]) => `${name} ${exposure.toFixed(2)}`)
+  .sort();
+console.log(`  ${freeSurfaces.length} pictograms drawn without their free-standing surface: ${freeSurfaces.join(', ') || '—'}`);

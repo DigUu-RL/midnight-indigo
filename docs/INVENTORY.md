@@ -47,13 +47,13 @@ The TextMate rules the theme shipped with are held the same way: a shipped rule 
 | TextMate rules, per theme | 69 |
 | TextMate scopes across those rules | 226 |
 | Semantic token rules, per theme | 58 |
-| Icon definitions | 398 |
-| SVGs in `icons/svg/` | 398 |
-| File-extension associations | 547 |
-| Exact-filename associations | 270 |
-| Folder-name associations (closed) | 235 |
-| Folder-name associations (open) | 235 |
-| Language-id associations | 105 |
+| Icon definitions | 413 |
+| SVGs in `icons/svg/` | 413 |
+| File-extension associations | 636 |
+| Exact-filename associations | 372 |
+| Folder-name associations (closed) | 241 |
+| Folder-name associations (open) | 241 |
+| Language-id associations | 118 |
 
 All eight themes share one structure — the same workbench keys, the same TextMate rules in the same order, the same semantic rules — so every count above holds for each of them.
 
@@ -302,9 +302,9 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/bash.png` | `82e04fa81988` |
 | `docs/preview/csharp.png` | `da41a6629d86` |
 | `docs/preview/go.png` | `d1c48b2ace4d` |
-| `docs/preview/hero.png` | `ecfa480cfcea` |
+| `docs/preview/hero.png` | `e0d17b52a735` |
 | `docs/preview/html.png` | `45226ed95168` |
-| `docs/preview/icons-files.png` | `e7dce19efbe1` |
+| `docs/preview/icons-files.png` | `0bd6cde17e18` |
 | `docs/preview/icons-folders.png` | `58ce14408ded` |
 | `docs/preview/java.png` | `5a02a74b52d4` |
 | `docs/preview/javascript.png` | `9536a2ad697a` |
@@ -316,7 +316,7 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/python.png` | `25291467a425` |
 | `docs/preview/rust.png` | `5d3b305d3f4c` |
 | `docs/preview/scss.png` | `518e505dfe4a` |
-| `docs/preview/sql.png` | `88738240aad5` |
+| `docs/preview/sql.png` | `cf82f5cde97a` |
 | `docs/preview/tsx.png` | `813bfc974d0e` |
 | `docs/preview/typescript.png` | `bc24b8dd50fe` |
 | `docs/preview/yaml.png` | `05753d6ce80f` |
