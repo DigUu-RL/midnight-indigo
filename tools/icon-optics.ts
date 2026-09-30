@@ -34,8 +34,8 @@ export type IconOptics = {
   shadowArea: Units;
   atSixteen: Solidity;
   atThirtyTwo: Solidity;
-  /** For a folder: where the sunk pictogram's weight and box sit. */
-  pictogram: { centreX: Units; centreY: Units; boxCentreX: Units; boxCentreY: Units } | null;
+  /** For a folder: where the sunk pictogram's weight and box sit, and the box itself. */
+  pictogram: { centreX: Units; centreY: Units; boxCentreX: Units; boxCentreY: Units; box: Bounds } | null;
 };
 
 export type OpticsReport = Record<string, IconOptics>;
@@ -44,6 +44,35 @@ export const OPTICS_FILE = 'icon-optics.json';
 
 /** Where build-icons.ts puts the centre of a file icon's artwork. */
 export const ARTWORK_CENTRE = { x: 15.6, y: 15.4 };
+
+/** A rectangle in the 32-unit canvas. */
+export type Bounds = { left: Units; top: Units; right: Units; bottom: Units };
+
+/*
+ * The clear edge a folder keeps between its sunk pictogram and the edge of the
+ * face it is sunk into: most of a pixel at 16px. Without it a pictogram grown
+ * by its optical correction ran into the edge — the flask's neck touched the
+ * seam under the tab, and the T of `fonts` ran off the bottom of the open
+ * folder's front wall.
+ */
+const FOLDER_EDGE = 1.8;
+
+/** The face a pictogram is sunk into, from the paths in build-icons.ts: the body under the tab, and the open folder's front wall. */
+const CLOSED_FACE: Bounds = { left: 3, top: 10.35, right: 29, bottom: 27 };
+const OPEN_FRONT: Bounds = { left: 5.2, top: 12.8, right: 29.6, bottom: 27.4 };
+
+const inset = (bounds: Bounds, by: Units): Bounds =>
+  ({ left: bounds.left + by, top: bounds.top + by, right: bounds.right - by, bottom: bounds.bottom - by });
+
+/**
+ * Where build-icons.ts sinks a folder's pictogram, how big, and the area its
+ * ink may never leave, in each state. The centre is the middle of that area,
+ * and the size its height, so a pictogram is as large as the face allows.
+ */
+export const FOLDER_PICTOGRAM_PLACEMENT = {
+  closed: { cx: 16, cy: 18.675, size: 13, safe: inset(CLOSED_FACE, FOLDER_EDGE) },
+  open: { cx: 17.4, cy: 20.1, size: 11, safe: inset(OPEN_FRONT, FOLDER_EDGE) },
+};
 
 /*
  * What `npm run check` holds the audit to. Each limit is set from the audit of
@@ -59,6 +88,19 @@ export const OPTICAL_LIMITS = {
    * units is two thirds of a pixel at 16px. Before M10 the set ran to 2.4.
    */
   opticalResidual: 1.3,
+  /*
+   * The same, for the pictogram sunk into a folder, against its placement.
+   * Tighter, because nothing stops the pull there: the facade is the pictogram's
+   * whole canvas and it is never near its edge. M11 measured 0.04 at worst.
+   */
+  folderPictogramResidual: 0.5,
+  /*
+   * How far a folder's pictogram, as rasterised, may reach into the clear edge
+   * FOLDER_PICTOGRAM_PLACEMENT keeps round it. The placement is exact; the
+   * raster is not — antialiasing lights part of the next pixel of a 320px
+   * render, 0.1 units. Anything past that is the pictogram touching the edge.
+   */
+  folderEdgeTolerance: 0.15,
   /* Shadow showing beside the ink, as a share of the ink. It reached 1.8 — a second icon, out of register. */
   shadowToInk: 0.6,
   /* The shadow against the darkest ground: visible as shade, never as a second edge. */

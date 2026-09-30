@@ -9600,12 +9600,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.228,
-   "centreY": 20.272,
+   "centreX": 17.248,
+   "centreY": 20.255,
    "boxCentreX": 17.563,
-   "boxCentreY": 19.875
+   "boxCentreY": 19.938,
+   "box": {
+    "left": 12.25,
+    "top": 14.625,
+    "right": 22.875,
+    "bottom": 25.25
+   }
   },
-  "hash": "caf1035f23b4"
+  "hash": "3772a86d3bd3"
  },
  "folder-ai": {
   "name": "folder-ai",
@@ -9638,12 +9644,18 @@
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.804,
-   "centreY": 18.597,
+   "centreX": 15.818,
+   "centreY": 18.858,
    "boxCentreX": 16.188,
-   "boxCentreY": 18.25
+   "boxCentreY": 18.5,
+   "box": {
+    "left": 9.875,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 24.875
+   }
   },
-  "hash": "c8c756551f10"
+  "hash": "fdfa4750a489"
  },
  "folder-api-open": {
   "name": "folder-api-open",
@@ -9676,12 +9688,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.399,
-   "centreY": 20.093,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20.063
+   "centreX": 17.394,
+   "centreY": 20.101,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 11.875,
+    "top": 14.625,
+    "right": 22.875,
+    "bottom": 25.625
+   }
   },
-  "hash": "6b86f1215e35"
+  "hash": "551e495cfc4b"
  },
  "folder-api": {
   "name": "folder-api",
@@ -9707,19 +9725,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.998,
-   "centreY": 18.404,
+   "centreX": 15.993,
+   "centreY": 18.669,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "0f0f442aff36"
+  "hash": "12e011be7278"
  },
  "folder-archive-open": {
   "name": "folder-archive-open",
@@ -9753,11 +9777,17 @@
   },
   "pictogram": {
    "centreX": 17.4,
-   "centreY": 20.228,
-   "boxCentreX": 17.438,
-   "boxCentreY": 19.938
+   "centreY": 20.214,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20,
+   "box": {
+    "left": 12,
+    "top": 16.125,
+    "right": 22.75,
+    "bottom": 23.875
+   }
   },
-  "hash": "9b10c472d89b"
+  "hash": "f97903b86f3b"
  },
  "folder-archive": {
   "name": "folder-archive",
@@ -9783,19 +9813,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.999,
-   "centreY": 18.536,
+   "centreX": 16,
+   "centreY": 18.826,
    "boxCentreX": 16,
-   "boxCentreY": 18.25
+   "boxCentreY": 18.563,
+   "box": {
+    "left": 9.625,
+    "top": 14,
+    "right": 22.375,
+    "bottom": 23.125
+   }
   },
-  "hash": "52cc913f11f9"
+  "hash": "e1cdae891aca"
  },
  "folder-assets-open": {
   "name": "folder-assets-open",
@@ -9828,12 +9864,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.02,
-   "centreY": 20.315,
-   "boxCentreX": 17.75,
-   "boxCentreY": 19.938
+   "centreX": 17.4,
+   "centreY": 20.093,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 22.875,
+    "bottom": 25.625
+   }
   },
-  "hash": "be77b290745d"
+  "hash": "b85cd522dad9"
  },
  "folder-assets": {
   "name": "folder-assets",
@@ -9859,19 +9901,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.581,
-   "centreY": 18.627,
-   "boxCentreX": 16.438,
-   "boxCentreY": 18.188
+   "centreX": 16.001,
+   "centreY": 18.686,
+   "boxCentreX": 16,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "d96a1e2f6b76"
+  "hash": "9a560b2f5110"
  },
  "folder-audio-open": {
   "name": "folder-audio-open",
@@ -9904,12 +9952,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.779,
-   "centreY": 20.295,
-   "boxCentreX": 17,
-   "boxCentreY": 19.875
+   "centreX": 17.322,
+   "centreY": 20.187,
+   "boxCentreX": 17.5,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 12.625,
+    "top": 14.5,
+    "right": 22.375,
+    "bottom": 25.625
+   }
   },
-  "hash": "7e9258929427"
+  "hash": "e1b5d96ac0e5"
  },
  "folder-audio": {
   "name": "folder-audio",
@@ -9935,19 +9989,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.733
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.415,
-   "centreY": 18.629,
-   "boxCentreX": 15.625,
-   "boxCentreY": 18.125
+   "centreX": 15.913,
+   "centreY": 18.749,
+   "boxCentreX": 16.125,
+   "boxCentreY": 18.625,
+   "box": {
+    "left": 10.375,
+    "top": 12.125,
+    "right": 21.875,
+    "bottom": 25.125
+   }
   },
-  "hash": "3f49585a68c7"
+  "hash": "e7a1b12164d2"
  },
  "folder-benchmarks-open": {
   "name": "folder-benchmarks-open",
@@ -9980,12 +10040,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.403,
-   "centreY": 20.315,
+   "centreX": 17.399,
+   "centreY": 20.104,
    "boxCentreX": 17.438,
-   "boxCentreY": 19.875
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 13.375,
+    "top": 14.5,
+    "right": 21.5,
+    "bottom": 25.625
+   }
   },
-  "hash": "5c61f6cda893"
+  "hash": "41281feb5adf"
  },
  "folder-benchmarks": {
   "name": "folder-benchmarks",
@@ -10011,19 +10077,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.006,
-   "centreY": 18.652,
+   "centreX": 15.996,
+   "centreY": 18.674,
    "boxCentreX": 16,
-   "boxCentreY": 18.188
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 11.125,
+    "top": 12.125,
+    "right": 20.875,
+    "bottom": 25.25
+   }
   },
-  "hash": "3eb9cab8f480"
+  "hash": "152fa9e0c931"
  },
  "folder-build-open": {
   "name": "folder-build-open",
@@ -10056,12 +10128,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.466,
-   "centreY": 19.66,
-   "boxCentreX": 17.313,
-   "boxCentreY": 20.563
+   "centreX": 17.001,
+   "centreY": 20.145,
+   "boxCentreX": 17.75,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.625,
+    "right": 23.625,
+    "bottom": 25.5
+   }
   },
-  "hash": "5e473f9a36fb"
+  "hash": "0a1996289e84"
  },
  "folder-build": {
   "name": "folder-build",
@@ -10087,19 +10165,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.074,
-   "centreY": 17.904,
-   "boxCentreX": 15.938,
-   "boxCentreY": 18.875
+   "centreX": 15.533,
+   "centreY": 18.731,
+   "boxCentreX": 16.438,
+   "boxCentreY": 18.625,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 23.375,
+    "bottom": 25.125
+   }
   },
-  "hash": "a81131a65d1e"
+  "hash": "050f66dde567"
  },
  "folder-components-open": {
   "name": "folder-components-open",
@@ -10132,12 +10216,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.652,
-   "centreY": 20.433,
-   "boxCentreX": 17.125,
-   "boxCentreY": 19.75
+   "centreX": 17.603,
+   "centreY": 20.407,
+   "boxCentreX": 17.188,
+   "boxCentreY": 19.75,
+   "box": {
+    "left": 11.875,
+    "top": 14.625,
+    "right": 22.5,
+    "bottom": 24.875
+   }
   },
-  "hash": "6fd9a814d6be"
+  "hash": "1a8c9b0bd14d"
  },
  "folder-components": {
   "name": "folder-components",
@@ -10163,19 +10253,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.28,
-   "centreY": 18.779,
+   "centreX": 16.244,
+   "centreY": 19.048,
    "boxCentreX": 15.75,
-   "boxCentreY": 18
+   "boxCentreY": 18.313,
+   "box": {
+    "left": 9.5,
+    "top": 12.25,
+    "right": 22,
+    "bottom": 24.375
+   }
   },
-  "hash": "222d084c104f"
+  "hash": "2acc40827af6"
  },
  "folder-config-open": {
   "name": "folder-config-open",
@@ -10208,12 +10304,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.399,
-   "centreY": 20.096,
+   "centreX": 17.398,
+   "centreY": 20.087,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.063
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 11.5,
+    "top": 15.375,
+    "right": 23.25,
+    "bottom": 24.875
+   }
   },
-  "hash": "ae4e110ae459"
+  "hash": "ab18d313d48c"
  },
  "folder-config": {
   "name": "folder-config",
@@ -10239,19 +10341,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.998,
-   "centreY": 18.41,
+   "centreX": 15.997,
+   "centreY": 18.676,
    "boxCentreX": 16,
-   "boxCentreY": 18.438
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.125,
+    "top": 13.125,
+    "right": 22.875,
+    "bottom": 24.25
+   }
   },
-  "hash": "3f6f57d7501c"
+  "hash": "c670e8d390f0"
  },
  "folder-constants-open": {
   "name": "folder-constants-open",
@@ -10284,12 +10392,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.399,
-   "centreY": 20.771,
-   "boxCentreX": 17.375,
-   "boxCentreY": 19.438
+   "centreX": 17.594,
+   "centreY": 19.699,
+   "boxCentreX": 17.25,
+   "boxCentreY": 20.5,
+   "box": {
+    "left": 11.375,
+    "top": 16.25,
+    "right": 23.125,
+    "bottom": 24.75
+   }
   },
-  "hash": "62601554ac12"
+  "hash": "8c10cc8851dd"
  },
  "folder-constants": {
   "name": "folder-constants",
@@ -10315,19 +10429,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16,
-   "centreY": 19.144,
-   "boxCentreX": 16,
-   "boxCentreY": 17.688
+   "centreX": 16.219,
+   "centreY": 18.207,
+   "boxCentreX": 15.813,
+   "boxCentreY": 19.188,
+   "box": {
+    "left": 8.875,
+    "top": 14.25,
+    "right": 22.75,
+    "bottom": 24.125
+   }
   },
-  "hash": "4174797738a5"
+  "hash": "07ece2d24cb5"
  },
  "folder-context-open": {
   "name": "folder-context-open",
@@ -10360,12 +10480,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.395,
-   "centreY": 20.097,
+   "centreX": 17.399,
+   "centreY": 20.535,
    "boxCentreX": 17.438,
-   "boxCentreY": 20.063
+   "boxCentreY": 19.688,
+   "box": {
+    "left": 11.75,
+    "top": 14.625,
+    "right": 23.125,
+    "bottom": 24.75
+   }
   },
-  "hash": "5f728da98b06"
+  "hash": "0c120c863d5e"
  },
  "folder-context": {
   "name": "folder-context",
@@ -10391,19 +10517,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.994,
-   "centreY": 18.408,
+   "centreX": 15.999,
+   "centreY": 19.187,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.188,
+   "box": {
+    "left": 9.25,
+    "top": 12.25,
+    "right": 22.75,
+    "bottom": 24.125
+   }
   },
-  "hash": "917b61850084"
+  "hash": "2412341bf045"
  },
  "folder-controllers-open": {
   "name": "folder-controllers-open",
@@ -10436,12 +10568,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.501,
-   "centreY": 20.094,
+   "centreX": 17.475,
+   "centreY": 20.089,
    "boxCentreX": 17.313,
-   "boxCentreY": 20.125
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.5,
+    "top": 15.375,
+    "right": 23.125,
+    "bottom": 24.75
+   }
   },
-  "hash": "e1592016c420"
+  "hash": "90807c576375"
  },
  "folder-controllers": {
   "name": "folder-controllers",
@@ -10467,19 +10605,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.112,
-   "centreY": 18.387,
-   "boxCentreX": 15.875,
-   "boxCentreY": 18.375
+   "centreX": 16.1,
+   "centreY": 18.65,
+   "boxCentreX": 15.938,
+   "boxCentreY": 18.625,
+   "box": {
+    "left": 9,
+    "top": 13.125,
+    "right": 22.875,
+    "bottom": 24.125
+   }
   },
-  "hash": "1d07c8f24fd3"
+  "hash": "76a5cd552a4f"
  },
  "folder-core-open": {
   "name": "folder-core-open",
@@ -10512,12 +10656,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.399,
-   "centreY": 20.104,
-   "boxCentreX": 17.375,
-   "boxCentreY": 20.125
+   "centreX": 17.4,
+   "centreY": 20.108,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 23,
+    "bottom": 25.625
+   }
   },
-  "hash": "3f09f6db8d69"
+  "hash": "a4ed8a5970be"
  },
  "folder-core": {
   "name": "folder-core",
@@ -10543,7 +10693,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -10551,11 +10701,17 @@
   },
   "pictogram": {
    "centreX": 15.999,
-   "centreY": 18.401,
+   "centreY": 18.684,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "685c449508f2"
+  "hash": "1840374cd74f"
  },
  "folder-database-open": {
   "name": "folder-database-open",
@@ -10589,11 +10745,17 @@
   },
   "pictogram": {
    "centreX": 17.397,
-   "centreY": 19.684,
+   "centreY": 19.719,
    "boxCentreX": 17.438,
-   "boxCentreY": 20.5
+   "boxCentreY": 20.438,
+   "box": {
+    "left": 12.75,
+    "top": 15.375,
+    "right": 22.125,
+    "bottom": 25.5
+   }
   },
-  "hash": "6a8f62216bb8"
+  "hash": "378527a76023"
  },
  "folder-database": {
   "name": "folder-database",
@@ -10619,7 +10781,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -10627,11 +10789,17 @@
   },
   "pictogram": {
    "centreX": 15.997,
-   "centreY": 17.954,
+   "centreY": 18.183,
    "boxCentreX": 16,
-   "boxCentreY": 18.813
+   "boxCentreY": 19.063,
+   "box": {
+    "left": 10.375,
+    "top": 12.875,
+    "right": 21.625,
+    "bottom": 25.25
+   }
   },
-  "hash": "5310e4eeb906"
+  "hash": "7e4ae7538d83"
  },
  "folder-design-open": {
   "name": "folder-design-open",
@@ -10664,12 +10832,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.664,
-   "centreY": 20.384,
-   "boxCentreX": 17.125,
-   "boxCentreY": 19.813
+   "centreX": 17.172,
+   "centreY": 20.327,
+   "boxCentreX": 17.625,
+   "boxCentreY": 19.875,
+   "box": {
+    "left": 12.375,
+    "top": 14.625,
+    "right": 22.875,
+    "bottom": 25.125
+   }
   },
-  "hash": "0232e7042a56"
+  "hash": "17b4afc40ce6"
  },
  "folder-design": {
   "name": "folder-design",
@@ -10695,19 +10869,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.293,
-   "centreY": 18.722,
-   "boxCentreX": 15.75,
-   "boxCentreY": 18.125
+   "centreX": 15.719,
+   "centreY": 18.99,
+   "boxCentreX": 16.313,
+   "boxCentreY": 18.438,
+   "box": {
+    "left": 10,
+    "top": 12.125,
+    "right": 22.625,
+    "bottom": 24.75
+   }
   },
-  "hash": "8e8dc2a3042c"
+  "hash": "90d5729f1ac3"
  },
  "folder-docker-open": {
   "name": "folder-docker-open",
@@ -10740,12 +10920,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.023,
-   "centreY": 20.436,
+   "centreX": 17.028,
+   "centreY": 20.429,
    "boxCentreX": 17.75,
-   "boxCentreY": 19.813
+   "boxCentreY": 19.75,
+   "box": {
+    "left": 11.875,
+    "top": 15.5,
+    "right": 23.625,
+    "bottom": 24
+   }
   },
-  "hash": "13b401ae8b60"
+  "hash": "d94516cbd41c"
  },
  "folder-docker": {
   "name": "folder-docker",
@@ -10771,19 +10957,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.584,
-   "centreY": 18.774,
-   "boxCentreX": 16.375,
-   "boxCentreY": 18
+   "centreX": 15.57,
+   "centreY": 19.069,
+   "boxCentreX": 16.438,
+   "boxCentreY": 18.25,
+   "box": {
+    "left": 9.5,
+    "top": 13.25,
+    "right": 23.375,
+    "bottom": 23.25
+   }
   },
-  "hash": "3c006f0780f9"
+  "hash": "1aebc8619d27"
  },
  "folder-docs-open": {
   "name": "folder-docs-open",
@@ -10816,12 +11008,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.031,
-   "centreY": 20.046,
-   "boxCentreX": 17.75,
-   "boxCentreY": 20.125
+   "centreX": 17.377,
+   "centreY": 19.953,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.25,
+   "box": {
+    "left": 12.875,
+    "top": 14.875,
+    "right": 22,
+    "bottom": 25.625
+   }
   },
-  "hash": "182dfc59c961"
+  "hash": "1505292bae79"
  },
  "folder-docs": {
   "name": "folder-docs",
@@ -10847,19 +11045,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.594,
-   "centreY": 18.338,
-   "boxCentreX": 16.375,
-   "boxCentreY": 18.5
+   "centreX": 15.973,
+   "centreY": 18.502,
+   "boxCentreX": 16.063,
+   "boxCentreY": 18.875,
+   "box": {
+    "left": 10.75,
+    "top": 12.625,
+    "right": 21.375,
+    "bottom": 25.125
+   }
   },
-  "hash": "fe689ee37ff9"
+  "hash": "bc8ba7c8a61f"
  },
  "folder-fonts-open": {
   "name": "folder-fonts-open",
@@ -10892,12 +11096,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.623,
-   "centreY": 20.487,
-   "boxCentreX": 17.188,
-   "boxCentreY": 19.688
+   "centreX": 17.399,
+   "centreY": 19.394,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.563,
+   "box": {
+    "left": 12.375,
+    "top": 15.5,
+    "right": 22.375,
+    "bottom": 25.625
+   }
   },
-  "hash": "cc7e57d2974c"
+  "hash": "2920648d11e5"
  },
  "folder-fonts": {
   "name": "folder-fonts",
@@ -10923,19 +11133,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.239,
-   "centreY": 18.835,
-   "boxCentreX": 15.75,
-   "boxCentreY": 18
+   "centreX": 16,
+   "centreY": 17.865,
+   "boxCentreX": 16,
+   "boxCentreY": 19.313,
+   "box": {
+    "left": 10,
+    "top": 13.375,
+    "right": 22,
+    "bottom": 25.25
+   }
   },
-  "hash": "6335b5e43c96"
+  "hash": "61e4d3afe70b"
  },
  "folder-functions-open": {
   "name": "folder-functions-open",
@@ -10968,12 +11184,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.406,
-   "centreY": 20.23,
+   "centreX": 17.411,
+   "centreY": 20.21,
    "boxCentreX": 17.375,
-   "boxCentreY": 20
+   "boxCentreY": 20,
+   "box": {
+    "left": 12,
+    "top": 14.625,
+    "right": 22.75,
+    "bottom": 25.375
+   }
   },
-  "hash": "e7e474df51b1"
+  "hash": "dbd3820ed169"
  },
  "folder-functions": {
   "name": "folder-functions",
@@ -10999,19 +11221,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.011,
-   "centreY": 18.542,
+   "centreX": 16.014,
+   "centreY": 18.804,
    "boxCentreX": 16,
-   "boxCentreY": 18.25
+   "boxCentreY": 18.563,
+   "box": {
+    "left": 9.625,
+    "top": 12.25,
+    "right": 22.375,
+    "bottom": 24.875
+   }
   },
-  "hash": "76735ffc4a45"
+  "hash": "de96c8685bd7"
  },
  "folder-guards-open": {
   "name": "folder-guards-open",
@@ -11045,11 +11273,17 @@
   },
   "pictogram": {
    "centreX": 17.398,
-   "centreY": 19.72,
+   "centreY": 19.74,
    "boxCentreX": 17.438,
-   "boxCentreY": 20.438
+   "boxCentreY": 20.5,
+   "box": {
+    "left": 12.5,
+    "top": 15.375,
+    "right": 22.375,
+    "bottom": 25.625
+   }
   },
-  "hash": "d3c3552b2577"
+  "hash": "5f8b2fbf9374"
  },
  "folder-guards": {
   "name": "folder-guards",
@@ -11075,19 +11309,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.998,
-   "centreY": 17.985,
+   "centreX": 15.997,
+   "centreY": 18.255,
    "boxCentreX": 16,
-   "boxCentreY": 18.813
+   "boxCentreY": 19.063,
+   "box": {
+    "left": 10.125,
+    "top": 13,
+    "right": 21.875,
+    "bottom": 25.125
+   }
   },
-  "hash": "ce0e2bdf909e"
+  "hash": "9f4395ef99a0"
  },
  "folder-helpers-open": {
   "name": "folder-helpers-open",
@@ -11120,12 +11360,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.394,
-   "centreY": 20.101,
+   "centreX": 17.4,
+   "centreY": 20.107,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.125
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 22.875,
+    "bottom": 25.625
+   }
   },
-  "hash": "44d819d0d4c2"
+  "hash": "de626ddebbac"
  },
  "folder-helpers": {
   "name": "folder-helpers",
@@ -11151,19 +11397,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.996,
-   "centreY": 18.381,
+   "centreX": 15.999,
+   "centreY": 18.678,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "9ee68df5e295"
+  "hash": "da4d04267381"
  },
  "folder-hooks-open": {
   "name": "folder-hooks-open",
@@ -11197,11 +11449,17 @@
   },
   "pictogram": {
    "centreX": 17.399,
-   "centreY": 20.351,
-   "boxCentreX": 17.375,
-   "boxCentreY": 19.875
+   "centreY": 20.391,
+   "boxCentreX": 17.438,
+   "boxCentreY": 19.813,
+   "box": {
+    "left": 11.75,
+    "top": 14.625,
+    "right": 23.125,
+    "bottom": 25
+   }
   },
-  "hash": "aeda78bd1310"
+  "hash": "f6f21e3a60f7"
  },
  "folder-hooks": {
   "name": "folder-hooks",
@@ -11227,7 +11485,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -11235,11 +11493,17 @@
   },
   "pictogram": {
    "centreX": 15.999,
-   "centreY": 18.665,
+   "centreY": 19.037,
    "boxCentreX": 16,
-   "boxCentreY": 18.125
+   "boxCentreY": 18.313,
+   "box": {
+    "left": 9.25,
+    "top": 12.25,
+    "right": 22.75,
+    "bottom": 24.375
+   }
   },
-  "hash": "ce5016928c0e"
+  "hash": "158f3fb6ff33"
  },
  "folder-i18n-open": {
   "name": "folder-i18n-open",
@@ -11272,12 +11536,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.357,
-   "centreY": 20.132,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20.125
+   "centreX": 17.082,
+   "centreY": 20.106,
+   "boxCentreX": 17.688,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 12.125,
+    "top": 14.5,
+    "right": 23.25,
+    "bottom": 25.625
+   }
   },
-  "hash": "9fb833238453"
+  "hash": "35f51c1c38d3"
  },
  "folder-i18n": {
   "name": "folder-i18n",
@@ -11303,19 +11573,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.947,
-   "centreY": 18.421,
-   "boxCentreX": 16.063,
-   "boxCentreY": 18.375
+   "centreX": 15.628,
+   "centreY": 18.677,
+   "boxCentreX": 16.375,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.875,
+    "top": 12.125,
+    "right": 22.875,
+    "bottom": 25.25
+   }
   },
-  "hash": "b7473ddd3583"
+  "hash": "696c43c0c8c4"
  },
  "folder-icons-open": {
   "name": "folder-icons-open",
@@ -11348,12 +11624,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.398,
-   "centreY": 20.358,
+   "centreX": 17.399,
+   "centreY": 20.359,
    "boxCentreX": 17.375,
-   "boxCentreY": 19.875
+   "boxCentreY": 19.875,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 22.875,
+    "bottom": 25.25
+   }
   },
-  "hash": "891e97ee9b24"
+  "hash": "a404216d4369"
  },
  "folder-icons": {
   "name": "folder-icons",
@@ -11379,7 +11661,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -11387,11 +11669,17 @@
   },
   "pictogram": {
    "centreX": 15.999,
-   "centreY": 18.683,
+   "centreY": 18.965,
    "boxCentreX": 16,
-   "boxCentreY": 18.125
+   "boxCentreY": 18.438,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 24.75
+   }
   },
-  "hash": "3ab3bd75c95c"
+  "hash": "a3147f58b725"
  },
  "folder-images-open": {
   "name": "folder-images-open",
@@ -11424,12 +11712,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.481,
-   "centreY": 19.797,
-   "boxCentreX": 17.313,
-   "boxCentreY": 20.375
+   "centreX": 17.467,
+   "centreY": 19.727,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.438,
+   "box": {
+    "left": 12.125,
+    "top": 16,
+    "right": 22.625,
+    "bottom": 24.875
+   }
   },
-  "hash": "12a4579bf6f0"
+  "hash": "3b6ac5dd42e4"
  },
  "folder-images": {
   "name": "folder-images",
@@ -11455,19 +11749,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.086,
-   "centreY": 18.064,
-   "boxCentreX": 15.875,
-   "boxCentreY": 18.75
+   "centreX": 16.077,
+   "centreY": 18.264,
+   "boxCentreX": 15.938,
+   "boxCentreY": 19.125,
+   "box": {
+    "left": 9.75,
+    "top": 13.875,
+    "right": 22.125,
+    "bottom": 24.375
+   }
   },
-  "hash": "1825c5655b39"
+  "hash": "889d92b3fcf6"
  },
  "folder-jobs-open": {
   "name": "folder-jobs-open",
@@ -11500,12 +11800,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.398,
-   "centreY": 20.413,
-   "boxCentreX": 17.375,
-   "boxCentreY": 19.813
+   "centreX": 17.399,
+   "centreY": 20.094,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 13.625,
+    "top": 14.625,
+    "right": 21.25,
+    "bottom": 25.625
+   }
   },
-  "hash": "0e22993695d1"
+  "hash": "61ba7ee99708"
  },
  "folder-jobs": {
   "name": "folder-jobs",
@@ -11531,19 +11837,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16,
-   "centreY": 18.739,
+   "centreX": 15.997,
+   "centreY": 18.687,
    "boxCentreX": 16,
-   "boxCentreY": 18.063
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 11.5,
+    "top": 12.25,
+    "right": 20.5,
+    "bottom": 25.125
+   }
   },
-  "hash": "b1e51330945b"
+  "hash": "226f9afeb19d"
  },
  "folder-keys-open": {
   "name": "folder-keys-open",
@@ -11576,12 +11888,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.55,
-   "centreY": 19.933,
+   "centreX": 17.501,
+   "centreY": 19.985,
    "boxCentreX": 17.25,
-   "boxCentreY": 20.25
+   "boxCentreY": 20.25,
+   "box": {
+    "left": 11.875,
+    "top": 14.875,
+    "right": 22.625,
+    "bottom": 25.625
+   }
   },
-  "hash": "dca078364283"
+  "hash": "efbe8705b7c7"
  },
  "folder-keys": {
   "name": "folder-keys",
@@ -11607,19 +11925,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.171,
-   "centreY": 18.215,
-   "boxCentreX": 15.813,
-   "boxCentreY": 18.625
+   "centreX": 16.124,
+   "centreY": 18.533,
+   "boxCentreX": 15.875,
+   "boxCentreY": 18.813,
+   "box": {
+    "left": 9.5,
+    "top": 12.5,
+    "right": 22.25,
+    "bottom": 25.125
+   }
   },
-  "hash": "7e828f2e9f17"
+  "hash": "b4058a30932e"
  },
  "folder-layouts-open": {
   "name": "folder-layouts-open",
@@ -11652,12 +11976,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 16.984,
-   "centreY": 20.243,
+   "centreX": 16.988,
+   "centreY": 20.218,
    "boxCentreX": 17.813,
-   "boxCentreY": 20
+   "boxCentreY": 19.938,
+   "box": {
+    "left": 12.625,
+    "top": 15.5,
+    "right": 23,
+    "bottom": 24.375
+   }
   },
-  "hash": "fc16bb5607de"
+  "hash": "be09cfb1b0b8"
  },
  "folder-layouts": {
   "name": "folder-layouts",
@@ -11683,19 +12013,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.532,
-   "centreY": 18.557,
-   "boxCentreX": 16.5,
-   "boxCentreY": 18.25
+   "centreX": 15.525,
+   "centreY": 18.832,
+   "boxCentreX": 16.438,
+   "boxCentreY": 18.5,
+   "box": {
+    "left": 10.25,
+    "top": 13.25,
+    "right": 22.625,
+    "bottom": 23.75
+   }
   },
-  "hash": "29a836d26c60"
+  "hash": "c531c5c86ab4"
  },
  "folder-logs-open": {
   "name": "folder-logs-open",
@@ -11728,12 +12064,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 18.004,
-   "centreY": 20.109,
-   "boxCentreX": 16.813,
-   "boxCentreY": 20.125
+   "centreX": 17.4,
+   "centreY": 20.108,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 12,
+    "top": 15.625,
+    "right": 22.75,
+    "bottom": 24.625
+   }
   },
-  "hash": "0f1c1c76c38c"
+  "hash": "656d3abfe290"
  },
  "folder-logs": {
   "name": "folder-logs",
@@ -11759,19 +12101,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.676,
-   "centreY": 18.388,
-   "boxCentreX": 15.313,
-   "boxCentreY": 18.375
+   "centreX": 15.999,
+   "centreY": 18.671,
+   "boxCentreX": 16,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.625,
+    "top": 13.375,
+    "right": 22.375,
+    "bottom": 24
+   }
   },
-  "hash": "9af0472c1a8d"
+  "hash": "d65ad91cd74b"
  },
  "folder-media-open": {
   "name": "folder-media-open",
@@ -11804,12 +12152,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
-   "centreY": 20.096,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20.125
+   "centreX": 16.758,
+   "centreY": 20.095,
+   "boxCentreX": 18.063,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 13.375,
+    "top": 14.5,
+    "right": 22.75,
+    "bottom": 25.625
+   }
   },
-  "hash": "99bad48b3e99"
+  "hash": "cf5691672a11"
  },
  "folder-media": {
   "name": "folder-media",
@@ -11835,19 +12189,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16,
-   "centreY": 18.383,
-   "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "centreX": 15.243,
+   "centreY": 18.681,
+   "boxCentreX": 16.813,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 11.25,
+    "top": 12.125,
+    "right": 22.375,
+    "bottom": 25.25
+   }
   },
-  "hash": "5d1f4aae1f6b"
+  "hash": "124d93ce1558"
  },
  "folder-middleware-open": {
   "name": "folder-middleware-open",
@@ -11873,19 +12233,25 @@
   "shadowArea": 37.984,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.881
+   "solid": 0.874
   },
   "atThirtyTwo": {
    "lit": 543,
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.401,
-   "centreY": 19.707,
+   "centreX": 17.388,
+   "centreY": 19.379,
    "boxCentreX": 17.438,
-   "boxCentreY": 20.5
+   "boxCentreY": 20.813,
+   "box": {
+    "left": 12.25,
+    "top": 16,
+    "right": 22.625,
+    "bottom": 25.625
+   }
   },
-  "hash": "8eebf7b570a4"
+  "hash": "7b4aefb1f899"
  },
  "folder-middleware": {
   "name": "folder-middleware",
@@ -11911,19 +12277,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.002,
-   "centreY": 17.978,
+   "centreX": 15.985,
+   "centreY": 17.831,
    "boxCentreX": 16,
-   "boxCentreY": 18.875
+   "boxCentreY": 19.563,
+   "box": {
+    "left": 9.875,
+    "top": 13.875,
+    "right": 22.125,
+    "bottom": 25.25
+   }
   },
-  "hash": "02c28b5b03f8"
+  "hash": "a9e2f7f07a9c"
  },
  "folder-mocks-open": {
   "name": "folder-mocks-open",
@@ -11957,11 +12329,17 @@
   },
   "pictogram": {
    "centreX": 17.399,
-   "centreY": 20.243,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20
+   "centreY": 20.264,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20,
+   "box": {
+    "left": 12.125,
+    "top": 14.5,
+    "right": 22.625,
+    "bottom": 25.5
+   }
   },
-  "hash": "5769159af64b"
+  "hash": "899ebb1e1748"
  },
  "folder-mocks": {
   "name": "folder-mocks",
@@ -11987,7 +12365,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -11995,11 +12373,17 @@
   },
   "pictogram": {
    "centreX": 15.999,
-   "centreY": 18.54,
+   "centreY": 18.835,
    "boxCentreX": 16,
-   "boxCentreY": 18.25
+   "boxCentreY": 18.563,
+   "box": {
+    "left": 9.875,
+    "top": 12.125,
+    "right": 22.125,
+    "bottom": 25
+   }
   },
-  "hash": "74051c349d18"
+  "hash": "f5c5b684a33b"
  },
  "folder-models-open": {
   "name": "folder-models-open",
@@ -12032,12 +12416,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.125,
-   "centreY": 20.201,
-   "boxCentreX": 17.688,
-   "boxCentreY": 20
+   "centreX": 17.354,
+   "centreY": 19.825,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.375,
+   "box": {
+    "left": 12.25,
+    "top": 16.375,
+    "right": 22.625,
+    "bottom": 24.375
+   }
   },
-  "hash": "403c50fcfcdf"
+  "hash": "db161a2bd817"
  },
  "folder-models": {
   "name": "folder-models",
@@ -12063,19 +12453,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.696,
-   "centreY": 18.513,
-   "boxCentreX": 16.313,
-   "boxCentreY": 18.313
+   "centreX": 15.947,
+   "centreY": 18.343,
+   "boxCentreX": 16.063,
+   "boxCentreY": 19,
+   "box": {
+    "left": 9.875,
+    "top": 14.25,
+    "right": 22.25,
+    "bottom": 23.75
+   }
   },
-  "hash": "08e4156ef2a6"
+  "hash": "04eb48084d9c"
  },
  "folder-open": {
   "name": "folder-open",
@@ -12108,7 +12504,7 @@
    "solid": 0.871
   },
   "pictogram": null,
-  "hash": "806df263ce68"
+  "hash": "ff6fe8e31522"
  },
  "folder-packages-open": {
   "name": "folder-packages-open",
@@ -12141,12 +12537,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.627,
-   "centreY": 19.89,
-   "boxCentreX": 17.125,
-   "boxCentreY": 20.25
+   "centreX": 17.401,
+   "centreY": 19.989,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.188,
+   "box": {
+    "left": 12.5,
+    "top": 14.75,
+    "right": 22.25,
+    "bottom": 25.625
+   }
   },
-  "hash": "c993b010f20f"
+  "hash": "890035794d9e"
  },
  "folder-packages": {
   "name": "folder-packages",
@@ -12172,19 +12574,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.25,
-   "centreY": 18.161,
-   "boxCentreX": 15.75,
-   "boxCentreY": 18.625
+   "centreX": 15.999,
+   "centreY": 18.556,
+   "boxCentreX": 16,
+   "boxCentreY": 18.813,
+   "box": {
+    "left": 10.25,
+    "top": 12.375,
+    "right": 21.75,
+    "bottom": 25.25
+   }
   },
-  "hash": "1f24917a9a27"
+  "hash": "462cb5d6ef95"
  },
  "folder-plugins-open": {
   "name": "folder-plugins-open",
@@ -12217,12 +12625,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.373,
-   "centreY": 20.131,
-   "boxCentreX": 17.375,
-   "boxCentreY": 20.063
+   "centreX": 17.399,
+   "centreY": 20.16,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 13.75,
+    "top": 14.5,
+    "right": 21.125,
+    "bottom": 25.625
+   }
   },
-  "hash": "0a33d28f4d39"
+  "hash": "80ed1c0701ed"
  },
  "folder-plugins": {
   "name": "folder-plugins",
@@ -12248,19 +12662,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.969,
-   "centreY": 18.423,
+   "centreX": 15.999,
+   "centreY": 18.756,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 11.625,
+    "top": 12.125,
+    "right": 20.375,
+    "bottom": 25.25
+   }
   },
-  "hash": "707e8cd65d57"
+  "hash": "5842cf82c9fe"
  },
  "folder-public-open": {
   "name": "folder-public-open",
@@ -12293,12 +12713,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.373,
-   "centreY": 20.048,
+   "centreX": 17.4,
+   "centreY": 20.358,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.125
+   "boxCentreY": 19.813,
+   "box": {
+    "left": 12.125,
+    "top": 15.375,
+    "right": 22.625,
+    "bottom": 24.25
+   }
   },
-  "hash": "fe5f47385d9c"
+  "hash": "3b15425a3f9e"
  },
  "folder-public": {
   "name": "folder-public",
@@ -12324,19 +12750,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.976,
-   "centreY": 18.348,
+   "centreX": 16,
+   "centreY": 18.978,
    "boxCentreX": 16,
-   "boxCentreY": 18.5
+   "boxCentreY": 18.375,
+   "box": {
+    "left": 9.875,
+    "top": 13.125,
+    "right": 22.125,
+    "bottom": 23.625
+   }
   },
-  "hash": "2914ec745bce"
+  "hash": "85e2a385e644"
  },
  "folder-routes-open": {
   "name": "folder-routes-open",
@@ -12369,12 +12801,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.691,
-   "centreY": 20.273,
-   "boxCentreX": 17.125,
-   "boxCentreY": 19.938
+   "centreX": 17.194,
+   "centreY": 19.775,
+   "boxCentreX": 17.625,
+   "boxCentreY": 20.438,
+   "box": {
+    "left": 12.125,
+    "top": 15.25,
+    "right": 23.125,
+    "bottom": 25.625
+   }
   },
-  "hash": "73fea99cd2c8"
+  "hash": "27ebd27a8a41"
  },
  "folder-routes": {
   "name": "folder-routes",
@@ -12400,19 +12838,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.332,
-   "centreY": 18.589,
-   "boxCentreX": 15.625,
-   "boxCentreY": 18.188
+   "centreX": 15.754,
+   "centreY": 18.286,
+   "boxCentreX": 16.25,
+   "boxCentreY": 19.063,
+   "box": {
+    "left": 9.75,
+    "top": 13,
+    "right": 22.75,
+    "bottom": 25.125
+   }
   },
-  "hash": "b91cbf460057"
+  "hash": "92e24b92b8f7"
  },
  "folder-schemas-open": {
   "name": "folder-schemas-open",
@@ -12445,12 +12889,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 18.174,
+   "centreX": 18.16,
    "centreY": 20.097,
    "boxCentreX": 16.625,
-   "boxCentreY": 20.063
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 10.75,
+    "top": 14.875,
+    "right": 22.5,
+    "bottom": 25.375
+   }
   },
-  "hash": "bbe9ef390f0e"
+  "hash": "7c46dae00394"
  },
  "folder-schemas": {
   "name": "folder-schemas",
@@ -12476,19 +12926,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.845,
-   "centreY": 18.403,
-   "boxCentreX": 15.125,
-   "boxCentreY": 18.375
+   "centreX": 16.881,
+   "centreY": 18.671,
+   "boxCentreX": 15.063,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 8.125,
+    "top": 12.5,
+    "right": 22,
+    "bottom": 24.875
+   }
   },
-  "hash": "c9433fb8c567"
+  "hash": "22f67574885e"
  },
  "folder-scripts-open": {
   "name": "folder-scripts-open",
@@ -12521,12 +12977,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
-   "centreY": 20.095,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20.125
+   "centreX": 16.77,
+   "centreY": 20.758,
+   "boxCentreX": 18,
+   "boxCentreY": 19.438,
+   "box": {
+    "left": 12.125,
+    "top": 15,
+    "right": 23.875,
+    "bottom": 23.875
+   }
   },
-  "hash": "476cbe7224f0"
+  "hash": "027c22e7cf95"
  },
  "folder-scripts": {
   "name": "folder-scripts",
@@ -12552,19 +13014,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16,
-   "centreY": 18.391,
-   "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "centreX": 15.26,
+   "centreY": 19.45,
+   "boxCentreX": 16.75,
+   "boxCentreY": 17.875,
+   "box": {
+    "left": 9.875,
+    "top": 12.625,
+    "right": 23.625,
+    "bottom": 23.125
+   }
   },
-  "hash": "6ae26b315881"
+  "hash": "e6fced371a8c"
  },
  "folder-security-open": {
   "name": "folder-security-open",
@@ -12597,12 +13065,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.398,
-   "centreY": 19.72,
-   "boxCentreX": 17.438,
-   "boxCentreY": 20.438
+   "centreX": 17.4,
+   "centreY": 20.672,
+   "boxCentreX": 17.375,
+   "boxCentreY": 19.5,
+   "box": {
+    "left": 13,
+    "top": 14.625,
+    "right": 21.75,
+    "bottom": 24.375
+   }
   },
-  "hash": "70468c2fe5cc"
+  "hash": "e827e2ce9c9b"
  },
  "folder-security": {
   "name": "folder-security",
@@ -12628,19 +13102,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.998,
-   "centreY": 17.985,
+   "centreX": 16,
+   "centreY": 19.358,
    "boxCentreX": 16,
-   "boxCentreY": 18.813
+   "boxCentreY": 18,
+   "box": {
+    "left": 10.875,
+    "top": 12.25,
+    "right": 21.125,
+    "bottom": 23.75
+   }
   },
-  "hash": "309ec89615b5"
+  "hash": "5e61da3f52b5"
  },
  "folder-server-open": {
   "name": "folder-server-open",
@@ -12673,12 +13153,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
+   "centreX": 17.357,
    "centreY": 20.093,
    "boxCentreX": 17.438,
-   "boxCentreY": 20.125
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 12.125,
+    "top": 15.125,
+    "right": 22.75,
+    "bottom": 25
+   }
   },
-  "hash": "9f48fb5c9c18"
+  "hash": "cd101d46aec4"
  },
  "folder-server": {
   "name": "folder-server",
@@ -12704,19 +13190,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.999,
-   "centreY": 18.404,
-   "boxCentreX": 16,
-   "boxCentreY": 18.438
+   "centreX": 15.948,
+   "centreY": 18.671,
+   "boxCentreX": 16.063,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.75,
+    "top": 12.875,
+    "right": 22.375,
+    "bottom": 24.5
+   }
   },
-  "hash": "66de1b5923ad"
+  "hash": "5e691d602c80"
  },
  "folder-services-open": {
   "name": "folder-services-open",
@@ -12749,12 +13241,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
-   "centreY": 20.106,
+   "centreX": 17.398,
+   "centreY": 20.094,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.125
+   "boxCentreY": 20.125,
+   "box": {
+    "left": 11.75,
+    "top": 14.875,
+    "right": 23,
+    "bottom": 25.375
+   }
   },
-  "hash": "e071e2383b59"
+  "hash": "26894084b053"
  },
  "folder-services": {
   "name": "folder-services",
@@ -12780,7 +13278,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -12788,11 +13286,17 @@
   },
   "pictogram": {
    "centreX": 15.999,
-   "centreY": 18.399,
+   "centreY": 18.673,
    "boxCentreX": 16,
-   "boxCentreY": 18.438
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.375,
+    "top": 12.5,
+    "right": 22.625,
+    "bottom": 24.875
+   }
   },
-  "hash": "dc7eef27d5f4"
+  "hash": "30beb042b5b6"
  },
  "folder-shared-open": {
   "name": "folder-shared-open",
@@ -12825,12 +13329,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 18.063,
-   "centreY": 20.102,
-   "boxCentreX": 16.75,
-   "boxCentreY": 20.125
+   "centreX": 17.815,
+   "centreY": 20.095,
+   "boxCentreX": 17,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 12.25,
+    "top": 14.5,
+    "right": 21.75,
+    "bottom": 25.625
+   }
   },
-  "hash": "29c28935d7c5"
+  "hash": "14e1ddd33162"
  },
  "folder-shared": {
   "name": "folder-shared",
@@ -12856,19 +13366,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.745,
-   "centreY": 18.404,
-   "boxCentreX": 15.25,
-   "boxCentreY": 18.375
+   "centreX": 16.48,
+   "centreY": 18.67,
+   "boxCentreX": 15.5,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.875,
+    "top": 12.125,
+    "right": 21.125,
+    "bottom": 25.25
+   }
   },
-  "hash": "58525688e805"
+  "hash": "1e40f5a09f23"
  },
  "folder-store-open": {
   "name": "folder-store-open",
@@ -12901,12 +13417,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
-   "centreY": 20.228,
-   "boxCentreX": 17.438,
-   "boxCentreY": 19.938
+   "centreX": 17.33,
+   "centreY": 19.837,
+   "boxCentreX": 17.5,
+   "boxCentreY": 20.375,
+   "box": {
+    "left": 12.125,
+    "top": 15.375,
+    "right": 22.875,
+    "bottom": 25.375
+   }
   },
-  "hash": "a48cd0a7c371"
+  "hash": "a39524381294"
  },
  "folder-store": {
   "name": "folder-store",
@@ -12932,19 +13454,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.999,
-   "centreY": 18.536,
-   "boxCentreX": 16,
-   "boxCentreY": 18.25
+   "centreX": 15.921,
+   "centreY": 18.354,
+   "boxCentreX": 16.063,
+   "boxCentreY": 19,
+   "box": {
+    "left": 9.75,
+    "top": 13.125,
+    "right": 22.375,
+    "bottom": 24.875
+   }
   },
-  "hash": "197c0c1ffe10"
+  "hash": "b5424e5abf31"
  },
  "folder-styles-open": {
   "name": "folder-styles-open",
@@ -12977,12 +13505,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.481,
-   "centreY": 19.872,
+   "centreX": 17.476,
+   "centreY": 19.916,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.313
+   "boxCentreY": 20.313,
+   "box": {
+    "left": 12.625,
+    "top": 15,
+    "right": 22.125,
+    "bottom": 25.625
+   }
   },
-  "hash": "87ffa5e68e58"
+  "hash": "508bb4dea1bb"
  },
  "folder-styles": {
   "name": "folder-styles",
@@ -13008,19 +13542,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.09,
-   "centreY": 18.148,
-   "boxCentreX": 15.938,
-   "boxCentreY": 18.625
+   "centreX": 16.093,
+   "centreY": 18.466,
+   "boxCentreX": 15.875,
+   "boxCentreY": 18.875,
+   "box": {
+    "left": 10.25,
+    "top": 12.625,
+    "right": 21.5,
+    "bottom": 25.125
+   }
   },
-  "hash": "547f87178d6f"
+  "hash": "046cc565d27a"
  },
  "folder-temp-open": {
   "name": "folder-temp-open",
@@ -13053,12 +13593,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.4,
-   "centreY": 20.305,
+   "centreX": 17.399,
+   "centreY": 20.317,
    "boxCentreX": 17.438,
-   "boxCentreY": 19.875
+   "boxCentreY": 19.938,
+   "box": {
+    "left": 12.5,
+    "top": 14.5,
+    "right": 22.375,
+    "bottom": 25.375
+   }
   },
-  "hash": "b66e08b07ccb"
+  "hash": "3c713af1f60e"
  },
  "folder-temp": {
   "name": "folder-temp",
@@ -13084,7 +13630,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -13092,11 +13638,17 @@
   },
   "pictogram": {
    "centreX": 16,
-   "centreY": 18.653,
+   "centreY": 18.893,
    "boxCentreX": 16,
-   "boxCentreY": 18.125
+   "boxCentreY": 18.438,
+   "box": {
+    "left": 10.125,
+    "top": 12.125,
+    "right": 21.875,
+    "bottom": 24.75
+   }
   },
-  "hash": "add6b03145a2"
+  "hash": "9cfe799802fc"
  },
  "folder-tests-open": {
   "name": "folder-tests-open",
@@ -13129,12 +13681,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.357,
-   "centreY": 21.051,
+   "centreX": 17.365,
+   "centreY": 21.22,
    "boxCentreX": 17.438,
-   "boxCentreY": 19.125
+   "boxCentreY": 19.563,
+   "box": {
+    "left": 12.625,
+    "top": 14.5,
+    "right": 22.25,
+    "bottom": 24.625
+   }
   },
-  "hash": "6d9b35dd2460"
+  "hash": "618ed5c66063"
  },
  "folder-tests": {
   "name": "folder-tests",
@@ -13167,12 +13725,18 @@
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.952,
-   "centreY": 19.469,
-   "boxCentreX": 16,
-   "boxCentreY": 17.375
+   "centreX": 15.958,
+   "centreY": 19.966,
+   "boxCentreX": 16.063,
+   "boxCentreY": 18.063,
+   "box": {
+    "left": 10.375,
+    "top": 12.125,
+    "right": 21.75,
+    "bottom": 24
+   }
   },
-  "hash": "a3d57c734cc7"
+  "hash": "4ffe92080856"
  },
  "folder-themes-open": {
   "name": "folder-themes-open",
@@ -13205,12 +13769,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.286,
-   "centreY": 19.94,
-   "boxCentreX": 17.5,
-   "boxCentreY": 20.25
+   "centreX": 17.762,
+   "centreY": 20.333,
+   "boxCentreX": 17.063,
+   "boxCentreY": 19.875,
+   "box": {
+    "left": 12.875,
+    "top": 14.5,
+    "right": 21.25,
+    "bottom": 25.25
+   }
   },
-  "hash": "7a9a1256a58b"
+  "hash": "0558027be550"
  },
  "folder-themes": {
   "name": "folder-themes",
@@ -13236,19 +13806,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.874,
-   "centreY": 18.231,
-   "boxCentreX": 16.125,
-   "boxCentreY": 18.625
+   "centreX": 16.427,
+   "centreY": 18.954,
+   "boxCentreX": 15.563,
+   "boxCentreY": 18.438,
+   "box": {
+    "left": 10.625,
+    "top": 12.125,
+    "right": 20.5,
+    "bottom": 24.75
+   }
   },
-  "hash": "8c8eb1f48e1f"
+  "hash": "9917ccce25d4"
  },
  "folder-types-open": {
   "name": "folder-types-open",
@@ -13281,12 +13857,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.093,
-   "centreY": 19.788,
+   "centreX": 17.143,
+   "centreY": 19.835,
    "boxCentreX": 17.688,
-   "boxCentreY": 20.375
+   "boxCentreY": 20.313,
+   "box": {
+    "left": 12.375,
+    "top": 15,
+    "right": 23,
+    "bottom": 25.625
+   }
   },
-  "hash": "e165d69f250b"
+  "hash": "091f20d4c337"
  },
  "folder-types": {
   "name": "folder-types",
@@ -13312,19 +13894,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.664,
-   "centreY": 18.074,
-   "boxCentreX": 16.313,
-   "boxCentreY": 18.75
+   "centreX": 15.696,
+   "centreY": 18.375,
+   "boxCentreX": 16.25,
+   "boxCentreY": 19,
+   "box": {
+    "left": 10,
+    "top": 12.75,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "0071780af58c"
+  "hash": "62e770092937"
  },
  "folder-utils-open": {
   "name": "folder-utils-open",
@@ -13357,12 +13945,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 17.469,
-   "centreY": 20.03,
-   "boxCentreX": 17.313,
-   "boxCentreY": 20.125
+   "centreX": 17.361,
+   "centreY": 20.171,
+   "boxCentreX": 17.438,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 23,
+    "bottom": 25.625
+   }
   },
-  "hash": "57f8b08669d2"
+  "hash": "57f75c904bfb"
  },
  "folder-utils": {
   "name": "folder-utils",
@@ -13388,19 +13982,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.068,
-   "centreY": 18.333,
-   "boxCentreX": 15.938,
-   "boxCentreY": 18.5
+   "centreX": 15.953,
+   "centreY": 18.768,
+   "boxCentreX": 16.063,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.625,
+    "bottom": 25.25
+   }
   },
-  "hash": "0c214c1e810f"
+  "hash": "09a8876013b3"
  },
  "folder-validators-open": {
   "name": "folder-validators-open",
@@ -13433,12 +14033,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 18.008,
-   "centreY": 20.107,
-   "boxCentreX": 16.75,
-   "boxCentreY": 20.125
+   "centreX": 17.4,
+   "centreY": 20.081,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.875,
+    "top": 14.5,
+    "right": 22.875,
+    "bottom": 25.625
+   }
   },
-  "hash": "4ff4b8aaf5be"
+  "hash": "6b7a583b64bb"
  },
  "folder-validators": {
   "name": "folder-validators",
@@ -13464,19 +14070,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 16.68,
-   "centreY": 18.406,
-   "boxCentreX": 15.313,
-   "boxCentreY": 18.438
+   "centreX": 15.998,
+   "centreY": 18.661,
+   "boxCentreX": 16,
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.5,
+    "top": 12.125,
+    "right": 22.5,
+    "bottom": 25.25
+   }
   },
-  "hash": "2456cbd3c844"
+  "hash": "0f084460bd9c"
  },
  "folder-views-open": {
   "name": "folder-views-open",
@@ -13510,11 +14122,17 @@
   },
   "pictogram": {
    "centreX": 17.397,
-   "centreY": 20.099,
+   "centreY": 20.103,
    "boxCentreX": 17.375,
-   "boxCentreY": 20.125
+   "boxCentreY": 20.063,
+   "box": {
+    "left": 11.75,
+    "top": 16.25,
+    "right": 23,
+    "bottom": 23.875
+   }
   },
-  "hash": "9b47755d34e4"
+  "hash": "bae3dde8d85f"
  },
  "folder-views": {
   "name": "folder-views",
@@ -13540,7 +14158,7 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
@@ -13548,11 +14166,17 @@
   },
   "pictogram": {
    "centreX": 15.997,
-   "centreY": 18.399,
+   "centreY": 18.668,
    "boxCentreX": 16,
-   "boxCentreY": 18.375
+   "boxCentreY": 18.688,
+   "box": {
+    "left": 9.375,
+    "top": 14.25,
+    "right": 22.625,
+    "bottom": 23.125
+   }
   },
-  "hash": "bdffe3bbd297"
+  "hash": "642ccdc8ffea"
  },
  "folder-workflows-open": {
   "name": "folder-workflows-open",
@@ -13585,12 +14209,18 @@
    "solid": 0.871
   },
   "pictogram": {
-   "centreX": 16.954,
-   "centreY": 20.469,
-   "boxCentreX": 17.875,
-   "boxCentreY": 19.688
+   "centreX": 17.403,
+   "centreY": 19.712,
+   "boxCentreX": 17.375,
+   "boxCentreY": 20.5,
+   "box": {
+    "left": 12.375,
+    "top": 15.5,
+    "right": 22.375,
+    "bottom": 25.5
+   }
   },
-  "hash": "ab25312fd47a"
+  "hash": "76ba5751580a"
  },
  "folder-workflows": {
   "name": "folder-workflows",
@@ -13616,19 +14246,25 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": {
-   "centreX": 15.514,
-   "centreY": 18.806,
-   "boxCentreX": 16.5,
-   "boxCentreY": 18
+   "centreX": 16.001,
+   "centreY": 18.213,
+   "boxCentreX": 16,
+   "boxCentreY": 19.188,
+   "box": {
+    "left": 10.125,
+    "top": 13.25,
+    "right": 21.875,
+    "bottom": 25.125
+   }
   },
-  "hash": "4abb4ab62f43"
+  "hash": "55dce7f4388c"
  },
  "folder": {
   "name": "folder",
@@ -13654,13 +14290,13 @@
   "shadowArea": 41.828,
   "atSixteen": {
    "lit": 135,
-   "solid": 0.719
+   "solid": 0.726
   },
   "atThirtyTwo": {
    "lit": 488,
    "solid": 0.945
   },
   "pictogram": null,
-  "hash": "cb7b701229f3"
+  "hash": "7bdd38128e4f"
  }
 }

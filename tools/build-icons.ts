@@ -60,9 +60,17 @@ import {
   type FileIcon,
   type FolderIcon,
 } from './icon-spec.ts';
-import { FOLDER, LINE_ART_CONTRAST, readableOnGround, darkened, lighterTint, castShadow } from './palette.ts';
+import {
+  LINE_ART_CONTRAST,
+  readableOnGround,
+  lighterTint,
+  castShadow,
+  folderAccent,
+  folderTones,
+  folderPaletteProblems,
+} from './palette.ts';
 import buildTheme from './build-theme.ts';
-import { ARTWORK_CENTRE } from './icon-optics.ts';
+import { ARTWORK_CENTRE, FOLDER_PICTOGRAM_PLACEMENT, type Bounds } from './icon-optics.ts';
 
 /** What tools/measure.ts records for one piece of artwork and one text run. */
 type MeasuredBounds = { cx: number; cy: number; w: number; h: number };
@@ -145,8 +153,26 @@ const OPTICAL = {
 
 const clamp = (value: number, lowest: number, highest: number): number => Math.min(highest, Math.max(lowest, value));
 
-/** The transform that puts measured artwork on a centre, sized and centred optically. */
-const opticalTransform = (key: string, centreX: number, centreY: number, size: number): { transform: string; scale: number } => {
+/** The canvas a file icon's artwork may use: all of it, less the clear edge the shadow needs. */
+const CANVAS_BOUNDS: Bounds = {
+  left: OPTICAL.leadingInset,
+  top: OPTICAL.leadingInset,
+  right: 32 - OPTICAL.trailingInset,
+  bottom: 32 - OPTICAL.trailingInset,
+};
+
+/**
+ * The transform that puts measured artwork on a centre, sized and centred
+ * optically, and never outside `bounds` — whatever the growth and the pull ask
+ * for, the placed ink stays inside them.
+ */
+const opticalTransform = (
+  key: string,
+  centreX: number,
+  centreY: number,
+  size: number,
+  bounds: Bounds = CANVAS_BOUNDS
+): { transform: string; scale: number; pushedBack: number } => {
   const measured: MeasuredArtwork | undefined = measuredArtworkBounds[key];
   if (!measured) throw new Error(`no measured bounds for ${key} — run: npm run measure:glyphs`);
   const longSide: number = Math.max(measured.w, measured.h);
@@ -157,27 +183,54 @@ const opticalTransform = (key: string, centreX: number, centreY: number, size: n
     OPTICAL.maxFillScale
   );
   const aspectScale: number = aspect < OPTICAL.longAspect ? (OPTICAL.longAspect / aspect) ** OPTICAL.aspectExponent : 1;
-  const room: number = 32 - OPTICAL.leadingInset - OPTICAL.trailingInset;
-  const scale: number = Math.min(room, size * Math.min(OPTICAL.maxGrowth, fillScale * aspectScale)) / longSide;
+  const scale: number = Math.min(
+    (size * Math.min(OPTICAL.maxGrowth, fillScale * aspectScale)) / longSide,
+    (bounds.right - bounds.left) / measured.w,
+    (bounds.bottom - bounds.top) / measured.h
+  );
 
   const reach: number = OPTICAL.maxShift * size;
   const anchorX: number = measured.cx + clamp(OPTICAL.centrePull * (measured.mx - measured.cx) * scale, -reach, reach) / scale;
   const anchorY: number = measured.cy + clamp(OPTICAL.centrePull * (measured.my - measured.cy) * scale, -reach, reach) / scale;
 
-  /* Keep the placed box on the canvas, whatever the pull asked for. */
-  const keepInside = (translate: number, boxCentre: number, extent: number): number => {
+  /* Keep the placed box inside the bounds, whatever the pull asked for. */
+  const keepInside = (translate: number, boxCentre: number, extent: number, lowest: number, highest: number): number => {
     const start: number = translate + (boxCentre - extent / 2) * scale;
     const end: number = translate + (boxCentre + extent / 2) * scale;
-    if (start < OPTICAL.leadingInset) return translate + OPTICAL.leadingInset - start;
-    if (end > 32 - OPTICAL.trailingInset) return translate - (end - (32 - OPTICAL.trailingInset));
+    if (start < lowest) return translate + lowest - start;
+    if (end > highest) return translate - (end - highest);
     return translate;
   };
-  const translateX: number = keepInside(centreX - anchorX * scale, measured.cx, measured.w);
-  const translateY: number = keepInside(centreY - anchorY * scale, measured.cy, measured.h);
+  const pulledX: number = centreX - anchorX * scale;
+  const pulledY: number = centreY - anchorY * scale;
+  const translateX: number = keepInside(pulledX, measured.cx, measured.w, bounds.left, bounds.right);
+  const translateY: number = keepInside(pulledY, measured.cy, measured.h, bounds.top, bounds.bottom);
   return {
     transform: `translate(${roundToThousandths(translateX)} ${roundToThousandths(translateY)}) scale(${roundToThousandths(scale)})`,
     scale,
+    pushedBack: Math.hypot(translateX - pulledX, translateY - pulledY),
   };
+};
+
+/*
+ * A folder's pictogram gives up size rather than centring (M11). Its face is
+ * small, so a pictogram with its weight at one end — the flask, the funnel, the
+ * T — is pulled toward an edge and the bounds push it back off centre. On a
+ * file icon that is the canvas edge and a mark keeps its size; in a folder the
+ * pictogram steps down until the pull fits, and never below FOLDER_MIN_SHARE of
+ * the size it was asked for.
+ */
+const FOLDER_SIZE_STEP = 0.97;
+const FOLDER_MIN_SHARE = 0.85;
+
+const folderPictogramTransform = (key: string, at: typeof FOLDER_PICTOGRAM_PLACEMENT.closed): string => {
+  let size: number = at.size;
+  let placed = opticalTransform(key, at.cx, at.cy, size, at.safe);
+  while (placed.pushedBack > 0.05 && size * FOLDER_SIZE_STEP >= at.size * FOLDER_MIN_SHARE) {
+    size *= FOLDER_SIZE_STEP;
+    placed = opticalTransform(key, at.cx, at.cy, size, at.safe);
+  }
+  return placed.transform;
 };
 
 /** The mean stroke of measured artwork once placed at `scale`, in canvas units. */
@@ -333,12 +386,6 @@ const FOLDER_OPEN_BACK =
 const FOLDER_OPEN_FRONT =
   'M5.2 15.2a2.4 2.4 0 0 1 2.4-2.4H27.2a2.4 2.4 0 0 1 2.4 2.4v9.8a2.4 2.4 0 0 1-2.4 2.4H7.6a2.4 2.4 0 0 1-2.4-2.4Z';
 
-/** Where the pictogram sits, and how big, in each state. */
-const FOLDER_PICTOGRAM_PLACEMENT = {
-  closed: { cx: 16, cy: 18.4, size: 12.4 },
-  open: { cx: 17.4, cy: 20.1, size: 11.2 },
-};
-
 /* The light that crosses the facade. */
 const BEAM_CLIP_ID = 'fc';
 const BEAM_ANGLE = 40;
@@ -408,7 +455,7 @@ function renderFolderPictogram(spec: Partial<FolderSpec>, isOpen: boolean, ink: 
       ? (['glyph', spec.glyph, glyphs[spec.glyph](ink)] as const)
       : ([null, null, ''] as const);
   if (!kind) return '';
-  return `<g transform="${opticalTransform(`${kind}:${name}`, at.cx, at.cy, at.size).transform}">${body}</g>`;
+  return `<g transform="${folderPictogramTransform(`${kind}:${name}`, at)}">${body}</g>`;
 }
 
 /* -------------------------------------------------------------- *
@@ -554,17 +601,18 @@ function renderClassicFileIcon(spec: FileSpec): string {
 }
 
 function renderClassicFolderIcon(spec: Partial<FolderSpec>, isOpen: boolean): string {
-  const accent = readableOnGround(spec.accent || FOLDER);
+  const accent: Colour = folderAccent(spec.role ?? 'plain');
   /*
    * The pictogram is not a second colour: it is the folder's own accent taken
    * down until it reads as sunk into the facade rather than laid on top of it.
-   * Its duotone goes DOWN from there rather than up — the lighter tint a file
-   * icon uses would climb back toward the panel it is meant to be cut into.
+   * Folder pictograms are single-tone silhouettes (M11), so one sunk tone is
+   * the whole of it.
    */
-  const sunk: InkPalette = [darkened(accent, 0.72), darkened(accent, 0.52)];
+  const tones = folderTones(accent);
+  const sunk: InkPalette = [tones.sunk];
   const at = isOpen ? FOLDER_PICTOGRAM_PLACEMENT.open : FOLDER_PICTOGRAM_PLACEMENT.closed;
   const face = isOpen
-    ? `<path d="${FOLDER_OPEN_BACK}" fill="${darkened(accent, 0.56)}"/><path d="${FOLDER_OPEN_FRONT}" fill="${accent}"/>`
+    ? `<path d="${FOLDER_OPEN_BACK}" fill="${tones.backWall}"/><path d="${FOLDER_OPEN_FRONT}" fill="${accent}"/>`
     : `<path d="${FOLDER_FACADE}" fill="${accent}"/>`;
   const beam = isOpen
     ? lightBeam(`<path d="${FOLDER_OPEN_FRONT}"/>`, at.cx, at.cy, BEAM_ANGLE, FOLDER_OPEN_BEAM)
@@ -642,6 +690,10 @@ function buildVariant(variantName: IconVariantName): void {
     svgDirectory: variant.svgDirectory,
   });
 }
+
+/* The folder palette is held to its limits before anything is painted with it. */
+const folderProblems: string[] = folderPaletteProblems();
+if (folderProblems.length) throw new Error(`the folder palette breaks its limits:\n  ${folderProblems.join('\n  ')}`);
 
 const requestedVariant = process.argv[2];
 let variantsToBuild: IconVariantName[];

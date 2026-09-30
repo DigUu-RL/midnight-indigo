@@ -51,7 +51,8 @@ const folderNameToIcon = {
   fonts: 'fonts', font: 'fonts', typography: 'fonts',
   styles: 'styles', style: 'styles', css: 'styles', scss: 'styles', sass: 'styles',
   themes: 'themes', theme: 'themes', palettes: 'themes', skins: 'themes',
-  public: 'public', www: 'public', web: 'public', client: 'public',
+  // `client` is the front end's source, not what it serves, so it is interface.
+  public: 'public', www: 'public', web: 'public', client: 'views',
   build: 'build', dist: 'build', out: 'build', output: 'build', generated: 'build', target: 'build',
   docs: 'docs', doc: 'docs', documentation: 'docs',
   database: 'database', db: 'database', migrations: 'database', migration: 'database',
@@ -64,10 +65,20 @@ const folderNameToIcon = {
   packages: 'packages', apps: 'packages', workspaces: 'packages', monorepo: 'packages',
   plugins: 'plugins', plugin: 'plugins', modules: 'plugins', features: 'plugins', feature: 'plugins', extensions: 'plugins',
   i18n: 'i18n', locales: 'i18n', locale: 'i18n', lang: 'i18n', languages: 'i18n', translations: 'i18n',
-  guards: 'guards', guard: 'guards', directives: 'guards', directive: 'guards',
-  pipes: 'guards', pipe: 'guards', decorators: 'guards', decorator: 'guards',
+  guards: 'guards', guard: 'guards',
+  /*
+   * Since M11 a folder's colour is its role, so a synonym has to belong to the
+   * role as well as resemble the name. Directives, pipes and decorators used to
+   * be guards, and would now be drawn in security's red; events and listeners
+   * used to be validators, in quality's green. Each goes where its job is: a
+   * directive is behaviour on the interface, a pipe is what a value is passed
+   * through, a decorator is a function, an event is work that answers later.
+   */
+  directives: 'components', directive: 'components',
+  pipes: 'middleware', pipe: 'middleware',
+  decorators: 'functions', decorator: 'functions',
   validators: 'validators', validator: 'validators', validation: 'validators',
-  events: 'validators', listeners: 'validators', notifications: 'validators',
+  events: 'jobs', listeners: 'jobs', notifications: 'jobs',
   jobs: 'jobs', queues: 'jobs', tasks: 'jobs', cron: 'jobs', scheduler: 'jobs', workers: 'jobs',
   docker: 'docker', kubernetes: 'docker', k8s: 'docker', deploy: 'docker', deployment: 'docker', infra: 'docker',
   workflows: 'workflows', '.github': 'workflows', ci: 'workflows', pipelines: 'workflows', '.gitlab': 'workflows',

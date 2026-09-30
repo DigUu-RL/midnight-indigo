@@ -20,6 +20,7 @@
  */
 
 import type { Colour } from './glyphs.ts';
+import { deltaE, hexFromOklch, oklchFromHex } from './color.ts';
 
 /* -------------------------------------------------------------- *
  * The base palette
@@ -29,9 +30,6 @@ import type { Colour } from './glyphs.ts';
 export const GROUND: Colour = '#040208';
 export const LIGHT_INK: Colour = '#F2F0FA'; // what a black wordmark becomes
 export const DARK: Colour = '#0A0716';
-
-/** The folder body, and the accent the plain folder is drawn in. */
-export const FOLDER: Colour = '#8B7CF6';
 
 /* -------------------------------------------------------------- *
  * Structural colours
@@ -188,31 +186,174 @@ export function lighterTint(hex: Colour): Colour {
 }
 
 /*
- * The shadow a mark casts in the classic variant.
+ * The colour an ink casts as its shadow (M10).
  *
  * It cannot be black: the ground is #040208, and a black shadow on it is not a
  * shadow, it is nothing. So the shadow is the mark's own colour taken down in
  * lightness — dark enough to read as shade, light enough to still be visible
  * against the ground. The floor is what keeps the shadow of an already-dark
  * mark (a deep blue, a maroon) from disappearing.
- */
-export function darkened(hex: Colour, amount = 0.62): Colour {
-  const [h, s, l] = hexToHsl(hex);
-  return hslToHex(h, Math.min(1, s * 1.08), Math.max(0.1, l * (1 - amount)));
-}
-
-/*
- * The colour an ink casts as its shadow (M10).
  *
- * It was `darkened` until M10, which RAISES saturation while it takes the
+ * Until M10 it was `darkened`, which RAISED saturation while it took the
  * lightness down — a shadow more vivid than the thing casting it, which on a
  * near-black ground is not shade but a coloured fringe. A shadow is the ink
  * with light taken away, and less light means less chroma: this keeps the hue,
  * so a Python icon still casts a blue shade and a Rust one a rust one, but at
- * a little over half the saturation and a notch darker than `darkened`.
+ * a little over half the saturation.
  */
 export function castShadow(hex: Colour): Colour {
   const [h, s, l] = hexToHsl(hex);
   return hslToHex(h, s * 0.6, Math.max(0.085, l * 0.38 * 0.85));
 }
 
+/* -------------------------------------------------------------- *
+ * Folders: the colour of what a directory is FOR (M11)
+ * -------------------------------------------------------------- *
+ *
+ * A file icon says which technology a file is in, with the technology's own
+ * colours. A folder says what part of the project a directory holds, and up to
+ * M11 it said so with a colour of its own for every name: fifty-two accents
+ * taken from a web palette, as saturated as the logos (median OKLCH chroma 0.14
+ * against their 0.15) and spread round the whole wheel. Two things went wrong.
+ * A folder is a solid panel and a logo is a mark with air round it, so at equal
+ * chroma the folders outweighed the files they hold. And fifty-two hues is no
+ * system at all: styles, media and audio were one pink, docker and views one
+ * blue, while tests and validators, which are one job, were two greens.
+ *
+ * So the colour now belongs to a ROLE, and the pictogram tells the folders of
+ * one role apart. Seven roles and the plain folder are hues in OKLCH at one
+ * shared chroma — the M1 method: chroma comparable across hues, the hue doing
+ * the talking. That chroma sits under the lower quartile of the logos'
+ * identity colours, so the tree's colour comes from the files, and the folders
+ * set the key.
+ *
+ * Eight hues at a calm chroma are at most six ΔE from their neighbours, which
+ * is a difference seen side by side and missed across a tree. So neighbours on
+ * the wheel also step in lightness, one up and the next down, and the pair a
+ * hue alone would blur — security and content, logic and network — are told
+ * apart by light as well. The steps alternate all the way round, which is why
+ * the wheel holds an even number of hues.
+ *
+ * The plain folder is the theme's own indigo and means "a directory, nothing
+ * more"; it is one of the eight so that no role is ever mistaken for it. Two
+ * roles have no hue at all. Tooling is slate — the scaffolding round a project,
+ * which is in every repository and should be the quietest coloured thing in
+ * it — and dormant is a dimmer warm grey, for what nobody means to open: logs,
+ * caches, the archive.
+ */
+
+export type FolderRole =
+  | 'plain'
+  | 'interface'
+  | 'content'
+  | 'logic'
+  | 'data'
+  | 'network'
+  | 'quality'
+  | 'security'
+  | 'tooling'
+  | 'dormant';
+
+/** The chroma every hued role shares, and the two lightness steps they alternate between. */
+const FOLDER_CHROMA = 0.095;
+const FOLDER_LIGHT = 0.745;
+const FOLDER_DEEP = 0.655;
+
+type FolderTone = { hue: number; lightness: number; chroma?: number };
+
+/* In wheel order, so the alternation of the steps can be read down the list. */
+export const FOLDER_ROLES = {
+  /* what keeps it closed: security, guards, keys */
+  security: { hue: 18, lightness: FOLDER_LIGHT },
+  /* what the project ships as material: assets, media, fonts, docs, locales */
+  content: { hue: 55, lightness: FOLDER_DEEP },
+  /* what the code holds: models, stores, databases, schemas, types, constants */
+  data: { hue: 92, lightness: FOLDER_LIGHT },
+  /* what proves it works: tests, mocks, validators, benchmarks */
+  quality: { hue: 148, lightness: FOLDER_DEEP },
+  /* what answers a request: services, controllers, routes, api, servers, jobs */
+  network: { hue: 195, lightness: FOLDER_LIGHT },
+  /* the code that computes: functions, utils, helpers, hooks, core, plugins */
+  logic: { hue: 245, lightness: FOLDER_DEEP },
+  /* the theme's own indigo: a directory with no role of its own */
+  plain: { hue: 286, lightness: FOLDER_LIGHT },
+  /* what the user sees: components, views, layouts, styles, themes, design */
+  interface: { hue: 340, lightness: FOLDER_DEEP },
+  /* the scaffolding round it: config, scripts, build, docker, workflows, ai */
+  tooling: { hue: 250, lightness: 0.7, chroma: 0.025 },
+  /* what nobody means to open: logs, temp, archive */
+  dormant: { hue: 60, lightness: 0.57, chroma: 0.012 },
+} satisfies Record<FolderRole, FolderTone>;
+
+/** The colour a folder's facade is painted, from its role. */
+export const folderAccent = (role: FolderRole): Colour => {
+  const tone: FolderTone = FOLDER_ROLES[role];
+  return hexFromOklch({ l: tone.lightness, c: tone.chroma ?? FOLDER_CHROMA, h: tone.hue });
+};
+
+/*
+ * The tones cut from a facade, all derived in OKLCH from the accent so that a
+ * role changing hue carries its whole folder with it. The pictogram is sunk,
+ * darker than the facade by a fixed step of perceived lightness — the HSL
+ * `darkened` this replaced took the gold and the teal down twice as far as the
+ * blue from the same number. The open folder's back wall sits between the two.
+ */
+const SUNK_STEP = 0.42;
+const BACK_WALL_STEP = 0.2;
+
+const lowered = (colour: Colour, step: number): Colour => {
+  const tone = oklchFromHex(colour);
+  return hexFromOklch({ l: tone.l - step, c: tone.c, h: tone.h });
+};
+
+export const folderTones = (accent: Colour): { face: Colour; backWall: Colour; sunk: Colour } => ({
+  face: accent,
+  backWall: lowered(accent, BACK_WALL_STEP),
+  sunk: lowered(accent, SUNK_STEP),
+});
+
+/*
+ * What the build holds the folder palette to. The numbers are the M11 design
+ * read back as limits, so a role that is moved later cannot quietly undo it.
+ */
+export const FOLDER_LIMITS = {
+  /** The facade against the side bar: a folder is never lost in the tree. */
+  minContrastOnGround: 4.5,
+  /** The sunk pictogram against its facade: the silhouette still reads at 6px. */
+  minPictogramContrast: 3,
+  /** Two roles side by side in a tree must not be mistaken for each other (OKLab ΔE × 100). */
+  minRoleSeparation: 8,
+  /** The loudest folder stays under the logos' lower-quartile chroma. */
+  maxChroma: 0.1,
+};
+
+/** Every way the folder palette breaks FOLDER_LIMITS; empty when it holds. */
+export const folderPaletteProblems = (): string[] => {
+  const problems: string[] = [];
+  const roles = Object.keys(FOLDER_ROLES) as FolderRole[];
+  for (const role of roles) {
+    const accent: Colour = folderAccent(role);
+    const tones = folderTones(accent);
+    const onGround: number = contrastRatio(accent, GROUND);
+    if (onGround < FOLDER_LIMITS.minContrastOnGround) {
+      problems.push(`folder role ${role}: ${accent} is ${onGround.toFixed(2)}:1 on ${GROUND} (want ${FOLDER_LIMITS.minContrastOnGround})`);
+    }
+    const pictogram: number = contrastRatio(tones.sunk, accent);
+    if (pictogram < FOLDER_LIMITS.minPictogramContrast) {
+      problems.push(`folder role ${role}: pictogram ${tones.sunk} is ${pictogram.toFixed(2)}:1 on its facade (want ${FOLDER_LIMITS.minPictogramContrast})`);
+    }
+    const chroma: number = oklchFromHex(accent).c;
+    if (chroma > FOLDER_LIMITS.maxChroma) {
+      problems.push(`folder role ${role}: chroma ${chroma.toFixed(3)} is louder than the logos allow (${FOLDER_LIMITS.maxChroma})`);
+    }
+  }
+  roles.forEach((role: FolderRole, index: number): void => {
+    for (const other of roles.slice(index + 1)) {
+      const separation: number = deltaE(folderAccent(role), folderAccent(other));
+      if (separation < FOLDER_LIMITS.minRoleSeparation) {
+        problems.push(`folder roles ${role} and ${other} are ${separation.toFixed(1)} apart (want ${FOLDER_LIMITS.minRoleSeparation})`);
+      }
+    }
+  });
+  return problems;
+};

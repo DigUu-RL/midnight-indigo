@@ -882,48 +882,6 @@
     "_folder_components_open": {
       "iconPath": "../svg/folder-components-open.svg"
     },
-    "_folder_hooks": {
-      "iconPath": "../svg/folder-hooks.svg"
-    },
-    "_folder_hooks_open": {
-      "iconPath": "../svg/folder-hooks-open.svg"
-    },
-    "_folder_functions": {
-      "iconPath": "../svg/folder-functions.svg"
-    },
-    "_folder_functions_open": {
-      "iconPath": "../svg/folder-functions-open.svg"
-    },
-    "_folder_utils": {
-      "iconPath": "../svg/folder-utils.svg"
-    },
-    "_folder_utils_open": {
-      "iconPath": "../svg/folder-utils-open.svg"
-    },
-    "_folder_helpers": {
-      "iconPath": "../svg/folder-helpers.svg"
-    },
-    "_folder_helpers_open": {
-      "iconPath": "../svg/folder-helpers-open.svg"
-    },
-    "_folder_services": {
-      "iconPath": "../svg/folder-services.svg"
-    },
-    "_folder_services_open": {
-      "iconPath": "../svg/folder-services-open.svg"
-    },
-    "_folder_controllers": {
-      "iconPath": "../svg/folder-controllers.svg"
-    },
-    "_folder_controllers_open": {
-      "iconPath": "../svg/folder-controllers-open.svg"
-    },
-    "_folder_models": {
-      "iconPath": "../svg/folder-models.svg"
-    },
-    "_folder_models_open": {
-      "iconPath": "../svg/folder-models-open.svg"
-    },
     "_folder_views": {
       "iconPath": "../svg/folder-views.svg"
     },
@@ -936,59 +894,23 @@
     "_folder_layouts_open": {
       "iconPath": "../svg/folder-layouts-open.svg"
     },
-    "_folder_store": {
-      "iconPath": "../svg/folder-store.svg"
+    "_folder_styles": {
+      "iconPath": "../svg/folder-styles.svg"
     },
-    "_folder_store_open": {
-      "iconPath": "../svg/folder-store-open.svg"
+    "_folder_styles_open": {
+      "iconPath": "../svg/folder-styles-open.svg"
     },
-    "_folder_context": {
-      "iconPath": "../svg/folder-context.svg"
+    "_folder_themes": {
+      "iconPath": "../svg/folder-themes.svg"
     },
-    "_folder_context_open": {
-      "iconPath": "../svg/folder-context-open.svg"
+    "_folder_themes_open": {
+      "iconPath": "../svg/folder-themes-open.svg"
     },
-    "_folder_middleware": {
-      "iconPath": "../svg/folder-middleware.svg"
+    "_folder_design": {
+      "iconPath": "../svg/folder-design.svg"
     },
-    "_folder_middleware_open": {
-      "iconPath": "../svg/folder-middleware-open.svg"
-    },
-    "_folder_routes": {
-      "iconPath": "../svg/folder-routes.svg"
-    },
-    "_folder_routes_open": {
-      "iconPath": "../svg/folder-routes-open.svg"
-    },
-    "_folder_api": {
-      "iconPath": "../svg/folder-api.svg"
-    },
-    "_folder_api_open": {
-      "iconPath": "../svg/folder-api-open.svg"
-    },
-    "_folder_config": {
-      "iconPath": "../svg/folder-config.svg"
-    },
-    "_folder_config_open": {
-      "iconPath": "../svg/folder-config-open.svg"
-    },
-    "_folder_scripts": {
-      "iconPath": "../svg/folder-scripts.svg"
-    },
-    "_folder_scripts_open": {
-      "iconPath": "../svg/folder-scripts-open.svg"
-    },
-    "_folder_tests": {
-      "iconPath": "../svg/folder-tests.svg"
-    },
-    "_folder_tests_open": {
-      "iconPath": "../svg/folder-tests-open.svg"
-    },
-    "_folder_mocks": {
-      "iconPath": "../svg/folder-mocks.svg"
-    },
-    "_folder_mocks_open": {
-      "iconPath": "../svg/folder-mocks-open.svg"
+    "_folder_design_open": {
+      "iconPath": "../svg/folder-design-open.svg"
     },
     "_folder_assets": {
       "iconPath": "../svg/folder-assets.svg"
@@ -1008,6 +930,12 @@
     "_folder_media_open": {
       "iconPath": "../svg/folder-media-open.svg"
     },
+    "_folder_audio": {
+      "iconPath": "../svg/folder-audio.svg"
+    },
+    "_folder_audio_open": {
+      "iconPath": "../svg/folder-audio-open.svg"
+    },
     "_folder_icons": {
       "iconPath": "../svg/folder-icons.svg"
     },
@@ -1020,23 +948,11 @@
     "_folder_fonts_open": {
       "iconPath": "../svg/folder-fonts-open.svg"
     },
-    "_folder_styles": {
-      "iconPath": "../svg/folder-styles.svg"
-    },
-    "_folder_styles_open": {
-      "iconPath": "../svg/folder-styles-open.svg"
-    },
     "_folder_public": {
       "iconPath": "../svg/folder-public.svg"
     },
     "_folder_public_open": {
       "iconPath": "../svg/folder-public-open.svg"
-    },
-    "_folder_build": {
-      "iconPath": "../svg/folder-build.svg"
-    },
-    "_folder_build_open": {
-      "iconPath": "../svg/folder-build-open.svg"
     },
     "_folder_docs": {
       "iconPath": "../svg/folder-docs.svg"
@@ -1044,11 +960,89 @@
     "_folder_docs_open": {
       "iconPath": "../svg/folder-docs-open.svg"
     },
+    "_folder_i18n": {
+      "iconPath": "../svg/folder-i18n.svg"
+    },
+    "_folder_i18n_open": {
+      "iconPath": "../svg/folder-i18n-open.svg"
+    },
+    "_folder_functions": {
+      "iconPath": "../svg/folder-functions.svg"
+    },
+    "_folder_functions_open": {
+      "iconPath": "../svg/folder-functions-open.svg"
+    },
+    "_folder_utils": {
+      "iconPath": "../svg/folder-utils.svg"
+    },
+    "_folder_utils_open": {
+      "iconPath": "../svg/folder-utils-open.svg"
+    },
+    "_folder_helpers": {
+      "iconPath": "../svg/folder-helpers.svg"
+    },
+    "_folder_helpers_open": {
+      "iconPath": "../svg/folder-helpers-open.svg"
+    },
+    "_folder_hooks": {
+      "iconPath": "../svg/folder-hooks.svg"
+    },
+    "_folder_hooks_open": {
+      "iconPath": "../svg/folder-hooks-open.svg"
+    },
+    "_folder_core": {
+      "iconPath": "../svg/folder-core.svg"
+    },
+    "_folder_core_open": {
+      "iconPath": "../svg/folder-core-open.svg"
+    },
+    "_folder_shared": {
+      "iconPath": "../svg/folder-shared.svg"
+    },
+    "_folder_shared_open": {
+      "iconPath": "../svg/folder-shared-open.svg"
+    },
+    "_folder_plugins": {
+      "iconPath": "../svg/folder-plugins.svg"
+    },
+    "_folder_plugins_open": {
+      "iconPath": "../svg/folder-plugins-open.svg"
+    },
+    "_folder_packages": {
+      "iconPath": "../svg/folder-packages.svg"
+    },
+    "_folder_packages_open": {
+      "iconPath": "../svg/folder-packages-open.svg"
+    },
+    "_folder_models": {
+      "iconPath": "../svg/folder-models.svg"
+    },
+    "_folder_models_open": {
+      "iconPath": "../svg/folder-models-open.svg"
+    },
+    "_folder_store": {
+      "iconPath": "../svg/folder-store.svg"
+    },
+    "_folder_store_open": {
+      "iconPath": "../svg/folder-store-open.svg"
+    },
+    "_folder_context": {
+      "iconPath": "../svg/folder-context.svg"
+    },
+    "_folder_context_open": {
+      "iconPath": "../svg/folder-context-open.svg"
+    },
     "_folder_database": {
       "iconPath": "../svg/folder-database.svg"
     },
     "_folder_database_open": {
       "iconPath": "../svg/folder-database-open.svg"
+    },
+    "_folder_schemas": {
+      "iconPath": "../svg/folder-schemas.svg"
+    },
+    "_folder_schemas_open": {
+      "iconPath": "../svg/folder-schemas-open.svg"
     },
     "_folder_types": {
       "iconPath": "../svg/folder-types.svg"
@@ -1062,23 +1056,77 @@
     "_folder_constants_open": {
       "iconPath": "../svg/folder-constants-open.svg"
     },
-    "_folder_core": {
-      "iconPath": "../svg/folder-core.svg"
+    "_folder_services": {
+      "iconPath": "../svg/folder-services.svg"
     },
-    "_folder_core_open": {
-      "iconPath": "../svg/folder-core-open.svg"
+    "_folder_services_open": {
+      "iconPath": "../svg/folder-services-open.svg"
     },
-    "_folder_plugins": {
-      "iconPath": "../svg/folder-plugins.svg"
+    "_folder_controllers": {
+      "iconPath": "../svg/folder-controllers.svg"
     },
-    "_folder_plugins_open": {
-      "iconPath": "../svg/folder-plugins-open.svg"
+    "_folder_controllers_open": {
+      "iconPath": "../svg/folder-controllers-open.svg"
     },
-    "_folder_i18n": {
-      "iconPath": "../svg/folder-i18n.svg"
+    "_folder_middleware": {
+      "iconPath": "../svg/folder-middleware.svg"
     },
-    "_folder_i18n_open": {
-      "iconPath": "../svg/folder-i18n-open.svg"
+    "_folder_middleware_open": {
+      "iconPath": "../svg/folder-middleware-open.svg"
+    },
+    "_folder_routes": {
+      "iconPath": "../svg/folder-routes.svg"
+    },
+    "_folder_routes_open": {
+      "iconPath": "../svg/folder-routes-open.svg"
+    },
+    "_folder_api": {
+      "iconPath": "../svg/folder-api.svg"
+    },
+    "_folder_api_open": {
+      "iconPath": "../svg/folder-api-open.svg"
+    },
+    "_folder_server": {
+      "iconPath": "../svg/folder-server.svg"
+    },
+    "_folder_server_open": {
+      "iconPath": "../svg/folder-server-open.svg"
+    },
+    "_folder_jobs": {
+      "iconPath": "../svg/folder-jobs.svg"
+    },
+    "_folder_jobs_open": {
+      "iconPath": "../svg/folder-jobs-open.svg"
+    },
+    "_folder_tests": {
+      "iconPath": "../svg/folder-tests.svg"
+    },
+    "_folder_tests_open": {
+      "iconPath": "../svg/folder-tests-open.svg"
+    },
+    "_folder_mocks": {
+      "iconPath": "../svg/folder-mocks.svg"
+    },
+    "_folder_mocks_open": {
+      "iconPath": "../svg/folder-mocks-open.svg"
+    },
+    "_folder_validators": {
+      "iconPath": "../svg/folder-validators.svg"
+    },
+    "_folder_validators_open": {
+      "iconPath": "../svg/folder-validators-open.svg"
+    },
+    "_folder_benchmarks": {
+      "iconPath": "../svg/folder-benchmarks.svg"
+    },
+    "_folder_benchmarks_open": {
+      "iconPath": "../svg/folder-benchmarks-open.svg"
+    },
+    "_folder_security": {
+      "iconPath": "../svg/folder-security.svg"
+    },
+    "_folder_security_open": {
+      "iconPath": "../svg/folder-security-open.svg"
     },
     "_folder_guards": {
       "iconPath": "../svg/folder-guards.svg"
@@ -1086,11 +1134,29 @@
     "_folder_guards_open": {
       "iconPath": "../svg/folder-guards-open.svg"
     },
-    "_folder_validators": {
-      "iconPath": "../svg/folder-validators.svg"
+    "_folder_keys": {
+      "iconPath": "../svg/folder-keys.svg"
     },
-    "_folder_validators_open": {
-      "iconPath": "../svg/folder-validators-open.svg"
+    "_folder_keys_open": {
+      "iconPath": "../svg/folder-keys-open.svg"
+    },
+    "_folder_config": {
+      "iconPath": "../svg/folder-config.svg"
+    },
+    "_folder_config_open": {
+      "iconPath": "../svg/folder-config-open.svg"
+    },
+    "_folder_scripts": {
+      "iconPath": "../svg/folder-scripts.svg"
+    },
+    "_folder_scripts_open": {
+      "iconPath": "../svg/folder-scripts-open.svg"
+    },
+    "_folder_build": {
+      "iconPath": "../svg/folder-build.svg"
+    },
+    "_folder_build_open": {
+      "iconPath": "../svg/folder-build-open.svg"
     },
     "_folder_docker": {
       "iconPath": "../svg/folder-docker.svg"
@@ -1104,23 +1170,11 @@
     "_folder_workflows_open": {
       "iconPath": "../svg/folder-workflows-open.svg"
     },
-    "_folder_server": {
-      "iconPath": "../svg/folder-server.svg"
+    "_folder_ai": {
+      "iconPath": "../svg/folder-ai.svg"
     },
-    "_folder_server_open": {
-      "iconPath": "../svg/folder-server-open.svg"
-    },
-    "_folder_shared": {
-      "iconPath": "../svg/folder-shared.svg"
-    },
-    "_folder_shared_open": {
-      "iconPath": "../svg/folder-shared-open.svg"
-    },
-    "_folder_security": {
-      "iconPath": "../svg/folder-security.svg"
-    },
-    "_folder_security_open": {
-      "iconPath": "../svg/folder-security-open.svg"
+    "_folder_ai_open": {
+      "iconPath": "../svg/folder-ai-open.svg"
     },
     "_folder_logs": {
       "iconPath": "../svg/folder-logs.svg"
@@ -1139,60 +1193,6 @@
     },
     "_folder_archive_open": {
       "iconPath": "../svg/folder-archive-open.svg"
-    },
-    "_folder_packages": {
-      "iconPath": "../svg/folder-packages.svg"
-    },
-    "_folder_packages_open": {
-      "iconPath": "../svg/folder-packages-open.svg"
-    },
-    "_folder_schemas": {
-      "iconPath": "../svg/folder-schemas.svg"
-    },
-    "_folder_schemas_open": {
-      "iconPath": "../svg/folder-schemas-open.svg"
-    },
-    "_folder_themes": {
-      "iconPath": "../svg/folder-themes.svg"
-    },
-    "_folder_themes_open": {
-      "iconPath": "../svg/folder-themes-open.svg"
-    },
-    "_folder_keys": {
-      "iconPath": "../svg/folder-keys.svg"
-    },
-    "_folder_keys_open": {
-      "iconPath": "../svg/folder-keys-open.svg"
-    },
-    "_folder_benchmarks": {
-      "iconPath": "../svg/folder-benchmarks.svg"
-    },
-    "_folder_benchmarks_open": {
-      "iconPath": "../svg/folder-benchmarks-open.svg"
-    },
-    "_folder_jobs": {
-      "iconPath": "../svg/folder-jobs.svg"
-    },
-    "_folder_jobs_open": {
-      "iconPath": "../svg/folder-jobs-open.svg"
-    },
-    "_folder_design": {
-      "iconPath": "../svg/folder-design.svg"
-    },
-    "_folder_design_open": {
-      "iconPath": "../svg/folder-design-open.svg"
-    },
-    "_folder_audio": {
-      "iconPath": "../svg/folder-audio.svg"
-    },
-    "_folder_audio_open": {
-      "iconPath": "../svg/folder-audio-open.svg"
-    },
-    "_folder_ai": {
-      "iconPath": "../svg/folder-ai.svg"
-    },
-    "_folder_ai_open": {
-      "iconPath": "../svg/folder-ai-open.svg"
     }
   },
   "folder": "_folder",
@@ -1310,7 +1310,7 @@
     "public": "_folder_public",
     "www": "_folder_public",
     "web": "_folder_public",
-    "client": "_folder_public",
+    "client": "_folder_views",
     "build": "_folder_build",
     "dist": "_folder_build",
     "out": "_folder_build",
@@ -1367,18 +1367,18 @@
     "translations": "_folder_i18n",
     "guards": "_folder_guards",
     "guard": "_folder_guards",
-    "directives": "_folder_guards",
-    "directive": "_folder_guards",
-    "pipes": "_folder_guards",
-    "pipe": "_folder_guards",
-    "decorators": "_folder_guards",
-    "decorator": "_folder_guards",
+    "directives": "_folder_components",
+    "directive": "_folder_components",
+    "pipes": "_folder_middleware",
+    "pipe": "_folder_middleware",
+    "decorators": "_folder_functions",
+    "decorator": "_folder_functions",
     "validators": "_folder_validators",
     "validator": "_folder_validators",
     "validation": "_folder_validators",
-    "events": "_folder_validators",
-    "listeners": "_folder_validators",
-    "notifications": "_folder_validators",
+    "events": "_folder_jobs",
+    "listeners": "_folder_jobs",
+    "notifications": "_folder_jobs",
     "jobs": "_folder_jobs",
     "queues": "_folder_jobs",
     "tasks": "_folder_jobs",
@@ -1547,7 +1547,7 @@
     "public": "_folder_public_open",
     "www": "_folder_public_open",
     "web": "_folder_public_open",
-    "client": "_folder_public_open",
+    "client": "_folder_views_open",
     "build": "_folder_build_open",
     "dist": "_folder_build_open",
     "out": "_folder_build_open",
@@ -1604,18 +1604,18 @@
     "translations": "_folder_i18n_open",
     "guards": "_folder_guards_open",
     "guard": "_folder_guards_open",
-    "directives": "_folder_guards_open",
-    "directive": "_folder_guards_open",
-    "pipes": "_folder_guards_open",
-    "pipe": "_folder_guards_open",
-    "decorators": "_folder_guards_open",
-    "decorator": "_folder_guards_open",
+    "directives": "_folder_components_open",
+    "directive": "_folder_components_open",
+    "pipes": "_folder_middleware_open",
+    "pipe": "_folder_middleware_open",
+    "decorators": "_folder_functions_open",
+    "decorator": "_folder_functions_open",
     "validators": "_folder_validators_open",
     "validator": "_folder_validators_open",
     "validation": "_folder_validators_open",
-    "events": "_folder_validators_open",
-    "listeners": "_folder_validators_open",
-    "notifications": "_folder_validators_open",
+    "events": "_folder_jobs_open",
+    "listeners": "_folder_jobs_open",
+    "notifications": "_folder_jobs_open",
     "jobs": "_folder_jobs_open",
     "queues": "_folder_jobs_open",
     "tasks": "_folder_jobs_open",

@@ -302,10 +302,10 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/bash.png` | `82e04fa81988` |
 | `docs/preview/csharp.png` | `da41a6629d86` |
 | `docs/preview/go.png` | `d1c48b2ace4d` |
-| `docs/preview/hero.png` | `f09ab7678184` |
+| `docs/preview/hero.png` | `ecfa480cfcea` |
 | `docs/preview/html.png` | `45226ed95168` |
 | `docs/preview/icons-files.png` | `e7dce19efbe1` |
-| `docs/preview/icons-folders.png` | `8c922c9dcbc6` |
+| `docs/preview/icons-folders.png` | `58ce14408ded` |
 | `docs/preview/java.png` | `5a02a74b52d4` |
 | `docs/preview/javascript.png` | `9536a2ad697a` |
 | `docs/preview/json.png` | `07a0fcc57df3` |

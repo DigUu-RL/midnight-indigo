@@ -63,6 +63,9 @@ const PHOSPHOR = '2.1.1';
 type Source = { id: string; note?: string };
 
 const ph = (name: string, note?: string): Source => ({ id: `ph:${name}-duotone`, note });
+const phFill = (name: string, note?: string): Source => ({ id: `ph:${name}-fill`, note });
+const phBold = (name: string, note?: string): Source => ({ id: `ph:${name}-bold`, note });
+const mdi = (name: string, note?: string): Source => ({ id: `mdi:${name}`, note });
 
 /* -------------------------------------------------------------- *
  * The library
@@ -78,12 +81,10 @@ const SOURCES: Record<string, Source> = {
   scatter: ph('chart-scatter', 'columnar datasets — Parquet, Avro, Arrow'),
   pie: ph('chart-pie-slice', 'BI documents — Power BI, Tableau'),
   book: ph('book', 'stories and long-form documents'),
-  books: ph('books', 'a documentation folder is a shelf, not one book'),
   ebook: ph('book-bookmark', 'EPUB and friends — a book with a reader in it'),
   certificate: ph('certificate', 'LICENSE: a document that grants something'),
   history: ph('clock-counter-clockwise', 'CHANGELOG'),
   padlock: ph('lock-laminated', 'lockfiles — a resolved, sealed dependency tree'),
-  lockSimple: ph('lock-simple', 'constants: values that do not move'),
   key: ph('key', 'certificates and key material'),
   fingerprint: ph('fingerprint', 'credentials and secrets'),
   scroll: ph('scroll', 'notices, manifests and other read-me-first documents'),
@@ -115,10 +116,8 @@ const SOURCES: Record<string, Source> = {
 
   /* ---------------- packages, boxes and modules ---------------- */
   package: ph('package', 'an installable artefact — deb, msi, vsix, whl'),
-  cube: ph('cube', 'assets: one thing made of parts'),
   mesh: ph('cube-transparent', '3D models — a cube you can see the far edges of'),
   squares: ph('squares-four', 'modules: many small units under one name'),
-  archiveTray: ph('archive', 'archived or vendored material'),
   folders: ph('folders', 'workspaces and monorepo roots'),
   container: ph('shipping-container', 'dev containers'),
 
@@ -132,7 +131,6 @@ const SOURCES: Record<string, Source> = {
   gear: ph('gear-six', 'services'),
   gearFine: ph('gear-fine', 'unit files and daemons'),
   shield: ph('shield', 'security'),
-  shieldCheck: ph('shield-check', 'guards — security that has already answered'),
   shieldWarning: ph('shield-warning', 'security policies and advisories'),
   funnel: ph('funnel', 'pipes and interceptors'),
   wand: ph('magic-wand', 'directives'),
@@ -157,37 +155,21 @@ const SOURCES: Record<string, Source> = {
   // dark blot; the rounded "fx" is heavy enough to still say fx there. MDI's
   // and Tabler's were tried beside it and lost the x or the whole stroke.
   fx: { id: 'material-symbols:function-rounded', note: 'functions' },
-  anchor: ph('anchor-simple', 'hooks'),
   terminal: ph('terminal-window', 'scripts and shells'),
   browser: ph('browser', 'anything the browser is the runtime for'),
-  layout: ph('layout'),
-  eye: ph('eye', 'views'),
-  globe: ph('globe-hemisphere-west', 'public and web-facing'),
   hammer: ph('hammer', 'build systems'),
-  brush: ph('paint-brush-broad', 'styles'),
   palette: ph('palette', 'colour themes and palettes'),
-  star: ph('star', 'icons'),
-  chip: ph('cpu', 'core'),
   circuit: ph('circuitry', 'hardware description — Verilog, VHDL'),
   gpu: ph('graphics-card', 'shaders and GPU kernels'),
   printer: ph('printer', 'G-code and print jobs'),
-  plug: ph('plug', 'plugins'),
-  serverRack: ph('hard-drives', 'servers'),
   flow: ph('flow-arrow', 'pipelines and workflows'),
-  route: ph('path', 'routes'),
-  share: ph('share-network', 'shared code'),
-  layers: ph('stack', 'middleware'),
   atom: ph('atom', 'context and state'),
-  ghost: ph('ghost', 'mocks and fixtures'),
   robot: ph('robot', 'robots.txt and crawler rules'),
-  translate: ph('translate', 'i18n'),
-  lifebuoy: ph('lifebuoy', 'helpers'),
   leaf: ph('leaf', 'Twig and the leaf-marked template languages'),
   drop: ph('drop', 'Liquid templates'),
   brain: ph('brain', 'the logic languages, and model files'),
   command: ph('command', 'AppleScript, AutoHotkey — scripting the desktop itself'),
   dog: ph('dog', 'Husky'),
-  speedometer: ph('speedometer', 'benchmarks and performance budgets'),
   timer: ph('timer', 'schedules — cron and its relatives'),
   compass: ph('compass-tool', 'CAD drawings'),
   shapes: ph('shapes', 'design documents'),
@@ -213,6 +195,74 @@ const SOURCES: Record<string, Source> = {
   calendar: ph('calendar-dots'),
   contactCard: ph('identification-card', 'vCards'),
   trash: ph('trash', 'temporary and discarded files'),
+
+  /* ---------------- folder silhouettes (M11) ---------------- *
+   *
+   * A folder's pictogram is sunk into its facade at 12 of 32 units, which is
+   * six pixels in the file tree. A duotone at six pixels is a surface with no
+   * room left for the detail on it: M10 found the archive, the table, the log
+   * lines, the terminal, the timer and the database cylinder reduced to a dark
+   * blot. So folders take Phosphor's FILL weight — one solid silhouette, with
+   * the detail cut through it — or its BOLD weight where the icon is a line
+   * drawing with no silhouette to fill (a prompt, a letter, arrows). The same
+   * drawings stay duotone on the file icons, which have the whole box.
+   *
+   * Some are not the file icon's drawing in another weight but a different
+   * drawing, because six pixels is a harder test than twenty-five: each of
+   * those says what it replaced.
+   */
+  puzzleSolid: phFill('puzzle-piece', 'components'),
+  anchorSolid: phFill('anchor-simple', 'hooks'),
+  wrenchSolid: phFill('wrench', 'utils'),
+  lifebuoySolid: phFill('lifebuoy', 'helpers'),
+  gearSolid: phFill('gear-six', 'services'),
+  slidersSolid: phFill('sliders-horizontal', 'controllers'),
+  tableSolid: phFill('table', 'models'),
+  eyeSolid: phFill('eye', 'views'),
+  layoutSolid: phFill('layout', 'layouts'),
+  vaultSolid: phFill('vault', 'stores: where the state is kept; the archive tray it replaced was a blot at 6px'),
+  circlesSolid: phFill('circles-three', 'context: one value held by many; the atom it replaced was a blot at 6px'),
+  funnelSolid: phFill('funnel', 'middleware: what every request is passed through; the stack of layers was a blot'),
+  signpostSolid: phFill('signpost', 'routes; the path it replaced was a hairline squiggle at 6px'),
+  exchangeBold: phBold('arrows-left-right', 'api: requests out, responses back'),
+  prompt: phBold('terminal', 'scripts; the terminal window it replaced was a blank screen at 6px'),
+  flaskSolid: phFill('flask', 'tests'),
+  ghostSolid: phFill('ghost', 'mocks and fixtures'),
+  diamondSolid: phFill('diamond', 'assets: the valuables a project keeps; the cube was a blot at 6px'),
+  pictureSolid: phFill('image', 'images'),
+  playSolid: phFill('play', 'media; the film strip it replaced was a striped blot at 6px'),
+  starSolid: phFill('star', 'icons'),
+  letterT: phBold('text-t', 'fonts; two letters do not fit in six pixels, one does'),
+  brushSolid: phFill('paint-brush-broad', 'styles'),
+  browserSolid: phFill('browser', 'public: what the browser is served; the globe went to i18n'),
+  hammerSolid: phFill('hammer', 'build output'),
+  bookSolid: phFill('book', 'docs; a shelf of books, or an open one, is a row of stripes at 6px'),
+  cylinderSolid: phFill('database', 'databases and migrations'),
+  tagSolid: phFill('tag', 'types'),
+  pi: phBold('pi', 'constants — the constant everyone knows by sight; the padlock it replaced is security\'s shape'),
+  chipSolid: phFill('cpu', 'core'),
+  // Material Design Icons (Apache-2.0): Phosphor's plug and package cut their
+  // detail through the silhouette, and at 6px it closes up into a blot.
+  plugSolid: mdi('power-plug', 'plugins'),
+  globeSolid: phFill('globe-simple', 'i18n: the language picker\'s globe; the 文A of translate is two glyphs in six pixels'),
+  shieldCheckSolid: phFill('shield-check', 'guards'),
+  checkCircleSolid: phFill('check-circle', 'validators; the checklist it replaced was three lines at 6px'),
+  forkBold: phBold('git-fork', 'workflows and pipelines: a run that branches; the flow arrow was a hairline at 6px'),
+  serverRackSolid: phFill('hard-drives', 'servers'),
+  shareSolid: phFill('share-network', 'shared code'),
+  lockKeySolid: phFill('lock-key', 'security'),
+  rowsSolid: phFill('rows', 'logs: rows of output; thinner lines fade into the facade at 6px'),
+  trashSolid: phFill('trash', 'temporary and cached'),
+  archiveSolid: phFill('archive', 'archived and legacy'),
+  packageSolid: mdi('package-variant-closed', 'packages and workspaces; the stacked folders it replaced read as a folder in a folder'),
+  treeStructureSolid: phFill('tree-structure', 'schemas'),
+  dropSolid: phFill('drop-half', 'themes: a colour; the palette was a blot at 6px'),
+  keySolid: phFill('key', 'keys and certificates'),
+  lightningSolid: phFill('lightning', 'benchmarks: speed; the speedometer\'s dial was a blot at 6px'),
+  hourglassSolid: phFill('hourglass', 'jobs and queues; the timer it replaced was a disc at 6px'),
+  penNibSolid: phFill('pen-nib', 'design; the shapes it replaced were three blots at 6px'),
+  musicNoteSolid: phFill('music-note', 'audio; one note, where two ran together'),
+  sparkleSolid: phFill('sparkle', 'assistant rules and prompts'),
 };
 
 /* -------------------------------------------------------------- *

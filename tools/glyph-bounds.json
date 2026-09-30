@@ -79,16 +79,6 @@
     "fill": 0.917,
     "stroke": 6.269
   },
-  "glyph:books": {
-    "cx": 0.75,
-    "cy": -0.375,
-    "w": 18,
-    "h": 18.75,
-    "mx": -0.49,
-    "my": -0.562,
-    "fill": 0.792,
-    "stroke": 2.951
-  },
   "glyph:ebook": {
     "cx": 0,
     "cy": 0,
@@ -120,16 +110,6 @@
     "stroke": 8.912
   },
   "glyph:padlock": {
-    "cx": 0,
-    "cy": -1.125,
-    "w": 18,
-    "h": 20.25,
-    "mx": 0,
-    "my": 1.291,
-    "fill": 0.805,
-    "stroke": 6.139
-  },
-  "glyph:lockSimple": {
     "cx": 0,
     "cy": -1.125,
     "w": 18,
@@ -339,16 +319,6 @@
     "fill": 0.765,
     "stroke": 3.003
   },
-  "glyph:cube": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 21,
-    "mx": -1.425,
-    "my": 0.796,
-    "fill": 0.765,
-    "stroke": 3.175
-  },
   "glyph:mesh": {
     "cx": 0,
     "cy": 0,
@@ -368,16 +338,6 @@
     "my": 0,
     "fill": 0.799,
     "stroke": 4.121
-  },
-  "glyph:archiveTray": {
-    "cx": 0,
-    "cy": 0,
-    "w": 21,
-    "h": 15,
-    "mx": 0,
-    "my": 0.509,
-    "fill": 0.898,
-    "stroke": 4.528
   },
   "glyph:folders": {
     "cx": 0.375,
@@ -489,16 +449,6 @@
     "fill": 0.834,
     "stroke": 9.673
   },
-  "glyph:shieldCheck": {
-    "cx": 0,
-    "cy": 1.125,
-    "w": 18,
-    "h": 18.75,
-    "mx": -0.002,
-    "my": -0.162,
-    "fill": 0.834,
-    "stroke": 9.673
-  },
   "glyph:shieldWarning": {
     "cx": 0,
     "cy": 1.125,
@@ -589,16 +539,6 @@
     "fill": 0.388,
     "stroke": 2.36
   },
-  "glyph:anchor": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 18,
-    "mx": 0,
-    "my": 0.757,
-    "fill": 0.272,
-    "stroke": 1.952
-  },
   "glyph:terminal": {
     "cx": 0,
     "cy": 0,
@@ -619,36 +559,6 @@
     "fill": 0.994,
     "stroke": 2.871
   },
-  "glyph:layout": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 16.5,
-    "mx": -1.53,
-    "my": 0.51,
-    "fill": 0.994,
-    "stroke": 2.451
-  },
-  "glyph:eye": {
-    "cx": 0,
-    "cy": 0,
-    "w": 22.5,
-    "h": 15,
-    "mx": -0.003,
-    "my": -0.004,
-    "fill": 0.723,
-    "stroke": 6.445
-  },
-  "glyph:globe": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 19.5,
-    "mx": -0.08,
-    "my": -0.165,
-    "fill": 0.787,
-    "stroke": 3.432
-  },
   "glyph:hammer": {
     "cx": 1.125,
     "cy": -0.375,
@@ -659,16 +569,6 @@
     "fill": 0.461,
     "stroke": 4.426
   },
-  "glyph:brush": {
-    "cx": 0,
-    "cy": 0.375,
-    "w": 18,
-    "h": 20.25,
-    "mx": 0.279,
-    "my": -0.426,
-    "fill": 0.72,
-    "stroke": 3.051
-  },
   "glyph:palette": {
     "cx": 0,
     "cy": -0.375,
@@ -678,26 +578,6 @@
     "my": -0.907,
     "fill": 0.723,
     "stroke": 9.561
-  },
-  "glyph:star": {
-    "cx": 0,
-    "cy": -0.375,
-    "w": 21,
-    "h": 20.25,
-    "mx": -0.001,
-    "my": 0.53,
-    "fill": 0.531,
-    "stroke": 6.816
-  },
-  "glyph:chip": {
-    "cx": 0,
-    "cy": 0,
-    "w": 21,
-    "h": 21,
-    "mx": 0,
-    "my": 0,
-    "fill": 0.67,
-    "stroke": 5.555
   },
   "glyph:circuit": {
     "cx": 0,
@@ -729,26 +609,6 @@
     "fill": 0.844,
     "stroke": 3.872
   },
-  "glyph:plug": {
-    "cx": 0.375,
-    "cy": -0.375,
-    "w": 20.25,
-    "h": 20.25,
-    "mx": 0.271,
-    "my": -0.271,
-    "fill": 0.456,
-    "stroke": 5.687
-  },
-  "glyph:serverRack": {
-    "cx": 0,
-    "cy": 0,
-    "w": 18,
-    "h": 16.5,
-    "mx": 0,
-    "my": 0,
-    "fill": 0.897,
-    "stroke": 5.618
-  },
   "glyph:flow": {
     "cx": 0,
     "cy": 0,
@@ -758,36 +618,6 @@
     "my": 1.409,
     "fill": 0.229,
     "stroke": 2.633
-  },
-  "glyph:route": {
-    "cx": 0,
-    "cy": 1.125,
-    "w": 19.5,
-    "h": 17.25,
-    "mx": 0.993,
-    "my": 1.723,
-    "fill": 0.303,
-    "stroke": 1.856
-  },
-  "glyph:share": {
-    "cx": -0.75,
-    "cy": 0,
-    "w": 18,
-    "h": 21,
-    "mx": 1.64,
-    "my": 0,
-    "fill": 0.392,
-    "stroke": 2.993
-  },
-  "glyph:layers": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 21,
-    "mx": 0.006,
-    "my": -1.354,
-    "fill": 0.476,
-    "stroke": 3.232
   },
   "glyph:atom": {
     "cx": 0,
@@ -799,16 +629,6 @@
     "fill": 0.837,
     "stroke": 4.638
   },
-  "glyph:ghost": {
-    "cx": 0,
-    "cy": -0.375,
-    "w": 18,
-    "h": 18.75,
-    "mx": 0,
-    "my": 0.05,
-    "fill": 0.853,
-    "stroke": 9.282
-  },
   "glyph:robot": {
     "cx": 0,
     "cy": -1.125,
@@ -818,26 +638,6 @@
     "my": 0.468,
     "fill": 0.809,
     "stroke": 6.522
-  },
-  "glyph:translate": {
-    "cx": 0.75,
-    "cy": -0.375,
-    "w": 21,
-    "h": 18.75,
-    "mx": 0.594,
-    "my": -0.29,
-    "fill": 0.335,
-    "stroke": 2.749
-  },
-  "glyph:lifebuoy": {
-    "cx": 0,
-    "cy": 0,
-    "w": 19.5,
-    "h": 19.5,
-    "mx": -0.003,
-    "my": 0.003,
-    "fill": 0.787,
-    "stroke": 3.635
   },
   "glyph:leaf": {
     "cx": 0,
@@ -888,16 +688,6 @@
     "my": 0.165,
     "fill": 0.816,
     "stroke": 5.375
-  },
-  "glyph:speedometer": {
-    "cx": 0,
-    "cy": -0.75,
-    "w": 21,
-    "h": 15,
-    "mx": 0.009,
-    "my": 0.083,
-    "fill": 0.84,
-    "stroke": 8.659
   },
   "glyph:timer": {
     "cx": 0,
@@ -1148,6 +938,506 @@
     "my": 0.004,
     "fill": 0.785,
     "stroke": 6.444
+  },
+  "glyph:puzzleSolid": {
+    "cx": -1.125,
+    "cy": -0.75,
+    "w": 20.25,
+    "h": 19.5,
+    "mx": -0.337,
+    "my": 0.44,
+    "fill": 0.716,
+    "stroke": 7.726
+  },
+  "glyph:anchorSolid": {
+    "cx": 0,
+    "cy": 0.175,
+    "w": 19.5,
+    "h": 17.65,
+    "mx": 0,
+    "my": 1.234,
+    "fill": 0.26,
+    "stroke": 1.851
+  },
+  "glyph:wrenchSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": -0.127,
+    "my": 0.128,
+    "fill": 0.432,
+    "stroke": 5.206
+  },
+  "glyph:lifebuoySolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": -0.003,
+    "my": 0.003,
+    "fill": 0.787,
+    "stroke": 3.635
+  },
+  "glyph:gearSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 19.5,
+    "mx": -0.002,
+    "my": 0.002,
+    "fill": 0.722,
+    "stroke": 5.954
+  },
+  "glyph:slidersSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18,
+    "h": 14.3,
+    "mx": 0.256,
+    "my": 0,
+    "fill": 0.314,
+    "stroke": 2.076
+  },
+  "glyph:tableSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 15,
+    "mx": -0.168,
+    "my": -1.032,
+    "fill": 0.996,
+    "stroke": 2.679
+  },
+  "glyph:eyeSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 22.5,
+    "h": 15,
+    "mx": -0.003,
+    "my": -0.004,
+    "fill": 0.723,
+    "stroke": 5.621
+  },
+  "glyph:layoutSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 16.5,
+    "mx": -1.53,
+    "my": 0.51,
+    "fill": 0.994,
+    "stroke": 2.451
+  },
+  "glyph:vaultSolid": {
+    "cx": 0,
+    "cy": 0.75,
+    "w": 19.5,
+    "h": 18,
+    "mx": -0.243,
+    "my": -0.217,
+    "fill": 0.888,
+    "stroke": 5.141
+  },
+  "glyph:circlesSolid": {
+    "cx": 0,
+    "cy": -0.375,
+    "w": 19.5,
+    "h": 17.25,
+    "mx": -0.001,
+    "my": 1.125,
+    "fill": 0.478,
+    "stroke": 4.615
+  },
+  "glyph:funnelSolid": {
+    "cx": 0,
+    "cy": 0.75,
+    "w": 19.5,
+    "h": 18,
+    "mx": -0.044,
+    "my": -1.971,
+    "fill": 0.507,
+    "stroke": 6.37
+  },
+  "glyph:signpostSolid": {
+    "cx": 0.75,
+    "cy": 0,
+    "w": 21,
+    "h": 19.5,
+    "mx": -0.051,
+    "my": -1.27,
+    "fill": 0.458,
+    "stroke": 5.377
+  },
+  "glyph:exchangeBold": {
+    "cx": 0,
+    "cy": 0,
+    "w": 17.3,
+    "h": 17.3,
+    "mx": -0.001,
+    "my": 0,
+    "fill": 0.365,
+    "stroke": 2.502
+  },
+  "glyph:prompt": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18.8,
+    "h": 14.3,
+    "mx": -2.038,
+    "my": 2.12,
+    "fill": 0.259,
+    "stroke": 2.417
+  },
+  "glyph:flaskSolid": {
+    "cx": 0,
+    "cy": -0.375,
+    "w": 18,
+    "h": 18.75,
+    "mx": -0.134,
+    "my": 2.646,
+    "fill": 0.589,
+    "stroke": 3.076
+  },
+  "glyph:ghostSolid": {
+    "cx": 0,
+    "cy": -0.375,
+    "w": 18,
+    "h": 18.75,
+    "mx": 0,
+    "my": 0.086,
+    "fill": 0.852,
+    "stroke": 7.483
+  },
+  "glyph:diamondSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 21,
+    "mx": 0.003,
+    "my": -0.001,
+    "fill": 0.557,
+    "stroke": 11.065
+  },
+  "glyph:pictureSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 16.5,
+    "mx": 0.241,
+    "my": -1.389,
+    "fill": 0.994,
+    "stroke": 3.875
+  },
+  "glyph:playSolid": {
+    "cx": 2.25,
+    "cy": 0,
+    "w": 16.5,
+    "h": 19.5,
+    "mx": -0.035,
+    "my": 0,
+    "fill": 0.593,
+    "stroke": 7.351
+  },
+  "glyph:starSolid": {
+    "cx": 0,
+    "cy": -0.375,
+    "w": 21,
+    "h": 20.25,
+    "mx": 0,
+    "my": 0.531,
+    "fill": 0.531,
+    "stroke": 6.82
+  },
+  "glyph:letterT": {
+    "cx": 0,
+    "cy": 0,
+    "w": 15.8,
+    "h": 15.8,
+    "mx": 0,
+    "my": -1.885,
+    "fill": 0.368,
+    "stroke": 2.289
+  },
+  "glyph:brushSolid": {
+    "cx": 0,
+    "cy": 0.375,
+    "w": 18,
+    "h": 20.25,
+    "mx": 0.297,
+    "my": -0.329,
+    "fill": 0.72,
+    "stroke": 2.825
+  },
+  "glyph:browserSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 16.5,
+    "mx": 0,
+    "my": 0.962,
+    "fill": 0.994,
+    "stroke": 5.035
+  },
+  "glyph:hammerSolid": {
+    "cx": 1.125,
+    "cy": -0.375,
+    "w": 21.75,
+    "h": 20.25,
+    "mx": -0.349,
+    "my": -0.228,
+    "fill": 0.461,
+    "stroke": 2.939
+  },
+  "glyph:bookSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 16.5,
+    "h": 19.5,
+    "mx": -0.084,
+    "my": -0.58,
+    "fill": 0.917,
+    "stroke": 6.269
+  },
+  "glyph:cylinderSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18,
+    "h": 19.5,
+    "mx": -0.004,
+    "my": -1.444,
+    "fill": 0.888,
+    "stroke": 3.502
+  },
+  "glyph:tagSolid": {
+    "cx": 1.125,
+    "cy": 1.125,
+    "w": 20.25,
+    "h": 20.25,
+    "mx": 0.144,
+    "my": 0.144,
+    "fill": 0.652,
+    "stroke": 9.128
+  },
+  "glyph:pi": {
+    "cx": -0.375,
+    "cy": 0.375,
+    "w": 21.05,
+    "h": 15.05,
+    "mx": 0.3,
+    "my": -1.067,
+    "fill": 0.388,
+    "stroke": 2.33
+  },
+  "glyph:chipSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 21,
+    "mx": 0,
+    "my": 0,
+    "fill": 0.67,
+    "stroke": 3.793
+  },
+  "glyph:plugSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 12,
+    "h": 18,
+    "mx": -0.001,
+    "my": 0.107,
+    "fill": 0.69,
+    "stroke": 5.123
+  },
+  "glyph:globeSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": -1.122,
+    "my": 0.002,
+    "fill": 0.787,
+    "stroke": 2.965
+  },
+  "glyph:shieldCheckSolid": {
+    "cx": 0,
+    "cy": 1.125,
+    "w": 18,
+    "h": 18.75,
+    "mx": -0.003,
+    "my": -0.216,
+    "fill": 0.834,
+    "stroke": 6.83
+  },
+  "glyph:checkCircleSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 19.5,
+    "h": 19.5,
+    "mx": -0.003,
+    "my": -0.039,
+    "fill": 0.787,
+    "stroke": 7.585
+  },
+  "glyph:forkBold": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18.8,
+    "h": 18.8,
+    "mx": -0.001,
+    "my": -1.475,
+    "fill": 0.419,
+    "stroke": 2.678
+  },
+  "glyph:serverRackSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18,
+    "h": 16.5,
+    "mx": -0.149,
+    "my": 0,
+    "fill": 0.897,
+    "stroke": 4.797
+  },
+  "glyph:shareSolid": {
+    "cx": -0.75,
+    "cy": 0,
+    "w": 17.3,
+    "h": 20.3,
+    "mx": 0.755,
+    "my": -0.012,
+    "fill": 0.357,
+    "stroke": 3.496
+  },
+  "glyph:lockKeySolid": {
+    "cx": 0,
+    "cy": -1.125,
+    "w": 18,
+    "h": 20.25,
+    "mx": 0,
+    "my": 1.271,
+    "fill": 0.805,
+    "stroke": 4.694
+  },
+  "glyph:rowsSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18,
+    "h": 15,
+    "mx": 0,
+    "my": 0,
+    "fill": 0.886,
+    "stroke": 5.213
+  },
+  "glyph:trashSolid": {
+    "cx": 0,
+    "cy": -0.75,
+    "w": 18,
+    "h": 19.5,
+    "mx": 0,
+    "my": -0.061,
+    "fill": 0.785,
+    "stroke": 4.26
+  },
+  "glyph:archiveSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 21,
+    "h": 15,
+    "mx": 0,
+    "my": 0.5,
+    "fill": 0.898,
+    "stroke": 3.89
+  },
+  "glyph:packageSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 18,
+    "h": 20,
+    "mx": 0.002,
+    "my": -0.374,
+    "fill": 0.761,
+    "stroke": 2.437
+  },
+  "glyph:treeStructureSolid": {
+    "cx": -1.125,
+    "cy": 0,
+    "w": 20.25,
+    "h": 18,
+    "mx": 1.48,
+    "my": 0,
+    "fill": 0.467,
+    "stroke": 3.32
+  },
+  "glyph:dropSolid": {
+    "cx": 0,
+    "cy": -0.75,
+    "w": 16.5,
+    "h": 21,
+    "mx": 1.434,
+    "my": 0.161,
+    "fill": 0.723,
+    "stroke": 3.723
+  },
+  "glyph:keySolid": {
+    "cx": 0.375,
+    "cy": -0.375,
+    "w": 20.25,
+    "h": 20.25,
+    "mx": 0.78,
+    "my": -0.843,
+    "fill": 0.574,
+    "stroke": 6.656
+  },
+  "glyph:lightningSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 16.5,
+    "h": 22.5,
+    "mx": 0.001,
+    "my": 0.001,
+    "fill": 0.407,
+    "stroke": 5.687
+  },
+  "glyph:hourglassSolid": {
+    "cx": 0,
+    "cy": 0,
+    "w": 13.5,
+    "h": 19.5,
+    "mx": -0.005,
+    "my": 0,
+    "fill": 0.82,
+    "stroke": 6.411
+  },
+  "glyph:penNibSolid": {
+    "cx": 1.25,
+    "cy": -1.25,
+    "w": 20,
+    "h": 20,
+    "mx": 0.362,
+    "my": -0.361,
+    "fill": 0.581,
+    "stroke": 4.328
+  },
+  "glyph:musicNoteSolid": {
+    "cx": 0,
+    "cy": 0.375,
+    "w": 16.5,
+    "h": 18.75,
+    "mx": -0.28,
+    "my": 0.559,
+    "fill": 0.41,
+    "stroke": 4.09
+  },
+  "glyph:sparkleSolid": {
+    "cx": 0.375,
+    "cy": -0.375,
+    "w": 21.75,
+    "h": 21.75,
+    "mx": -0.294,
+    "my": 0.283,
+    "fill": 0.345,
+    "stroke": 3.797
   },
   "mark:javascript": {
     "cx": 0,

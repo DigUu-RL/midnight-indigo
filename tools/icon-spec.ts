@@ -21,6 +21,7 @@
 import type { Colour } from './shapes.ts';
 import type { GlyphName } from './glyphs.ts';
 import type { MarkName } from './marks.ts';
+import type { FolderRole } from './palette.ts';
 
 export type FileSpec = {
   /** The official logo. Brings its own palette unless `colors` overrides it. */
@@ -43,8 +44,8 @@ export type FileSpec = {
 };
 
 export type FolderSpec = {
-  /** The colour the folder body is painted with. */
-  accent: Colour;
+  /** What the directory is for, which decides the colour its facade is painted (tools/palette.ts). */
+  role: FolderRole;
   glyph?: GlyphName;
   mark?: MarkName;
 };
@@ -512,64 +513,84 @@ export const fileIcons = {
   vault: { mark: 'vault' },
 } satisfies Record<string, FileSpec>;
 
+/*
+ * Folders, by role (M11). The role is the colour and says what part of the
+ * project the directory is; the pictogram tells the directories of one role
+ * apart. The roles and their colours are in tools/palette.ts.
+ */
 export const folderIcons = {
-  components: { accent: '#C084FC', glyph: 'puzzle' },
-  hooks: { accent: '#22D3EE', glyph: 'anchor' },
-  functions: { accent: '#FBBF24', glyph: 'fx' },
-  utils: { accent: '#A3E635', glyph: 'wrench' },
-  helpers: { accent: '#34D399', glyph: 'lifebuoy' },
-  services: { accent: '#60A5FA', glyph: 'gear' },
-  controllers: { accent: '#F472B6', glyph: 'sliders' },
-  models: { accent: '#F59E0B', glyph: 'grid' },
-  views: { accent: '#38BDF8', glyph: 'eye' },
-  layouts: { accent: '#A78BFA', glyph: 'layout' },
-  store: { accent: '#FB923C', glyph: 'archiveTray' },
-  context: { accent: '#67E8F9', glyph: 'atom' },
-  middleware: { accent: '#F87171', glyph: 'layers' },
-  routes: { accent: '#4ADE80', glyph: 'route' },
-  api: { accent: '#7DD3FC', glyph: 'exchange' },
-  config: { accent: '#CBD5E1', glyph: 'braces' },
-  scripts: { accent: '#FACC15', glyph: 'terminal' },
-  tests: { accent: '#86EFAC', glyph: 'flask' },
-  mocks: { accent: '#D8B4FE', glyph: 'ghost' },
-  assets: { accent: '#F0ABFC', glyph: 'cube' },
-  images: { accent: '#2DD4BF', glyph: 'picture' },
-  media: { accent: '#F9A8D4', glyph: 'film' },
-  icons: { accent: '#FDE047', glyph: 'star' },
-  fonts: { accent: '#818CF8', glyph: 'typeA' },
-  styles: { accent: '#F9A8D4', glyph: 'brush' },
-  public: { accent: '#5EEAD4', glyph: 'globe' },
-  build: { accent: '#94A3B8', glyph: 'hammer' },
-  docs: { accent: '#93C5FD', glyph: 'books' },
-  database: { accent: '#FBBF24', glyph: 'cylinder' },
-  types: { accent: '#60A5FA', glyph: 'tag' },
-  constants: { accent: '#FCA5A5', glyph: 'lockSimple' },
-  core: { accent: '#C4B5FD', glyph: 'chip' },
-  plugins: { accent: '#A5B4FC', glyph: 'plug' },
-  i18n: { accent: '#4ADE80', glyph: 'translate' },
-  guards: { accent: '#FCD34D', glyph: 'shieldCheck' },
-  validators: { accent: '#6EE7B7', glyph: 'listCheck' },
-  docker: { accent: '#38BDF8', mark: 'docker' },
-  workflows: { accent: '#C084FC', glyph: 'flow' },
-  server: { accent: '#7DD3FC', glyph: 'serverRack' },
-  shared: { accent: '#F472B6', glyph: 'share' },
-  security: { accent: '#FB7185', glyph: 'shield' },
+  /* --- interface: what the user sees --- */
+  components: { role: 'interface', glyph: 'puzzleSolid' },
+  views: { role: 'interface', glyph: 'eyeSolid' },
+  layouts: { role: 'interface', glyph: 'layoutSolid' },
+  styles: { role: 'interface', glyph: 'brushSolid' },
+  themes: { role: 'interface', glyph: 'dropSolid' },
+  design: { role: 'interface', glyph: 'penNibSolid' },
 
-  /* --- V4: the directories a repository grows that the set never named --- */
-  logs: { accent: '#A8A29E', glyph: 'logLines' },
-  temp: { accent: '#78716C', glyph: 'trash' },
-  archive: { accent: '#B7A98B', glyph: 'archiveTray' },
-  packages: { accent: '#DDA15E', glyph: 'folders' },
-  schemas: { accent: '#7DD3FC', glyph: 'treeStructure' },
-  themes: { accent: '#E879F9', glyph: 'palette' },
-  keys: { accent: '#FDE68A', glyph: 'key' },
-  benchmarks: { accent: '#FDBA74', glyph: 'speedometer' },
-  jobs: { accent: '#93C5FD', glyph: 'timer' },
-  design: { accent: '#F0ABFC', glyph: 'shapes' },
-  audio: { accent: '#F9A8D4', glyph: 'musicNote' },
-  // Assistant rules, prompts and the .claude / .cursor directories — a folder
-  // that did not exist when this set was started.
-  ai: { accent: '#C4B5FD', glyph: 'sparkle' },
+  /* --- content: the material the project ships --- */
+  assets: { role: 'content', glyph: 'diamondSolid' },
+  images: { role: 'content', glyph: 'pictureSolid' },
+  media: { role: 'content', glyph: 'playSolid' },
+  audio: { role: 'content', glyph: 'musicNoteSolid' },
+  icons: { role: 'content', glyph: 'starSolid' },
+  fonts: { role: 'content', glyph: 'letterT' },
+  public: { role: 'content', glyph: 'browserSolid' },
+  docs: { role: 'content', glyph: 'bookSolid' },
+  i18n: { role: 'content', glyph: 'globeSolid' },
+
+  /* --- logic: the code that computes --- */
+  functions: { role: 'logic', glyph: 'fx' },
+  utils: { role: 'logic', glyph: 'wrenchSolid' },
+  helpers: { role: 'logic', glyph: 'lifebuoySolid' },
+  hooks: { role: 'logic', glyph: 'anchorSolid' },
+  core: { role: 'logic', glyph: 'chipSolid' },
+  shared: { role: 'logic', glyph: 'shareSolid' },
+  plugins: { role: 'logic', glyph: 'plugSolid' },
+  packages: { role: 'logic', glyph: 'packageSolid' },
+
+  /* --- data: what the code holds --- */
+  models: { role: 'data', glyph: 'tableSolid' },
+  store: { role: 'data', glyph: 'vaultSolid' },
+  context: { role: 'data', glyph: 'circlesSolid' },
+  database: { role: 'data', glyph: 'cylinderSolid' },
+  schemas: { role: 'data', glyph: 'treeStructureSolid' },
+  types: { role: 'data', glyph: 'tagSolid' },
+  constants: { role: 'data', glyph: 'pi' },
+
+  /* --- network: what answers a request --- */
+  services: { role: 'network', glyph: 'gearSolid' },
+  controllers: { role: 'network', glyph: 'slidersSolid' },
+  middleware: { role: 'network', glyph: 'funnelSolid' },
+  routes: { role: 'network', glyph: 'signpostSolid' },
+  api: { role: 'network', glyph: 'exchangeBold' },
+  server: { role: 'network', glyph: 'serverRackSolid' },
+  jobs: { role: 'network', glyph: 'hourglassSolid' },
+
+  /* --- quality: what proves it works --- */
+  tests: { role: 'quality', glyph: 'flaskSolid' },
+  mocks: { role: 'quality', glyph: 'ghostSolid' },
+  validators: { role: 'quality', glyph: 'checkCircleSolid' },
+  benchmarks: { role: 'quality', glyph: 'lightningSolid' },
+
+  /* --- security: what keeps it closed --- */
+  security: { role: 'security', glyph: 'lockKeySolid' },
+  guards: { role: 'security', glyph: 'shieldCheckSolid' },
+  keys: { role: 'security', glyph: 'keySolid' },
+
+  /* --- tooling: the scaffolding round the project --- */
+  config: { role: 'tooling', glyph: 'braces' },
+  scripts: { role: 'tooling', glyph: 'prompt' },
+  build: { role: 'tooling', glyph: 'hammerSolid' },
+  docker: { role: 'tooling', mark: 'docker' },
+  workflows: { role: 'tooling', glyph: 'forkBold' },
+  // Assistant rules, prompts and the .claude / .cursor directories: they
+  // configure a tool, as .github configures CI, so they are tooling.
+  ai: { role: 'tooling', glyph: 'sparkleSolid' },
+
+  /* --- dormant: what nobody means to open --- */
+  logs: { role: 'dormant', glyph: 'rowsSolid' },
+  temp: { role: 'dormant', glyph: 'trashSolid' },
+  archive: { role: 'dormant', glyph: 'archiveSolid' },
 } satisfies Record<string, FolderSpec>;
 
 /** The icon names the two literals above actually define. */

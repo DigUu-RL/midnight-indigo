@@ -150,7 +150,8 @@ const output = [];
     if (job.pictogram) {
       const pictogramInk = inkStatistics(await render(job.pictogram, pixels), pixels);
       pictogram = { centreX: pictogramInk.momentX / pictogramInk.mass / UNIT, centreY: pictogramInk.momentY / pictogramInk.mass / UNIT,
-        boxCentreX: (pictogramInk.left + pictogramInk.right) / 2 / UNIT, boxCentreY: (pictogramInk.top + pictogramInk.bottom) / 2 / UNIT };
+        boxCentreX: (pictogramInk.left + pictogramInk.right) / 2 / UNIT, boxCentreY: (pictogramInk.top + pictogramInk.bottom) / 2 / UNIT,
+        box: { left: pictogramInk.left / UNIT, top: pictogramInk.top / UNIT, right: pictogramInk.right / UNIT, bottom: pictogramInk.bottom / UNIT } };
     }
     output.push({
       name: job.name,

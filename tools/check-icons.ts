@@ -17,6 +17,7 @@ import { contrastRatio } from './palette.ts';
 import {
   ARTWORK_CENTRE,
   DARKEST_GROUND,
+  FOLDER_PICTOGRAM_PLACEMENT,
   OPTICAL_LIMITS,
   OPTICS_FILE,
   REVIEWED_LINE_ART,
@@ -78,6 +79,24 @@ for (const iconName of iconNames) {
         `${iconName}: only ${Math.round(optics.atSixteen.solid * 100)}% of its pixels are solid at 16px — ` +
           'review it and add it to REVIEWED_LINE_ART with a reason, or give it a pictogram'
       );
+    }
+  }
+
+  if (optics.pictogram) {
+    const placement = iconName.endsWith('-open') ? FOLDER_PICTOGRAM_PLACEMENT.open : FOLDER_PICTOGRAM_PLACEMENT.closed;
+    const opticalX: number = (optics.pictogram.centreX + optics.pictogram.boxCentreX) / 2;
+    const opticalY: number = (optics.pictogram.centreY + optics.pictogram.boxCentreY) / 2;
+    const residual: number = Math.hypot(opticalX - placement.cx, opticalY - placement.cy);
+    if (residual > OPTICAL_LIMITS.folderPictogramResidual) {
+      problems.push(`${iconName}: its pictogram's optical centre is ${round(residual)} units off (limit ${OPTICAL_LIMITS.folderPictogramResidual})`);
+    }
+    /* The rasterised ink may bleed a fraction of a pixel past the geometry it was placed from. */
+    const { box } = optics.pictogram;
+    const { safe } = placement;
+    const tolerance: number = OPTICAL_LIMITS.folderEdgeTolerance;
+    const overrun: number = Math.max(safe.left - box.left, box.right - safe.right, safe.top - box.top, box.bottom - safe.bottom);
+    if (overrun > tolerance) {
+      problems.push(`${iconName}: its pictogram runs ${round(overrun)} units into the clear edge of its face (tolerance ${tolerance})`);
     }
   }
 
