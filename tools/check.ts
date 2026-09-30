@@ -19,7 +19,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { sha256 } from './baseline.ts';
+import { sha256 } from './shared/hash.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, '..');
@@ -50,8 +50,8 @@ function fingerprint(): Map<string, string> {
 }
 
 const build = (): void => {
-  node('build-color-themes.ts');
-  node('build-icons.ts');
+  node('theme/build-color-themes.ts');
+  node('icons/build-icons.ts');
 };
 
 const CHECKS: { name: string; run: () => void }[] = [
@@ -62,22 +62,27 @@ const CHECKS: { name: string; run: () => void }[] = [
   {
     // Baseline, contrast floors, hue separation, manifest — all inside the theme build.
     name: 'themes build',
-    run: () => void node('build-color-themes.ts'),
+    run: () => void node('theme/build-color-themes.ts'),
+  },
+  {
+    // Every pair M13 names, read back from the written themes, against its target; cues that are not colour; colour vision simulated.
+    name: 'accessibility',
+    run: () => void node('theme/check-accessibility.ts', '--check'),
   },
   {
     // Every role, keyword and fallback held to tokenized code, with semantic highlighting on and off.
     name: 'syntax',
-    run: () => void node('check-syntax.ts'),
+    run: () => void node('syntax/check-syntax.ts'),
   },
   {
     // Missing SVGs, mappings to icons that do not exist, icons nothing maps to, measured bounds.
     name: 'icons build',
-    run: () => void node('build-icons.ts'),
+    run: () => void node('icons/build-icons.ts'),
   },
   {
     // The optical audit is of the icons just built, and every icon is inside its limits.
     name: 'icon optics',
-    run: () => void node('check-icons.ts'),
+    run: () => void node('icons/check-icons.ts'),
   },
   {
     name: 'build is deterministic',
@@ -92,11 +97,11 @@ const CHECKS: { name: string; run: () => void }[] = [
   {
     // Every screenshot the README and the docs link by relative path is in the tree.
     name: 'images resolve',
-    run: () => void node('check-images.ts', '--offline'),
+    run: () => void node('docs/check-images.ts', '--offline'),
   },
   {
     name: 'inventory is up to date',
-    run: () => void node('inventory.ts', '--check'),
+    run: () => void node('docs/inventory.ts', '--check'),
   },
 ];
 

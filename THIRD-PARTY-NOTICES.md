@@ -4,12 +4,12 @@ The Midnight Indigo extension is [MIT licensed](LICENSE). Its icon set draws two
 kinds of outline from the artwork below:
 
 - the **language and tool marks**, imported by
-  [`tools/import-marks.ts`](tools/import-marks.ts) into
-  [`tools/mark-paths.ts`](tools/mark-paths.ts);
+  [`tools/icons/import-marks.ts`](tools/icons/import-marks.ts) into
+  [`tools/icons/mark-paths.ts`](tools/icons/mark-paths.ts);
 - the **pictograms** — the shapes that say what a file does rather than which
   project owns it — imported from [Iconify](https://iconify.design) by
-  [`tools/import-pictograms.ts`](tools/import-pictograms.ts) into
-  [`tools/pictogram-paths.ts`](tools/pictogram-paths.ts).
+  [`tools/icons/import-pictograms.ts`](tools/icons/import-pictograms.ts) into
+  [`tools/icons/pictogram-paths.ts`](tools/icons/pictogram-paths.ts).
 
 Everything else in the set is original to this repository: the palettes and the
 colour derivations, the box and the measured centring, the duotone split applied
