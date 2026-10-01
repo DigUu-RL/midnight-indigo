@@ -1,12 +1,12 @@
 # Preview
 
-Every screenshot on this page is generated from [the theme file](../themes/midnight-indigo-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own two grammar injections loaded — so these are the theme's real colors rather than an approximation. Regenerate them with `npm run preview:theme`.
+Every screenshot on this page is generated from [the theme file](../themes/midnight-indigo-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own grammar injection loaded — so these are the theme's real colors rather than an approximation. Regenerate them with `npm run preview:theme`.
 
-The language samples below are **Midnight Indigo**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
+The language samples below are **Midnight Indigo**. The eight palettes are one theme in eight colors — the same roles, the same rules, the same legibility floor and the same icon set, each palette drawn for its own hue — so a sample in any of them shows the same structure in another color. [`docs/COLOR-SYSTEM.md`](COLOR-SYSTEM.md) explains how they differ.
 
-![The eight palettes](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/palettes.png)
+![The eight palettes](preview/palettes.png)
 
-![The color theme and the icon set together](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/hero.png)
+![The color theme and the icon set together](preview/hero.png)
 
 # Tuned languages
 
@@ -14,35 +14,35 @@ These have TextMate and semantic rules written specifically for them.
 
 ## TypeScript
 
-![TypeScript in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/typescript.png)
+![TypeScript in Midnight Indigo](preview/typescript.png)
 
 ## React / TSX
 
-![React / TSX in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/tsx.png)
+![React / TSX in Midnight Indigo](preview/tsx.png)
 
 ## JavaScript
 
-![JavaScript in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/javascript.png)
+![JavaScript in Midnight Indigo](preview/javascript.png)
 
 ## C\#
 
-![C# in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/csharp.png)
+![C# in Midnight Indigo](preview/csharp.png)
 
 ## Python
 
-![Python in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/python.png)
+![Python in Midnight Indigo](preview/python.png)
 
 ## PowerShell
 
-![PowerShell in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/powershell.png)
+![PowerShell in Midnight Indigo](preview/powershell.png)
 
 ## Markdown
 
-![Markdown in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/markdown.png)
+![Markdown in Midnight Indigo](preview/markdown.png)
 
 ## JSON
 
-![JSON in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/json.png)
+![JSON in Midnight Indigo](preview/json.png)
 
 # Everything else
 
@@ -50,36 +50,44 @@ These fall back to the general rule set, which covers the standard scopes — ke
 
 ## HTML
 
-![HTML in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/html.png)
+![HTML in Midnight Indigo](preview/html.png)
+
+## CSS
+
+![CSS in Midnight Indigo](preview/css.png)
 
 ## SCSS
 
-![SCSS in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/scss.png)
+![SCSS in Midnight Indigo](preview/scss.png)
 
 ## SQL
 
-![SQL in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/sql.png)
+![SQL in Midnight Indigo](preview/sql.png)
 
 ## Go
 
-![Go in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/go.png)
+![Go in Midnight Indigo](preview/go.png)
 
 ## Rust
 
-![Rust in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/rust.png)
+![Rust in Midnight Indigo](preview/rust.png)
 
 ## Java
 
-![Java in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/java.png)
+![Java in Midnight Indigo](preview/java.png)
+
+## Kotlin
+
+![Kotlin in Midnight Indigo](preview/kotlin.png)
 
 ## PHP
 
-![PHP in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/php.png)
+![PHP in Midnight Indigo](preview/php.png)
 
 ## YAML
 
-![YAML in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/yaml.png)
+![YAML in Midnight Indigo](preview/yaml.png)
 
 ## Shell
 
-![Shell in Midnight Indigo](https://raw.githubusercontent.com/DigUu-RL/midnight-indigo/9c09bab44b81b7e1a339e3685444384ee0f4a303/docs/preview/bash.png)
+![Shell in Midnight Indigo](preview/bash.png)

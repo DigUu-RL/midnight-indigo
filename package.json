@@ -1,8 +1,8 @@
 {
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
-    "description": "An ultra-dark theme in eight colours — indigo, purple, pink, red, orange, green, cyan and blue — each palette designed for its own hue rather than tinted, with a 291-icon file set built on the languages' own official logos, folders drawn as lit facades, and semantic highlighting tuned for JavaScript, TypeScript, C#, PowerShell, Python, Markdown and JSON.",
-    "version": "9.0.1",
+    "description": "An ultra-dark theme in eight colors — indigo, purple, pink, red, orange, green, cyan and blue — that draws the whole of VS Code, from the editor to the terminal, Git and chat, with each palette designed for its own hue, semantic highlighting checked against real code, and a 305-icon file set built on the languages' own logos.",
+    "version": "10.0.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
@@ -17,6 +17,9 @@
         "dark theme",
         "icon theme",
         "file icons",
+        "folder icons",
+        "semantic highlighting",
+        "accessibility",
         "indigo",
         "purple",
         "pink",
@@ -40,17 +43,27 @@
     "homepage": "https://github.com/DigUu-RL/midnight-indigo#readme",
     "scripts": {
         "typecheck": "tsc",
-        "measure:glyphs": "node tools/measure.ts",
-        "import:marks": "node tools/import-marks.ts",
-        "import:pictograms": "node tools/import-pictograms.ts",
-        "build:icons": "node tools/build-icons.ts",
-        "build:themes": "node tools/build-color-themes.ts",
+        "measure:glyphs": "node tools/icons/measure.ts",
+        "audit:icons": "node tools/icons/audit-icons.ts",
+        "audit:coverage": "node tools/icons/audit-coverage.ts",
+        "audit:accessibility": "node tools/theme/check-accessibility.ts",
+        "import:marks": "node tools/icons/import-marks.ts",
+        "import:pictograms": "node tools/icons/import-pictograms.ts",
+        "build:icons": "node tools/icons/build-icons.ts",
+        "build:themes": "node tools/theme/build-color-themes.ts",
         "build": "npm run build:themes && npm run build:icons",
-        "build:extension": "npm install -g @vscode/vsce && vsce package",
-        "preview:icons": "node tools/build-icons.ts && node tools/preview.ts",
-        "preview:gallery": "node tools/build-icon-preview.ts",
-        "preview:theme": "node tools/build-theme-preview.ts",
-        "check:images": "node tools/check-images.ts"
+        "package": "vsce package",
+        "check:package": "node tools/release/check-package.ts",
+        "preview:icons": "node tools/icons/build-icons.ts && node tools/preview/preview.ts",
+        "preview:gallery": "node tools/preview/build-icon-preview.ts",
+        "preview:theme": "node tools/preview/build-theme-preview.ts",
+        "preview:workbench": "node tools/preview/build-workbench-preview.ts",
+        "check:images": "node tools/docs/check-images.ts",
+        "check": "node tools/check.ts",
+        "snapshot": "node tools/regression/snapshot.ts",
+        "regression": "node tools/regression/regression.ts",
+        "inventory": "node tools/docs/inventory.ts",
+        "import:vscode-colors": "node tools/theme/import-vscode-colors.ts"
     },
     "contributes": {
         "themes": [
@@ -104,16 +117,6 @@
         ],
         "grammars": [
             {
-                "scopeName": "midnight-indigo.jsx-components.injection",
-                "path": "./injections/jsx-components.tmLanguage.json",
-                "injectTo": [
-                    "source.js",
-                    "source.jsx",
-                    "source.ts",
-                    "source.tsx"
-                ]
-            },
-            {
                 "scopeName": "midnight-indigo.csharp-delegates.injection",
                 "path": "./injections/csharp-delegates.tmLanguage.json",
                 "injectTo": [
@@ -124,6 +127,8 @@
     },
     "devDependencies": {
         "@types/node": "^22.10.2",
+        "@vscode/vsce": "^3.9.2",
+        "playwright-core": "^1.63.0",
         "shiki": "^4.4.3",
         "typescript": "^5.7.2"
     }

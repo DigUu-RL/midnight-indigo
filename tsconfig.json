@@ -25,8 +25,9 @@
     "skipLibCheck": true
   },
   "include": ["tools/**/*.ts"],
-  // tools/samples/ holds code that exists to be SCREENSHOTTED, not run. It is
+  // tools/syntax/samples/ holds code that exists to be SCREENSHOTTED, not run, and
+  // tools/syntax/corpus/ code that exists to be TOKENIZED by tools/syntax/check-syntax.ts. It is
   // deliberately full of decorators and imports of packages this repo does not
   // depend on, because that is what the highlighting has to be shown against.
-  "exclude": ["tools/samples"]
+  "exclude": ["tools/syntax/samples", "tools/syntax/corpus"]
 }

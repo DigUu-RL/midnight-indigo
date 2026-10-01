@@ -1,0 +1,16 @@
+:root {
+  --accent: #6c5ce7;
+  --gap: calc(1rem + 2px);
+}
+
+main > .card:hover,
+a[href^="https"]::after {
+  color: var(--accent);
+  margin-inline: max(var(--gap), 8px);
+  font-family: "Inter", sans-serif;
+  transition: opacity 120ms ease-in-out;
+}
+
+@media (min-width: 40em) {
+  .card { display: grid; }
+}

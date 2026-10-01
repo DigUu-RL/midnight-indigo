@@ -4,12 +4,12 @@ The Midnight Indigo extension is [MIT licensed](LICENSE). Its icon set draws two
 kinds of outline from the artwork below:
 
 - the **language and tool marks**, imported by
-  [`tools/import-marks.ts`](tools/import-marks.ts) into
-  [`tools/mark-paths.ts`](tools/mark-paths.ts);
+  [`tools/icons/import-marks.ts`](tools/icons/import-marks.ts) into
+  [`tools/icons/mark-paths.ts`](tools/icons/mark-paths.ts);
 - the **pictograms** — the shapes that say what a file does rather than which
   project owns it — imported from [Iconify](https://iconify.design) by
-  [`tools/import-pictograms.ts`](tools/import-pictograms.ts) into
-  [`tools/pictogram-paths.ts`](tools/pictogram-paths.ts).
+  [`tools/icons/import-pictograms.ts`](tools/icons/import-pictograms.ts) into
+  [`tools/icons/pictogram-paths.ts`](tools/icons/pictogram-paths.ts).
 
 Everything else in the set is original to this repository: the palettes and the
 colour derivations, the box and the measured centring, the duotone split applied
@@ -59,8 +59,11 @@ SOFTWARE.
 
 <https://phosphoricons.com> · <https://github.com/phosphor-icons/core>
 
-The source of all but two of the pictograms, at its `duotone` weight (and, for
-the brackets, at `bold` — a duotone bracket is a blob at 16px). Phosphor is
+The source of all but a handful of the pictograms: at its `duotone` weight for
+the file icons (and, for the brackets, at `bold` — a duotone bracket is a blob
+at 16px), and at `fill` or `bold` for the pictograms sunk into the folders,
+which are six pixels tall in the file tree and have room for a silhouette and
+nothing more. Phosphor is
 drawn on a 256 grid with round caps and joins, which is most of why it was
 chosen: this set's rule has always been that nothing of its own comes to a bare
 point, and Phosphor keeps that rule for it.
@@ -102,6 +105,22 @@ in it, and at the size the file explorer draws an icon it is a blank rectangle.
 
 One pictogram: the commit node, for the same reason — a commit drawn as a ring
 on a hairline does not survive being 16 pixels tall.
+
+## Material Symbols — Apache-2.0
+
+<https://github.com/google/material-design-icons>
+
+One pictogram: the `fx` on the `functions` folder. Phosphor's function sign is
+a thin italic f on a tinted square, and sunk into a folder at 16 pixels it is a
+dark blot.
+
+## Material Design Icons — Apache-2.0
+
+<https://pictogrammers.com/library/mdi/> · <https://github.com/Templarian/MaterialDesign>
+
+Two pictograms: the box on the `packages` folder and the plug on the `plugins`
+folder. Phosphor's fill weights of both are drawn with detail cut through the
+silhouette, and at six pixels the detail closes up into a blot.
 
 ## Trademarks
 

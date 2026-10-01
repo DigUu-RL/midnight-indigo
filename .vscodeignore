@@ -7,8 +7,10 @@
 node_modules/**
 *.vsix
 tools/**
-tools/samples/**
+tools/syntax/samples/**
 tsconfig.json
 package-lock.json
 icons/preview*.html
 docs/**
+CLAUDE.md
+*.pt-BR.md
