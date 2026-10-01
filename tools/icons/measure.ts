@@ -32,12 +32,12 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { findBrowser } from '../shared/browser.ts';
+import { dumpDom } from '../shared/headless.ts';
 import { glyphs, hasSurface, NO_SURFACE, SURFACE_EXPOSURE_LIMIT, type GlyphName } from './glyphs.ts';
 import { marks, type MarkName } from './marks.ts';
 import { FONT_STACK, FONT_WEIGHT, letteringRuns, textMetricsKey } from './icon-spec.ts';
+import { recordRendered } from '../regression/rendered-from.ts';
 
 /** The two shapes this script writes out. */
 type Bounds = { cx: number; cy: number; w: number; h: number };
@@ -52,8 +52,13 @@ type ArtworkMetrics = Bounds & { mx: number; my: number; fill: number; stroke: n
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.join(os.tmpdir(), 'midnight-indigo-measure.html');
-const GLYPH_OUT = path.join(HERE, 'glyph-bounds.json');
-const TEXT_OUT = path.join(HERE, 'text-bounds.json');
+/*
+ * MIDNIGHT_INDIGO_MEASURE_OUT measures into another folder and records nothing:
+ * that is how `npm run regression` measures again to compare with the tree.
+ */
+const OUT_OVERRIDE: string | undefined = process.env.MIDNIGHT_INDIGO_MEASURE_OUT;
+const GLYPH_OUT = path.join(OUT_OVERRIDE ?? HERE, 'glyph-bounds.json');
+const TEXT_OUT = path.join(OUT_OVERRIDE ?? HERE, 'text-bounds.json');
 
 // Artwork is drawn with the resolved ink for its icon; measuring only cares
 // where the ink is, so every slot is the same white and the ground is black.
@@ -86,11 +91,7 @@ const artJob = (kind: string, id: string, body: string) => ({
 
 const renderInBrowser = (script: string): string => {
   fs.writeFileSync(HTML, `<!doctype html><meta charset="utf-8"><body><pre id="out"></pre><script>${script}<\/script></body>`, 'utf8');
-  const dom: string = execFileSync(
-    findBrowser(),
-    ['--headless', '--disable-gpu', '--virtual-time-budget=120000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
-    { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
-  );
+  const dom: string = dumpDom(HTML, "document.getElementById('out').textContent.trim().length > 0", { timeout: 300000 });
   const match: RegExpMatchArray | null = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
   if (!match || !match[1].trim()) throw new Error('measurement page produced no output');
   return match[1].replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
@@ -259,6 +260,7 @@ if (missingText.length) throw new Error(`no bounds measured for text: ${missingT
 
 fs.writeFileSync(GLYPH_OUT, JSON.stringify(artBounds, null, 2) + '\n', 'utf8');
 fs.writeFileSync(TEXT_OUT, JSON.stringify(textMetrics, null, 2) + '\n', 'utf8');
+if (!OUT_OVERRIDE) recordRendered('measure');
 
 const wide = Object.entries(artBounds).filter(([, b]) => Math.max(b.w, b.h) / Math.min(b.w, b.h) > 2.5);
 console.log(`measured ${glyphNames.length} pictograms and ${markNames.length} marks -> tools/icons/glyph-bounds.json`);

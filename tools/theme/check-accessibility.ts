@@ -99,10 +99,17 @@ type Pair = { area: Words; what: Words; ink: Ink; ground: string[]; target: Targ
 const CODE: Words = { en: 'Code', pt: 'Código' };
 const SELECTION_GROUND: string[] = ['editor.selectionBackground'];
 
-/** Every foreground the syntax rules paint with, TextMate and semantic. */
+/*
+ * The rules that colour a log line by its level (M14) paint with the diagnostic
+ * signals — the error red, the warning yellow — which the theme holds to AA as
+ * the labels they are, not to the 7:1 of code. They are measured on their own row.
+ */
+const isLogLevelRule = (rule: Rule): boolean => [rule.scope ?? []].flat().every((scope: string): boolean => /^log.(error|warning|info|debug)$/.test(scope));
+
+/** Every foreground the syntax rules paint with, TextMate and semantic — the log levels aside. */
 const codeInks = (theme: Theme): Colour[] => {
   const inks: Colour[] = [
-    ...theme.tokenColors.map((rule: Rule): string | undefined => rule.settings.foreground),
+    ...theme.tokenColors.filter((rule: Rule): boolean => !isLogLevelRule(rule)).map((rule: Rule): string | undefined => rule.settings.foreground),
     ...Object.values(theme.semanticTokenColors).map((rule: SemanticRule): string | undefined =>
       typeof rule === 'string' ? rule : rule.foreground
     ),
@@ -124,6 +131,15 @@ const roleOf = (colour: Colour, tokens: Tokens): string => {
   return roles.find(([, value]: [string, Colour]): boolean => value === colour)?.[0] ?? colour;
 };
 
+/** The log level that reads worst on the editor. */
+const worstLogLevel = (theme: Theme): Measured => {
+  const under: Colour = groundOf(theme, []);
+  const [worst] = theme.tokenColors
+    .filter(isLogLevelRule)
+    .sort((first: Rule, second: Rule): number => contrastRatio(first.settings.foreground!, under) - contrastRatio(second.settings.foreground!, under));
+  return { colour: worst.settings.foreground!, name: [worst.scope ?? []].flat()[0] };
+};
+
 /** The body ink that reads worst on a ground: every ink but the comments and the type parameters. */
 const worstBodyInk =
   (ground: string[]) =>
@@ -141,6 +157,7 @@ const PAIRS: Pair[] = [
   { area: CODE, what: { en: 'The same, under a selection', pt: 'O mesmo, sob uma seleção' }, ink: worstBodyInk(SELECTION_GROUND), ground: SELECTION_GROUND, target: 'text', namesInk: true },
   { area: CODE, what: { en: 'Type parameters (generics)', pt: 'Parâmetros de tipo (generics)' }, ink: (theme: Theme): Measured => ({ colour: genericInk(theme), name: 'generic' }), ground: [], target: 'text' },
   { area: CODE, what: { en: 'Type parameters, under a selection', pt: 'Parâmetros de tipo, sob uma seleção' }, ink: (theme: Theme): Measured => ({ colour: genericInk(theme), name: 'generic' }), ground: SELECTION_GROUND, target: 'auxiliary' },
+  { area: CODE, what: { en: 'Log levels in the Output view and .log files (the worst)', pt: 'Níveis de log no Output e em arquivos .log (o pior)' }, ink: worstLogLevel, ground: [], target: 'text', namesInk: true },
   { area: CODE, what: { en: 'Comments', pt: 'Comentários' }, ink: (theme: Theme): Measured => ({ colour: commentInk(theme), name: 'comment' }), ground: [], target: 'auxiliary' },
   { area: CODE, what: { en: 'Comments, under a selection', pt: 'Comentários, sob uma seleção' }, ink: (theme: Theme): Measured => ({ colour: commentInk(theme), name: 'comment' }), ground: SELECTION_GROUND, target: 'auxiliary' },
 

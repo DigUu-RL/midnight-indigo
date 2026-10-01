@@ -315,6 +315,11 @@ export const CORPUS: CorpusFile[] = [
   { file: 'samples/sample.go', lang: 'go', expect: [['members', 'normal', ''], ['Repository', 'type', '']] },
   { file: 'samples/sample.rs', lang: 'rust', expect: [['std', 'normal', ''], ['HashMap', 'type', ''], ['Ok', 'enumMember', '']] },
   { file: 'samples/sample.java', lang: 'java', expect: [] },
+  {
+    file: 'samples/sample.kt',
+    lang: 'kotlin',
+    expect: [['MemberService', 'type', 'b'], ['promote', 'function', 'b'], ['suspend', 'keyword', 'bi'], ['50', 'number', '']],
+  },
   { file: 'samples/sample.php', lang: 'php', expect: [['Owner', 'enumMember', '']] },
   { file: 'samples/sample.ps1', lang: 'powershell', expect: [] },
   { file: 'samples/sample.sql', lang: 'sql', expect: [['display_name', 'property', '']] },
@@ -322,6 +327,17 @@ export const CORPUS: CorpusFile[] = [
     file: 'samples/sample.scss',
     lang: 'scss',
     expect: [['$indigo', 'variable', ''], ['focus-ring', 'function', 'b'], ['outline', 'property', ''], ['solid', 'enumMember', ''], ['2px', 'number', ''], ['&', 'keyword', '']],
+  },
+  {
+    file: 'samples/sample.css',
+    lang: 'css',
+    expect: [
+      ['--indigo', 'variable', ''],
+      ['roster__row', 'property', 'i', { nth: 1 }],
+      ['color-mix', 'function', ''],
+      ['background', 'enumMember', '', { nth: 2 }],
+      ['media', 'keyword', 'bi'],
+    ],
   },
   {
     file: 'samples/sample.html',

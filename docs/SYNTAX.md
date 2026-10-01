@@ -4,7 +4,7 @@
 
 What code is drawn in. Every rule below writes a role from [`docs/TOKENS.md`](TOKENS.md#syntax) — never a colour — so the tables hold in all eight themes; TOKENS.md lists what each role is in each family. **Keywords are bold italic**, in every theme and every language; punctuation is the keyword colour, plain; operators are the operator colour and nothing else.
 
-`npm run check` holds all of it to real code: [`tools/syntax/check-syntax.ts`](../tools/syntax/check-syntax.ts) tokenizes 29 files with the grammars VS Code ships, in all eight themes, and checks every word the corpus below names, every keyword, operator and punctuation mark in every file, and that no scope that names something falls through every rule to plain text. TypeScript is checked with semantic highlighting off and on — its semantic tokens come from the TypeScript language service and are resolved the way VS Code resolves them — and the other language servers from the table of the tokens they send.
+`npm run check` holds all of it to real code: [`tools/syntax/check-syntax.ts`](../tools/syntax/check-syntax.ts) tokenizes 31 files with the grammars VS Code ships, in all eight themes, and checks every word the corpus below names, every keyword, operator and punctuation mark in every file, and that no scope that names something falls through every rule to plain text. TypeScript is checked with semantic highlighting off and on — its semantic tokens come from the TypeScript language service and are resolved the way VS Code resolves them — and the other language servers from the table of the tokens they send.
 
 ## TextMate rules
 
@@ -82,6 +82,11 @@ In the order the theme writes them. A scope reaches the rule whose selector matc
 | SQL - coluna depois do ponto | `property` | plain | `constant.other.table-name` |
 | Caminhos de import em Go (strings) | `string` | plain | `entity.name.import` |
 | Código obsoleto (deprecated) - riscado, na cor que recua | `muted` | strikethrough | `invalid.deprecated` |
+| CSS - cores de sistema obsoletas (background, menu) - como valores, sem risco | `enumMember` | plain | `invalid.deprecated.color.system.css` |
+| Logs - erro (Output, .log), na cor do erro | `#F84A54` | bold | `log.error` |
+| Logs - aviso, na cor do aviso | `#ECC400` | plain | `log.warning` |
+| Logs - informação, na cor do info | `function` | plain | `log.info` |
+| Logs - depuração, na cor do hint | `type` | plain | `log.debug` |
 
 ## Semantic rules
 
@@ -563,6 +568,15 @@ Each word below lands on its role in all eight themes. Where a language server's
 | `HashMap` | `type` | plain |  |
 | `Ok` | `enumMember` | plain |  |
 
+### [`samples/sample.kt`](../tools/syntax/samples/sample.kt)
+
+| Word | Role | Style | Without semantic tokens |
+| --- | --- | --- | --- |
+| `MemberService` | `type` | bold |  |
+| `promote` | `function` | bold |  |
+| `suspend` | `keyword` | bold italic |  |
+| `50` | `number` | plain |  |
+
 ### [`samples/sample.php`](../tools/syntax/samples/sample.php)
 
 | Word | Role | Style | Without semantic tokens |
@@ -585,6 +599,16 @@ Each word below lands on its role in all eight themes. Where a language server's
 | `solid` | `enumMember` | plain |  |
 | `2px` | `number` | plain |  |
 | `&` | `keyword` | plain |  |
+
+### [`samples/sample.css`](../tools/syntax/samples/sample.css)
+
+| Word | Role | Style | Without semantic tokens |
+| --- | --- | --- | --- |
+| `--indigo` | `variable` | plain |  |
+| `roster__row` (#1) | `property` | italic |  |
+| `color-mix` | `function` | plain |  |
+| `background` (#2) | `enumMember` | plain |  |
+| `media` | `keyword` | bold italic |  |
 
 ### [`samples/sample.html`](../tools/syntax/samples/sample.html)
 

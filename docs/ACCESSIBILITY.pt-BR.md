@@ -24,6 +24,7 @@ Cada razão é medida como o VS Code pinta: um overlay é composto sobre o que e
 | Código | O mesmo, sob uma seleção: `normal`, `property` | texto 4.5:1 | 5.4 | 5.3 | 5.3 | 5.6 | 6.7 | 5.8 | 5.3 | 5.3 |
 | Código | Parâmetros de tipo (generics) | texto 4.5:1 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 |
 | Código | Parâmetros de tipo, sob uma seleção | auxiliar 3:1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.3 | 3.2 | 3.2 | 3.3 |
+| Código | Níveis de log no Output e em arquivos .log (o pior): `log.error` | texto 4.5:1 | 6.0 | 6.2 | 6.1 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
 | Código | Comentários | auxiliar 3:1 | 4.0 | 4.0 | 4.0 | 4.0 | 4.4 | 4.2 | 4.2 | 4.1 |
 | Código | Comentários, sob uma seleção | auxiliar 3:1 | 3.0 | 3.0 | 3.0 | 3.0 | 3.3 | 3.0 | 3.0 | 3.0 |
 | Foreground principal | `editor.foreground` no editor | corpo 7:1 | 7.1 | 7.0 | 7.1 | 7.5 | 9.1 | 8.1 | 7.4 | 7.2 |

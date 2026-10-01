@@ -52,6 +52,10 @@ These fall back to the general rule set, which covers the standard scopes — ke
 
 ![HTML in Midnight Indigo](preview/html.png)
 
+## CSS
+
+![CSS in Midnight Indigo](preview/css.png)
+
 ## SCSS
 
 ![SCSS in Midnight Indigo](preview/scss.png)
@@ -71,6 +75,10 @@ These fall back to the general rule set, which covers the standard scopes — ke
 ## Java
 
 ![Java in Midnight Indigo](preview/java.png)
+
+## Kotlin
+
+![Kotlin in Midnight Indigo](preview/kotlin.png)
 
 ## PHP
 

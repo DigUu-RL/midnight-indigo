@@ -20,10 +20,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { sha256 } from '../shared/hash.ts';
-import { findBrowser } from '../shared/browser.ts';
+import { dumpDom } from '../shared/headless.ts';
 import { DARKEST_GROUND, LOOKALIKE_CEILING, OPTICS_FILE, type IconOptics, type OpticsReport } from './icon-optics.ts';
 
 const HERE: string = path.dirname(fileURLToPath(import.meta.url));
@@ -227,11 +226,7 @@ const appearances = new Map();
 
 fs.writeFileSync(HTML, `<!doctype html><meta charset="utf-8"><body><pre id="out"></pre><script>${script}<\/script></body>`, 'utf8');
 
-const dom: string = execFileSync(
-  findBrowser(),
-  ['--headless', '--disable-gpu', '--virtual-time-budget=600000', '--dump-dom', `file:///${HTML.replace(/\\/g, '/')}`],
-  { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
-);
+const dom: string = dumpDom(HTML, "document.getElementById('out').textContent.trim().length > 0", { timeout: 600000 });
 
 const match: RegExpMatchArray | null = dom.match(/<pre id="out">([\s\S]*?)<\/pre>/);
 if (!match || !match[1].trim()) throw new Error('the audit page produced no output');

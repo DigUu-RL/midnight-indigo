@@ -24,9 +24,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { findBrowser } from '../shared/browser.ts';
+import { screenshot } from '../shared/headless.ts';
+import { recordRendered } from '../regression/rendered-from.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
@@ -36,7 +36,13 @@ const readJson = (...p: string[]): any => JSON.parse(fs.readFileSync(path.join(.
 const ROOT = path.join(HERE, '..', '..');
 const SAMPLES = path.join(HERE, '..', 'syntax', 'samples');
 const SVG = path.join(ROOT, 'icons', 'svg');
-const OUT = path.join(ROOT, 'docs', 'preview');
+/*
+ * MIDNIGHT_INDIGO_PREVIEW_OUT renders somewhere else, leaves docs/PREVIEW.md alone
+ * and records nothing: that is how `npm run regression` renders the previews
+ * again to compare them with the tree.
+ */
+const OUT_OVERRIDE: string | undefined = process.env.MIDNIGHT_INDIGO_PREVIEW_OUT;
+const OUT = OUT_OVERRIDE ?? path.join(ROOT, 'docs', 'preview');
 const TMP = path.join(os.tmpdir(), 'midnight-indigo-preview');
 
 /*
@@ -73,7 +79,15 @@ if (!FAMILIES.includes(family)) {
   throw new Error(`unknown family "${family}" — expected one of: ${FAMILIES.join(', ')}`);
 }
 
-const theme = themeFor(family);
+/*
+ * MIDNIGHT_INDIGO_PREVIEW_THEME names a theme file to shoot the hero and the
+ * cards in instead — `npm run regression` uses it, with the output redirected,
+ * to shoot the v3.0.0 baseline beside the current Indigo. It is renamed, since
+ * Shiki keys its themes by name and the baseline is called Midnight Indigo too.
+ */
+const THEME_OVERRIDE: string | undefined = process.env.MIDNIGHT_INDIGO_PREVIEW_THEME;
+if (THEME_OVERRIDE && !OUT_OVERRIDE) throw new Error('MIDNIGHT_INDIGO_PREVIEW_THEME would overwrite docs/preview/ — set MIDNIGHT_INDIGO_PREVIEW_OUT as well');
+const theme = THEME_OVERRIDE ? { ...readJson(THEME_OVERRIDE), name: 'Midnight Indigo (compared)' } : themeFor(family);
 const C = theme.colors;
 
 /* Sample file -> Shiki language id, caption, and whether the theme tunes it. */
@@ -87,11 +101,13 @@ const LANGUAGES = [
   { file: 'sample.md', lang: 'markdown', label: 'Markdown', name: 'README.md', tuned: true },
   { file: 'sample.json', lang: 'json', label: 'JSON', name: 'package.json', tuned: true },
   { file: 'sample.html', lang: 'html', label: 'HTML', name: 'index.html' },
+  { file: 'sample.css', lang: 'css', label: 'CSS', name: 'roster.css' },
   { file: 'sample.scss', lang: 'scss', label: 'SCSS', name: 'roster.scss' },
   { file: 'sample.sql', lang: 'sql', label: 'SQL', name: 'promotions.sql' },
   { file: 'sample.go', lang: 'go', label: 'Go', name: 'members.go' },
   { file: 'sample.rs', lang: 'rust', label: 'Rust', name: 'members.rs' },
   { file: 'sample.java', lang: 'java', label: 'Java', name: 'MemberService.java' },
+  { file: 'sample.kt', lang: 'kotlin', label: 'Kotlin', name: 'MemberService.kt' },
   { file: 'sample.php', lang: 'php', label: 'PHP', name: 'MemberService.php' },
   { file: 'sample.yaml', lang: 'yaml', label: 'YAML', name: 'release.yml' },
   { file: 'sample.sh', lang: 'bash', label: 'Shell', name: 'promote.sh' },
@@ -331,25 +347,12 @@ function palettesPage(cards: { label: string; theme: any; html: string }[], line
  * Render
  * -------------------------------------------------------------- */
 
-function shoot(browser: string, htmlFile: string, pngFile: string, width: number, height: number): void {
-  execFileSync(
-    browser,
-    [
-      '--headless',
-      '--disable-gpu',
-      '--hide-scrollbars',
-      '--force-device-scale-factor=2',
-      `--window-size=${width},${height}`,
-      `--screenshot=${pngFile}`,
-      `file:///${htmlFile.replace(/\\/g, '/')}`,
-    ],
-    { stdio: ['ignore', 'ignore', 'ignore'] }
-  );
+function shoot(htmlFile: string, pngFile: string, width: number, height: number): void {
+  screenshot(htmlFile, pngFile, width, height);
 }
 
 async function main() {
   const { createHighlighter } = await import('shiki');
-  const browser = findBrowser();
 
   fs.mkdirSync(OUT, { recursive: true });
   fs.mkdirSync(TMP, { recursive: true });
@@ -377,7 +380,7 @@ async function main() {
 
   const all = FAMILIES.map(themeFor);
   const highlighter = await createHighlighter({
-    themes: all,
+    themes: THEME_OVERRIDE ? [...all, theme] : all,
     langs: [...new Set(items.map((i) => i.lang)), ...injections],
   });
 
@@ -390,7 +393,7 @@ async function main() {
   const heroFile = path.join(TMP, 'hero.html');
   fs.writeFileSync(heroFile, heroPage(render(hero.code, hero.lang), hero.lines), 'utf8');
   // A fixed window that clips both panes, the way a real editor screenshot does.
-  shoot(browser, heroFile, path.join(OUT, 'hero.png'), 1180, 34 + 33 + 10 + 24 + 28 * LINE_H); // whole lines only, no half-clipped row
+  shoot(heroFile, path.join(OUT, 'hero.png'), 1180, 34 + 33 + 10 + 24 + 28 * LINE_H); // whole lines only, no half-clipped row
   console.log('wrote docs/preview/hero.png');
 
   // One card per language
@@ -399,7 +402,7 @@ async function main() {
     fs.writeFileSync(file, cardPage(render(item.code, item.lang), item, item.lines), 'utf8');
     const width = 860;
     const height = 33 + 28 + item.lines * LINE_H + 2;
-    shoot(browser, file, path.join(OUT, `${item.lang}.png`), width, height);
+    shoot(file, path.join(OUT, `${item.lang}.png`), width, height);
   }
   console.log(`wrote ${items.length} language previews to docs/preview/`);
 
@@ -419,7 +422,6 @@ async function main() {
   const sheetFile = path.join(TMP, 'palettes.html');
   fs.writeFileSync(sheetFile, palettesPage(cards, EXCERPT), 'utf8');
   shoot(
-    browser,
     sheetFile,
     path.join(OUT, 'palettes.png'),
     1180,
@@ -427,8 +429,10 @@ async function main() {
   );
   console.log(`wrote docs/preview/palettes.png (${FAMILIES.length} palettes)`);
 
+  if (OUT_OVERRIDE) return;
   writeGallery(items);
   console.log('wrote docs/PREVIEW.md');
+  if (family === 'indigo') recordRendered('preview:theme');
 }
 
 // The gallery is generated alongside the images so the two cannot drift: add a

@@ -24,6 +24,7 @@ Each ratio is measured as VS Code paints it: an overlay is composited over what 
 | Code | The same, under a selection: `normal`, `property` | text 4.5:1 | 5.4 | 5.3 | 5.3 | 5.6 | 6.7 | 5.8 | 5.3 | 5.3 |
 | Code | Type parameters (generics) | text 4.5:1 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 | 4.5 |
 | Code | Type parameters, under a selection | auxiliary 3:1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.3 | 3.2 | 3.2 | 3.3 |
+| Code | Log levels in the Output view and .log files (the worst): `log.error` | text 4.5:1 | 6.0 | 6.2 | 6.1 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
 | Code | Comments | auxiliary 3:1 | 4.0 | 4.0 | 4.0 | 4.0 | 4.4 | 4.2 | 4.2 | 4.1 |
 | Code | Comments, under a selection | auxiliary 3:1 | 3.0 | 3.0 | 3.0 | 3.0 | 3.3 | 3.0 | 3.0 | 3.0 |
 | Main foreground | `editor.foreground` on the editor | body 7:1 | 7.1 | 7.0 | 7.1 | 7.5 | 9.1 | 8.1 | 7.4 | 7.2 |

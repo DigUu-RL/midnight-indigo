@@ -1,0 +1,36 @@
+@import url("/assets/tokens.css");
+
+:root {
+  --indigo: #6c5ce7;
+  --surface: #0a0716;
+  --radius: 0.5rem;
+  --gap: calc(0.25rem + 1px);
+}
+
+.roster {
+  display: grid;
+  gap: var(--gap);
+  padding-block: 0.5rem;
+}
+
+.roster__row {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius);
+  background: color-mix(in oklch, var(--surface), white 2%);
+  transition: background 120ms ease-in-out;
+}
+
+.roster__row:hover,
+.roster__row[aria-selected="true"] {
+  background: color-mix(in oklch, var(--surface), white 6%);
+}
+
+.roster__row:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roster__row { transition: none !important; }
+}

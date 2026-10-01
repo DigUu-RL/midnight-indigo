@@ -22,13 +22,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { findBrowser } from '../shared/browser.ts';
+import { dumpDom, screenshot } from '../shared/headless.ts';
+import { recordRendered } from '../regression/rendered-from.ts';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(HERE, '..', '..');
-const OUT = path.join(ROOT, 'docs', 'preview');
+/*
+ * MIDNIGHT_INDIGO_PREVIEW_OUT renders somewhere else and records nothing: that is
+ * how `npm run regression` renders the gallery again to compare it with the tree.
+ */
+const OUT_OVERRIDE: string | undefined = process.env.MIDNIGHT_INDIGO_PREVIEW_OUT;
+const OUT = OUT_OVERRIDE ?? path.join(ROOT, 'docs', 'preview');
 const TMP = path.join(os.tmpdir(), 'midnight-indigo-icon-preview');
 
 const readJson = (...p: string[]): any => JSON.parse(fs.readFileSync(path.join(...p), 'utf8'));
@@ -117,26 +122,14 @@ const url = (file: string): string => `file:///${file.replace(/\\/g, '/')}`;
  * goes below the viewport, so a short page measured in a 600px window comes
  * back as 600 and gets shot with a screenful of empty ground under it.
  */
-function measure(browser: string, file: string, width: number): number {
-  const dom = execFileSync(
-    browser,
-    [
-      '--headless',
-      '--disable-gpu',
-      '--hide-scrollbars',
-      `--window-size=${width},200`,
-      '--virtual-time-budget=20000',
-      '--dump-dom',
-      url(file),
-    ],
-    { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }
-  );
+function measure(file: string, width: number): number {
+  const dom = dumpDom(file, '/^[0-9]+$/.test(document.title)', { width, height: 200, timeout: 20000 });
   const h = Number(dom.match(/<title>(\d+)<\/title>/)?.[1]);
   if (!h) throw new Error(`could not measure the height of ${path.basename(file)}`);
   return h;
 }
 
-function shoot(browser: string, html: string, png: string, width: number): void {
+function shoot(html: string, png: string, width: number): void {
   const file = path.join(TMP, `${path.basename(png, '.png')}.html`);
   // The page reports its own height into the title, which --dump-dom hands back.
   fs.writeFileSync(
@@ -144,22 +137,9 @@ function shoot(browser: string, html: string, png: string, width: number): void 
     `${html}<script>document.title=Math.ceil(document.body.getBoundingClientRect().height)<\/script>`,
     'utf8'
   );
-  execFileSync(
-    browser,
-    [
-      '--headless',
-      '--disable-gpu',
-      '--hide-scrollbars',
-      '--force-device-scale-factor=2',
-      `--window-size=${width},${measure(browser, file, width)}`,
-      `--screenshot=${png}`,
-      url(file),
-    ],
-    { stdio: ['ignore', 'ignore', 'ignore'] }
-  );
+  screenshot(file, png, width, measure(file, width));
 }
 
-const browser = findBrowser();
 fs.mkdirSync(OUT, { recursive: true });
 fs.mkdirSync(TMP, { recursive: true });
 
@@ -168,7 +148,6 @@ const folderIcons = names('folder-');
 
 const FILE_COLS = 7;
 shoot(
-  browser,
   gallery(
     `${fileIcons.length} file and language icons`,
     'the project\'s own logo where there is one, an imported pictogram where there is not',
@@ -189,7 +168,6 @@ const folderCells = folderIcons.flatMap((n) => [
   `<div class="cell"><img src="${icon(n)}"><img src="${icon(`${n}-open`)}"><span>${label(n)}</span></div>`,
 ]);
 shoot(
-  browser,
   page(
     head(`${folderIcons.length} folder icons`, 'closed and open, matched to several name synonyms each') +
       `<div class="grid" style="grid-template-columns:repeat(${FOLDER_COLS},1fr)">${folderCells.join('')}</div>`
@@ -198,3 +176,4 @@ shoot(
   900
 );
 console.log(`wrote docs/preview/icons-folders.png (${folderIcons.length} folders, closed and open)`);
+if (!OUT_OVERRIDE) recordRendered('preview:icons');

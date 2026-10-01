@@ -1728,6 +1728,56 @@
         "foreground": "#567098",
         "fontStyle": "strikethrough"
       }
+    },
+    {
+      "name": "CSS - cores de sistema obsoletas (background, menu) - como valores, sem risco",
+      "scope": [
+        "invalid.deprecated.color.system.css"
+      ],
+      "settings": {
+        "foreground": "#F78E97",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Logs - erro (Output, .log), na cor do erro",
+      "scope": [
+        "log.error"
+      ],
+      "settings": {
+        "foreground": "#F94C4C",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "name": "Logs - aviso, na cor do aviso",
+      "scope": [
+        "log.warning"
+      ],
+      "settings": {
+        "foreground": "#FCB900",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Logs - informação, na cor do info",
+      "scope": [
+        "log.info"
+      ],
+      "settings": {
+        "foreground": "#00C1E0",
+        "fontStyle": ""
+      }
+    },
+    {
+      "name": "Logs - depuração, na cor do hint",
+      "scope": [
+        "log.debug"
+      ],
+      "settings": {
+        "foreground": "#66D9C4",
+        "fontStyle": ""
+      }
     }
   ],
   "semanticTokenColors": {

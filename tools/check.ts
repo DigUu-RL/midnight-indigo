@@ -7,12 +7,19 @@
  * it fails. Adding one is adding an entry; the runner does not stop at the
  * first failure, so one run reports everything that is wrong at once.
  *
+ * The check never writes to the tree. The builds below do, because building is
+ * how their inputs are checked; the generated files are kept from before the
+ * first one and put back if the build disagreed with them, and that
+ * disagreement is itself a failure (see `generatedInTree`).
+ *
  * What is NOT here: the network half of `npm run check:images` (the badges;
- * the screenshots are linked by relative path and checked offline) and the
- * screenshots themselves (they need a browser and take a minute). The
- * screenshots are still covered — the inventory pins each PNG by hash, so a
- * regenerated picture that changed makes the inventory check fail until the
- * change is looked at and the inventory rewritten.
+ * the screenshots are linked by relative path and checked offline) and
+ * anything that needs a browser or VS Code — rendering the previews again,
+ * measuring the icons again, the workbench and code corpora in real VS Code.
+ * That is `npm run regression` (tools/regression/regression.ts). What the
+ * check does hold offline is that none of those outputs is stale: the
+ * inventory pins each screenshot by hash, and tools/regression/rendered-from.ts
+ * pins what each one was rendered from.
  */
 
 import { execFileSync } from 'node:child_process';
@@ -48,6 +55,46 @@ function fingerprint(): Map<string, string> {
   }
   return out;
 }
+
+/*
+ * The generated files as the tree had them before any check built anything.
+ *
+ * The builds below write into the tree, because they ARE the checks of their
+ * own inputs. Left at that, `npm run check` would quietly bring a stale tree up
+ * to date and pass — a source change committed without the themes it produces
+ * would pass the check that was run before the commit, and the next one too.
+ * So the tree's own copies are kept here, compared once everything is built,
+ * and put back if the build disagreed with them: the check reports what the
+ * tree holds and leaves it as it found it. `npm run build` is what writes.
+ */
+const generatedInTree: Map<string, Buffer> = new Map(
+  GENERATED.flatMap((directory: string): [string, Buffer][] =>
+    fs
+      .readdirSync(path.join(ROOT, directory))
+      .map((fileName: string): [string, Buffer] => [path.join(directory, fileName), fs.readFileSync(path.join(ROOT, directory, fileName))])
+  )
+);
+
+const restoreGeneratedFiles = (): void => {
+  for (const directory of GENERATED) {
+    for (const fileName of fs.readdirSync(path.join(ROOT, directory))) {
+      if (!generatedInTree.has(path.join(directory, fileName))) fs.rmSync(path.join(ROOT, directory, fileName));
+    }
+  }
+  for (const [file, content] of generatedInTree) fs.writeFileSync(path.join(ROOT, file), content);
+};
+
+/** Files a directory holds that the manifest does not contribute: shipped in the package, and nothing loads them. */
+const undeclaredFiles = (directory: string, declaredPaths: string[]): string[] => {
+  const declared: Set<string> = new Set(declaredPaths.map((declaredPath: string): string => path.normalize(declaredPath)));
+  const present: string[] = fs.readdirSync(path.join(ROOT, directory)).map((fileName: string): string => path.join(directory, fileName));
+  return [
+    ...present.filter((file: string): boolean => !declared.has(file)).map((file: string): string => `${file.replace(/\\/g, '/')} is in the folder but package.json does not contribute it — it would ship and nothing would load it`),
+    ...[...declared]
+      .filter((file: string): boolean => path.dirname(file) === path.normalize(directory) && !present.includes(file))
+      .map((file: string): string => `package.json contributes ${file.replace(/\\/g, '/')}, which is not on disk`),
+  ];
+};
 
 const build = (): void => {
   node('theme/build-color-themes.ts');
@@ -93,6 +140,49 @@ const CHECKS: { name: string; run: () => void }[] = [
       const moved = [...new Set([...first.keys(), ...second.keys()])].filter((f) => first.get(f) !== second.get(f));
       if (moved.length) throw new Error(`a second build changed ${moved.length} file(s): ${moved.slice(0, 5).join(', ')}`);
     },
+  },
+  {
+    // What the build writes is what the tree holds; if not, the tree is put back as it was, and the check fails.
+    name: 'generated files are committed',
+    run: () => {
+      const built = fingerprint();
+      const inTree = new Map([...generatedInTree].map(([file, content]): [string, string] => [file, sha256(content)]));
+      const differ = [...new Set([...built.keys(), ...inTree.keys()])]
+        .sort()
+        .filter((file: string): boolean => built.get(file) !== inTree.get(file))
+        .map((file: string): string => `${file.replace(/\\/g, '/')} (${!inTree.has(file) ? 'not in the tree' : !built.has(file) ? 'no longer built' : 'out of date'})`);
+      if (!differ.length) return;
+      restoreGeneratedFiles();
+      throw new Error(
+        `the build disagrees with ${differ.length} generated file(s) in the tree — run \`npm run build\` and commit the result:\n` +
+          differ.slice(0, 8).join('\n') +
+          (differ.length > 8 ? `\n… and ${differ.length - 8} more` : '')
+      );
+    },
+  },
+  {
+    // Every generated theme and icon theme is contributed, and every contribution is generated; a stray file ships and loads nowhere.
+    name: 'outputs are declared',
+    run: () => {
+      const manifest: { contributes: { themes: { path: string }[]; iconThemes: { path: string }[] } } = JSON.parse(
+        fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')
+      );
+      const problems: string[] = [
+        ...undeclaredFiles('themes', manifest.contributes.themes.map((theme) => theme.path)),
+        ...undeclaredFiles(path.join('icons', 'theme'), manifest.contributes.iconThemes.map((iconTheme) => iconTheme.path)),
+      ];
+      if (problems.length) throw new Error(problems.join('\n'));
+    },
+  },
+  {
+    // Structure, colours in all eight variants, icon associations and icon geometry, one fact to a line.
+    name: 'snapshots',
+    run: () => void node('regression/snapshot.ts', '--check'),
+  },
+  {
+    // The previews and the icon measurements were rendered from the inputs in the tree, not from older ones.
+    name: 'rendered outputs are current',
+    run: () => void node('regression/rendered-from.ts', '--check'),
   },
   {
     // Every screenshot the README and the docs link by relative path is in the tree.

@@ -55,6 +55,8 @@
         "preview:theme": "node tools/preview/build-theme-preview.ts",
         "check:images": "node tools/docs/check-images.ts",
         "check": "node tools/check.ts",
+        "snapshot": "node tools/regression/snapshot.ts",
+        "regression": "node tools/regression/regression.ts",
         "inventory": "node tools/docs/inventory.ts",
         "import:vscode-colors": "node tools/theme/import-vscode-colors.ts"
     },
@@ -120,6 +122,7 @@
     },
     "devDependencies": {
         "@types/node": "^22.10.2",
+        "playwright-core": "^1.63.0",
         "shiki": "^4.4.3",
         "typescript": "^5.7.2"
     }

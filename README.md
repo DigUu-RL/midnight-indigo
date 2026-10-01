@@ -28,7 +28,7 @@ One grammar injection ships with the theme, for a construct VS Code does not sco
 
 - **C# delegates** — `Action`, `Func` and `Predicate` are colored as the delegates they are (`source.cs`)
 
-What every scope and every semantic token is drawn as, language by language, is in [`docs/SYNTAX.md`](docs/SYNTAX.md). How every variant measures for contrast, colour vision and legibility is in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md).
+What every scope and every semantic token is drawn as, language by language, is in [`docs/SYNTAX.md`](docs/SYNTAX.md). How every variant measures for contrast, colour vision and legibility is in [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md). How a change that alters any of it is kept from slipping in unseen is in [`docs/REGRESSION.md`](docs/REGRESSION.md).
 
 ## Preview
 
@@ -52,7 +52,7 @@ All 53 folder icons, closed and open:
 
 ### Syntax
 
-Four of the tuned languages are below. **[Every language is in the full gallery →](docs/PREVIEW.md)** — 17 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, SCSS, SQL, Go, Rust, Java, PHP, YAML and Shell.
+Four of the tuned languages are below. **[Every language is in the full gallery →](docs/PREVIEW.md)** — 19 samples covering TypeScript, React/TSX, JavaScript, C#, Python, PowerShell, Markdown, JSON, HTML, CSS, SCSS, SQL, Go, Rust, Java, Kotlin, PHP, YAML and Shell.
 
 Highlighting goes through the same TextMate grammars VS Code ships, including the extension's own grammar injection.
 
@@ -260,7 +260,7 @@ You do not need to fork the theme to adjust it. Override any color in your own `
 
 The name in brackets is the theme's label, so an override applies to that one color only — `[Midnight Green]` for the green variant, and so on. To adjust all eight at once, drop the brackets and put the settings at the top level.
 
-Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) and the mapping under [`icons/theme/`](icons/theme/) are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator. The sources live in [`tools/`](tools/), one folder per concern: [`shared/`](tools/shared/) (colour maths, the headless browser, hashing), [`theme/`](tools/theme/) (palettes, tokens, the colour-theme build, the baseline, the accessibility audit), [`syntax/`](tools/syntax/) (the corpus, the code samples and the syntax check), [`icons/`](tools/icons/) (the icon build, its artwork and its audits), [`preview/`](tools/preview/) (the screenshots) and [`docs/`](tools/docs/) (the inventory and the image check); [`tools/check.ts`](tools/check.ts) runs every check.
+Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) and the mapping under [`icons/theme/`](icons/theme/) are **generated** — VS Code reads them directly, but hand-editing them means your change is lost on the next build. Edit the source instead and re-run the generator. The sources live in [`tools/`](tools/), one folder per concern: [`shared/`](tools/shared/) (colour maths, the headless browser, hashing), [`theme/`](tools/theme/) (palettes, tokens, the colour-theme build, the baseline, the accessibility audit), [`syntax/`](tools/syntax/) (the corpus, the code samples and the syntax check), [`icons/`](tools/icons/) (the icon build, its artwork and its audits), [`preview/`](tools/preview/) (the screenshots), [`docs/`](tools/docs/) (the inventory and the image check) and [`regression/`](tools/regression/) (the snapshots, and the visual regression run in a browser and in real VS Code); [`tools/check.ts`](tools/check.ts) runs every check.
 
 | | |
 | --- | --- |
@@ -271,7 +271,10 @@ Everything under [`themes/`](themes/), the icons in [`icons/svg/`](icons/svg/) a
 | [`tools/theme/baseline.ts`](tools/theme/baseline.ts) | The baseline's pinned hash and origin, and how a built theme is compared against it |
 | [`tools/theme/import-vscode-colors.ts`](tools/theme/import-vscode-colors.ts) | Fetches VS Code's documented color IDs, now and as of 1.60, and writes [`tools/theme/vscode-colors.json`](tools/theme/vscode-colors.json). Only re-run when moving the pin |
 | [`tools/docs/inventory.ts`](tools/docs/inventory.ts) | Writes [`docs/INVENTORY.md`](docs/INVENTORY.md): the counts, which workbench IDs still fall back to VS Code's defaults, and the hashes of the preview corpus |
-| [`tools/check.ts`](tools/check.ts) | Runs every offline check in one go |
+| [`tools/check.ts`](tools/check.ts) | Runs every offline check in one go, and leaves the tree as it found it |
+| [`tools/regression/snapshot.ts`](tools/regression/snapshot.ts) | Writes [`tools/regression/snapshots/`](tools/regression/snapshots/): the themes' structure, every colour in all eight variants, icon associations and icon geometry, one fact to a line |
+| [`tools/regression/rendered-from.ts`](tools/regression/rendered-from.ts) | Records what the screenshots and the icon measurements were rendered from, so the check can refuse a stale one |
+| [`tools/regression/regression.ts`](tools/regression/regression.ts) | Renders the previews and measures the icons again and compares, sets Indigo beside the v3.0.0 baseline, and shoots the workbench and code corpora in real VS Code in every variant — see [`docs/REGRESSION.md`](docs/REGRESSION.md) |
 | [`tools/theme/check-accessibility.ts`](tools/theme/check-accessibility.ts) | Reads the built themes back and holds every pair M13 names to its contrast target, the cues that are not colour, and the signals under simulated colour vision; writes [`docs/ACCESSIBILITY.md`](docs/ACCESSIBILITY.md) |
 | [`tools/icons/shapes.ts`](tools/icons/shapes.ts) | The drawing primitives, and the three rules everything obeys: fill only, holes cut with `evenodd` rather than painted, and no bare vertices — `roundedPolygonPath` rounds every corner it is given |
 | [`tools/icons/glyphs.ts`](tools/icons/glyphs.ts) | The pictogram library — 115 imported shapes, each scaled into a 24×24 box centred on `(0,0)` and painted in an identity tone plus a derived tint |
@@ -298,6 +301,9 @@ npm run typecheck                # tsc, no emit
 npm run inventory                # rewrite docs/INVENTORY.md
 npm run import:vscode-colors     # re-fetch VS Code's color ID list
 npm run check                    # every offline check
+npm run snapshot                 # rewrite the snapshots after a change that is meant
+npm run regression               # previews, baseline, measurements and VS Code, compared (needs a browser and VS Code)
+npm run regression -- --accept   # the last run's VS Code shots become the reviewed ones
 ```
 
 The build scripts are TypeScript, run straight by Node's type stripping — there is no compile step, no bundler and no `dist/`. `typescript` is a devDependency for checking only, and nothing in `tools/` is packaged into the extension. The types are load-bearing rather than decorative: `mark` and `glyph` on a spec are the unions of the real mark and pictogram names, and every entry in the extension / filename / language-id tables must name an icon the spec defines, so a typo is an error in the editor instead of a thrown build.

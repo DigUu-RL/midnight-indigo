@@ -1,0 +1,73 @@
+{
+  "name": "regression-helper",
+  "displayName": "Midnight Indigo — regression helper",
+  "description": "Loaded only by `npm run regression`, beside the theme, into a throwaway VS Code profile: a bridge the harness runs commands through, and the data the corpus surfaces need to have something to show.",
+  "publisher": "midnight-indigo",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "enabledApiProposals": [
+    "chatParticipantPrivate",
+    "defaultChatParticipant",
+    "chatParticipantAdditions",
+    "chatProvider"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "Midnight Indigo v3.0.0 (baseline)",
+        "uiTheme": "vs-dark",
+        "path": "./baseline-theme.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "kotlin",
+        "aliases": [
+          "Kotlin"
+        ],
+        "extensions": [
+          ".kt",
+          ".kts"
+        ]
+      }
+    ],
+    "grammars": [
+      {
+        "language": "kotlin",
+        "scopeName": "source.kotlin",
+        "path": "./kotlin.tmLanguage.json"
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "midnight-indigo.regression",
+        "name": "regression",
+        "fullName": "Regression",
+        "description": "Answers the corpus question the same way every run",
+        "isDefault": true,
+        "locations": [
+          "panel",
+          "editor"
+        ],
+        "modes": [
+          "ask",
+          "edit",
+          "agent"
+        ]
+      }
+    ],
+    "languageModelChatProviders": [
+      {
+        "vendor": "midnight-regression",
+        "displayName": "Regression"
+      }
+    ]
+  }
+}

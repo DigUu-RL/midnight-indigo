@@ -1618,6 +1618,40 @@ function themeFor(family: Family, t: Tokens): Theme {
       scope: ["invalid.deprecated"],
       settings: { foreground: st.deprecated, fontStyle: "strikethrough" },
     },
+    {
+      // M14: the CSS grammar scopes every `background`, `menu` or `window` in a
+      // value as the deprecated system colour of that name, case-insensitively,
+      // so `transition: background 120ms` was struck through. The name is far
+      // more often a property being animated than a system colour, so it is
+      // drawn as the value it reads as, like `ease-in-out` beside it.
+      name: "CSS - cores de sistema obsoletas (background, menu) - como valores, sem risco",
+      scope: ["invalid.deprecated.color.system.css"],
+      settings: { foreground: k.enumMember, fontStyle: "" },
+    },
+    // M14: the Output view and .log files mark each line's level, and the levels
+    // fell through to plain text, so an error line read like an info line. Each
+    // is the diagnostic it names, in the colours the squiggles and the Problems
+    // view use; the dates and verbose lines stay the comment grey the grammar gives them.
+    {
+      name: "Logs - erro (Output, .log), na cor do erro",
+      scope: ["log.error"],
+      settings: { foreground: st.error, fontStyle: "bold" },
+    },
+    {
+      name: "Logs - aviso, na cor do aviso",
+      scope: ["log.warning"],
+      settings: { foreground: st.warning, fontStyle: "" },
+    },
+    {
+      name: "Logs - informação, na cor do info",
+      scope: ["log.info"],
+      settings: { foreground: st.info, fontStyle: "" },
+    },
+    {
+      name: "Logs - depuração, na cor do hint",
+      scope: ["log.debug"],
+      settings: { foreground: st.hint, fontStyle: "" },
+    },
   ];
 
   const semanticTokenColors = {
