@@ -45,9 +45,9 @@ The TextMate rules the theme shipped with are held the same way: a shipped rule 
 | --- | --- | --- | --- | --- | --- |
 | Propriedades e campos de classes | scope | `meta.field.declaration` | — | M9 | the scope of a whole field declaration painted everything inside it that had no rule of its own the property colour — the type a field is annotated with, `Role` in `role: Role`, among them; the property is its name, which has a scope of its own |
 | Interfaces e Enums (mesma cor, apenas o nome do tipo) | scope | `meta.interface` | — | M9 | the scope of a whole interface body painted what had no rule inside it the interface colour, against the rule's own name — only the type's name is the interface |
-| Comentários | settings | `[object Object]` | `[object Object]` | M13 | a comment under a selection read at 2.8:1; the comment grey is lifted a shade so it keeps 3:1 there, and at 4.0:1 on the editor it still recedes |
-| Markdown - Citação | settings | `[object Object]` | `[object Object]` | M13 | the same: a quote is written in the comment grey |
-| Generics (apenas o nome do tipo, os símbolos < > seguem a cor de pontuação) | settings | `[object Object]` | `[object Object]` | M13 | the type parameters were the one role in the code under AA, at 3.5:1, and 2.5:1 under a selection; lifted to AA, they are still the darkest ink in the code |
+| Comentários | settings | `foreground: #6A6390` | `foreground: #6E6795` | M13 | a comment under a selection read at 2.8:1; the comment grey is lifted a shade so it keeps 3:1 there, and at 4.0:1 on the editor it still recedes |
+| Markdown - Citação | settings | `foreground: #6A6390` | `foreground: #6E6795` | M13 | the same: a quote is written in the comment grey |
+| Generics (apenas o nome do tipo, os símbolos < > seguem a cor de pontuação) | settings | `foreground: #C2185B` | `foreground: #D7336B` | M13 | the type parameters were the one role in the code under AA, at 3.5:1, and 2.5:1 under a selection; lifted to AA, they are still the darkest ink in the code |
 
 ## What the extension contains
 
@@ -334,4 +334,9 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/sql.png` | `6237929587ae` |
 | `docs/preview/tsx.png` | `4954030b842f` |
 | `docs/preview/typescript.png` | `1fc4b1557eaf` |
+| `docs/preview/workbench-chat.png` | `701759ec0807` |
+| `docs/preview/workbench-debug.png` | `79b3db78a904` |
+| `docs/preview/workbench-diff.png` | `a69708b3171f` |
+| `docs/preview/workbench-source-control.png` | `c80d6d08550c` |
+| `docs/preview/workbench-variants.png` | `3da1b877b5c5` |
 | `docs/preview/yaml.png` | `7ae8d9005789` |

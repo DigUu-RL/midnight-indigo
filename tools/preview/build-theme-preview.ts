@@ -451,7 +451,7 @@ function writeGallery(items: any[]): void {
 
 Every screenshot on this page is generated from [the theme file](../themes/midnight-${family}-color-theme.json) itself, highlighted with the same TextMate grammars VS Code ships and with the extension's own grammar injection loaded — so these are the theme's real colors rather than an approximation. Regenerate them with \`npm run preview:theme\`.
 
-The language samples below are **${theme.name}**. The eight palettes are one theme at eight hues — same lightnesses, same rules, same icon set — so a sample in any of them shows the same structure in another color.
+The language samples below are **${theme.name}**. The eight palettes are one theme in eight colors — the same roles, the same rules, the same legibility floor and the same icon set, each palette drawn for its own hue — so a sample in any of them shows the same structure in another color. [\`docs/COLOR-SYSTEM.md\`](COLOR-SYSTEM.md) explains how they differ.
 
 ![The eight palettes](${PREVIEW_DIR}/palettes.png)
 

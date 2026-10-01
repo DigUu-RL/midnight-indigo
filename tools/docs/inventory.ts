@@ -462,8 +462,13 @@ line();
 table(
   ['Rule', 'Field', 'Removed', 'Added', 'By', 'Why'],
   RULE_AMENDMENTS.map((amendment) => {
-    const was: string[] = [amendment.was].flat() as string[];
-    const now: string[] = [amendment.now].flat() as string[];
+    // A scope is a list of selectors; settings are an object, listed as `key: value` so a moved colour reads as one entry out and one in.
+    const entries = (value: unknown): string[] =>
+      typeof value === 'object' && value !== null && !Array.isArray(value)
+        ? Object.entries(value).map(([key, setting]: [string, unknown]): string => `${key}: ${String(setting)}`)
+        : ([value].flat() as string[]);
+    const was: string[] = entries(amendment.was);
+    const now: string[] = entries(amendment.now);
     const listed = (items: string[]): string => items.map((item: string): string => `\`${item}\``).join(', ') || '—';
     return [
       amendment.rule,

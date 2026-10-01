@@ -9,6 +9,7 @@
  *
  *   preview:theme   docs/preview/<language>.png, hero.png, palettes.png
  *   preview:icons   docs/preview/icons-files.png, icons-folders.png
+ *   preview:workbench  docs/preview/workbench-*.png, from reviewed shots of real VS Code
  *   measure         tools/icons/glyph-bounds.json, tools/icons/text-bounds.json
  *
  * The inventory pins the screenshots by their own hash, which catches a picture
@@ -44,12 +45,13 @@ const HERE: string = path.dirname(fileURLToPath(import.meta.url));
 const ROOT: string = path.join(HERE, '..', '..');
 const RECORD_FILE: string = path.join(HERE, 'rendered-from.json');
 
-export type Producer = 'preview:theme' | 'preview:icons' | 'measure';
+export type Producer = 'preview:theme' | 'preview:icons' | 'preview:workbench' | 'measure';
 
 /** How to bring a stale output up to date. */
 const RERUN: Record<Producer, string> = {
   'preview:theme': 'npm run preview:theme',
   'preview:icons': 'npm run preview:gallery',
+  'preview:workbench': 'npm run regression -- --only=vscode, review the sheets, npm run regression -- --accept, then npm run preview:workbench',
   measure: 'npm run measure:glyphs && npm run build:icons && npm run audit:icons',
 };
 
@@ -70,6 +72,30 @@ const shikiVersion = (): string => JSON.parse(fs.readFileSync(path.join(ROOT, 'n
 
 const WHITE: string[] = Array(8).fill('#fff');
 
+/*
+ * What a shot of real VS Code is a function of, on this repository's side:
+ * the themes, the icons and the grammar injection the extension contributes,
+ * what it contributes them as, and the corpus that is opened and shot. The
+ * manifest is read for its contributions only, so bumping the version does not
+ * call every shot stale. VS Code itself is the renderer, and is recorded with
+ * the shots instead (version.txt).
+ */
+const vscodeShotInputs = (): [string, string | Buffer][] => [
+  ...fileInputs([
+    ...filesIn('themes'),
+    ...filesIn('icons', 'theme'),
+    ...filesIn('icons', 'svg'),
+    ...filesIn('injections'),
+    path.join('tools', 'regression', 'surfaces.ts'),
+    path.join('tools', 'regression', 'workspace.ts'),
+    ...filesIn('tools', 'regression', 'vscode-helper'),
+  ]),
+  ['contributes', JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8')).contributes)],
+];
+
+/** Written beside every surface `npm run regression` shoots, so whatever reuses a reviewed shot can tell whether it is of the tree. */
+export const vscodeShotInputsHash = (): string => hashOfInputs(vscodeShotInputs());
+
 const INPUTS: Record<Producer, () => [string, string | Buffer][]> = {
   'preview:theme': (): [string, string | Buffer][] => [
     ...fileInputs([
@@ -88,6 +114,10 @@ const INPUTS: Record<Producer, () => [string, string | Buffer][]> = {
       path.join('themes', 'midnight-indigo-color-theme.json'),
       ...filesIn('icons', 'svg'),
     ]),
+  'preview:workbench': (): [string, string | Buffer][] => [
+    ...fileInputs([path.join('tools', 'preview', 'build-workbench-preview.ts')]),
+    ...vscodeShotInputs(),
+  ],
   /*
    * Exactly what tools/icons/measure.ts draws: every pictogram with and
    * without its surface (which of the two is measured is itself measured),

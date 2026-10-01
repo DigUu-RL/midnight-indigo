@@ -185,9 +185,14 @@ const CHECKS: { name: string; run: () => void }[] = [
     run: () => void node('regression/rendered-from.ts', '--check'),
   },
   {
-    // Every screenshot the README and the docs link by relative path is in the tree.
-    name: 'images resolve',
+    // Every screenshot and every page or source file the docs link by relative path is in the tree.
+    name: 'images and links resolve',
     run: () => void node('docs/check-images.ts', '--offline'),
+  },
+  {
+    // What vsce would package is the manifest, the listing's pages and what package.json contributes — nothing else, nothing less.
+    name: 'package contents',
+    run: () => void node('release/check-package.ts'),
   },
   {
     name: 'inventory is up to date',

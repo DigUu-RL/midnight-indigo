@@ -41,6 +41,7 @@ import { openImageLab, type Comparison, type ImageLab, type SheetCell } from './
 import { CORPUS_SETTINGS, SURFACES, fileIn, resetWindow, type Surface, type SurfaceContext } from './surfaces.ts';
 import { launchVsCode, type Session } from './vscode.ts';
 import { CODE_CORPUS, buildWorkspace } from './workspace.ts';
+import { vscodeShotInputsHash } from './rendered-from.ts';
 
 const HERE: string = path.dirname(fileURLToPath(import.meta.url));
 const ROOT: string = path.join(HERE, '..', '..');
@@ -108,7 +109,8 @@ const renderPreviews = (): string => {
 };
 
 const comparePreviews = async (lab: ImageLab, rendered: string): Promise<void> => {
-  const committed: string[] = pngsIn(PREVIEWS);
+  // The workbench previews are reviewed shots of real VS Code, copied rather than rendered: the vscode stage is what looks at those.
+  const committed: string[] = pngsIn(PREVIEWS).filter((file: string): boolean => !file.startsWith('workbench-'));
   for (const missing of committed.filter((file: string): boolean => !fs.existsSync(path.join(rendered, file)))) {
     fail('previews', `docs/preview/${missing} is committed but no longer rendered`);
   }
@@ -254,6 +256,10 @@ const shootVsCode = async (variants: Variant[]): Promise<Shot[]> => {
   await session.helper('open', { file: context.file('src/member.service.ts'), selection: [0, 0] });
   await new Promise((resolve) => setTimeout(resolve, 8000));
   const shotFile = (group: string, subject: string, variant: string): string => path.join(CURRENT, 'vscode', group, subject, `${variant}.png`);
+  // What the shots of a subject were taken of, beside them: --accept carries it into the reviewed run, and preview:workbench refuses a shot of another tree.
+  const inputsHash: string = vscodeShotInputsHash();
+  const recordInputs = (group: string, subject: string): void =>
+    fs.writeFileSync(path.join(CURRENT, 'vscode', group, subject, 'inputs.txt'), `${inputsHash}\n`, 'utf8');
 
   try {
     for (const surface of surfaces) {
@@ -270,6 +276,7 @@ const shootVsCode = async (variants: Variant[]): Promise<Shot[]> => {
           await session.screenshot(file);
           shots.push({ group: 'workbench', subject: surface.name, title: surface.title, variant: variant.name, file });
         }
+        recordInputs('workbench', surface.name);
         await surface.cleanup?.(session);
         console.log(`vscode: ${surface.title}`);
       } catch (error) {
@@ -291,6 +298,7 @@ const shootVsCode = async (variants: Variant[]): Promise<Shot[]> => {
           await session.screenshot(file);
           shots.push({ group: 'code', subject, title: language, variant: variant.name, file });
         }
+        recordInputs('code', subject);
         console.log(`vscode: ${language}`);
       } catch (error) {
         fail('vscode', `${language} could not be shot: ${String((error as Error).message ?? error).split('\n')[0]}`);

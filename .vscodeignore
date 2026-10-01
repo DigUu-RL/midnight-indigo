@@ -12,3 +12,5 @@ tsconfig.json
 package-lock.json
 icons/preview*.html
 docs/**
+CLAUDE.md
+*.pt-BR.md

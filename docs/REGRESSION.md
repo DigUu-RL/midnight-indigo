@@ -62,3 +62,5 @@ Every surface is built from a workspace the run creates from nothing (`tools/reg
 3. When every change is meant: `npm run regression -- --accept`. The shots become the reviewed ones the next run compares with.
 
 The reviewed shots are of one VS Code version, recorded beside them; a run in another version says so first, since some of its changes will be VS Code's own.
+
+Each surface also records what its shots were taken of — the hash of the themes, the icons, the grammar injection, what `package.json` contributes and the corpus — in an `inputs.txt` beside them. The README's workbench screenshots are reviewed shots copied by `npm run preview:workbench`, which refuses a surface whose record is not the tree's, so a screenshot of an older theme cannot reach the listing.

@@ -62,3 +62,5 @@ Cada superfície é montada num workspace que a rodada cria do zero (`tools/regr
 3. Quando toda mudança for intencional: `npm run regression -- --accept`. As capturas viram as revisadas, com as quais a próxima rodada compara.
 
 As capturas revisadas são de uma versão do VS Code, registrada ao lado delas; uma rodada noutra versão avisa isso primeiro, já que parte das mudanças será do próprio VS Code.
+
+Cada superfície também registra do que as suas capturas foram tiradas — o hash dos temas, dos ícones, da injeção de gramática, do que o `package.json` contribui e do corpus — num `inputs.txt` ao lado delas. As capturas do workbench no README são capturas revisadas copiadas pelo `npm run preview:workbench`, que recusa uma superfície cujo registro não seja o da árvore, então uma captura de um tema antigo não chega à página do Marketplace.

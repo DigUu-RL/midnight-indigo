@@ -1,5 +1,5 @@
 /*
- * Checks every image the docs link to, and fails on any that does not resolve.
+ * Checks every image and every relative link the docs hold, and fails on any that does not resolve.
  *
  *   node tools/docs/check-images.ts             relative images on disk, and every https image over the network
  *   node tools/docs/check-images.ts --offline   relative images on disk only (part of `npm run check`)
@@ -26,7 +26,14 @@ import { fileURLToPath } from 'node:url';
 const HERE: string = path.dirname(fileURLToPath(import.meta.url));
 const ROOT: string = path.join(HERE, '..', '..');
 
-const DOCS: string[] = ['README.md', 'CHANGELOG.md', path.join('docs', 'PREVIEW.md'), path.join('docs', 'SYNTAX.md')];
+/** Every page of documentation: the Markdown at the root (the README in both languages, the changelog) and in docs/. */
+const markdownIn = (directory: string): string[] =>
+  fs
+    .readdirSync(path.join(ROOT, directory))
+    .filter((name: string): boolean => name.endsWith('.md'))
+    .sort()
+    .map((name: string): string => path.join(directory, name));
+const DOCS: string[] = [...markdownIn('.'), ...markdownIn('docs')];
 const offline: boolean = process.argv.includes('--offline');
 
 type Image = { file: string; target: string };
@@ -47,6 +54,29 @@ const problems: string[] = [];
 for (const { file, target } of local) {
   const resolved: string = path.join(ROOT, path.dirname(file), target);
   if (!fs.existsSync(resolved)) problems.push(`${target} (in ${file}) is not in the tree`);
+}
+
+/*
+ * The pages link each other and the source by relative path too, and a page
+ * renamed or moved breaks those as quietly as an image. Anchors are not
+ * followed: a heading is free to be reworded, a file is not free to vanish.
+ */
+const linksIn = (file: string): Image[] => {
+  // Code is not a link, fenced or inline: `f(x)` after a `]` would read as one.
+  const text: string = fs
+    .readFileSync(path.join(ROOT, file), 'utf8')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`\n]*`/g, '``');
+  const targets: Set<string> = new Set(
+    [...text.matchAll(/(?<!!)\[[^\]]*\]\(([^)\s]+)\)/g)]
+      .map((match): string => match[1].split('#')[0])
+      .filter((target: string): boolean => target !== '' && !/^[a-z]+:/i.test(target))
+  );
+  return [...targets].map((target: string): Image => ({ file, target }));
+};
+const links: Image[] = DOCS.flatMap(linksIn);
+for (const { file, target } of links) {
+  if (!fs.existsSync(path.join(ROOT, path.dirname(file), decodeURIComponent(target)))) problems.push(`${target} (in ${file}) links a file that is not in the tree`);
 }
 
 /*
@@ -78,8 +108,8 @@ if (!offline) {
 for (const problem of problems) console.error(`  ! ${problem}`);
 console.log(
   problems.length
-    ? `\n${problems.length} image problem(s)`
-    : `${local.length} relative image(s) in the tree${offline ? '' : `, ${remote.length} remote image(s) resolve`}`
+    ? `\n${problems.length} problem(s) in the docs`
+    : `${local.length} relative image(s) and ${links.length} relative link(s) in the tree${offline ? '' : `, ${remote.length} remote image(s) resolve`}`
 );
 
 /*
