@@ -51,6 +51,7 @@
         "import:pictograms": "node tools/icons/import-pictograms.ts",
         "build:icons": "node tools/icons/build-icons.ts",
         "build:themes": "node tools/theme/build-color-themes.ts",
+        "design:families": "node tools/theme/design-families.ts",
         "build": "npm run build:themes && npm run build:icons",
         "package": "vsce package",
         "check:package": "node tools/release/check-package.ts",

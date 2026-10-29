@@ -23,7 +23,7 @@ The sources live in [`tools/`](../tools/), one folder per concern:
 | Folder | What is in it |
 | --- | --- |
 | [`shared/`](../tools/shared/) | Color maths (sRGB, WCAG contrast, gamut-safe OKLCH), the headless browser, hashing |
-| [`theme/`](../tools/theme/) | The palettes, the tokens, the color-theme build and its checks, the v3.0.0 baseline, the accessibility audit |
+| [`theme/`](../tools/theme/) | The palettes, the tokens, the color-theme build and its checks, the v3.0.0 baseline, the accessibility audit, the tool that drafts the family palettes |
 | [`syntax/`](../tools/syntax/) | The code samples and the corpus, and the syntax check |
 | [`icons/`](../tools/icons/) | The icon specification, the imported artwork, the build, the measurements and the audits |
 | [`preview/`](../tools/preview/) | The screenshots in [`docs/preview/`](preview/) |
@@ -52,6 +52,9 @@ npm run build:themes             # the eight color themes
 npm run build:icons              # the icon set
 npm run check                    # every offline check — must pass before a commit
 npm run typecheck                # tsc, no emit
+
+npm run design:families          # propose the seven family palettes from their briefs; writes nothing
+npm run design:families -- --family=red   # one family, or a comma list
 
 npm run measure:glyphs           # re-measure the artwork after changing a mark or pictogram
 npm run audit:icons              # re-audit the built icons

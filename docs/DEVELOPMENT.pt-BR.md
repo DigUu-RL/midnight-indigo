@@ -23,7 +23,7 @@ As fontes ficam em [`tools/`](../tools/), uma pasta por assunto:
 | Pasta | O que contém |
 | --- | --- |
 | [`shared/`](../tools/shared/) | Matemática de cor (sRGB, contraste WCAG, OKLCH dentro do gamut), o navegador headless, hashing |
-| [`theme/`](../tools/theme/) | As paletas, os tokens, o build dos temas de cores e seus checks, a baseline v3.0.0, a auditoria de acessibilidade |
+| [`theme/`](../tools/theme/) | As paletas, os tokens, o build dos temas de cores e seus checks, a baseline v3.0.0, a auditoria de acessibilidade, a ferramenta que rascunha as paletas das famílias |
 | [`syntax/`](../tools/syntax/) | As amostras de código e o corpus, e o check de sintaxe |
 | [`icons/`](../tools/icons/) | A especificação dos ícones, a arte importada, o build, as medições e as auditorias |
 | [`preview/`](../tools/preview/) | As capturas em [`docs/preview/`](preview/) |
@@ -52,6 +52,9 @@ npm run build:themes             # os oito temas de cores
 npm run build:icons              # o conjunto de ícones
 npm run check                    # cada check offline — precisa passar antes de um commit
 npm run typecheck                # tsc, sem emitir
+
+npm run design:families          # propõe as paletas das sete famílias a partir dos briefs; não escreve nada
+npm run design:families -- --family=red   # uma família, ou uma lista separada por vírgulas
 
 npm run measure:glyphs           # remede a arte depois de mudar uma marca ou pictograma
 npm run audit:icons              # reaudita os ícones construídos
