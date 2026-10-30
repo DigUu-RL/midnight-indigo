@@ -406,34 +406,6 @@ const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
   },
 
   /*
-   * PURPLE — indigo's near neighbour, and so the one variant at real risk of
-   * being indistinguishable from it. What separates them is not the 30 degrees
-   * between the families, it is what the code is written in: indigo answers
-   * its violet chrome with pink keywords, purple writes its keywords in its own
-   * violet (M9) and gives the pink side of the wheel to its properties, at 345
-   * where they clear the orange enum members. The chrome runs a shade quieter,
-   * because magenta at indigo's chroma makes the body text read as lilac rather
-   * than as text.
-   */
-  purple: {
-    hue: 320,
-    groundChroma: 0.95, chromeChroma: 0.95, inkChroma: 0.98,
-    accent: { h: 311, c: 0.2, l: 0.566 },
-    hues: {
-      keyword: 308, generic: 350,
-      enumMember: 38, number: 68, iface: 108, string: 145, type: 200, func: 258,
-    },
-    // The properties are the rose at 345, so the error leans the other way,
-    // toward vermilion, and sits darker and louder than they do.
-    signalHues: { error: 28, warning: 91 },
-    signals: {
-      success: 'string', info: 'func', hint: 'type',
-      orange: 'enumMember', purple: 'keyword',
-    },
-    redrawn: ownKeywords({ l: 0.74, c: 0.19 }, 345),
-  },
-
-  /*
    * PINK — hot chrome, cool code, which is the inverse of indigo's arrangement
    * and the reason the two do not read as the same theme. Rose grounds, and
    * since M9 hot pink keywords at 352 — the family's own colour, the loudest
@@ -694,7 +666,84 @@ export type FamilyDesign = {
 };
 
 /** The families already redrawn. Indigo cannot be one: it is held to what shipped. */
-const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {};
+const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {
+  /*
+   * PURPLE · AMETISTA (#15) — indigo's near neighbour, and so the one family at
+   * real risk of being taken for it. What separates them is not the 22 degrees
+   * between the grounds, it is what the code is written in: indigo answers its
+   * violet chrome with pink keywords, and here the keyword is the violet — at
+   * 305, the only saturated purple in the code, so the family is named by the
+   * loudest word on the screen. Everything else is placed so that nothing near
+   * it competes. The pink side of the wheel goes to the properties, an orchid at
+   * 333, and the type parameters are the same orchid sunk to a plum, told from
+   * it by darkness. The operators are a near-grey of the ground, the variables
+   * a near-white of it.
+   *
+   * The semantic inks are the convention, moved to the hues this ground leaves
+   * them: mint strings at 158, a cyan for the types at 210 — the search took
+   * them a dozen degrees off teal, away from the strings, and the pair is still
+   * one of the closest — and a clear blue for the functions at 247; old gold
+   * for the numbers at 83, lime interfaces at 116,
+   * coral enum members at 25. The error shares the enum members' hue and is
+   * told from them by weight: darker, and half as saturated again.
+   *
+   * The ground is velvet: more chroma in the near-blacks than any warm family
+   * can carry, because violet is where sRGB holds it at that lightness. Its
+   * focus and selection sit where indigo's do, not above them; the brief's
+   * history is in tools/theme/design-families.ts.
+   *
+   * Closest inks: the operators and the functions, 13.7 ΔE apart. The table
+   * this replaced put its closest pair at 7.6.
+   */
+  purple: {
+    groundHue: 312,
+    roles: {
+      bg:             { l: 0.089, c: 0.029, h: 310.8 }, // #040107
+      bgDeep:         { l: 0.104, c: 0.027, h: 313.4 }, // #060209
+      bgSide:         { l: 0.109, c: 0.033, h: 310.4 }, // #07020C
+      ansiBlack:      { l: 0.123, c: 0.036, h: 310.5 }, // #0A0310
+      bgLine:         { l: 0.149, c: 0.046, h: 310.6 }, // #110519
+      bgLift:         { l: 0.157, c: 0.047, h: 311.2 }, // #13061B
+      bgTab:          { l: 0.179, c: 0.053, h: 311.8 }, // #190922
+      line:           { l: 0.203, c: 0.056, h: 311.5 }, // #1F0E29
+      selDim:         { l: 0.235, c: 0.078, h: 311.9 }, // #2A1038
+      sel:            { l: 0.265, c: 0.102, h: 311.7 }, // #351048
+      whitespace:     { l: 0.299, c: 0.072, h: 315.1 }, // #3B2146
+      border:         { l: 0.366, c: 0.089, h: 311.9 }, // #4E2F60
+      accentDim:      { l: 0.392, c: 0.144, h: 304.8 }, // #582982
+      accent:         { l: 0.560, c: 0.200, h: 305.1 }, // #914AD0
+      fgFaint:        { l: 0.500, c: 0.044, h: 314.9 }, // #6D5C75
+      fgMuted:        { l: 0.561, c: 0.045, h: 315.4 }, // #7F6D87
+      fgDim:          { l: 0.680, c: 0.041, h: 315.0 }, // #A291AA
+      fg:             { l: 0.750, c: 0.038, h: 314.6 }, // #B7A7BF
+      fgBright:       { l: 0.821, c: 0.036, h: 314.1 }, // #CDBED5
+      cursor:         { l: 0.799, c: 0.091, h: 305.0 }, // #CBAFED
+      fgWhite:        { l: 0.956, c: 0.014, h: 314.8 }, // #F4EEF7
+      variable:       { l: 0.889, c: 0.020, h: 312.8 }, // #DFD7E4
+      property:       { l: 0.813, c: 0.138, h: 333.1 }, // #F79FE8
+      operator:       { l: 0.677, c: 0.033, h: 324.2 }, // #A291A3
+      propertyBright: { l: 0.893, c: 0.086, h: 333.2 }, // #FFC7F4
+      keyword:        { l: 0.699, c: 0.172, h: 305.5 }, // #B87EF2
+      keywordBright:  { l: 0.779, c: 0.142, h: 305.6 }, // #CD9EFF
+      generic:        { l: 0.583, c: 0.140, h: 336.2 }, // #AD579A
+      genericDeep:    { l: 0.500, c: 0.171, h: 336.3 }, // #9B3187
+      string:         { l: 0.865, c: 0.173, h: 158.4 }, // #53F4A7
+      stringBright:   { l: 0.945, c: 0.086, h: 158.1 }, // #BCFFD7
+      func:           { l: 0.719, c: 0.134, h: 246.6 }, // #56ABF3
+      funcBright:     { l: 0.799, c: 0.108, h: 246.6 }, // #82C4FF
+      number:         { l: 0.7663, c: 0.1356, h: 82.71 }, // #DDAA3D
+      type:           { l: 0.8331, c: 0.1236, h: 209.57 }, // #4EDEF4
+      typeBright:     { l: 0.912, c: 0.079, h: 210.0 }, // #A3F1FF
+      enumMember:     { l: 0.727, c: 0.145, h: 24.8 }, // #F47F78
+      iface:          { l: 0.921, c: 0.181, h: 116.1 }, // #DFF351
+      error:          { l: 0.659, c: 0.220, h: 24.9 }, // #FC4447
+      errorBright:    { l: 0.758, c: 0.144, h: 24.6 }, // #FF8982
+      warning:        { l: 0.8590, c: 0.1696, h: 89.81 }, // #FCCA21
+      warningBright:  { l: 0.938, c: 0.077, h: 89.4 }, // #FFE9B0
+    },
+    signals: { success: 'string', info: 'func', hint: 'type', orange: 'number', purple: 'keyword' },
+  },
+};
 
 const designOf = (family: Family): FamilyDesign | undefined => (family === 'indigo' ? undefined : DESIGNS[family]);
 

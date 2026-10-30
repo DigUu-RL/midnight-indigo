@@ -325,7 +325,7 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/json.png` | `a876882aa34b` |
 | `docs/preview/kotlin.png` | `3445c8f7f077` |
 | `docs/preview/markdown.png` | `74b34555542e` |
-| `docs/preview/palettes.png` | `482417cf627e` |
+| `docs/preview/palettes.png` | `3cd98c2c509c` |
 | `docs/preview/php.png` | `d03aabf675b3` |
 | `docs/preview/powershell.png` | `af6a1702cb44` |
 | `docs/preview/python.png` | `e1dce5c6cd3b` |
@@ -334,9 +334,9 @@ The workbench the hero and the icon galleries draw uses 30 of the theme's workbe
 | `docs/preview/sql.png` | `6237929587ae` |
 | `docs/preview/tsx.png` | `4954030b842f` |
 | `docs/preview/typescript.png` | `1fc4b1557eaf` |
-| `docs/preview/workbench-chat.png` | `701759ec0807` |
-| `docs/preview/workbench-debug.png` | `79b3db78a904` |
-| `docs/preview/workbench-diff.png` | `a69708b3171f` |
-| `docs/preview/workbench-source-control.png` | `c80d6d08550c` |
-| `docs/preview/workbench-variants.png` | `3da1b877b5c5` |
+| `docs/preview/workbench-chat.png` | `701ef970e0c3` |
+| `docs/preview/workbench-debug.png` | `84ffc5263778` |
+| `docs/preview/workbench-diff.png` | `dd8c4fd0647a` |
+| `docs/preview/workbench-source-control.png` | `a549ef675bd7` |
+| `docs/preview/workbench-variants.png` | `67db8f4ffffa` |
 | `docs/preview/yaml.png` | `7ae8d9005789` |

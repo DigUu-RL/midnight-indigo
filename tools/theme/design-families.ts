@@ -53,7 +53,9 @@
  *
  * The algorithm is the Midnight Palettes prototype's (issue #12 keeps its
  * JavaScript), and the briefs are the ones the family issues approved, #15 to
- * #21: for those briefs this reproduces the issues' tables to the byte.
+ * #21: for those briefs this reproduces the issues' tables to the byte. A
+ * brief the build refused was revised when its family landed, and its comment
+ * says what moved and why.
  */
 
 import {
@@ -116,12 +118,21 @@ type FamilyBrief = {
 };
 
 const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
-  /* Ametista (#15): the violet keyword is the only saturated purple in the code; a velvet ground with more chroma than the warm families. */
+  /*
+   * Ametista (#15): the violet keyword is the only saturated purple in the code; a velvet ground with more chroma than the warm families.
+   *
+   * Revised when the family landed, because the approved brief failed checks the build already made. Its focus and selection
+   * were 0.275 and 0.325, lighter than indigo's 0.231 and 0.268: the focus ring read 2.5:1 on the selection, and no accent can
+   * fix that, as white at AA on it caps how light it may be. Brought down to 0.236 and 0.265 — the least focus that keeps a
+   * hover readable on a raised widget, the most selection the focus ring reads on — with the raised surface down to 0.158 to
+   * give that hover room. The error went from L 0.64 to indigo's 0.66: at 0.64 a deleted line's gutter mark read 2.9:1, and
+   * the mark on uncovered code weighed less than the one on covered code, which is the mint of the strings.
+   */
   purple: {
     groundHue: 312,
     surfaces: {
-      background: [0.09, 0.028], frame: [0.1, 0.03], surface: [0.11, 0.032], currentLine: [0.15, 0.045], surfaceRaised: [0.168, 0.05],
-      surfaceHover: [0.18, 0.052], surfaceFocus: [0.275, 0.09], surfaceSelected: [0.325, 0.105], border: [0.205, 0.055], borderStrong: [0.365, 0.09],
+      background: [0.09, 0.028], frame: [0.1, 0.03], surface: [0.11, 0.032], currentLine: [0.15, 0.045], surfaceRaised: [0.158, 0.047],
+      surfaceHover: [0.18, 0.052], surfaceFocus: [0.236, 0.078], surfaceSelected: [0.265, 0.102], border: [0.205, 0.055], borderStrong: [0.365, 0.09],
     },
     textHue: 315,
     textChroma: 0.045,
@@ -132,7 +143,7 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     },
     accent: { h: 305, l: 0.56, c: 0.2 },
     warning: { h: 90, l: 0.86, c: 0.17 },
-    error: { h: 25, l: 0.64, c: 0.22 },
+    error: { h: 25, l: 0.66, c: 0.22 },
   },
   /* Flor neon (#16): a hot pink keyword, lilac properties, leaf-green strings and types; apricot numbers and salmon enum members, told apart by lightness. */
   pink: {

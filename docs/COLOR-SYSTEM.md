@@ -33,7 +33,7 @@ Now each family names its own hues. Conventions are kept where there is room —
 | Family | Keywords | What moved to make room |
 | --- | --- | --- |
 | **Indigo** | pink, as it always was | — the original |
-| **Purple** | violet | — |
+| **Purple** | violet, the only saturated purple in the code | drawn as a design (see [Adding a family](#adding-a-family)): properties are orchid and type parameters a dark plum; types take cyan rather than teal, away from the mint strings — no two inks closer than 13.7 ΔE |
 | **Pink** | hot pink | — |
 | **Red** | a light coral | kept apart from the darker, more saturated red an error is drawn in |
 | **Orange** | orange | numbers are a warm red and enum members rose, across the wheel's zero from the chrome |

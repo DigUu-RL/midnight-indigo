@@ -33,7 +33,7 @@ Agora cada família nomeia os seus matizes. As convenções são mantidas onde h
 | Família | Palavras-chave | O que se moveu para abrir espaço |
 | --- | --- | --- |
 | **Indigo** | rosa, como sempre foi | — o original |
-| **Purple** | violeta | — |
+| **Purple** | violeta, o único roxo saturado do código | desenhada como design (ver [Acrescentando uma família](#acrescentando-uma-família)): propriedades em orquídea e parâmetros de tipo em ameixa escura; tipos em ciano em vez de turquesa, longe das strings menta — nenhum par de tintas a menos de 13,7 ΔE |
 | **Pink** | rosa-choque | — |
 | **Red** | um coral claro | mantido longe do vermelho mais escuro e saturado em que um erro é desenhado |
 | **Orange** | laranja | números são um vermelho quente e membros de enum rosados, do outro lado do zero do círculo em relação ao chrome |
