@@ -145,12 +145,19 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 90, l: 0.86, c: 0.17 },
     error: { h: 25, l: 0.66, c: 0.22 },
   },
-  /* Flor neon (#16): a hot pink keyword, lilac properties, leaf-green strings and types; apricot numbers and salmon enum members, told apart by lightness. */
+  /*
+   * Flor neon (#16): a hot pink keyword, lilac properties, leaf-green strings and types; apricot numbers and salmon enum members, told apart by lightness.
+   *
+   * Revised when the family landed, as Ametista's was and for the same reasons. Its focus and selection were 0.27 and 0.32:
+   * the focus ring read 2.7:1 on the selection, and a hover sat 1.7 ΔE from the selected row. Brought down to Ametista's
+   * 0.236 and 0.265, chroma scaled with them, and the raised surface to 0.158. The error went from L 0.63 to 0.66: at 0.63 a
+   * deleted line's gutter mark read 2.8:1.
+   */
   pink: {
     groundHue: 352,
     surfaces: {
-      background: [0.088, 0.024], frame: [0.098, 0.026], surface: [0.108, 0.028], currentLine: [0.148, 0.04], surfaceRaised: [0.165, 0.045],
-      surfaceHover: [0.178, 0.047], surfaceFocus: [0.27, 0.085], surfaceSelected: [0.32, 0.1], border: [0.2, 0.05], borderStrong: [0.36, 0.085],
+      background: [0.088, 0.024], frame: [0.098, 0.026], surface: [0.108, 0.028], currentLine: [0.148, 0.04], surfaceRaised: [0.158, 0.043],
+      surfaceHover: [0.178, 0.047], surfaceFocus: [0.236, 0.074], surfaceSelected: [0.265, 0.097], border: [0.2, 0.05], borderStrong: [0.36, 0.085],
     },
     textHue: 350,
     textChroma: 0.04,
@@ -161,7 +168,7 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     },
     accent: { h: 355, l: 0.57, c: 0.2 },
     warning: { h: 92, l: 0.86, c: 0.17 },
-    error: { h: 27, l: 0.63, c: 0.23 },
+    error: { h: 27, l: 0.66, c: 0.23 },
   },
   /* Brasa (#17): red as heat, not alarm. A lighter rose-crimson keyword, and an error darker, more saturated and further round. */
   red: {

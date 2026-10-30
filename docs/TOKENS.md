@@ -52,16 +52,16 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `background` | `#020108` | `#040107` | `#050002` | `#050101` | `#040100` | `#000300` | `#000303` | `#000209` |
-| `frame` | `#030209` | `#060209` | `#070103` | `#070201` | `#060201` | `#000401` | `#000404` | `#01030A` |
-| `surface` | `#040208` | `#07020C` | `#070203` | `#070201` | `#050301` | `#000502` | `#000405` | `#02030A` |
-| `currentLine` | `#080514` | `#110519` | `#100309` | `#100403` | `#0E0601` | `#000B03` | `#000A0B` | `#020716` |
-| `surfaceRaised` | `#0A0716` | `#13061B` | `#13050B` | `#120605` | `#100802` | `#000E04` | `#000D0E` | `#030918` |
-| `surfaceHover` | `#0B0716` | `#190922` | `#13050B` | `#120605` | `#100802` | `#000E04` | `#000D0F` | `#040918` |
-| `surfaceFocus` | `#1C1440` | `#2A1038` | `#340B24` | `#34100F` | `#301501` | `#002507` | `#002323` | `#001C3F` |
-| `surfaceSelected` | `#241A52` | `#351048` | `#420F2F` | `#421515` | `#3D1C00` | `#003009` | `#002D2D` | `#00254E` |
-| `border` | `#150F2C` | `#1F0E29` | `#250A18` | `#240D0B` | `#211003` | `#001B07` | `#00191B` | `#03142F` |
-| `borderStrong` | `#352A5E` | `#4E2F60` | `#52213A` | `#502622` | `#4B2C10` | `#00401A` | `#003D40` | `#123363` |
+| `background` | `#020108` | `#040107` | `#060103` | `#050101` | `#040100` | `#000300` | `#000303` | `#000209` |
+| `frame` | `#030209` | `#060209` | `#080104` | `#070201` | `#060201` | `#000401` | `#000404` | `#01030A` |
+| `surface` | `#040208` | `#07020C` | `#0A0205` | `#070201` | `#050301` | `#000502` | `#000405` | `#02030A` |
+| `currentLine` | `#080514` | `#110519` | `#17040C` | `#100403` | `#0E0601` | `#000B03` | `#000A0B` | `#020716` |
+| `surfaceRaised` | `#0A0716` | `#13061B` | `#1A050F` | `#120605` | `#100802` | `#000E04` | `#000D0E` | `#030918` |
+| `surfaceHover` | `#0B0716` | `#190922` | `#200713` | `#120605` | `#100802` | `#000E04` | `#000D0F` | `#040918` |
+| `surfaceFocus` | `#1C1440` | `#2A1038` | `#370B22` | `#34100F` | `#301501` | `#002507` | `#002323` | `#001C3F` |
+| `surfaceSelected` | `#241A52` | `#351048` | `#45082A` | `#421515` | `#3D1C00` | `#003009` | `#002D2D` | `#00254E` |
+| `border` | `#150F2C` | `#1F0E29` | `#260B18` | `#240D0B` | `#211003` | `#001B07` | `#00191B` | `#03142F` |
+| `borderStrong` | `#352A5E` | `#4E2F60` | `#5E2842` | `#502622` | `#4B2C10` | `#00401A` | `#003D40` | `#123363` |
 
 ## `text`
 
@@ -77,13 +77,13 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `ghost` | `#2A2150` | `#3B2146` | `#441830` | `#431D1A` | `#3F230A` | `#003511` | `#003133` | `#082954` |
-| `faint` | `#5C5583` | `#6D5C75` | `#7A4D62` | `#7C4F49` | `#745438` | `#356541` | `#00656A` | `#415C85` |
-| `muted` | `#6E6795` | `#7F6D87` | `#8C6074` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
-| `secondary` | `#8B85A8` | `#A291AA` | `#A27F8D` | `#A9857F` | `#B19984` | `#799C82` | `#5F959A` | `#788BAB` |
-| `normal` | `#9993B8` | `#B7A7BF` | `#B28C9C` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
-| `bright` | `#ADA7C9` | `#CDBED5` | `#C4A1AF` | `#CBA8A2` | `#D4BCA8` | `#9CBEA5` | `#84B7BC` | `#9BADCC` |
-| `white` | `#EDEAF7` | `#F4EEF7` | `#F6E8EC` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
+| `ghost` | `#2A2150` | `#3B2146` | `#451F32` | `#431D1A` | `#3F230A` | `#003511` | `#003133` | `#082954` |
+| `faint` | `#5C5583` | `#6D5C75` | `#755A66` | `#7C4F49` | `#745438` | `#356541` | `#00656A` | `#415C85` |
+| `muted` | `#6E6795` | `#7F6D87` | `#876B78` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
+| `secondary` | `#8B85A8` | `#A291AA` | `#AA909B` | `#A9857F` | `#B19984` | `#799C82` | `#5F959A` | `#788BAB` |
+| `normal` | `#9993B8` | `#B7A7BF` | `#C0A6B1` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
+| `bright` | `#ADA7C9` | `#CDBED5` | `#D6BCC7` | `#CBA8A2` | `#D4BCA8` | `#9CBEA5` | `#84B7BC` | `#9BADCC` |
+| `white` | `#EDEAF7` | `#F4EEF7` | `#F7EDF1` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
 
 ## `link`
 
@@ -94,8 +94,8 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `rest` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `active` | `#8FCBFF` | `#82C4FF` | `#83CEFE` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
+| `rest` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `active` | `#8FCBFF` | `#82C4FF` | `#71C8FF` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
 
 ## `accent`
 
@@ -107,8 +107,8 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `base` | `#6C5CE7` | `#914AD0` | `#C23899` | `#D03B49` | `#BB5B00` | `#00874C` | `#00828D` | `#0074E0` |
-| `muted` | `#4B3E91` | `#582982` | `#7F2B60` | `#862E2F` | `#793F0A` | `#005735` | `#00555E` | `#1D4B8F` |
+| `base` | `#6C5CE7` | `#914AD0` | `#CA2F7D` | `#D03B49` | `#BB5B00` | `#00874C` | `#00828D` | `#0074E0` |
+| `muted` | `#4B3E91` | `#582982` | `#7E164B` | `#862E2F` | `#793F0A` | `#005735` | `#00555E` | `#1D4B8F` |
 | `on` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` | `#FFFFFF` |
 
 ## `syntax`
@@ -129,17 +129,17 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `variable` | `#B8B2D9` | `#DFD7E4` | `#D3ABBB` | `#D9B2AB` | `#E2C6AF` | `#A5CBAE` | `#89C4C8` | `#A3B9DC` |
-| `property` | `#BB9AF7` | `#F79FE8` | `#BD9BEF` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
-| `operator` | `#9D8CFF` | `#A291A3` | `#B994A5` | `#C19893` | `#CBAB93` | `#95B399` | `#7BAAAB` | `#8CA2BF` |
-| `keyword` | `#FF6AC1` | `#B87EF2` | `#FF72B7` | `#FF8E93` | `#FF9C3E` | `#36DB86` | `#00CBE0` | `#7CAAFF` |
-| `generic` | `#D7336B` | `#AD579A` | `#BE3EB7` | `#8E59D7` | `#7361E4` | `#8056F5` | `#8956E9` | `#C73BA3` |
-| `string` | `#8FD19E` | `#53F4A7` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `function` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `number` | `#F6C177` | `#DDAA3D` | `#ECCC72` | `#E4CF80` | `#F09A97` | `#FC9888` | `#FDB376` | `#FBAB7E` |
-| `type` | `#64D8CB` | `#4EDEF4` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
-| `interface` | `#D6E64B` | `#DFF351` | `#A4EA62` | `#93E780` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
-| `enumMember` | `#FFAB70` | `#F47F78` | `#FFA872` | `#F9B673` | `#E991BB` | `#F489B5` | `#FE9483` | `#F78E97` |
+| `variable` | `#B8B2D9` | `#DFD7E4` | `#EAD4DF` | `#D9B2AB` | `#E2C6AF` | `#A5CBAE` | `#89C4C8` | `#A3B9DC` |
+| `property` | `#BB9AF7` | `#F79FE8` | `#D2A2F6` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
+| `operator` | `#9D8CFF` | `#A291A3` | `#A5919E` | `#C19893` | `#CBAB93` | `#95B399` | `#7BAAAB` | `#8CA2BF` |
+| `keyword` | `#FF6AC1` | `#B87EF2` | `#F460AF` | `#FF8E93` | `#FF9C3E` | `#36DB86` | `#00CBE0` | `#7CAAFF` |
+| `generic` | `#D7336B` | `#AD579A` | `#A951C0` | `#8E59D7` | `#7361E4` | `#8056F5` | `#8956E9` | `#C73BA3` |
+| `string` | `#8FD19E` | `#53F4A7` | `#42BF85` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
+| `function` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `number` | `#F6C177` | `#DDAA3D` | `#F7B57A` | `#E4CF80` | `#F09A97` | `#FC9888` | `#FDB376` | `#FBAB7E` |
+| `type` | `#64D8CB` | `#4EDEF4` | `#54F3DD` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
+| `interface` | `#D6E64B` | `#DFF351` | `#D1F57A` | `#93E780` | `#CAE75D` | `#FFCA96` | `#FFD95E` | `#E7E339` |
+| `enumMember` | `#FFAB70` | `#F47F78` | `#F47E56` | `#F9B673` | `#E991BB` | `#F489B5` | `#FE9483` | `#F78E97` |
 
 ## `state`
 
@@ -161,19 +161,19 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `focus` | `#6C5CE7` | `#914AD0` | `#C23899` | `#D03B49` | `#BB5B00` | `#00874C` | `#00828D` | `#0074E0` |
-| `active` | `#B39DDB` | `#CBAFED` | `#D694A7` | `#DEA18F` | `#E0BA8E` | `#75C29A` | `#51BBCD` | `#92A8E4` |
-| `success` | `#8FD19E` | `#53F4A7` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `info` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `warning` | `#ECC400` | `#FCCA21` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
-| `error` | `#F84A54` | `#FC4447` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
-| `hint` | `#64D8CB` | `#4EDEF4` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
-| `modified` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `added` | `#8FD19E` | `#53F4A7` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `deleted` | `#F84A54` | `#FC4447` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
-| `conflicting` | `#ECC400` | `#FCCA21` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
-| `deprecated` | `#6E6795` | `#7F6D87` | `#8C6074` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
-| `debugging` | `#C2185B` | `#9B3187` | `#AA28A4` | `#7F49C5` | `#6652D4` | `#7142E2` | `#7944D6` | `#B22490` |
+| `focus` | `#6C5CE7` | `#914AD0` | `#CA2F7D` | `#D03B49` | `#BB5B00` | `#00874C` | `#00828D` | `#0074E0` |
+| `active` | `#B39DDB` | `#CBAFED` | `#EDA6C0` | `#DEA18F` | `#E0BA8E` | `#75C29A` | `#51BBCD` | `#92A8E4` |
+| `success` | `#8FD19E` | `#53F4A7` | `#42BF85` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
+| `info` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `warning` | `#ECC400` | `#FCCA21` | `#F9CC21` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
+| `error` | `#F84A54` | `#FC4447` | `#FF413C` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `hint` | `#64D8CB` | `#4EDEF4` | `#54F3DD` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
+| `modified` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `added` | `#8FD19E` | `#53F4A7` | `#42BF85` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
+| `deleted` | `#F84A54` | `#FC4447` | `#FF413C` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `conflicting` | `#ECC400` | `#FCCA21` | `#F9CC21` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
+| `deprecated` | `#6E6795` | `#7F6D87` | `#876B78` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
+| `debugging` | `#C2185B` | `#9B3187` | `#8A3A9F` | `#7F49C5` | `#6652D4` | `#7142E2` | `#7944D6` | `#B22490` |
 
 ## `chart`
 
@@ -188,12 +188,12 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `red` | `#F84A54` | `#FC4447` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
-| `orange` | `#FFAB70` | `#DDAA3D` | `#FFA872` | `#F9B673` | `#FF9C3E` | `#FC9888` | `#FDB376` | `#FBAB7E` |
-| `yellow` | `#ECC400` | `#FCCA21` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
-| `green` | `#8FD19E` | `#53F4A7` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `blue` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `purple` | `#BB9AF7` | `#B87EF2` | `#BD9BEF` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
+| `red` | `#F84A54` | `#FC4447` | `#FF413C` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `orange` | `#FFAB70` | `#DDAA3D` | `#F7B57A` | `#F9B673` | `#FF9C3E` | `#FC9888` | `#FDB376` | `#FBAB7E` |
+| `yellow` | `#ECC400` | `#FCCA21` | `#F9CC21` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
+| `green` | `#8FD19E` | `#53F4A7` | `#42BF85` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
+| `blue` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `purple` | `#BB9AF7` | `#B87EF2` | `#D2A2F6` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
 
 ## `ansi`
 
@@ -218,22 +218,22 @@ What each state looks like and which channel carries it. The build measures ever
 
 | Token | indigo | purple | pink | red | orange | green | cyan | blue |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `black` | `#050310` | `#0A0310` | `#0C0206` | `#0C0302` | `#0A0300` | `#000701` | `#000707` | `#010512` |
-| `red` | `#F84A54` | `#FC4447` | `#F84A54` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
-| `green` | `#8FD19E` | `#53F4A7` | `#74CEA9` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
-| `yellow` | `#ECC400` | `#FCCA21` | `#CFCE18` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
-| `blue` | `#5CB3FF` | `#56ABF3` | `#41B7FE` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
-| `magenta` | `#FF6AC1` | `#B87EF2` | `#FF72B7` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
-| `cyan` | `#64D8CB` | `#4EDEF4` | `#56D7E0` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
-| `white` | `#9993B8` | `#B7A7BF` | `#B28C9C` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
-| `brightBlack` | `#6E6795` | `#7F6D87` | `#8C6074` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
-| `brightRed` | `#FF898B` | `#FF8982` | `#FF898B` | `#FF8B87` | `#FF898B` | `#FF898B` | `#FF888D` | `#FF8B87` |
-| `brightGreen` | `#A6E6B4` | `#BCFFD7` | `#8DE3BE` | `#91E0C4` | `#A7E5B6` | `#D0EE9F` | `#C0EBA9` | `#AAE7B2` |
-| `brightYellow` | `#FFDF7B` | `#FFE9B0` | `#ECE766` | `#ECE766` | `#FFDF7B` | `#FFDC90` | `#ECE766` | `#FFD99B` |
-| `brightBlue` | `#8FCBFF` | `#82C4FF` | `#83CEFE` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
-| `brightMagenta` | `#FF8FD1` | `#CD9EFF` | `#FF91C8` | `#EFABDC` | `#D4B3FB` | `#D9AFFF` | `#FAA5D5` | `#DAB0FB` |
-| `brightCyan` | `#8FEDE0` | `#A3F1FF` | `#86ECF3` | `#93EAF2` | `#92ECE4` | `#7FEEED` | `#9BF1CE` | `#91EEDA` |
-| `brightWhite` | `#EDEAF7` | `#F4EEF7` | `#F6E8EC` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
+| `black` | `#050310` | `#0A0310` | `#0E0307` | `#0C0302` | `#0A0300` | `#000701` | `#000707` | `#010512` |
+| `red` | `#F84A54` | `#FC4447` | `#FF413C` | `#F94C4C` | `#F84A54` | `#F84A54` | `#F74959` | `#F94C4C` |
+| `green` | `#8FD19E` | `#53F4A7` | `#42BF85` | `#79CBAF` | `#90D0A1` | `#BBD887` | `#AAD692` | `#93D29B` |
+| `yellow` | `#ECC400` | `#FCCA21` | `#F9CC21` | `#CFCE18` | `#ECC400` | `#F4BF00` | `#CFCE18` | `#FCB900` |
+| `blue` | `#5CB3FF` | `#56ABF3` | `#3DAFF0` | `#6DB1FB` | `#63B3FB` | `#55B4FF` | `#70AFFF` | `#00C1E0` |
+| `magenta` | `#FF6AC1` | `#B87EF2` | `#F460AF` | `#DD92C9` | `#BE9DE5` | `#C794F3` | `#EF85C4` | `#C895EE` |
+| `cyan` | `#64D8CB` | `#4EDEF4` | `#54F3DD` | `#6BD4E0` | `#69D7D0` | `#4AD9D9` | `#73DCB6` | `#66D9C4` |
+| `white` | `#9993B8` | `#B7A7BF` | `#C0A6B1` | `#B8938D` | `#C1A791` | `#86AB90` | `#6BA4A9` | `#859ABB` |
+| `brightBlack` | `#6E6795` | `#7F6D87` | `#876B78` | `#8F625B` | `#8D6D53` | `#4E7B59` | `#2A7B80` | `#567098` |
+| `brightRed` | `#FF898B` | `#FF8982` | `#FF8B7F` | `#FF8B87` | `#FF898B` | `#FF898B` | `#FF888D` | `#FF8B87` |
+| `brightGreen` | `#A6E6B4` | `#BCFFD7` | `#74D5A3` | `#91E0C4` | `#A7E5B6` | `#D0EE9F` | `#C0EBA9` | `#AAE7B2` |
+| `brightYellow` | `#FFDF7B` | `#FFE9B0` | `#FFEAAB` | `#ECE766` | `#FFDF7B` | `#FFDC90` | `#ECE766` | `#FFD99B` |
+| `brightBlue` | `#8FCBFF` | `#82C4FF` | `#71C8FF` | `#98C9FC` | `#93CAFC` | `#8BCCFF` | `#9AC8FF` | `#71D5EA` |
+| `brightMagenta` | `#FF8FD1` | `#CD9EFF` | `#FF8CC5` | `#EFABDC` | `#D4B3FB` | `#D9AFFF` | `#FAA5D5` | `#DAB0FB` |
+| `brightCyan` | `#8FEDE0` | `#A3F1FF` | `#B9FFF2` | `#93EAF2` | `#92ECE4` | `#7FEEED` | `#9BF1CE` | `#91EEDA` |
+| `brightWhite` | `#EDEAF7` | `#F4EEF7` | `#F7EDF1` | `#FDF0ED` | `#FFFBF7` | `#E9F7EE` | `#DEF0F3` | `#E6ECF8` |
 
 ## Signals
 
@@ -243,7 +243,7 @@ Which ink each family lends to each signal. Written down per family, and checked
 | --- | --- | --- | --- | --- | --- |
 | indigo | `string` | `func` | `type` | `enumMember` | `property` |
 | purple | `string` | `func` | `type` | `number` | `keyword` |
-| pink | `string` | `func` | `type` | `enumMember` | `property` |
+| pink | `string` | `func` | `type` | `number` | `property` |
 | red | `string` | `func` | `type` | `enumMember` | `property` |
 | orange | `string` | `func` | `type` | `keyword` | `property` |
 | green | `string` | `func` | `type` | `number` | `property` |

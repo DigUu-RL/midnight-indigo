@@ -34,7 +34,7 @@ Agora cada família nomeia os seus matizes. As convenções são mantidas onde h
 | --- | --- | --- |
 | **Indigo** | rosa, como sempre foi | — o original |
 | **Purple** | violeta, o único roxo saturado do código | desenhada como design (ver [Acrescentando uma família](#acrescentando-uma-família)): propriedades em orquídea e parâmetros de tipo em ameixa escura; tipos em ciano em vez de turquesa, longe das strings menta — nenhum par de tintas a menos de 13,7 ΔE |
-| **Pink** | rosa-choque | — |
+| **Pink** | rosa-choque, a pétala | desenhada como design: propriedades em lilás e parâmetros de tipo em violeta escuro; strings verde-folha e tipos em água; números damasco e membros de enum salmão, separados pela luminosidade — nenhum par de tintas a menos de 12,4 ΔE |
 | **Red** | um coral claro | mantido longe do vermelho mais escuro e saturado em que um erro é desenhado |
 | **Orange** | laranja | números são um vermelho quente e membros de enum rosados, do outro lado do zero do círculo em relação ao chrome |
 | **Green** | verde | strings são verde-amareladas, interfaces trocam o lima pelo dourado — as variáveis ficam no matiz 152, onde uma string verde estaria |
