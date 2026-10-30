@@ -35,7 +35,7 @@ Now each family names its own hues. Conventions are kept where there is room —
 | **Indigo** | pink, as it always was | — the original |
 | **Purple** | violet, the only saturated purple in the code | drawn as a design (see [Adding a family](#adding-a-family)): properties are orchid and type parameters a dark plum; types take cyan rather than teal, away from the mint strings — no two inks closer than 13.7 ΔE |
 | **Pink** | hot pink, the petal | drawn as a design: properties are lilac and type parameters a dark violet; leaf-green strings and aqua types; apricot numbers and salmon enum members, told apart by lightness — no two inks closer than 12.4 ΔE |
-| **Red** | a light coral | kept apart from the darker, more saturated red an error is drawn in |
+| **Red** | rose-crimson, the warm half of the ember | drawn as a design: the error is the scarlet half, further round, darker and more saturated; properties are orchid and type parameters a dark magenta; amber numbers and orange enum members, told apart by lightness; green strings and petrol types — no two inks closer than 12.4 ΔE |
 | **Orange** | orange | numbers are a warm red and enum members rose, across the wheel's zero from the chrome |
 | **Green** | green | strings are yellow-green, interfaces give up lime for gold — the variables sit at hue 152, where a green string would be |
 | **Cyan** | cyan | types cross to jade, on the other side of the strings |

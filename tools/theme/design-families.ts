@@ -170,12 +170,22 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 92, l: 0.86, c: 0.17 },
     error: { h: 27, l: 0.66, c: 0.23 },
   },
-  /* Brasa (#17): red as heat, not alarm. A lighter rose-crimson keyword, and an error darker, more saturated and further round. */
+  /*
+   * Brasa (#17): red as heat, not alarm. A lighter rose-crimson keyword, and an error darker, more saturated and further round.
+   *
+   * Revised when the family landed, for the reasons Ametista's and Flor neon's were. Its focus and selection were 0.265 and
+   * 0.315: a hover sat 2.3 ΔE from the selected row. Brought down to theirs, 0.236 and 0.265, chroma scaled with them, and the
+   * raised surface to 0.158. The focus ring still read 2.96:1 on the selection, and here the accent was the cause, not the
+   * selection: at L 0.55 white read 5.3:1 on it, more than AA asks, so it went up to 0.565. The error went from L 0.61 to 0.66:
+   * at 0.61 a deleted line's gutter mark read 2.65:1, a deleted file 4.33:1 on an inactive selection, and uncovered code weighed
+   * less than the lime of covered code. The search answered the lighter error by taking the strings from 167 to 156, a green
+   * rather than a mint, and success borrows them now instead of the interfaces, which had no bright partner for the terminal.
+   */
   red: {
     groundHue: 22,
     surfaces: {
-      background: [0.086, 0.018], frame: [0.096, 0.02], surface: [0.105, 0.021], currentLine: [0.145, 0.03], surfaceRaised: [0.162, 0.034],
-      surfaceHover: [0.175, 0.036], surfaceFocus: [0.265, 0.07], surfaceSelected: [0.315, 0.085], border: [0.2, 0.04], borderStrong: [0.355, 0.07],
+      background: [0.086, 0.018], frame: [0.096, 0.02], surface: [0.105, 0.021], currentLine: [0.145, 0.03], surfaceRaised: [0.158, 0.033],
+      surfaceHover: [0.175, 0.036], surfaceFocus: [0.236, 0.062], surfaceSelected: [0.265, 0.08], border: [0.2, 0.04], borderStrong: [0.355, 0.07],
     },
     textHue: 25,
     textChroma: 0.03,
@@ -184,9 +194,9 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
       generic: { h: 340, l: 0.58, c: 0.19 }, string: { h: 155, l: 0.84, c: 0.12 }, func: { h: 245, l: 0.79, c: 0.11 }, number: { h: 72, l: 0.84, c: 0.13 },
       type: { h: 195, l: 0.83, c: 0.1 }, iface: { h: 125, l: 0.89, c: 0.15 }, enumMember: { h: 48, l: 0.79, c: 0.14 },
     },
-    accent: { h: 22, l: 0.55, c: 0.19 },
+    accent: { h: 22, l: 0.565, c: 0.19 },
     warning: { h: 97, l: 0.87, c: 0.18 },
-    error: { h: 32, l: 0.61, c: 0.22 },
+    error: { h: 32, l: 0.66, c: 0.22 },
   },
   /* Crepúsculo (#18): a horizon-orange keyword, sky-pink numbers and coral enum members, indigo type parameters; an amber near-black that stays out of brown. */
   orange: {

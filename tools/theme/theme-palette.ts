@@ -406,50 +406,6 @@ const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
   },
 
   /*
-   * RED — the first family that owns part of the semantic wheel, and so the
-   * first that had to be re-laid rather than turned. Enum members at 55 and
-   * numbers at 75 sit almost on top of a family at 27; both step up and out,
-   * to 62 and 90, which pushes the interfaces to gold and the strings to a
-   * cleaner green than indigo's. The keywords are the family's red (M9), drawn
-   * as a light coral — more light and less chroma than the error, which keeps
-   * the saturated, darker red — and the magenta at 337 they had is the
-   * properties', and the terminal's magenta.
-   *
-   * Both multipliers are well under 1 and that is the substance of the variant,
-   * not a detail: red is the hue sRGB is most generous with, and matching
-   * indigo's chroma gives a maroon workbench and salmon body text. Quietened,
-   * the grounds go back to being near-black with a warmth in them and the ramp
-   * back to being a warm grey, which is what the ramp is for.
-   */
-  red: {
-    hue: 27,
-    groundChroma: 0.72, chromeChroma: 0.85, inkChroma: 0.92,
-    accent: { h: 20, c: 0.185, l: 0.576 },
-    hues: {
-      keyword: 18, generic: 300,
-      enumMember: 65, number: 95, iface: 140, string: 170, type: 205, func: 252,
-    },
-    /*
-     * Red is the family, and an error has to be red all the same: a magenta
-     * error is the keyword colour, which the roadmap rules out. So it is the
-     * family's red made loud — far more chroma than the salmon operators, and
-     * lighter than the accent — and it is the one variant where the error is
-     * told from the chrome, and from the coral keywords, by weight rather than
-     * by hue. The warning is lemon, between the straw numbers at 95 and the
-     * green interfaces at 140. The magenta properties are the purple in a
-     * chart; the type parameters were, until an "important" alert (M9) had to
-     * be read in that colour, and at 3.6:1 could not be.
-     */
-    signalHues: { error: 25, warning: 109 },
-    signals: {
-      success: 'string', info: 'func', hint: 'type',
-      orange: 'enumMember', purple: 'property',
-    },
-    redrawn: ownKeywords({ l: 0.77, c: 0.16 }, 337),
-    terminalMagenta: ['property', 'propertyBright'],
-  },
-
-  /*
    * ORANGE — the family sits in the middle of the warm band, so the two warm
    * semantic roles cannot stay warm in the way they were. They cross instead of
    * crowding: the numbers go to warm red at 22 and the enum members to rose at
@@ -781,6 +737,87 @@ const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {
       warningBright:  { l: 0.939, c: 0.083, h: 91.8 }, // #FFEAAB
     },
     signals: { success: 'string', info: 'func', hint: 'type', orange: 'number', purple: 'property' },
+  },
+
+  /*
+   * RED · BRASA (#17) — red as heat, not alarm: an ember, and the family that
+   * owns the colour an error has to be drawn in. So the red is split in two and
+   * the halves are told apart by weight. The keyword is the warm half, a
+   * rose-crimson at 8 — lighter than the error and quieter, the family's own
+   * colour and the loudest word in the code; the error is the scarlet, 24
+   * degrees further round at 32, darker and more saturated, and at least
+   * 10 ΔE from every ink, so a squiggle shows on the word it is under. The
+   * accent is the ember itself, at 22, between the two.
+   *
+   * The pink side of the wheel goes to the properties, an orchid at 312, and
+   * the type parameters are a dark magenta at 337, told from the keyword and
+   * from the properties by darkness. The operators are a near-grey of the
+   * ground, the variables a near-white of it.
+   *
+   * The warm quarter holds three inks around the ember: amber numbers at 70
+   * and orange enum members at 51, which are the closest pair, the numbers a
+   * tenth lighter and the enum members a third more saturated; and the keyword
+   * itself, the same distance from the enum members. The cool half is open,
+   * and the code goes there: green strings at 156, petrol types at 185 — a
+   * tenth darker than the strings, which is what tells them apart — a steel
+   * blue for the functions at 256 and a lime for the interfaces at 125.
+   *
+   * The ground is a warm near-black with two fifths less chroma than indigo's:
+   * red is where sRGB is most generous, and a tinted near-black at this hue
+   * turns maroon long before it turns red. Its focus and selection sit where
+   * indigo's do; the brief's history is in tools/theme/design-families.ts.
+   *
+   * Closest inks: the numbers and the enum members, 12.4 ΔE apart, and the
+   * keyword and the enum members at 12.4. The table this replaced put its
+   * closest pair at 6.4.
+   */
+  red: {
+    groundHue: 22,
+    roles: {
+      bg:             { l: 0.085, c: 0.018, h: 21.8 }, // #050101
+      bgDeep:         { l: 0.100, c: 0.017, h: 20.5 }, // #070202
+      bgSide:         { l: 0.104, c: 0.021, h: 21.4 }, // #090202
+      ansiBlack:      { l: 0.119, c: 0.024, h: 21.3 }, // #0D0303
+      bgLine:         { l: 0.145, c: 0.031, h: 21.7 }, // #150505
+      bgLift:         { l: 0.159, c: 0.033, h: 21.5 }, // #190707
+      bgTab:          { l: 0.174, c: 0.037, h: 21.6 }, // #1E0909
+      line:           { l: 0.199, c: 0.039, h: 21.2 }, // #250E0E
+      selDim:         { l: 0.236, c: 0.061, h: 23.0 }, // #361010
+      sel:            { l: 0.264, c: 0.080, h: 21.3 }, // #441013
+      whitespace:     { l: 0.300, c: 0.048, h: 26.2 }, // #432421
+      border:         { l: 0.356, c: 0.069, h: 22.4 }, // #5B2C2B
+      accentDim:      { l: 0.396, c: 0.136, h: 22.3 }, // #801A22
+      accent:         { l: 0.565, c: 0.190, h: 22.2 }, // #CE343F
+      fgFaint:        { l: 0.501, c: 0.030, h: 24.0 }, // #745D5B
+      fgMuted:        { l: 0.560, c: 0.029, h: 23.9 }, // #856E6C
+      fgDim:          { l: 0.680, c: 0.028, h: 23.8 }, // #A99290
+      fg:             { l: 0.750, c: 0.026, h: 23.9 }, // #BEA8A6
+      fgBright:       { l: 0.821, c: 0.023, h: 27.8 }, // #D3BFBC
+      cursor:         { l: 0.800, c: 0.089, h: 22.6 }, // #F2A7A3
+      fgWhite:        { l: 0.955, c: 0.009, h: 26.0 }, // #F6EEED
+      variable:       { l: 0.890, c: 0.020, h: 25.2 }, // #E8D6D4
+      property:       { l: 0.798, c: 0.117, h: 311.7 }, // #D6A7F4
+      operator:       { l: 0.695, c: 0.030, h: 23.3 }, // #AF9694
+      propertyBright: { l: 0.878, c: 0.082, h: 311.7 }, // #E9C8FF
+      keyword:        { l: 0.700, c: 0.173, h: 7.9 }, // #F4698A
+      keywordBright:  { l: 0.779, c: 0.134, h: 7.8 }, // #FF91A7
+      generic:        { l: 0.594, c: 0.198, h: 337.2 }, // #C342A8
+      genericDeep:    { l: 0.499, c: 0.169, h: 337.2 }, // #9B3185
+      string:         { l: 0.823, c: 0.171, h: 156.1 }, // #4DE595
+      stringBright:   { l: 0.903, c: 0.146, h: 156.1 }, // #85FCB6
+      func:           { l: 0.721, c: 0.127, h: 256.0 }, // #6EA7F3
+      funcBright:     { l: 0.802, c: 0.101, h: 256.1 }, // #93C1FF
+      number:         { l: 0.826, c: 0.121, h: 70.3 }, // #F8B86A
+      type:           { l: 0.721, c: 0.109, h: 185.1 }, // #3FBBAE
+      typeBright:     { l: 0.801, c: 0.093, h: 185.1 }, // #72D2C6
+      enumMember:     { l: 0.720, c: 0.162, h: 50.7 }, // #F28237
+      iface:          { l: 0.921, c: 0.182, h: 124.7 }, // #CAF964
+      error:          { l: 0.661, c: 0.220, h: 32.1 }, // #FC492B
+      errorBright:    { l: 0.761, c: 0.144, h: 32.0 }, // #FF8C76
+      warning:        { l: 0.8703, c: 0.1794, h: 96.94 }, // #F6D300
+      warningBright:  { l: 0.949, c: 0.089, h: 96.7 }, // #FFEFAA
+    },
+    signals: { success: 'string', info: 'func', hint: 'type', orange: 'enumMember', purple: 'property' },
   },
 };
 
