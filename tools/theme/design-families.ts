@@ -198,12 +198,21 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 97, l: 0.87, c: 0.18 },
     error: { h: 32, l: 0.66, c: 0.22 },
   },
-  /* Crepúsculo (#18): a horizon-orange keyword, sky-pink numbers and coral enum members, indigo type parameters; an amber near-black that stays out of brown. */
+  /*
+   * Crepúsculo (#18): a horizon-orange keyword, sky-pink numbers and coral enum members, indigo type parameters; an amber near-black that stays out of brown.
+   *
+   * Revised when the family landed, for the reasons the three before it were. Its focus and selection were 0.265 and 0.315:
+   * the focus ring read 2.91:1 on the selection, a hover sat 2.6 ΔE from the selected row, and a find match 0.7 ΔE from the
+   * selection. Brought down to theirs, 0.236 and 0.265, chroma scaled with them, and the raised surface to 0.158. The error
+   * went from L 0.64 to 0.66: at 0.64 a deleted line's gutter mark read 2.92:1. The accent went from L 0.6 to 0.57, which here
+   * is a change and not only a start: orange is light for its contrast with white, so at the most white allowed, 4.53:1, the
+   * find match drawn from it was the lightest of the eight, and the operators read 4.44:1 on it. At 0.57 white reads 4.70:1.
+   */
   orange: {
     groundHue: 58,
     surfaces: {
-      background: [0.086, 0.014], frame: [0.096, 0.016], surface: [0.105, 0.017], currentLine: [0.145, 0.025], surfaceRaised: [0.162, 0.028],
-      surfaceHover: [0.175, 0.03], surfaceFocus: [0.265, 0.06], surfaceSelected: [0.315, 0.07], border: [0.2, 0.035], borderStrong: [0.355, 0.06],
+      background: [0.086, 0.014], frame: [0.096, 0.016], surface: [0.105, 0.017], currentLine: [0.145, 0.025], surfaceRaised: [0.158, 0.027],
+      surfaceHover: [0.175, 0.03], surfaceFocus: [0.236, 0.053], surfaceSelected: [0.265, 0.059], border: [0.2, 0.035], borderStrong: [0.355, 0.06],
     },
     textHue: 65,
     textChroma: 0.03,
@@ -212,9 +221,9 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
       generic: { h: 275, l: 0.58, c: 0.18 }, string: { h: 148, l: 0.84, c: 0.12 }, func: { h: 242, l: 0.79, c: 0.12 }, number: { h: 340, l: 0.79, c: 0.13 },
       type: { h: 192, l: 0.83, c: 0.1 }, iface: { h: 120, l: 0.88, c: 0.17 }, enumMember: { h: 15, l: 0.77, c: 0.13 },
     },
-    accent: { h: 52, l: 0.6, c: 0.17 },
+    accent: { h: 52, l: 0.57, c: 0.17 },
     warning: { h: 88, l: 0.85, c: 0.17 },
-    error: { h: 27, l: 0.64, c: 0.22 },
+    error: { h: 27, l: 0.66, c: 0.22 },
   },
   /* Floresta (#19): an emerald keyword, so the strings leave green for wheat; coral numbers, orchid enum members, turquoise types. */
   green: {
