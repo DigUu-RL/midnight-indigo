@@ -61,7 +61,9 @@ Erro e aviso não são tintas de sintaxe. Cada família põe um vermelho saturad
 
 O [`tools/theme/build-color-themes.ts`](../tools/theme/build-color-themes.ts) se recusa a escrever os temas quando qualquer um destes deixa de valer, em qualquer família:
 
-- **Separação.** Dois papéis que precisam ser distinguidos nunca ficam a menos de 22° de matiz. O build nomeia o par e a família. O Indigo é isento porque é anterior ao piso: seus membros de enum e números estão a 19.5° e diferem em luminosidade.
+- **Separação.** Dois papéis que precisam ser distinguidos nunca ficam a menos de 22° de matiz. O build nomeia o par e a família. O Indigo é isento porque é anterior ao piso: seus membros de enum e números estão a 19.5° e diferem em luminosidade. Uma família desenhada como design (abaixo) é medida em cor, e não em matiz: duas das suas onze tintas de sintaxe nunca ficam a menos de 12 ΔE em OKLab, porque tintas separadas por luminosidade ou croma podem ficar a poucos graus uma da outra sem nunca serem confundidas.
+- **Teto de gamut.** Numa família desenhada como design, nenhuma tinta de sintaxe usa mais de 86% do croma que o sRGB comporta na sua luminosidade e matiz — passado disso a cor deixa de ser saturada e vira neon. O build mede o hex e admite dois pontos pelo que o arredondamento para 8 bits acrescenta.
+- **A keyword lidera.** Numa família desenhada como design, nenhuma tinta além dos parâmetros de tipo tem mais croma que a keyword, por mais de 0.01: a keyword é a assinatura da família.
 - **Legibilidade.** Cada tinta de código lê a 7:1 (WCAG AAA) no editor, e os parâmetros de tipo a 4.5:1. A escada de texto tem metas próprias; o cinza dos comentários fica abaixo de AA de propósito e nunca abaixo de 3:1. A auditoria completa, lida de volta dos arquivos de tema publicados, é o [`ACCESSIBILITY.pt-BR.md`](ACCESSIBILITY.pt-BR.md).
 - **Ordem.** As superfícies e a escada de texto mantêm a ordem.
 - **Só tokens.** Nenhuma cor chega a um tema a não ser que seja um token, ou um token em uma das nove opacidades nomeadas.
@@ -76,3 +78,5 @@ Quando um valor publicado precisa mudar, a baseline não é editada. A mudança 
 ## Acrescentando uma família
 
 Uma família é uma entrada em `VARIANTS` em [`tools/theme/theme-palette.ts`](../tools/theme/theme-palette.ts): um matiz, três multiplicadores de saturação, um destaque, onde as palavras-chave e as seis tintas semânticas ficam no círculo, onde ficam o erro e o aviso, e qual das suas tintas faz o sucesso, a info, a dica e as cores de gráfico restantes. Depois, o nome dela em `Family`, `FAMILY_ORDER`, `TITLE` e em `contributes.themes` no `package.json`. É mais de uma linha de propósito: as partes que têm identidade são as que valem ser decididas. O resto segue, e o build avisa se dois papéis ficaram perto demais, se uma tinta caiu abaixo da meta, ou se o manifesto e os temas discordam.
+
+Uma família também pode ser desenhada como um design próprio: uma entrada em `DESIGNS`, com cada papel em OKLCH absoluto e nada tirado do Indigo. É o literal que o `npm run design:families` imprime a partir do brief da família, colado como foi impresso; o build lê os números e nunca roda a busca. As sete estão passando para esta forma uma de cada vez, e cada uma é mantida na separação em ΔE, no teto de gamut e na liderança da keyword desde a mudança que a migra.

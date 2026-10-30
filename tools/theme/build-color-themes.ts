@@ -38,12 +38,22 @@ import { sha256 } from '../shared/hash.ts';
 import { contrastRatio, deltaE, oklchFromHex, over, relativeLuminance, signedHueDelta } from '../shared/color.ts';
 import {
   FAMILY_ORDER,
+  GAMUT_ROUNDING,
+  GAMUT_SHARE,
+  KEYWORD_MARGIN,
   SEPARATION,
+  SEPARATION_DELTA_E,
+  SYNTAX_ROLES,
   WHITE,
   paletteFor,
+  closestInks,
   closestPair,
+  gamutShareOf,
+  hasFamilyDesign,
   signalsFor,
   type Family,
+  type InkPair,
+  type Palette,
 } from './theme-palette.ts';
 import {
   OVERLAY,
@@ -3073,6 +3083,36 @@ const checkChatAndAgents = (family: Family, tokens: Tokens, colours: Record<stri
   return problems;
 };
 
+/*
+ * 4, for a family drawn as a design (#13). Three floors in place of the hue
+ * floor: no two of its eleven inks closer than SEPARATION_DELTA_E, none past
+ * the gamut ceiling, none louder than its keyword. theme-palette.ts says why
+ * each is the number it is.
+ */
+const checkFamilyDesign = (family: Family, palette: Palette): string[] => {
+  const problems: string[] = [];
+  const closest: InkPair = closestInks(palette);
+  if (closest.distance < SEPARATION_DELTA_E) {
+    problems.push(`${family}: ${closest.first} and ${closest.second} are only ${closest.distance.toFixed(1)} ΔE apart, under the ${SEPARATION_DELTA_E} ΔE floor`);
+  }
+  const keywordChroma: number = oklchFromHex(palette.keyword).c;
+  for (const ink of SYNTAX_ROLES) {
+    const share: number = gamutShareOf(palette[ink]);
+    if (share > GAMUT_SHARE + GAMUT_ROUNDING) {
+      problems.push(
+        `${family}: ${ink} (${palette[ink]}) takes ${(share * 100).toFixed(1)}% of the chroma sRGB holds at its lightness and hue, ` +
+          `over the ${Math.round(GAMUT_SHARE * 100)}% ceiling and what rounding to 8 bits adds to it`
+      );
+    }
+    if (ink === 'keyword' || ink === 'generic') continue;
+    const chroma: number = oklchFromHex(palette[ink]).c;
+    if (chroma > keywordChroma + KEYWORD_MARGIN) {
+      problems.push(`${family}: ${ink} (chroma ${chroma.toFixed(3)}) is louder than the keyword (${keywordChroma.toFixed(3)}), the family's signature`);
+    }
+  }
+  return problems;
+};
+
 /**
  * Every check the build makes, run over every variant before anything is
  * written. They are worth listing rather than trusting because each one has
@@ -3210,13 +3250,19 @@ function check(): string[] {
      * that nobody edits one into its neighbour. Indigo is exempt because it
      * predates the floor and sits under it on purpose: its enum members and
      * numbers are 19.5 degrees apart and are told apart by lightness instead.
+     *
+     * A family drawn as a design is measured in ΔE instead (checkFamilyDesign).
      */
-    const near = closestPair(family);
-    if (near.deg < SEPARATION) {
-      problems.push(
-        `${family}: ${near.a} and ${near.b} are only ${near.deg.toFixed(1)}° apart, ` +
-          `under the ${SEPARATION}° floor`
-      );
+    if (hasFamilyDesign(family)) {
+      problems.push(...checkFamilyDesign(family, p));
+    } else {
+      const near = closestPair(family);
+      if (near.deg < SEPARATION) {
+        problems.push(
+          `${family}: ${near.a} and ${near.b} are only ${near.deg.toFixed(1)}° apart, ` +
+            `under the ${SEPARATION}° floor`
+        );
+      }
     }
   }
 
@@ -3465,16 +3511,22 @@ if (problems.length) {
   throw new Error(`${problems.length} problem(s) — nothing written`);
 }
 
+/** The family's closest pair, in the measure its floor is in. */
+const closestOf = (family: Family): string => {
+  if (hasFamilyDesign(family)) {
+    const closest: InkPair = closestInks(paletteFor(family));
+    return `${closest.first}/${closest.second} ${closest.distance.toFixed(1)} ΔE`;
+  }
+  const near = closestPair(family);
+  return `${near.a}/${near.b} ${near.deg.toFixed(0)}°`;
+};
+
 fs.mkdirSync(THEMES, { recursive: true });
 for (const family of FAMILY_ORDER) {
   const file = fileFor(family);
   fs.writeFileSync(path.join(THEMES, file), serialize(themeFor(family, tokensFor(family))), 'utf8');
-  // How much room the family's closestPair pair has, so a design edit that walks
+  // How much room the family's closest pair has, so a design edit that walks
   // two roles toward each other is visible before it reaches the floor.
-  const near = closestPair(family);
-  console.log(
-    `  ${labelFor(family).padEnd(16)} -> themes/${file}` +
-      `  (closest: ${near.a}/${near.b} ${near.deg.toFixed(0)}°)`
-  );
+  console.log(`  ${labelFor(family).padEnd(16)} -> themes/${file}  (closest: ${closestOf(family)})`);
 }
 console.log(`\nwrote ${FAMILY_ORDER.length} themes`);

@@ -86,7 +86,7 @@ The measurements, the audits and the screenshots need a Chromium-based browser; 
 `npm run check` runs, without stopping at the first failure:
 
 - the type check;
-- the theme build, which holds the baseline, the token rules, contrast, hue separation, the interaction states, the signals, Git, the terminal and chat, and the manifest;
+- the theme build, which holds the baseline, the token rules, contrast, separation (in hue, or in ΔE for a family drawn as a design), the gamut ceiling and the keyword's lead, the interaction states, the signals, Git, the terminal and chat, and the manifest;
 - the accessibility audit, against [`ACCESSIBILITY.md`](ACCESSIBILITY.md);
 - the syntax check, which tokenizes the corpus in all eight families with semantic highlighting off and on;
 - the icon build and the optical audit;

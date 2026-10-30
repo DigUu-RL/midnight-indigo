@@ -86,7 +86,7 @@ As medições, as auditorias e as capturas precisam de um navegador baseado em C
 O `npm run check` roda, sem parar na primeira falha:
 
 - o check de tipos;
-- o build do tema, que mantém a baseline, as regras de tokens, o contraste, a separação de matizes, os estados de interação, os sinais, o Git, o terminal e o chat, e o manifesto;
+- o build do tema, que mantém a baseline, as regras de tokens, o contraste, a separação (em matiz, ou em ΔE numa família desenhada como design), o teto de gamut e a liderança da keyword, os estados de interação, os sinais, o Git, o terminal e o chat, e o manifesto;
 - a auditoria de acessibilidade, contra o [`ACCESSIBILITY.pt-BR.md`](ACCESSIBILITY.pt-BR.md);
 - o check de sintaxe, que tokeniza o corpus nas oito famílias com o semantic highlighting desligado e ligado;
 - o build dos ícones e a auditoria óptica;

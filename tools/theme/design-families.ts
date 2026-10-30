@@ -67,7 +67,22 @@ import {
   type Colour,
   type Oklch,
 } from '../shared/color.ts';
-import { FAMILY_ORDER, ROLES, WHITE, type Family, type Ink, type RoleName, type Signals } from './theme-palette.ts';
+import {
+  FAMILY_ORDER,
+  GAMUT_ROUNDING,
+  GAMUT_SHARE,
+  KEYWORD_MARGIN,
+  ROLES,
+  SEPARATION_DELTA_E,
+  WHITE,
+  closestInks,
+  gamutShareOf,
+  type Family,
+  type Ink,
+  type InkPair,
+  type RoleName,
+  type Signals,
+} from './theme-palette.ts';
 import { SIGNAL_HUE, SIGNAL_TOLERANCE, flatten, tokensFor, type Tokens } from './theme-tokens.ts';
 
 /* -------------------------------------------------------------- *
@@ -320,9 +335,6 @@ const lightened = (colour: Colour, lightnessStep: number = 0.08, chromaShare: nu
  * The search
  * -------------------------------------------------------------- */
 
-/** The share of the gamut's chroma an ink may take: the rest is neon. */
-const GAMUT_SHARE = 0.86;
-
 type SearchBounds = { lightness: [number, number]; chroma: [number, number]; hueDrift: number };
 
 /*
@@ -360,8 +372,7 @@ const PAIR_WEIGHTS: number[] = [1, 0.5, 0.25, 0.1];
 /** The least ΔE an ink keeps from the error and the warning before it costs, and what each unit short costs. */
 const SIGNAL_CLEARANCE = 10;
 const SIGNAL_COST = 3;
-/** How much chroma an ink may have over the keyword's, and what each unit over the keyword's costs once it does. */
-const KEYWORD_MARGIN = 0.01;
+/** What each unit of chroma over the keyword's costs, once an ink is past the margin the build allows. */
 const LOUDNESS_COST = 300;
 
 /** Lehmer's generator, as the prototype drew from it: the same seed, the same run. */
@@ -666,9 +677,6 @@ const designOf = (brief: FamilyBrief): Design => {
  * Measuring
  * -------------------------------------------------------------- */
 
-/** The separation the build will hold the seven to (#13). */
-const SEPARATION_FLOOR = 12;
-
 const TOKEN_OF_INK: Record<SyntaxInk, keyof Tokens['syntax']> = {
   variable: 'variable',
   property: 'property',
@@ -747,7 +755,18 @@ const problemsOf = (design: Design): string[] => {
   const offTarget: string[] = borrowed
     .filter(([signal, ink]: [keyof Signals, Ink]): boolean => Math.abs(signedHueDelta(SIGNAL_HUE[signal], oklchFromHex(design.roles[ink]).h)) > SIGNAL_TOLERANCE)
     .map(([signal, ink]: [keyof Signals, Ink]): string => `${signal} borrows ${ink}, more than the build's ${SIGNAL_TOLERANCE}° from the colour it is named for`);
-  return [...unheld, ...shared, ...offTarget];
+  // The build's floors for a design (#13). The search caps the chroma it asks for before rounding and only scores the other two, so a brief can still miss one.
+  const closest: InkPair = closestInks(design.roles);
+  const crowded: string[] =
+    closest.distance < SEPARATION_DELTA_E ? [`${closest.first} and ${closest.second} are ${decimal(closest.distance)} ΔE apart, under the build's ${SEPARATION_DELTA_E}`] : [];
+  const neon: string[] = SYNTAX_INKS.filter((ink: SyntaxInk): boolean => gamutShareOf(design.roles[ink]) > GAMUT_SHARE + GAMUT_ROUNDING).map(
+    (ink: SyntaxInk): string => `${ink} takes ${decimal(gamutShareOf(design.roles[ink]) * 100)}% of the gamut, past the build's ceiling`
+  );
+  const keywordChroma: number = oklchFromHex(design.roles.keyword).c;
+  const louder: string[] = SYNTAX_INKS.filter(
+    (ink: SyntaxInk): boolean => ink !== 'keyword' && ink !== 'generic' && oklchFromHex(design.roles[ink]).c > keywordChroma + KEYWORD_MARGIN
+  ).map((ink: SyntaxInk): string => `${ink} has more chroma than the keyword, past the build's margin of ${KEYWORD_MARGIN}`);
+  return [...unheld, ...shared, ...offTarget, ...crowded, ...neon, ...louder];
 };
 
 /* -------------------------------------------------------------- *
@@ -760,10 +779,10 @@ const pairName = (pair: Pair): string => `${pair.first}/${pair.second}`;
 const shift = (shipped: string, proposed: string): string => `${shipped} → ${proposed}`;
 
 const printMeasurements = (shipped: Measurements, proposed: Measurements): void => {
-  const under = (measurements: Measurements): string => String(measurements.pairs.filter((pair: Pair): boolean => pair.distance < SEPARATION_FLOOR).length);
+  const under = (measurements: Measurements): string => String(measurements.pairs.filter((pair: Pair): boolean => pair.distance < SEPARATION_DELTA_E).length);
   console.log(
     `  separation  closest ${shift(decimal(shipped.pairs[0].distance), decimal(proposed.pairs[0].distance))} ΔE (${pairName(proposed.pairs[0])})` +
-      ` · mean ${shift(decimal(shipped.mean), decimal(proposed.mean))} · pairs under ${SEPARATION_FLOOR} ${shift(under(shipped), under(proposed))}`
+      ` · mean ${shift(decimal(shipped.mean), decimal(proposed.mean))} · pairs under ${SEPARATION_DELTA_E} ${shift(under(shipped), under(proposed))}`
   );
   console.log(`  next        ${proposed.pairs.slice(1, 4).map((pair: Pair): string => `${pairName(pair)} ${decimal(pair.distance)}`).join(' · ')}`);
   console.log(
@@ -789,6 +808,7 @@ const printDesign = (family: DesignedFamily, design: Design): void => {
   const roleNames: RoleName[] = Object.keys(ROLES) as RoleName[];
   const width: number = Math.max(...roleNames.map((name: RoleName): number => name.length));
   console.log(`  ${family}: {`);
+  console.log(`    groundHue: ${BRIEFS[family].groundHue},`);
   console.log('    roles: {');
   for (const name of roleNames) console.log(`      ${`${name}:`.padEnd(width + 2)}${frozen(design.roles[name])}, // ${design.roles[name]}`);
   console.log('    },');

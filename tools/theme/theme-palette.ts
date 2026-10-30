@@ -76,9 +76,27 @@
  *
  * The floor under all of it is `SEPARATION`, checked by the build rather than
  * assumed here: no two roles that have to be told apart may sit closer than it.
+ *
+ * AND WHAT IS REPLACING IT (#11). The seven are being redrawn from nothing: no
+ * family starts from indigo's measurements any more, so none is a row of hues
+ * and multipliers over `ROLES`. Each becomes a `FamilyDesign` instead — every
+ * role at an absolute OKLCH, drafted by tools/theme/design-families.ts and
+ * frozen here as plain numbers — held to floors measured in ΔE rather than in
+ * degrees. They move into `DESIGNS` one family at a time; until the last has,
+ * this file builds both ways, and indigo stays exactly what it is.
  */
 
-import { contrastRatio, signedHueDelta, hexFromOklch, wrapDegrees, type Colour, type Oklch } from '../shared/color.ts';
+import {
+  contrastRatio,
+  deltaE,
+  hexFromOklch,
+  maxChromaAt,
+  oklchFromHex,
+  signedHueDelta,
+  wrapDegrees,
+  type Colour,
+  type Oklch,
+} from '../shared/color.ts';
 
 /* -------------------------------------------------------------- *
  * The families
@@ -360,7 +378,11 @@ const ownKeywords = (keyword: Partial<Oklch>, formerPole: number): Variant['redr
   operator: { c: OPERATOR_CHROMA },
 });
 
-const VARIANTS: Record<Family, Variant> = {
+/*
+ * Indigo always has a row here. Each of the other seven keeps its row until it
+ * is redrawn as a `FamilyDesign` (#15 to #21), and then the row goes.
+ */
+const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
   /*
    * INDIGO — the shipped theme, and the reference for everything else. Its
    * numbers are measurements, its multipliers are 1, and neither may change:
@@ -638,9 +660,50 @@ const VARIANTS: Record<Family, Variant> = {
   },
 };
 
-/** The family hue of each variant, for anything that needs to name it. */
+/** A family's row in `VARIANTS`, which only the families not yet redrawn have. */
+const variantOf = (family: Family): Variant => {
+  const variant: Variant | undefined = VARIANTS[family];
+  if (!variant) throw new Error(`${family} has no row in VARIANTS: it is drawn as a FamilyDesign`);
+  return variant;
+};
+
+/* -------------------------------------------------------------- *
+ * The families drawn from nothing
+ * -------------------------------------------------------------- */
+
+/*
+ * A family written down outright (#14): every role at an absolute OKLCH, and
+ * nothing taken from indigo — no multiplier, no offset, no lift. The numbers
+ * are what tools/theme/design-families.ts proposed for the family's brief,
+ * reviewed, and pasted in as printed: each at the precision `hexFromOklch`
+ * turns back into the hex the tool showed. The build never runs the search;
+ * it reads these.
+ *
+ * `FLOORS` still applies on top, as a safety net. A frozen design clears them
+ * already, and if an edit ever made one not, the role is raised rather than
+ * the theme shipped under its floor.
+ */
+export type FamilyDesign = {
+  /** The hue the brief gave the grounds: what the family is called by. */
+  groundHue: number;
+  roles: Record<RoleName, Oklch>;
+  /** Which ink plays each borrowed signal, as in a row of `VARIANTS`. */
+  signals: Signals;
+  /** The pair that plays the terminal's magenta and bright magenta, when it is not the keywords. */
+  terminalMagenta?: [normal: RoleName, bright: RoleName];
+};
+
+/** The families already redrawn. Indigo cannot be one: it is held to what shipped. */
+const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {};
+
+const designOf = (family: Family): FamilyDesign | undefined => (family === 'indigo' ? undefined : DESIGNS[family]);
+
+/** Whether a family is drawn as a `FamilyDesign`, and so held to the floors measured in ΔE. */
+export const hasFamilyDesign = (family: Family): boolean => designOf(family) !== undefined;
+
+/** The family hue of each variant, for anything that needs to name it: a design's ground hue, a row's chrome hue. */
 export const FAMILIES = Object.fromEntries(
-  FAMILY_ORDER.map((f) => [f, VARIANTS[f].hue])
+  FAMILY_ORDER.map((family: Family): [Family, number] => [family, designOf(family)?.groundHue ?? variantOf(family).hue])
 ) as Record<Family, number>;
 
 /* -------------------------------------------------------------- *
@@ -652,7 +715,7 @@ export const FAMILIES = Object.fromEntries(
  *
  * It is a floor now, where the previous version had a ceiling, and the swap is
  * the whole difference between a table that is designed and a table that is
- * relaxed. A ceiling was what a rotation separationOwed: hues arrived wherever the turn
+ * relaxed. A ceiling was what a rotation needed: hues arrived wherever the turn
  * put them and the machinery asked for as much clearance as it could get away
  * with before over-constraining the arc. Named hues arrive where they were put,
  * so the only thing left to state is the minimum below which two roles start
@@ -661,11 +724,17 @@ export const FAMILIES = Object.fromEntries(
  * neighbour, the build says which pair and in which family, and writes nothing.
  *
  * 22 rather than a rounder number because that is what the shipped theme's own
- * the closest pair pair costs: indigo puts enum members and numbers 19.5 degrees apart
+ * closest pair costs: indigo puts enum members and numbers 19.5 degrees apart
  * and interfaces and strings 35.7, telling the close pair apart by lightness
  * and chroma instead. A floor that condemned the original theme would be the
  * wrong floor, so the check exempts indigo's own arrangement and holds the
  * seven designed ones to a bar just above it.
+ *
+ * Between syntax roles it holds only the families still built from the role
+ * table. One drawn as a `FamilyDesign` is held to `SEPARATION_DELTA_E`
+ * instead, which measures what this cannot. The terminal's six hues stay held
+ * to it in every family (build-color-themes.ts, check 14): an ANSI colour is
+ * named for its hue, so there a distance in degrees is the point.
  */
 export const SEPARATION = 22;
 
@@ -673,7 +742,8 @@ export const SEPARATION = 22;
 const CONTESTED: Named[] = ['enumMember', 'number', 'iface', 'string', 'type', 'func'];
 
 /**
- * The closest pair of roles in a family, for the build to check.
+ * The closest pair of roles in a family still built from the role table, for
+ * the build to hold to `SEPARATION`.
  *
  * The family hue stands in for the whole chrome cluster: variables, properties
  * and operators sit within 12 degrees of it by design and are told apart by
@@ -683,7 +753,7 @@ const CONTESTED: Named[] = ['enumMember', 'number', 'iface', 'string', 'type', '
  * whatever the hues do.
  */
 export function closestPair(family: Family): { a: string; b: string; deg: number } {
-  const v = VARIANTS[family];
+  const v = variantOf(family);
   /*
    * Where the keywords are the family's own colour (M9), the chrome cluster
    * has left the family hue — the properties carry the old pole, the operators
@@ -708,6 +778,71 @@ export function closestPair(family: Family): { a: string; b: string; deg: number
   }
   return worst;
 }
+
+/*
+ * THE FLOOR IN ΔE (#13), for the families drawn as designs.
+ *
+ * Distance in hue says whether two inks are different hues, and that is not
+ * the question; the question is whether they can be confused. Half the inks in
+ * a design are told apart by lightness or chroma at hues close together — the
+ * red draft puts its strings and types 16 degrees apart, the blue one 9, and
+ * neither pair can be mistaken — so a hue floor would condemn them, and it
+ * passes the role-table families whose closest inks are 5.9 to 7.6 ΔE apart.
+ * ΔE in OKLab measures lightness, chroma and hue at once. 12 is what the
+ * redesign set out to clear, and every one of the seven drafts does.
+ *
+ * Over all eleven syntax inks, not the semantic six the hue floor holds apart:
+ * a design places the variables, the operators and the type parameters too,
+ * and nothing keeps them from drifting into a neighbour but this.
+ */
+export const SEPARATION_DELTA_E = 12;
+
+/** The eleven syntax inks: every colour code is written in. */
+export const SYNTAX_ROLES: RoleName[] = ['variable', 'property', 'operator', 'keyword', 'generic', 'string', 'func', 'number', 'type', 'enumMember', 'iface'];
+
+export type InkPair = { first: RoleName; second: RoleName; distance: number };
+
+/** The two syntax inks of a palette closest to each other in OKLab, and how far apart they are. */
+export const closestInks = (palette: Record<RoleName, Colour>): InkPair => {
+  let closest: InkPair = { first: SYNTAX_ROLES[0], second: SYNTAX_ROLES[1], distance: Infinity };
+  SYNTAX_ROLES.forEach((first: RoleName, index: number): void => {
+    for (const second of SYNTAX_ROLES.slice(index + 1)) {
+      const distance: number = deltaE(palette[first], palette[second]);
+      if (distance < closest.distance) closest = { first, second, distance };
+    }
+  });
+  return closest;
+};
+
+/*
+ * THE GAMUT CEILING (#13). No ink in a design takes more than this share of
+ * the chroma sRGB holds at its lightness and hue: the last stretch before the
+ * edge of the gamut is where a colour stops being saturated and starts being
+ * neon — the `#FF53F7` keywords `chromaOf` remembers. The design tool drafts
+ * every ink under it.
+ *
+ * The build measures the hex, and a hex is the nearest 8-bit colour to the one
+ * drafted, so it can land a little outside. Of 400 000 colours drafted at
+ * exactly 86% across the lightnesses inks are searched in, L 0.54 to 0.92,
+ * rounding carried none past 87.8%. `GAMUT_ROUNDING` is that allowance and no
+ * more: an ink edited toward the edge still fails, and by a long way.
+ */
+export const GAMUT_SHARE = 0.86;
+export const GAMUT_ROUNDING = 0.02;
+
+/** The share of the chroma sRGB holds at a colour's lightness and hue that the colour takes. */
+export const gamutShareOf = (colour: Colour): number => {
+  const { l: lightness, c: chroma, h: hue }: Oklch = oklchFromHex(colour);
+  return chroma / maxChromaAt(lightness, hue);
+};
+
+/*
+ * THE KEYWORD LEADS (#13). The keyword is the family's signature, so in a
+ * design no ink is louder: none has more chroma than it, by more than this.
+ * The type parameters are exempt, being the keyword's dark partner, too far
+ * below it in lightness to be read as competing with it.
+ */
+export const KEYWORD_MARGIN = 0.01;
 
 /* -------------------------------------------------------------- *
  * Lightness the hue asks for
@@ -783,9 +918,9 @@ function indigoHueOf(name: RoleName): number {
   return wrapDegrees(role.h);
 }
 
-/** The hue each role lands on in a given variant. */
+/** The hue each role lands on in a family still built from the role table. */
 export function huesFor(family: Family): Record<RoleName, number> {
-  const v = VARIANTS[family];
+  const v = variantOf(family);
   const out = {} as Record<RoleName, number>;
 
   for (const [key, role] of Object.entries(ROLES) as [RoleName, Role][]) {
@@ -895,16 +1030,15 @@ const FLOORS: Partial<Record<RoleName, { against: RoleName; ratio: number }>> = 
   fgMuted: { against: 'sel', ratio: 3 },
 };
 
-/** The 41 colours of one variant. */
-export function paletteFor(family: Family): Palette {
-  const v = VARIANTS[family];
-  const hues = huesFor(family);
-  const out = {} as Palette;
+/** Where every role sits in a family still built from the role table: indigo's measurements, placed at the family's hues. */
+const placedFromRoles = (family: Family): Record<RoleName, Oklch> => {
+  const variant: Variant = variantOf(family);
+  const hues: Record<RoleName, number> = huesFor(family);
   const placed = {} as Record<RoleName, Oklch>;
 
   for (const name of Object.keys(ROLES) as RoleName[]) {
-    const role = ROLES[name];
-    const h = hues[name];
+    const role: Role = ROLES[name];
+    const hue: number = hues[name];
 
     /*
      * Lightness: the accent's is named by the family and taken as given. Every
@@ -913,34 +1047,42 @@ export function paletteFor(family: Family): Palette {
      * that has not moved gets exactly its own, which is what keeps indigo the
      * theme it already was.
      */
-    const redrawnLightness: number | undefined = v.redrawn?.[name]?.l;
-    const l =
+    const redrawnLightness: number | undefined = variant.redrawn?.[name]?.l;
+    const lightness: number =
       redrawnLightness !== undefined
         ? redrawnLightness
         : role.band === 'accent'
-        ? v.accent.l + (name === 'accentDim' ? DIM_LIGHT : 0)
-        : Math.min(0.99, role.l + liftShareAtLightness(role.l) * (hueLightnessLift(h) - hueLightnessLift(indigoHueOf(name))));
+        ? variant.accent.l + (name === 'accentDim' ? DIM_LIGHT : 0)
+        : Math.min(0.99, role.l + liftShareAtLightness(role.l) * (hueLightnessLift(hue) - hueLightnessLift(indigoHueOf(name))));
 
-    placed[name] = { l, c: chromaOf(name, v), h };
-    out[name] = hexFromOklch(placed[name]);
+    placed[name] = { l: lightness, c: chromaOf(name, variant), h: hue };
   }
+
+  return placed;
+};
+
+/** Every colour of one variant: a design's frozen roles, or the role table placed for the family — and either way, the floors under them. */
+export const paletteFor = (family: Family): Palette => {
+  const placed: Record<RoleName, Oklch> = designOf(family)?.roles ?? placedFromRoles(family);
+  const palette = {} as Palette;
+  for (const name of Object.keys(ROLES) as RoleName[]) palette[name] = hexFromOklch(placed[name]);
 
   for (const [name, floor] of Object.entries(FLOORS) as [RoleName, { against: RoleName; ratio: number }][]) {
     let lightness: number = placed[name].l;
-    while (contrastRatio(out[name], out[floor.against]) < floor.ratio && lightness < 0.99) {
+    while (contrastRatio(palette[name], palette[floor.against]) < floor.ratio && lightness < 0.99) {
       lightness += 0.0005;
-      out[name] = hexFromOklch({ ...placed[name], l: lightness });
+      palette[name] = hexFromOklch({ ...placed[name], l: lightness });
     }
   }
 
-  return out;
-}
+  return palette;
+};
 
 /** Which ink plays each signal in a family. */
-export const signalsFor = (family: Family): Signals => VARIANTS[family].signals;
+export const signalsFor = (family: Family): Signals => (designOf(family) ?? variantOf(family)).signals;
 
 /** The roles that play the terminal's magenta and bright magenta in a family. */
 export const terminalMagentaFor = (family: Family): [normal: RoleName, bright: RoleName] =>
-  VARIANTS[family].terminalMagenta ?? ['keyword', 'keywordBright'];
+  (designOf(family) ?? variantOf(family)).terminalMagenta ?? ['keyword', 'keywordBright'];
 
 export { BASE_HUE, CONTESTED, ROLES, VARIANTS };

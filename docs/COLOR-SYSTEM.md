@@ -61,7 +61,9 @@ Error and warning are not syntax inks. Each family places a saturated red below 
 
 [`tools/theme/build-color-themes.ts`](../tools/theme/build-color-themes.ts) refuses to write the themes when any of this stops holding, in any family:
 
-- **Separation.** No two roles that have to be told apart sit closer than 22° of hue. The build names the pair and the family. Indigo is exempt because it predates the floor: its enum members and numbers are 19.5° apart and differ in lightness instead.
+- **Separation.** No two roles that have to be told apart sit closer than 22° of hue. The build names the pair and the family. Indigo is exempt because it predates the floor: its enum members and numbers are 19.5° apart and differ in lightness instead. A family drawn as a design (below) is measured in color instead of hue: no two of its eleven syntax inks sit closer than 12 ΔE in OKLab, because inks told apart by lightness or chroma can sit a few degrees apart and still never be confused.
+- **Gamut ceiling.** In a family drawn as a design, no syntax ink takes more than 86% of the chroma sRGB holds at its lightness and hue — past that a color stops being saturated and starts being neon. The build measures the hex and allows two points for what rounding to 8 bits adds.
+- **The keyword leads.** In a family drawn as a design, no ink but the type parameters has more chroma than the keyword, by more than 0.01: the keyword is the family's signature.
 - **Legibility.** Every code ink reads at 7:1 (WCAG AAA) on the editor, and the type parameters at 4.5:1. The text ramp is held to its own targets; the comment grey sits under AA on purpose and never under 3:1. The full audit, read back from the shipped theme files, is [`ACCESSIBILITY.md`](ACCESSIBILITY.md).
 - **Order.** The surfaces and the text ramp keep their order.
 - **Tokens only.** No color reaches a theme unless it is a token, or a token at one of nine named opacities.
@@ -76,3 +78,5 @@ When a shipped value has to change, the baseline is not edited. The change is an
 ## Adding a family
 
 A family is an entry in `VARIANTS` in [`tools/theme/theme-palette.ts`](../tools/theme/theme-palette.ts): a hue, three saturation multipliers, an accent, where the keywords and the six semantic inks sit on the wheel, where the error and warning sit, and which of its inks plays success, info, hint and the remaining chart colors. Then its name in `Family`, `FAMILY_ORDER`, `TITLE` and `contributes.themes` in `package.json`. It is more than one line on purpose: the parts that carry an identity are the parts worth deciding. Everything else follows, and the build says if two roles ended up too close, an ink dropped under its target, or the manifest and the themes disagree.
+
+A family can also be drawn as a design of its own: an entry in `DESIGNS`, with every role at an absolute OKLCH and nothing taken from Indigo. That is the literal `npm run design:families` prints from a family's brief, pasted as it is printed; the build reads the numbers and never runs the search. The seven are moving to this form one at a time, and each is held to the separation in ΔE, the gamut ceiling and the keyword's lead from the change that moves it.
