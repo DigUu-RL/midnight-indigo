@@ -77,13 +77,14 @@
  * The floor under all of it is `SEPARATION`, checked by the build rather than
  * assumed here: no two roles that have to be told apart may sit closer than it.
  *
- * AND WHAT IS REPLACING IT (#11). The seven are being redrawn from nothing: no
- * family starts from indigo's measurements any more, so none is a row of hues
- * and multipliers over `ROLES`. Each becomes a `FamilyDesign` instead — every
- * role at an absolute OKLCH, drafted by tools/theme/design-families.ts and
- * frozen here as plain numbers — held to floors measured in ΔE rather than in
- * degrees. They move into `DESIGNS` one family at a time; until the last has,
- * this file builds both ways, and indigo stays exactly what it is.
+ * AND WHAT REPLACED IT (#11). The seven were redrawn from nothing: no family
+ * starts from indigo's measurements any more, so none is a row of hues and
+ * multipliers over `ROLES`. Each is a `FamilyDesign` instead — every role at an
+ * absolute OKLCH, drafted by tools/theme/design-families.ts and frozen here as
+ * plain numbers — held to floors measured in ΔE rather than in degrees. They
+ * moved into `DESIGNS` one family at a time, Blue (#21) last; the role table
+ * and the row machinery above now build indigo alone, and indigo stays exactly
+ * what it is.
  */
 
 import {
@@ -379,8 +380,9 @@ const ownKeywords = (keyword: Partial<Oklch>, formerPole: number): Variant['redr
 });
 
 /*
- * Indigo always has a row here. Each of the other seven keeps its row until it
- * is redrawn as a `FamilyDesign` (#15 to #21), and then the row goes.
+ * Indigo always has a row here. Each of the other seven had one until it was
+ * redrawn as a `FamilyDesign` (#15 to #21), and then the row went; indigo's is
+ * the only one left.
  */
 const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
   /*
@@ -403,39 +405,6 @@ const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
       success: 'string', info: 'func', hint: 'type',
       orange: 'enumMember', purple: 'property',
     },
-  },
-
-  /*
-   * BLUE — the family sits on the functions, which are the one role besides
-   * strings with a convention nobody breaks. They do not break it: they step to
-   * azure-cyan at 215, still unmistakably blue, 43 degrees clear of the chrome
-   * and bold besides, and the types drop back to teal at 180 to make the room.
-   * Everything warm then has the whole other half of the wheel to itself, so
-   * blue is the only crowded family whose numbers, enum members and interfaces
-   * all keep their conventional hues.
-   *
-   * The keywords are the family's blue (M9), a periwinkle at 262 — clear of the
-   * azure functions by 47 degrees — and the violet at 310 they had is the
-   * properties'.
-   */
-  blue: {
-    hue: 258,
-    groundChroma: 1.05, chromeChroma: 1, inkChroma: 1.02,
-    accent: { h: 255, c: 0.19, l: 0.566 },
-    hues: {
-      keyword: 262, generic: 340,
-      enumMember: 15, number: 50, iface: 108, string: 148, type: 180, func: 215,
-    },
-    // The error clears the rose enum members at 15 by leaning toward
-    // vermilion; the warning is the amber between the peach numbers at 50 and
-    // the lemon interfaces at 108.
-    signalHues: { error: 25, warning: 82 },
-    signals: {
-      success: 'string', info: 'func', hint: 'type',
-      orange: 'number', purple: 'property',
-    },
-    redrawn: ownKeywords({ l: 0.74, c: 0.16 }, 310),
-    terminalMagenta: ['property', 'propertyBright'],
   },
 };
 
@@ -950,6 +919,91 @@ const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {
       warningBright:  { l: 0.941, c: 0.112, h: 98.3 }, // #FFED93
     },
     signals: { success: 'type', info: 'func', hint: 'keyword', orange: 'iface', purple: 'property' },
+    terminalMagenta: ['property', 'propertyBright'],
+  },
+
+  /*
+   * BLUE · COBALTO (#21) — cobalt, the pigment: a deep blue that stays a colour
+   * and never greys. The keyword is the cobalt at 257, the family's own colour;
+   * the accent and the cursor are the same blue, and the info borrows the
+   * keyword, so a modified file and the terminal's blue are the family's too.
+   *
+   * Above it is ice. The functions are a cyan at 214, 44 degrees round from the
+   * keyword and 0.13 lighter, and the hint borrows them, so the terminal's cyan
+   * is the functions'. Past them the cool half runs on into green: sea-green
+   * types at 173 and mint strings at 164, only nine degrees apart and told apart
+   * by lightness — the strings are the lightest ink here, 0.18 over the types
+   * and 18.1 ΔE from them. The success borrows the strings, so an added line and
+   * the terminal's green are mint.
+   *
+   * The warm half is the answer to all that cold: terracotta numbers at 40,
+   * which a chart's orange borrows, rose enum members at 341 and straw
+   * interfaces at 107, with the amber warning at 85 under them, 10.3 ΔE away.
+   * Properties are a violet at 310 and the type parameters a dark magenta at
+   * 328, told apart by lightness. The operators are a near-grey of the ground
+   * and the variables a near-white of it.
+   *
+   * The error is a vermilion at 28, a little darker and less saturated than the
+   * other six's. The info squiggle is the keyword, which the search keeps at
+   * the floor of its band, 0.70, where a cobalt holds the most chroma and stands
+   * furthest from the grey operators; the error has to sit 0.05 under it, and
+   * any darker a deleted line's gutter mark reads under 3:1. It keeps 12.0 ΔE
+   * from the terracotta numbers.
+   *
+   * Its focus and selection sit where indigo's do; the brief's history is in
+   * tools/theme/design-families.ts.
+   *
+   * Closest inks: the operators and the keyword, 12.6 ΔE apart, then the
+   * operators and the enum members, and the operators and the functions, at
+   * 12.7. The table this replaced put its closest pair at 5.9.
+   */
+  blue: {
+    groundHue: 262,
+    roles: {
+      bg:             { l: 0.090, c: 0.035, h: 259.1 }, // #00020C
+      bgDeep:         { l: 0.101, c: 0.037, h: 257.7 }, // #00030F
+      bgSide:         { l: 0.113, c: 0.037, h: 263.1 }, // #010412
+      ansiBlack:      { l: 0.127, c: 0.042, h: 260.5 }, // #010617
+      bgLine:         { l: 0.149, c: 0.056, h: 261.2 }, // #010922
+      bgLift:         { l: 0.158, c: 0.055, h: 262.0 }, // #020B24
+      bgTab:          { l: 0.178, c: 0.062, h: 262.2 }, // #030F2C
+      line:           { l: 0.204, c: 0.065, h: 262.2 }, // #061534
+      selDim:         { l: 0.229, c: 0.086, h: 262.3 }, // #051944
+      sel:            { l: 0.264, c: 0.095, h: 261.9 }, // #082152
+      whitespace:     { l: 0.299, c: 0.072, h: 258.4 }, // #152D51
+      border:         { l: 0.366, c: 0.069, h: 261.9 }, // #2A3E63
+      accentDim:      { l: 0.384, c: 0.130, h: 258.2 }, // #0C4087
+      accent:         { l: 0.550, c: 0.180, h: 258.0 }, // #1F6DD8
+      fgFaint:        { l: 0.499, c: 0.045, h: 257.9 }, // #53647D
+      fgMuted:        { l: 0.561, c: 0.044, h: 256.6 }, // #64768F
+      fgDim:          { l: 0.681, c: 0.041, h: 257.0 }, // #899AB2
+      fg:             { l: 0.750, c: 0.039, h: 258.4 }, // #9FAFC7
+      fgBright:       { l: 0.819, c: 0.036, h: 258.9 }, // #B6C5DC
+      cursor:         { l: 0.801, c: 0.090, h: 258.0 }, // #9AC0F8
+      fgWhite:        { l: 0.956, c: 0.013, h: 255.5 }, // #EBF1F9
+      variable:       { l: 0.890, c: 0.019, h: 263.0 }, // #D4DBE8
+      property:       { l: 0.721, c: 0.145, h: 310.3 }, // #C189E8
+      operator:       { l: 0.763, c: 0.029, h: 265.4 }, // #A9B2C5
+      propertyBright: { l: 0.801, c: 0.124, h: 310.5 }, // #D7A7F9
+      keyword:        { l: 0.699, c: 0.137, h: 257.4 }, // #659FF2
+      keywordBright:  { l: 0.779, c: 0.114, h: 257.3 }, // #88B9FF
+      generic:        { l: 0.588, c: 0.141, h: 327.7 }, // #A85BA7
+      genericDeep:    { l: 0.499, c: 0.170, h: 327.8 }, // #933593
+      string:         { l: 0.900, c: 0.139, h: 163.8 }, // #7AFBC5
+      stringBright:   { l: 0.950, c: 0.074, h: 163.7 }, // #C1FFE1
+      func:           { l: 0.827, c: 0.125, h: 213.5 }, // #4CDBF7
+      funcBright:     { l: 0.906, c: 0.076, h: 213.6 }, // #A4EEFF
+      number:         { l: 0.735, c: 0.123, h: 39.5 }, // #EB8D6D
+      type:           { l: 0.721, c: 0.119, h: 173.1 }, // #3FBD9E
+      typeBright:     { l: 0.802, c: 0.102, h: 172.9 }, // #72D4B8
+      enumMember:     { l: 0.824, c: 0.114, h: 340.7 }, // #F8A8DC
+      iface:          { l: 0.920, c: 0.143, h: 106.7 }, // #F0EB72
+      error:          { l: 0.648, c: 0.200, h: 27.9 }, // #F04E43
+      errorBright:    { l: 0.748, c: 0.152, h: 28.0 }, // #FF8476
+      warning:        { l: 0.840, c: 0.170, h: 85.0 }, // #FDC010
+      warningBright:  { l: 0.920, c: 0.085, h: 85.0 }, // #FFE1A3
+    },
+    signals: { success: 'string', info: 'keyword', hint: 'func', orange: 'number', purple: 'property' },
     terminalMagenta: ['property', 'propertyBright'],
   },
 };

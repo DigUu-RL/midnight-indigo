@@ -75,6 +75,7 @@ import {
   GAMUT_SHARE,
   KEYWORD_MARGIN,
   ROLES,
+  SEPARATION,
   SEPARATION_DELTA_E,
   WHITE,
   closestInks,
@@ -287,12 +288,30 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 98, l: 0.86, c: 0.17 },
     error: { h: 25, l: 0.66, c: 0.22 },
   },
-  /* Cobalto (#21): a cobalt keyword with ice-cyan functions above it; sea-green types, mint strings, straw interfaces, terracotta and rose for warmth. */
+  /*
+   * Cobalto (#21): a cobalt keyword with ice-cyan functions above it; sea-green types, mint strings, straw interfaces, terracotta and rose for warmth.
+   *
+   * Revised when the family landed, for the reasons the six before it were. Its focus and selection were 0.275 and 0.325:
+   * the focus ring read 2.56:1 on the selection, a hover sat 2.1 ΔE from the selected row and a find match 2.9 ΔE from the
+   * selection. Blue has indigo's room in sRGB, so it took indigo's depth, 0.23 and 0.265, chroma scaled with them, and the
+   * raised surface at 0.158. The strong border went from C 0.1 to 0.07: a pressed toolbar button read 2.9 ΔE from a toggled
+   * one, the accent at 40%.
+   *
+   * The error went from h 25 · L 0.64 · C 0.22 to h 28 · L 0.649 · C 0.2, and here the window is a point. At 0.64 a deleted
+   * line's gutter mark read 2.88:1, and the six before went to 0.66 for it. Here the info squiggle is the keyword, which the
+   * search keeps at 0.70, the floor of its band, whatever lightness it starts from; at 0.66 the error sat 0.04 under it, the
+   * two squiggles told apart by hue alone. Over 0.649 they come within 0.05; under it the gutter mark falls back under 3:1,
+   * and less chroma and a turn toward vermilion give the mark its last hundredth. Raising the keyword's floor to 0.71 for
+   * this family was tried and kept the error at 0.66, but it brought the closest pair down from 12.6 ΔE to the 12.0 floor.
+   *
+   * The brief's success and hint borrowed the strings and the types, 9° apart: the terminal's green and cyan, which the
+   * build holds 22° apart. The hint borrows the functions now (see BORROWING).
+   */
   blue: {
     groundHue: 262,
     surfaces: {
-      background: [0.09, 0.035], frame: [0.1, 0.038], surface: [0.11, 0.04], currentLine: [0.15, 0.055], surfaceRaised: [0.168, 0.06],
-      surfaceHover: [0.18, 0.062], surfaceFocus: [0.275, 0.1], surfaceSelected: [0.325, 0.115], border: [0.205, 0.065], borderStrong: [0.365, 0.1],
+      background: [0.09, 0.035], frame: [0.1, 0.038], surface: [0.11, 0.04], currentLine: [0.15, 0.055], surfaceRaised: [0.158, 0.056],
+      surfaceHover: [0.18, 0.062], surfaceFocus: [0.23, 0.085], surfaceSelected: [0.265, 0.095], border: [0.205, 0.065], borderStrong: [0.365, 0.07],
     },
     textHue: 258,
     textChroma: 0.045,
@@ -303,7 +322,7 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     },
     accent: { h: 258, l: 0.55, c: 0.18 },
     warning: { h: 85, l: 0.84, c: 0.17 },
-    error: { h: 25, l: 0.64, c: 0.22 },
+    error: { h: 28, l: 0.649, c: 0.2 },
   },
 };
 
@@ -557,6 +576,15 @@ const searched = (brief: FamilyBrief, background: Colour, seed: number): SearchR
  * hint's teal. They go to the success, 12° off, and the hint takes the
  * keyword's cyan, 29° off: 40° in total, where the strings for the success
  * and the types for the hint would have been 44°.
+ *
+ * The success, the info and the hint are also the terminal's green, blue and
+ * cyan, which the build holds `SEPARATION` degrees apart (check 14), so an
+ * assignment that puts two of them closer is not one of the ways. Cobalto
+ * (#21) is where that decides it: its mint strings and sea-green types are
+ * nearest the success and the hint, 19° and 12° off, but only 9° from each
+ * other. The hint takes the ice-cyan functions instead, 29° off, and the
+ * terminal's cyan is a cyan. Where the nearest ways already clear the floor,
+ * as in the six families before it, nothing changes.
  */
 const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
   success: { hue: 145, candidates: ['string', 'keyword', 'type', 'iface'] },
@@ -568,16 +596,26 @@ const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
 
 const SIGNAL_NAMES: (keyof Signals)[] = Object.keys(BORROWING) as (keyof Signals)[];
 
+/** The signals that are also the terminal's green, blue and cyan (build-color-themes.ts, check 14). */
+const TERMINAL_SIGNALS: (keyof Signals)[] = ['success', 'info', 'hint'];
+
 /** Every signal's ink at once, all different, nearest their hues in total — ties going to the inks named first. */
 const borrowedSignals = (roles: Record<RoleName, Colour>): Signals => {
   type Assignment = { inks: Ink[]; total: number };
   const distance = (signal: keyof Signals, ink: Ink): number => Math.abs(signedHueDelta(oklchFromHex(roles[ink]).h, BORROWING[signal].hue));
+  const hueOf = (ink: Ink): number => oklchFromHex(roles[ink]).h;
+  // A terminal colour is named for its hue, so its green, blue and cyan may not sit nearer each other than the build allows.
+  const clearsTerminal = (signal: keyof Signals, ink: Ink, chosen: Assignment): boolean =>
+    !TERMINAL_SIGNALS.includes(signal) ||
+    chosen.inks.every(
+      (other: Ink, index: number): boolean => !TERMINAL_SIGNALS.includes(SIGNAL_NAMES[index]) || Math.abs(signedHueDelta(hueOf(ink), hueOf(other))) >= SEPARATION
+    );
   // Depth first in the order the candidates are named, so of two assignments equally near the first one found stands.
   const nearest = (chosen: Assignment): Assignment | undefined => {
     if (chosen.inks.length === SIGNAL_NAMES.length) return chosen;
     const signal: keyof Signals = SIGNAL_NAMES[chosen.inks.length];
     return BORROWING[signal].candidates
-      .filter((ink: Ink): boolean => !chosen.inks.includes(ink))
+      .filter((ink: Ink): boolean => !chosen.inks.includes(ink) && clearsTerminal(signal, ink, chosen))
       .map((ink: Ink): Assignment | undefined => nearest({ inks: [...chosen.inks, ink], total: chosen.total + distance(signal, ink) }))
       .reduce(
         (best: Assignment | undefined, found: Assignment | undefined): Assignment | undefined => (found && (!best || found.total < best.total) ? found : best),

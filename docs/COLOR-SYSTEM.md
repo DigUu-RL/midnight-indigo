@@ -39,7 +39,7 @@ Now each family names its own hues. Conventions are kept where there is room —
 | **Orange** | orange, the sun on the horizon | drawn as a design: numbers are the sky's pink and enum members a coral, across the wheel's zero from the keyword; type parameters are indigo and properties lavender, the night coming in; green strings, sky-blue functions and aqua types — no two inks closer than 14.6 ΔE |
 | **Green** | emerald, the canopy | drawn as a design: the keyword owns green, so strings leave it for wheat, which is also a chart's orange; coral numbers and orchid-pink enum members; properties are violet and type parameters a dark grape, green's complement; turquoise types, a clear blue for functions, lime interfaces — no two inks closer than 14.5 ΔE |
 | **Cyan** | cyan, the surface of the sea | drawn as a design: types are jade, far enough round to be green and not a second cyan, and seaweed strings are told from them by lightness; deep-blue functions; coral numbers, shell-pink enum members and sand interfaces, which are also a chart's orange; properties are orchid and type parameters a darker magenta — no two inks closer than 12.0 ΔE |
-| **Blue** | periwinkle | functions step to azure-cyan, 43° clear of the chrome; types drop back to teal |
+| **Blue** | cobalt, the pigment | drawn as a design: functions are an ice cyan above the keyword, and the terminal's cyan; sea-green types and mint strings, told apart by lightness; terracotta numbers, rose enum members and straw interfaces for warmth; properties are violet and type parameters a dark magenta; the error leans to vermilion and sits a little darker, 0.05 under the keyword that draws the info squiggle — no two inks closer than 12.6 ΔE |
 
 ### Keywords in the family's own color
 
