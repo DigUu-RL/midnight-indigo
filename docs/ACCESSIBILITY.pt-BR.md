@@ -20,79 +20,79 @@ Cada razão é medida como o VS Code pinta: um overlay é composto sobre o que e
 
 | Área | Par | Meta | Indigo | Purple | Pink | Red | Orange | Green | Cyan | Blue |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Código | Toda tinta exceto comentários e parâmetros de tipo (a pior): `normal`, `operator`, `keyword` | corpo 7:1 | 7.1 | 7.0 | 7.0 | 7.2 | 7.0 | 7.0 | 7.4 | 7.2 |
-| Código | O mesmo, sob uma seleção: `normal`, `operator`, `keyword` | texto 4.5:1 | 5.4 | 5.4 | 5.4 | 5.4 | 5.2 | 5.1 | 5.3 | 5.3 |
-| Código | Parâmetros de tipo (generics) | texto 4.5:1 | 4.5 | 4.5 | 4.6 | 4.6 | 4.6 | 4.5 | 4.5 | 4.5 |
-| Código | Parâmetros de tipo, sob uma seleção | auxiliar 3:1 | 3.4 | 3.5 | 3.5 | 3.5 | 3.4 | 3.3 | 3.2 | 3.3 |
+| Código | Toda tinta exceto comentários e parâmetros de tipo (a pior): `normal`, `operator`, `keyword` | corpo 7:1 | 7.1 | 7.0 | 7.0 | 7.2 | 7.0 | 7.0 | 7.0 | 7.2 |
+| Código | O mesmo, sob uma seleção: `normal`, `operator`, `keyword` | texto 4.5:1 | 5.4 | 5.4 | 5.4 | 5.4 | 5.2 | 5.1 | 5.2 | 5.3 |
+| Código | Parâmetros de tipo (generics) | texto 4.5:1 | 4.5 | 4.5 | 4.6 | 4.6 | 4.6 | 4.5 | 4.7 | 4.5 |
+| Código | Parâmetros de tipo, sob uma seleção | auxiliar 3:1 | 3.4 | 3.5 | 3.5 | 3.5 | 3.4 | 3.3 | 3.4 | 3.3 |
 | Código | Níveis de log no Output e em arquivos .log (o pior): `log.error` | texto 4.5:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Código | Comentários | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Código | Comentários, sob uma seleção | auxiliar 3:1 | 3.0 | 3.4 | 3.3 | 3.3 | 3.3 | 3.3 | 3.0 | 3.0 |
-| Foreground principal | `editor.foreground` no editor | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
-| Foreground principal | `foreground` no editor | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
-| Foreground principal | `foreground` na side bar | texto 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 7.4 | 7.2 |
-| Foreground secundário | `sideBar.foreground` | texto 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 6.1 | 6.0 |
-| Foreground secundário | `descriptionForeground` num widget | texto 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 5.9 | 5.8 |
-| CodeLens | No editor | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Inlay hints | No seu chip | auxiliar 3:1 | 3.8 | 4.2 | 4.2 | 4.2 | 4.2 | 4.3 | 4.0 | 3.9 |
-| Inlay hints | No seu chip, na linha atual | auxiliar 3:1 | 3.7 | 4.0 | 4.0 | 4.0 | 4.1 | 4.1 | 3.9 | 3.8 |
+| Código | Comentários | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Código | Comentários, sob uma seleção | auxiliar 3:1 | 3.0 | 3.4 | 3.3 | 3.3 | 3.3 | 3.3 | 3.3 | 3.0 |
+| Foreground principal | `editor.foreground` no editor | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
+| Foreground principal | `foreground` no editor | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
+| Foreground principal | `foreground` na side bar | texto 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 9.3 | 7.2 |
+| Foreground secundário | `sideBar.foreground` | texto 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 7.2 | 6.0 |
+| Foreground secundário | `descriptionForeground` num widget | texto 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 6.8 | 5.8 |
+| CodeLens | No editor | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Inlay hints | No seu chip | auxiliar 3:1 | 3.8 | 4.2 | 4.2 | 4.2 | 4.2 | 4.3 | 4.3 | 3.9 |
+| Inlay hints | No seu chip, na linha atual | auxiliar 3:1 | 3.7 | 4.0 | 4.0 | 4.0 | 4.1 | 4.1 | 4.1 | 3.8 |
 | Diagnósticos | `editorError.foreground` (squiggle) | componente 3:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Diagnósticos | `editorWarning.foreground` (squiggle) | componente 3:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 12.3 | 11.9 |
-| Diagnósticos | `editorInfo.foreground` (squiggle) | componente 3:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 9.1 | 9.6 |
-| Diagnósticos | `editorHint.foreground` (squiggle) | componente 3:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.5 | 12.1 |
+| Diagnósticos | `editorWarning.foreground` (squiggle) | componente 3:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 13.6 | 11.9 |
+| Diagnósticos | `editorInfo.foreground` (squiggle) | componente 3:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 8.3 | 9.6 |
+| Diagnósticos | `editorHint.foreground` (squiggle) | componente 3:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.2 | 12.1 |
 | Diagnósticos | `list.errorForeground` (nome de arquivo) | texto 4.5:1 | 6.0 | 5.9 | 5.9 | 6.0 | 5.9 | 5.9 | 5.9 | 6.0 |
-| Diagnósticos | `list.warningForeground` (nome de arquivo) | texto 4.5:1 | 12.2 | 13.3 | 13.4 | 13.9 | 12.9 | 13.0 | 12.3 | 11.8 |
-| Terminal | `terminal.foreground` | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
+| Diagnósticos | `list.warningForeground` (nome de arquivo) | texto 4.5:1 | 12.2 | 13.3 | 13.4 | 13.9 | 12.9 | 13.0 | 13.5 | 11.8 |
+| Terminal | `terminal.foreground` | corpo 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
 | Terminal | ANSI Red | texto 4.5:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Terminal | ANSI Green | texto 4.5:1 | 11.7 | 14.7 | 8.9 | 12.8 | 10.6 | 12.5 | 12.6 | 11.8 |
-| Terminal | ANSI Yellow | texto 4.5:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 12.3 | 11.9 |
-| Terminal | ANSI Blue | texto 4.5:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 9.1 | 9.6 |
-| Terminal | ANSI Magenta | texto 4.5:1 | 8.0 | 7.2 | 7.0 | 7.2 | 8.0 | 7.8 | 8.7 | 8.9 |
-| Terminal | ANSI Cyan | texto 4.5:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.5 | 12.1 |
-| Terminal | ANSI White | texto 4.5:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
+| Terminal | ANSI Green | texto 4.5:1 | 11.7 | 14.7 | 8.9 | 12.8 | 10.6 | 12.5 | 9.5 | 11.8 |
+| Terminal | ANSI Yellow | texto 4.5:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 13.6 | 11.9 |
+| Terminal | ANSI Blue | texto 4.5:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 8.3 | 9.6 |
+| Terminal | ANSI Magenta | texto 4.5:1 | 8.0 | 7.2 | 7.0 | 7.2 | 8.0 | 7.8 | 7.9 | 8.9 |
+| Terminal | ANSI Cyan | texto 4.5:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.2 | 12.1 |
+| Terminal | ANSI White | texto 4.5:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
 | Terminal | ANSI BrightRed | texto 4.5:1 | 9.1 | 9.0 | 9.1 | 9.2 | 9.1 | 9.0 | 9.0 | 9.2 |
-| Terminal | ANSI BrightGreen | texto 4.5:1 | 14.4 | 18.2 | 11.6 | 16.4 | 13.8 | 16.1 | 15.5 | 14.6 |
-| Terminal | ANSI BrightYellow | texto 4.5:1 | 15.9 | 17.3 | 17.4 | 18.0 | 16.9 | 17.0 | 16.0 | 15.5 |
-| Terminal | ANSI BrightBlue | texto 4.5:1 | 12.0 | 11.1 | 11.3 | 11.2 | 13.9 | 11.1 | 11.9 | 12.3 |
-| Terminal | ANSI BrightMagenta | texto 4.5:1 | 10.0 | 9.8 | 9.7 | 9.8 | 10.8 | 10.5 | 11.2 | 11.4 |
+| Terminal | ANSI BrightGreen | texto 4.5:1 | 14.4 | 18.2 | 11.6 | 16.4 | 13.8 | 16.1 | 12.5 | 14.6 |
+| Terminal | ANSI BrightYellow | texto 4.5:1 | 15.9 | 17.3 | 17.4 | 18.0 | 16.9 | 17.0 | 17.5 | 15.5 |
+| Terminal | ANSI BrightBlue | texto 4.5:1 | 12.0 | 11.1 | 11.3 | 11.2 | 13.9 | 11.1 | 11.1 | 12.3 |
+| Terminal | ANSI BrightMagenta | texto 4.5:1 | 10.0 | 9.8 | 9.7 | 9.8 | 10.8 | 10.5 | 10.6 | 11.4 |
 | Terminal | ANSI BrightCyan | texto 4.5:1 | 15.2 | 16.4 | 18.4 | 11.6 | 18.4 | 14.1 | 15.6 | 15.3 |
-| Terminal | ANSI BrightWhite | texto 4.5:1 | 17.5 | 18.2 | 18.1 | 18.2 | 18.2 | 18.2 | 17.6 | 17.5 |
-| Terminal | ANSI BrightBlack (saída esmaecida) | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Terminal | Texto sob uma seleção | texto 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 5.3 | 5.3 |
-| Chat | Um pedido, no seu balão | texto 4.5:1 | 6.7 | 8.6 | 8.6 | 8.6 | 8.6 | 8.7 | 6.9 | 6.8 |
-| Chat | Um slash command, num pedido | texto 4.5:1 | 7.0 | 9.2 | 9.1 | 9.2 | 9.0 | 9.0 | 7.1 | 7.0 |
-| Chat | Chat inline | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Chat | Placeholder do chat inline | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
-| Agents | O painel Agents | texto 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 6.1 | 6.0 |
-| Agents | A sessão ativa | texto 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 7.4 | 7.2 |
-| Agents | Uma sessão inativa | texto 4.5:1 | 6.0 | 7.1 | 7.1 | 7.1 | 7.1 | 7.3 | 6.2 | 6.0 |
-| Agents | O input do chat | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Agents | O placeholder do input | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
+| Terminal | ANSI BrightWhite | texto 4.5:1 | 17.5 | 18.2 | 18.1 | 18.2 | 18.2 | 18.2 | 18.2 | 17.5 |
+| Terminal | ANSI BrightBlack (saída esmaecida) | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Terminal | Texto sob uma seleção | texto 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 6.9 | 5.3 |
+| Chat | Um pedido, no seu balão | texto 4.5:1 | 6.7 | 8.6 | 8.6 | 8.6 | 8.6 | 8.7 | 8.7 | 6.8 |
+| Chat | Um slash command, num pedido | texto 4.5:1 | 7.0 | 9.2 | 9.1 | 9.2 | 9.0 | 9.0 | 9.1 | 7.0 |
+| Chat | Chat inline | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Chat | Placeholder do chat inline | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
+| Agents | O painel Agents | texto 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 7.2 | 6.0 |
+| Agents | A sessão ativa | texto 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 9.3 | 7.2 |
+| Agents | Uma sessão inativa | texto 4.5:1 | 6.0 | 7.1 | 7.1 | 7.1 | 7.1 | 7.3 | 7.3 | 6.0 |
+| Agents | O input do chat | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Agents | O placeholder do input | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
 | Botões | Primário | texto 4.5:1 | 4.9 | 5.1 | 5.0 | 5.0 | 4.7 | 4.7 | 4.6 | 4.6 |
-| Botões | Primário, sob o ponteiro | texto 4.5:1 | 10.3 | 10.4 | 10.2 | 10.2 | 9.9 | 9.8 | 9.9 | 10.0 |
-| Botões | Secundário | texto 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 7.5 | 7.5 |
-| Botões | Um checkbox | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Seleções | Texto na seleção do editor | texto 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 5.3 | 5.3 |
-| Seleções | A linha selecionada de uma lista | texto 4.5:1 | 8.0 | 10.3 | 10.4 | 10.4 | 10.3 | 10.4 | 8.2 | 8.1 |
-| Seleções | O item selecionado de um menu | texto 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 7.5 | 7.5 |
+| Botões | Primário, sob o ponteiro | texto 4.5:1 | 10.3 | 10.4 | 10.2 | 10.2 | 9.9 | 9.8 | 9.6 | 10.0 |
+| Botões | Secundário | texto 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 9.7 | 7.5 |
+| Botões | Um checkbox | texto 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Seleções | Texto na seleção do editor | texto 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 6.9 | 5.3 |
+| Seleções | A linha selecionada de uma lista | texto 4.5:1 | 8.0 | 10.3 | 10.4 | 10.4 | 10.3 | 10.4 | 10.3 | 8.1 |
+| Seleções | O item selecionado de um menu | texto 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 9.7 | 7.5 |
 | Foco | O anel, sobre o editor | componente 3:1 | 4.3 | 4.0 | 4.2 | 4.1 | 4.4 | 4.5 | 4.5 | 4.5 |
 | Foco | O anel, sobre a side bar | componente 3:1 | 4.2 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
 | Foco | O anel, sobre a activity bar | componente 3:1 | 4.3 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
-| Foco | O anel, sobre a status bar | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
-| Foco | O anel, sobre um widget | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
-| Foco | O anel, sobre um input | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
+| Foco | O anel, sobre a status bar | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
+| Foco | O anel, sobre um widget | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
+| Foco | O anel, sobre um input | componente 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
 | Foco | A linha focada de uma lista | componente 3:1 | 4.2 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
-| Números de linha | Um número de linha | auxiliar 3:1 | 3.1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.0 | 3.1 |
-| Números de linha | O número da linha do cursor | texto 4.5:1 | 8.7 | 10.8 | 10.7 | 10.7 | 10.9 | 11.5 | 9.2 | 8.8 |
-| Ícones | Um ícone inativo da activity bar | componente 3:1 | 3.0 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.0 | 3.0 |
-| Placeholders | Num input | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
-| Placeholders | Num editor vazio | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Placeholders | Ghost text (uma sugestão) | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Desabilitado | `disabledForeground` | isento | 2.5 | 2.9 | 2.9 | 2.9 | 2.9 | 3.0 | 2.5 | 2.5 |
+| Números de linha | Um número de linha | auxiliar 3:1 | 3.1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.5 | 3.1 |
+| Números de linha | O número da linha do cursor | texto 4.5:1 | 8.7 | 10.8 | 10.7 | 10.7 | 10.9 | 11.5 | 11.4 | 8.8 |
+| Ícones | Um ícone inativo da activity bar | componente 3:1 | 3.0 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.5 | 3.0 |
+| Placeholders | Num input | auxiliar 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
+| Placeholders | Num editor vazio | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Placeholders | Ghost text (uma sugestão) | auxiliar 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Desabilitado | `disabledForeground` | isento | 2.5 | 2.9 | 2.9 | 2.9 | 2.9 | 3.0 | 2.9 | 2.5 |
 | Desabilitado | Espaços renderizados | isento | 1.4 | 1.5 | 1.5 | 1.5 | 1.5 | 1.6 | 1.5 | 1.4 |
-| Status bar | Um item | texto 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 5.9 | 5.8 |
-| Status bar | Durante o debug | texto 4.5:1 | 5.0 | 5.8 | 5.8 | 5.8 | 5.6 | 5.6 | 4.9 | 5.0 |
-| Status bar | Um item de erro | texto 4.5:1 | 10.8 | 10.8 | 10.6 | 10.6 | 10.7 | 11.4 | 11.1 | 11.0 |
-| Status bar | Um item de aviso | texto 4.5:1 | 7.8 | 7.6 | 7.5 | 7.2 | 7.4 | 7.5 | 7.7 | 7.9 |
+| Status bar | Um item | texto 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 6.8 | 5.8 |
+| Status bar | Durante o debug | texto 4.5:1 | 5.0 | 5.8 | 5.8 | 5.8 | 5.6 | 5.6 | 5.8 | 5.0 |
+| Status bar | Um item de erro | texto 4.5:1 | 10.8 | 10.8 | 10.6 | 10.6 | 10.7 | 11.4 | 11.4 | 11.0 |
+| Status bar | Um item de aviso | texto 4.5:1 | 7.8 | 7.6 | 7.5 | 7.2 | 7.4 | 7.5 | 7.4 | 7.9 |
 
 ## Sem cor
 
@@ -111,16 +111,16 @@ Os sinais que diferem pelo matiz, simulados para as três deficiências mais com
 | Sinais | Outra pista | Normal | Protanopia | Deuteranopia | Tritanopia |
 | --- | --- | ---: | ---: | ---: | ---: |
 | `editorError.foreground` / `editorWarning.foreground` | nenhuma — só cor | 25 | 25 | 17 | 23 |
-| `editorError.foreground` / `editorInfo.foreground` | nenhuma — só cor | 32 | 26 | 20 | 38 |
-| `editorWarning.foreground` / `editorInfo.foreground` | nenhuma — só cor | 28 | 22 | 27 | 19 |
+| `editorError.foreground` / `editorInfo.foreground` | nenhuma — só cor | 33 | 26 | 20 | 38 |
+| `editorWarning.foreground` / `editorInfo.foreground` | nenhuma — só cor | 28 | 22 | 27 | 23 |
 | `editorError.foreground` / `editorHint.foreground` | hints são pontos, não squiggle | 33 | 23 | 15 | 39 |
-| `gitDecoration.addedResourceForeground` / `gitDecoration.deletedResourceForeground` | as letras A e D; a remoção é riscada | 31 | 22 | 9 | 35 |
+| `gitDecoration.addedResourceForeground` / `gitDecoration.deletedResourceForeground` | as letras A e D; a remoção é riscada | 31 | 22 | 9 | 36 |
 | `gitDecoration.addedResourceForeground` / `gitDecoration.modifiedResourceForeground` | as letras A/U e M | 14 | 13 | 15 | 3 |
-| `gitDecoration.modifiedResourceForeground` / `gitDecoration.deletedResourceForeground` | as letras M e D | 32 | 26 | 20 | 38 |
-| `gitDecoration.conflictingResourceForeground` / `gitDecoration.addedResourceForeground` | a letra C / ! | 9 | 4 | 8 | 8 |
+| `gitDecoration.modifiedResourceForeground` / `gitDecoration.deletedResourceForeground` | as letras M e D | 33 | 26 | 20 | 38 |
+| `gitDecoration.conflictingResourceForeground` / `gitDecoration.addedResourceForeground` | a letra C / ! | 15 | 4 | 8 | 17 |
 | `editorGutter.addedBackground` / `editorGutter.modifiedBackground` | a barra de modificação é hachurada | 14 | 13 | 15 | 3 |
-| `editorGutter.addedBackground` / `editorGutter.deletedBackground` | a remoção é um triângulo | 31 | 22 | 9 | 35 |
-| `testing.iconPassed` / `testing.iconFailed` | um tique e um xis | 31 | 22 | 9 | 35 |
+| `editorGutter.addedBackground` / `editorGutter.deletedBackground` | a remoção é um triângulo | 31 | 22 | 9 | 36 |
+| `testing.iconPassed` / `testing.iconFailed` | um tique e um xis | 31 | 22 | 9 | 36 |
 
 ## Ambientes
 
@@ -131,7 +131,7 @@ Uma tela com metade do brilho, modelada como o dobro do reflexo que a WCAG assum
 | Texto no editor | 7.1 | 4.1 |
 | Comentários no editor | 4.0 | 2.5 |
 | Parâmetros de tipo no editor | 4.5 | 2.8 |
-| Números de linha | 3.0 | 2.0 |
+| Números de linha | 3.1 | 2.0 |
 
 Em OLED, o fundo do editor nunca é `#000000`, mas o seu canal mais claro fica poucos passos acima de zero, então quase tudo fica perto de apagado: a rolagem rápida pode borrar ali, como em qualquer tema ultra-escuro. Isso é a identidade, não um defeito que esta auditoria tenta corrigir. O que um painel com pouco brilho também pode esmagar é um fundo quase preto que precisa ser visto contra o editor; cada um aparece aqui pela sua distância do editor em ΔE:
 
@@ -143,7 +143,7 @@ Em OLED, o fundo do editor nunca é `#000000`, mas o seu canal mais claro fica p
 | Red | `#050101` | 5 | 6.1 | 7.6 | 19.0 |
 | Orange | `#040201` | 4 | 5.6 | 7.0 | 18.2 |
 | Green | `#000301` | 3 | 6.5 | 7.3 | 18.5 |
-| Cyan | `#000303` | 3 | 4.5 | 5.8 | 18.4 |
+| Cyan | `#000305` | 5 | 5.8 | 7.0 | 17.6 |
 | Blue | `#000209` | 9 | 4.6 | 5.6 | 18.9 |
 
 Zoom, escala da UI, zoom do editor e outras fontes monoespaçadas não mudam uma cor, então são revisados, não medidos: o tema foi visto no VS Code com a janela ampliada, a fonte do editor aumentada, e em Consolas, Cascadia Mono, Courier New e Lucida Console, para confirmar que keywords bold italic, o riscado e as marcas finas (squiggles, anéis de foco, guias de colchetes) sobrevivem a cada uma.

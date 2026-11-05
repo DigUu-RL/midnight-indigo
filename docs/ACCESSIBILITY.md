@@ -20,79 +20,79 @@ Each ratio is measured as VS Code paints it: an overlay is composited over what 
 
 | Area | Pair | Target | Indigo | Purple | Pink | Red | Orange | Green | Cyan | Blue |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Code | Every ink but comments and type parameters (the worst): `normal`, `operator`, `keyword` | body 7:1 | 7.1 | 7.0 | 7.0 | 7.2 | 7.0 | 7.0 | 7.4 | 7.2 |
-| Code | The same, under a selection: `normal`, `operator`, `keyword` | text 4.5:1 | 5.4 | 5.4 | 5.4 | 5.4 | 5.2 | 5.1 | 5.3 | 5.3 |
-| Code | Type parameters (generics) | text 4.5:1 | 4.5 | 4.5 | 4.6 | 4.6 | 4.6 | 4.5 | 4.5 | 4.5 |
-| Code | Type parameters, under a selection | auxiliary 3:1 | 3.4 | 3.5 | 3.5 | 3.5 | 3.4 | 3.3 | 3.2 | 3.3 |
+| Code | Every ink but comments and type parameters (the worst): `normal`, `operator`, `keyword` | body 7:1 | 7.1 | 7.0 | 7.0 | 7.2 | 7.0 | 7.0 | 7.0 | 7.2 |
+| Code | The same, under a selection: `normal`, `operator`, `keyword` | text 4.5:1 | 5.4 | 5.4 | 5.4 | 5.4 | 5.2 | 5.1 | 5.2 | 5.3 |
+| Code | Type parameters (generics) | text 4.5:1 | 4.5 | 4.5 | 4.6 | 4.6 | 4.6 | 4.5 | 4.7 | 4.5 |
+| Code | Type parameters, under a selection | auxiliary 3:1 | 3.4 | 3.5 | 3.5 | 3.5 | 3.4 | 3.3 | 3.4 | 3.3 |
 | Code | Log levels in the Output view and .log files (the worst): `log.error` | text 4.5:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Code | Comments | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Code | Comments, under a selection | auxiliary 3:1 | 3.0 | 3.4 | 3.3 | 3.3 | 3.3 | 3.3 | 3.0 | 3.0 |
-| Main foreground | `editor.foreground` on the editor | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
-| Main foreground | `foreground` on the editor | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
-| Main foreground | `foreground` on the side bar | text 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 7.4 | 7.2 |
-| Secondary foreground | `sideBar.foreground` | text 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 6.1 | 6.0 |
-| Secondary foreground | `descriptionForeground` on a widget | text 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 5.9 | 5.8 |
-| CodeLens | On the editor | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Inlay hints | On its chip | auxiliary 3:1 | 3.8 | 4.2 | 4.2 | 4.2 | 4.2 | 4.3 | 4.0 | 3.9 |
-| Inlay hints | On its chip, on the current line | auxiliary 3:1 | 3.7 | 4.0 | 4.0 | 4.0 | 4.1 | 4.1 | 3.9 | 3.8 |
+| Code | Comments | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Code | Comments, under a selection | auxiliary 3:1 | 3.0 | 3.4 | 3.3 | 3.3 | 3.3 | 3.3 | 3.3 | 3.0 |
+| Main foreground | `editor.foreground` on the editor | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
+| Main foreground | `foreground` on the editor | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
+| Main foreground | `foreground` on the side bar | text 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 9.3 | 7.2 |
+| Secondary foreground | `sideBar.foreground` | text 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 7.2 | 6.0 |
+| Secondary foreground | `descriptionForeground` on a widget | text 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 6.8 | 5.8 |
+| CodeLens | On the editor | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Inlay hints | On its chip | auxiliary 3:1 | 3.8 | 4.2 | 4.2 | 4.2 | 4.2 | 4.3 | 4.3 | 3.9 |
+| Inlay hints | On its chip, on the current line | auxiliary 3:1 | 3.7 | 4.0 | 4.0 | 4.0 | 4.1 | 4.1 | 4.1 | 3.8 |
 | Diagnostics | `editorError.foreground` (squiggle) | component 3:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Diagnostics | `editorWarning.foreground` (squiggle) | component 3:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 12.3 | 11.9 |
-| Diagnostics | `editorInfo.foreground` (squiggle) | component 3:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 9.1 | 9.6 |
-| Diagnostics | `editorHint.foreground` (squiggle) | component 3:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.5 | 12.1 |
+| Diagnostics | `editorWarning.foreground` (squiggle) | component 3:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 13.6 | 11.9 |
+| Diagnostics | `editorInfo.foreground` (squiggle) | component 3:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 8.3 | 9.6 |
+| Diagnostics | `editorHint.foreground` (squiggle) | component 3:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.2 | 12.1 |
 | Diagnostics | `list.errorForeground` (a file name) | text 4.5:1 | 6.0 | 5.9 | 5.9 | 6.0 | 5.9 | 5.9 | 5.9 | 6.0 |
-| Diagnostics | `list.warningForeground` (a file name) | text 4.5:1 | 12.2 | 13.3 | 13.4 | 13.9 | 12.9 | 13.0 | 12.3 | 11.8 |
-| Terminal | `terminal.foreground` | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
+| Diagnostics | `list.warningForeground` (a file name) | text 4.5:1 | 12.2 | 13.3 | 13.4 | 13.9 | 12.9 | 13.0 | 13.5 | 11.8 |
+| Terminal | `terminal.foreground` | body 7:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
 | Terminal | ANSI Red | text 4.5:1 | 6.0 | 6.0 | 6.0 | 6.1 | 6.0 | 6.0 | 6.0 | 6.1 |
-| Terminal | ANSI Green | text 4.5:1 | 11.7 | 14.7 | 8.9 | 12.8 | 10.6 | 12.5 | 12.6 | 11.8 |
-| Terminal | ANSI Yellow | text 4.5:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 12.3 | 11.9 |
-| Terminal | ANSI Blue | text 4.5:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 9.1 | 9.6 |
-| Terminal | ANSI Magenta | text 4.5:1 | 8.0 | 7.2 | 7.0 | 7.2 | 8.0 | 7.8 | 8.7 | 8.9 |
-| Terminal | ANSI Cyan | text 4.5:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.5 | 12.1 |
-| Terminal | ANSI White | text 4.5:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 7.4 | 7.2 |
+| Terminal | ANSI Green | text 4.5:1 | 11.7 | 14.7 | 8.9 | 12.8 | 10.6 | 12.5 | 9.5 | 11.8 |
+| Terminal | ANSI Yellow | text 4.5:1 | 12.3 | 13.4 | 13.5 | 14.1 | 13.0 | 13.1 | 13.6 | 11.9 |
+| Terminal | ANSI Blue | text 4.5:1 | 9.3 | 8.4 | 8.5 | 8.4 | 10.7 | 8.4 | 8.3 | 9.6 |
+| Terminal | ANSI Magenta | text 4.5:1 | 8.0 | 7.2 | 7.0 | 7.2 | 8.0 | 7.8 | 7.9 | 8.9 |
+| Terminal | ANSI Cyan | text 4.5:1 | 12.1 | 12.9 | 15.0 | 8.8 | 16.3 | 10.9 | 12.2 | 12.1 |
+| Terminal | ANSI White | text 4.5:1 | 7.1 | 9.2 | 9.2 | 9.2 | 9.3 | 9.4 | 9.4 | 7.2 |
 | Terminal | ANSI BrightRed | text 4.5:1 | 9.1 | 9.0 | 9.1 | 9.2 | 9.1 | 9.0 | 9.0 | 9.2 |
-| Terminal | ANSI BrightGreen | text 4.5:1 | 14.4 | 18.2 | 11.6 | 16.4 | 13.8 | 16.1 | 15.5 | 14.6 |
-| Terminal | ANSI BrightYellow | text 4.5:1 | 15.9 | 17.3 | 17.4 | 18.0 | 16.9 | 17.0 | 16.0 | 15.5 |
-| Terminal | ANSI BrightBlue | text 4.5:1 | 12.0 | 11.1 | 11.3 | 11.2 | 13.9 | 11.1 | 11.9 | 12.3 |
-| Terminal | ANSI BrightMagenta | text 4.5:1 | 10.0 | 9.8 | 9.7 | 9.8 | 10.8 | 10.5 | 11.2 | 11.4 |
+| Terminal | ANSI BrightGreen | text 4.5:1 | 14.4 | 18.2 | 11.6 | 16.4 | 13.8 | 16.1 | 12.5 | 14.6 |
+| Terminal | ANSI BrightYellow | text 4.5:1 | 15.9 | 17.3 | 17.4 | 18.0 | 16.9 | 17.0 | 17.5 | 15.5 |
+| Terminal | ANSI BrightBlue | text 4.5:1 | 12.0 | 11.1 | 11.3 | 11.2 | 13.9 | 11.1 | 11.1 | 12.3 |
+| Terminal | ANSI BrightMagenta | text 4.5:1 | 10.0 | 9.8 | 9.7 | 9.8 | 10.8 | 10.5 | 10.6 | 11.4 |
 | Terminal | ANSI BrightCyan | text 4.5:1 | 15.2 | 16.4 | 18.4 | 11.6 | 18.4 | 14.1 | 15.6 | 15.3 |
-| Terminal | ANSI BrightWhite | text 4.5:1 | 17.5 | 18.2 | 18.1 | 18.2 | 18.2 | 18.2 | 17.6 | 17.5 |
-| Terminal | ANSI BrightBlack (dimmed output) | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Terminal | Text under a selection | text 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 5.3 | 5.3 |
-| Chat | A request, in its bubble | text 4.5:1 | 6.7 | 8.6 | 8.6 | 8.6 | 8.6 | 8.7 | 6.9 | 6.8 |
-| Chat | A slash command, in a request | text 4.5:1 | 7.0 | 9.2 | 9.1 | 9.2 | 9.0 | 9.0 | 7.1 | 7.0 |
-| Chat | Inline chat | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Chat | Inline chat placeholder | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
-| Agents | The Agents panel | text 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 6.1 | 6.0 |
-| Agents | The active session | text 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 7.4 | 7.2 |
-| Agents | An inactive session | text 4.5:1 | 6.0 | 7.1 | 7.1 | 7.1 | 7.1 | 7.3 | 6.2 | 6.0 |
-| Agents | The chat input | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Agents | The chat input placeholder | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
+| Terminal | ANSI BrightWhite | text 4.5:1 | 17.5 | 18.2 | 18.1 | 18.2 | 18.2 | 18.2 | 18.2 | 17.5 |
+| Terminal | ANSI BrightBlack (dimmed output) | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Terminal | Text under a selection | text 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 6.9 | 5.3 |
+| Chat | A request, in its bubble | text 4.5:1 | 6.7 | 8.6 | 8.6 | 8.6 | 8.6 | 8.7 | 8.7 | 6.8 |
+| Chat | A slash command, in a request | text 4.5:1 | 7.0 | 9.2 | 9.1 | 9.2 | 9.0 | 9.0 | 9.1 | 7.0 |
+| Chat | Inline chat | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Chat | Inline chat placeholder | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
+| Agents | The Agents panel | text 4.5:1 | 5.9 | 7.0 | 7.0 | 7.1 | 7.1 | 7.2 | 7.2 | 6.0 |
+| Agents | The active session | text 4.5:1 | 7.1 | 9.1 | 9.1 | 9.1 | 9.2 | 9.3 | 9.3 | 7.2 |
+| Agents | An inactive session | text 4.5:1 | 6.0 | 7.1 | 7.1 | 7.1 | 7.1 | 7.3 | 7.3 | 6.0 |
+| Agents | The chat input | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Agents | The chat input placeholder | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
 | Buttons | Primary | text 4.5:1 | 4.9 | 5.1 | 5.0 | 5.0 | 4.7 | 4.7 | 4.6 | 4.6 |
-| Buttons | Primary, under the pointer | text 4.5:1 | 10.3 | 10.4 | 10.2 | 10.2 | 9.9 | 9.8 | 9.9 | 10.0 |
-| Buttons | Secondary | text 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 7.5 | 7.5 |
-| Buttons | A checkbox | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 7.1 | 6.9 |
-| Selections | Text on the editor selection | text 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 5.3 | 5.3 |
-| Selections | The selected row of a list | text 4.5:1 | 8.0 | 10.3 | 10.4 | 10.4 | 10.3 | 10.4 | 8.2 | 8.1 |
-| Selections | The selected item of a menu | text 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 7.5 | 7.5 |
+| Buttons | Primary, under the pointer | text 4.5:1 | 10.3 | 10.4 | 10.2 | 10.2 | 9.9 | 9.8 | 9.6 | 10.0 |
+| Buttons | Secondary | text 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 9.7 | 7.5 |
+| Buttons | A checkbox | text 4.5:1 | 6.8 | 8.7 | 8.7 | 8.7 | 8.7 | 8.8 | 8.8 | 6.9 |
+| Selections | Text on the editor selection | text 4.5:1 | 5.4 | 7.0 | 7.1 | 7.0 | 6.9 | 6.8 | 6.9 | 5.3 |
+| Selections | The selected row of a list | text 4.5:1 | 8.0 | 10.3 | 10.4 | 10.4 | 10.3 | 10.4 | 10.3 | 8.1 |
+| Selections | The selected item of a menu | text 4.5:1 | 7.5 | 9.7 | 9.6 | 9.6 | 9.6 | 9.6 | 9.7 | 7.5 |
 | Focus | The ring, on the editor | component 3:1 | 4.3 | 4.0 | 4.2 | 4.1 | 4.4 | 4.5 | 4.5 | 4.5 |
 | Focus | The ring, on the side bar | component 3:1 | 4.2 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
 | Focus | The ring, on the activity bar | component 3:1 | 4.3 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
-| Focus | The ring, on the status bar | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
-| Focus | The ring, on a widget | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
-| Focus | The ring, on an input | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.3 | 4.3 |
+| Focus | The ring, on the status bar | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
+| Focus | The ring, on a widget | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
+| Focus | The ring, on an input | component 3:1 | 4.1 | 3.8 | 3.9 | 3.9 | 4.1 | 4.2 | 4.2 | 4.3 |
 | Focus | The focused row of a list | component 3:1 | 4.2 | 4.0 | 4.1 | 4.1 | 4.4 | 4.4 | 4.5 | 4.5 |
-| Line numbers | A line number | auxiliary 3:1 | 3.1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.0 | 3.1 |
-| Line numbers | The cursor's line number | text 4.5:1 | 8.7 | 10.8 | 10.7 | 10.7 | 10.9 | 11.5 | 9.2 | 8.8 |
-| Icons | An inactive activity-bar icon | component 3:1 | 3.0 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.0 | 3.0 |
-| Placeholders | In an input | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.0 | 3.9 |
-| Placeholders | In an empty editor | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Placeholders | Ghost text (a suggestion) | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.2 | 4.1 |
-| Disabled | `disabledForeground` | exempt | 2.5 | 2.9 | 2.9 | 2.9 | 2.9 | 3.0 | 2.5 | 2.5 |
+| Line numbers | A line number | auxiliary 3:1 | 3.1 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.5 | 3.1 |
+| Line numbers | The cursor's line number | text 4.5:1 | 8.7 | 10.8 | 10.7 | 10.7 | 10.9 | 11.5 | 11.4 | 8.8 |
+| Icons | An inactive activity-bar icon | component 3:1 | 3.0 | 3.4 | 3.4 | 3.4 | 3.4 | 3.5 | 3.5 | 3.0 |
+| Placeholders | In an input | auxiliary 3:1 | 3.8 | 4.2 | 4.1 | 4.1 | 4.2 | 4.2 | 4.2 | 3.9 |
+| Placeholders | In an empty editor | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Placeholders | Ghost text (a suggestion) | auxiliary 3:1 | 4.0 | 4.4 | 4.3 | 4.4 | 4.4 | 4.5 | 4.5 | 4.1 |
+| Disabled | `disabledForeground` | exempt | 2.5 | 2.9 | 2.9 | 2.9 | 2.9 | 3.0 | 2.9 | 2.5 |
 | Disabled | Rendered whitespace | exempt | 1.4 | 1.5 | 1.5 | 1.5 | 1.5 | 1.6 | 1.5 | 1.4 |
-| Status bar | An item | text 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 5.9 | 5.8 |
-| Status bar | While debugging | text 4.5:1 | 5.0 | 5.8 | 5.8 | 5.8 | 5.6 | 5.6 | 4.9 | 5.0 |
-| Status bar | An error item | text 4.5:1 | 10.8 | 10.8 | 10.6 | 10.6 | 10.7 | 11.4 | 11.1 | 11.0 |
-| Status bar | A warning item | text 4.5:1 | 7.8 | 7.6 | 7.5 | 7.2 | 7.4 | 7.5 | 7.7 | 7.9 |
+| Status bar | An item | text 4.5:1 | 5.7 | 6.7 | 6.7 | 6.7 | 6.7 | 6.9 | 6.8 | 5.8 |
+| Status bar | While debugging | text 4.5:1 | 5.0 | 5.8 | 5.8 | 5.8 | 5.6 | 5.6 | 5.8 | 5.0 |
+| Status bar | An error item | text 4.5:1 | 10.8 | 10.8 | 10.6 | 10.6 | 10.7 | 11.4 | 11.4 | 11.0 |
+| Status bar | A warning item | text 4.5:1 | 7.8 | 7.6 | 7.5 | 7.2 | 7.4 | 7.5 | 7.4 | 7.9 |
 
 ## Without colour
 
@@ -111,16 +111,16 @@ The signals that do differ by hue, simulated for the three common deficiencies (
 | Signals | Other cue | Normal | Protanopia | Deuteranopia | Tritanopia |
 | --- | --- | ---: | ---: | ---: | ---: |
 | `editorError.foreground` / `editorWarning.foreground` | none — colour only | 25 | 25 | 17 | 23 |
-| `editorError.foreground` / `editorInfo.foreground` | none — colour only | 32 | 26 | 20 | 38 |
-| `editorWarning.foreground` / `editorInfo.foreground` | none — colour only | 28 | 22 | 27 | 19 |
+| `editorError.foreground` / `editorInfo.foreground` | none — colour only | 33 | 26 | 20 | 38 |
+| `editorWarning.foreground` / `editorInfo.foreground` | none — colour only | 28 | 22 | 27 | 23 |
 | `editorError.foreground` / `editorHint.foreground` | hints are dots, not a squiggle | 33 | 23 | 15 | 39 |
-| `gitDecoration.addedResourceForeground` / `gitDecoration.deletedResourceForeground` | the letters A and D; a deletion is struck through | 31 | 22 | 9 | 35 |
+| `gitDecoration.addedResourceForeground` / `gitDecoration.deletedResourceForeground` | the letters A and D; a deletion is struck through | 31 | 22 | 9 | 36 |
 | `gitDecoration.addedResourceForeground` / `gitDecoration.modifiedResourceForeground` | the letters A/U and M | 14 | 13 | 15 | 3 |
-| `gitDecoration.modifiedResourceForeground` / `gitDecoration.deletedResourceForeground` | the letters M and D | 32 | 26 | 20 | 38 |
-| `gitDecoration.conflictingResourceForeground` / `gitDecoration.addedResourceForeground` | the letter C / ! | 9 | 4 | 8 | 8 |
+| `gitDecoration.modifiedResourceForeground` / `gitDecoration.deletedResourceForeground` | the letters M and D | 33 | 26 | 20 | 38 |
+| `gitDecoration.conflictingResourceForeground` / `gitDecoration.addedResourceForeground` | the letter C / ! | 15 | 4 | 8 | 17 |
 | `editorGutter.addedBackground` / `editorGutter.modifiedBackground` | a modified bar is hatched | 14 | 13 | 15 | 3 |
-| `editorGutter.addedBackground` / `editorGutter.deletedBackground` | a deletion is a triangle | 31 | 22 | 9 | 35 |
-| `testing.iconPassed` / `testing.iconFailed` | a tick and a cross | 31 | 22 | 9 | 35 |
+| `editorGutter.addedBackground` / `editorGutter.deletedBackground` | a deletion is a triangle | 31 | 22 | 9 | 36 |
+| `testing.iconPassed` / `testing.iconFailed` | a tick and a cross | 31 | 22 | 9 | 36 |
 
 ## Environments
 
@@ -131,7 +131,7 @@ A screen at half brightness, modelled as doubling the flare WCAG assumes (see th
 | Body text on the editor | 7.1 | 4.1 |
 | Comments on the editor | 4.0 | 2.5 |
 | Type parameters on the editor | 4.5 | 2.8 |
-| Line numbers | 3.0 | 2.0 |
+| Line numbers | 3.1 | 2.0 |
 
 On OLED, the editor ground is never `#000000`, but its brightest channel is a few steps above zero, so most of it is close to switched off: fast scrolling can smear there, as it can with any ultra-dark theme. That is the identity, not a defect this audit tries to fix. What a dim panel can also crush is a near-black ground that has to be seen against the editor; each is shown here as its distance from the editor in ΔE:
 
@@ -143,7 +143,7 @@ On OLED, the editor ground is never `#000000`, but its brightest channel is a fe
 | Red | `#050101` | 5 | 6.1 | 7.6 | 19.0 |
 | Orange | `#040201` | 4 | 5.6 | 7.0 | 18.2 |
 | Green | `#000301` | 3 | 6.5 | 7.3 | 18.5 |
-| Cyan | `#000303` | 3 | 4.5 | 5.8 | 18.4 |
+| Cyan | `#000305` | 5 | 5.8 | 7.0 | 17.6 |
 | Blue | `#000209` | 9 | 4.6 | 5.6 | 18.9 |
 
 Zoom, UI scale, editor zoom and other monospace fonts cannot change a colour, so they are reviewed rather than measured: the theme was looked at in VS Code with the window zoomed, the editor font enlarged, and in Consolas, Cascadia Mono, Courier New and Lucida Console, to confirm that bold italic keywords, strikethrough and the thin marks (squiggles, focus rings, bracket guides) survive each.

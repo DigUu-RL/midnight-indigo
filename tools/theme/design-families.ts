@@ -255,23 +255,37 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 95, l: 0.85, c: 0.18 },
     error: { h: 25, l: 0.66, c: 0.22 },
   },
-  /* Abissal (#20): a surface-cyan keyword, jade types and seaweed strings; coral numbers, shell-pink enum members, sand interfaces, deep-blue functions. */
+  /*
+   * Abissal (#20): a surface-cyan keyword, jade types and seaweed strings; coral numbers, shell-pink enum members, sand interfaces, deep-blue functions.
+   *
+   * Revised when the family landed, for the reasons the five before it were. Cyan at the depth of a selection is as narrow
+   * in sRGB as green, so it took Floresta's ladder: its focus and selection were 0.27 and 0.32, the focus ring read 2.72:1 on
+   * the selection, a hover sat 2.2 ΔE from the selected row and a find match 1.9 ΔE from the selection; at 0.236 the focus
+   * sat 2.8 ΔE under the selection, so 0.23 and 0.265, with the raised surface at 0.158. The strong border went from C 0.08
+   * to 0.05: a pressed toolbar button read 2.5 ΔE from a toggled one, and still 2.7 at 0.06. The error went from L 0.64 to
+   * 0.66: at 0.64 a deleted line's gutter mark read 2.87:1.
+   *
+   * The strings went from L 0.86 to 0.85. From 0.86 the search lifted them to 0.91, the lightest of the seven, and they were
+   * the success — so the focused stack frame, the success as a wash, was light enough that the operators read just under
+   * 4.5:1 on it. From 0.85 the search puts the types where the success borrows them instead, a jade at 0.74, and the hint
+   * takes the keyword (see BORROWING).
+   */
   cyan: {
     groundHue: 220,
     surfaces: {
-      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.165, 0.042],
-      surfaceHover: [0.178, 0.044], surfaceFocus: [0.27, 0.08], surfaceSelected: [0.32, 0.09], border: [0.2, 0.05], borderStrong: [0.36, 0.08],
+      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.158, 0.04],
+      surfaceHover: [0.178, 0.044], surfaceFocus: [0.23, 0.07], surfaceSelected: [0.265, 0.075], border: [0.2, 0.05], borderStrong: [0.36, 0.05],
     },
     textHue: 212,
     textChroma: 0.035,
     inks: {
       keyword: { h: 210, l: 0.81, c: 0.14 }, property: { h: 305, l: 0.79, c: 0.12 }, operator: { h: 215, l: 0.72, c: 0.04 }, variable: { h: 212, l: 0.87, c: 0.028 },
-      generic: { h: 325, l: 0.58, c: 0.19 }, string: { h: 128, l: 0.86, c: 0.14 }, func: { h: 258, l: 0.78, c: 0.13 }, number: { h: 35, l: 0.79, c: 0.13 },
+      generic: { h: 325, l: 0.58, c: 0.19 }, string: { h: 128, l: 0.85, c: 0.14 }, func: { h: 258, l: 0.78, c: 0.13 }, number: { h: 35, l: 0.79, c: 0.13 },
       type: { h: 168, l: 0.85, c: 0.12 }, iface: { h: 72, l: 0.86, c: 0.11 }, enumMember: { h: 350, l: 0.8, c: 0.12 },
     },
     accent: { h: 212, l: 0.56, c: 0.12 },
     warning: { h: 98, l: 0.86, c: 0.17 },
-    error: { h: 25, l: 0.64, c: 0.22 },
+    error: { h: 25, l: 0.66, c: 0.22 },
   },
   /* Cobalto (#21): a cobalt keyword with ice-cyan functions above it; sea-green types, mint strings, straw interfaces, terracotta and rose for warmth. */
   blue: {
@@ -533,6 +547,16 @@ const searched = (brief: FamilyBrief, background: Colour, seed: number): SearchR
  * Which ink a signal borrows: the one nearest in hue to the signal's colour,
  * among the inks that can play it, ties going to the first named. Proposed,
  * like everything here — the family issue may name another.
+ *
+ * No two signals may borrow the same ink (the build refuses it, and the
+ * terminal's green and cyan would come out as one colour), so the signals are
+ * borrowed together: of every way to give each one a different ink, the one
+ * whose hues sit nearest their signals' in total. Where each signal's nearest
+ * ink is already its own, that is simply the nearest; Abissal (#20) is where
+ * it is not — its jade types are nearest both the success's green and the
+ * hint's teal. They go to the success, 12° off, and the hint takes the
+ * keyword's cyan, 29° off: 40° in total, where the strings for the success
+ * and the types for the hint would have been 44°.
  */
 const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
   success: { hue: 145, candidates: ['string', 'keyword', 'type', 'iface'] },
@@ -540,6 +564,29 @@ const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
   hint: { hue: 185, candidates: ['type', 'string', 'func', 'keyword'] },
   orange: { hue: 55, candidates: ['enumMember', 'number', 'keyword', 'property', 'iface', 'string'] },
   purple: { hue: 305, candidates: ['property', 'keyword', 'func', 'enumMember'] },
+};
+
+const SIGNAL_NAMES: (keyof Signals)[] = Object.keys(BORROWING) as (keyof Signals)[];
+
+/** Every signal's ink at once, all different, nearest their hues in total — ties going to the inks named first. */
+const borrowedSignals = (roles: Record<RoleName, Colour>): Signals => {
+  type Assignment = { inks: Ink[]; total: number };
+  const distance = (signal: keyof Signals, ink: Ink): number => Math.abs(signedHueDelta(oklchFromHex(roles[ink]).h, BORROWING[signal].hue));
+  // Depth first in the order the candidates are named, so of two assignments equally near the first one found stands.
+  const nearest = (chosen: Assignment): Assignment | undefined => {
+    if (chosen.inks.length === SIGNAL_NAMES.length) return chosen;
+    const signal: keyof Signals = SIGNAL_NAMES[chosen.inks.length];
+    return BORROWING[signal].candidates
+      .filter((ink: Ink): boolean => !chosen.inks.includes(ink))
+      .map((ink: Ink): Assignment | undefined => nearest({ inks: [...chosen.inks, ink], total: chosen.total + distance(signal, ink) }))
+      .reduce(
+        (best: Assignment | undefined, found: Assignment | undefined): Assignment | undefined => (found && (!best || found.total < best.total) ? found : best),
+        undefined
+      );
+  };
+  const assignment: Assignment | undefined = nearest({ inks: [], total: 0 });
+  if (!assignment) throw new Error('the signals cannot each borrow a different ink');
+  return Object.fromEntries(SIGNAL_NAMES.map((signal: keyof Signals, index: number): [keyof Signals, Ink] => [signal, assignment.inks[index]])) as Signals;
 };
 
 /** Keywords at these hues are a magenta, a violet or a pink, and play the terminal's magenta; anywhere else the properties do. */
@@ -628,18 +675,7 @@ const designOf = (brief: FamilyBrief): Design => {
     warningBright: lightened(warning),
   };
 
-  const borrowed = (signal: keyof Signals): Ink => {
-    const { hue, candidates }: { hue: number; candidates: Ink[] } = BORROWING[signal];
-    const distance = (ink: Ink): number => Math.abs(signedHueDelta(oklchFromHex(roles[ink]).h, hue));
-    return [...candidates].sort((first: Ink, second: Ink): number => distance(first) - distance(second))[0];
-  };
-  const signals: Signals = {
-    success: borrowed('success'),
-    info: borrowed('info'),
-    hint: borrowed('hint'),
-    orange: borrowed('orange'),
-    purple: borrowed('purple'),
-  };
+  const signals: Signals = borrowedSignals(roles);
   const magenta: Ink = isMagenta(oklchFromHex(roles.keyword).h) ? 'keyword' : 'property';
   // The terminal's bright row is the borrowed ink lightened, whether or not the palette has a role for it: `problemsOf` says when it does not.
   const bright = (ink: Ink): Colour => lightened(roles[ink]);

@@ -8,7 +8,7 @@ Como as cores são *usadas* — qual token vai onde e por quê — é o [design 
 
 ## O fundo
 
-O editor fica em `#020108` no Indigo: quase preto, com o tom da família, nunca preto puro. Cada família tem o seu quase-preto na mesma luminosidade — `#000303` no Cyan, `#040100` no Orange — para que as cores de destaque fiquem saturadas sem ofuscar, e a janela tenha a cor do tema mesmo onde nada está desenhado.
+O editor fica em `#020108` no Indigo: quase preto, com o tom da família, nunca preto puro. Cada família tem o seu quase-preto na mesma luminosidade — `#000305` no Cyan, `#040100` no Orange — para que as cores de destaque fiquem saturadas sem ofuscar, e a janela tenha a cor do tema mesmo onde nada está desenhado.
 
 Acima do fundo há uma escada de superfícies — moldura, barra lateral, linha atual, widgets elevados, hover, foco, seleção — cada uma um degrau mais clara que a de baixo. O build falha se a escada de qualquer família andar para trás.
 
@@ -38,7 +38,7 @@ Agora cada família nomeia os seus matizes. As convenções são mantidas onde h
 | **Red** | carmim-rosado, a metade quente da brasa | desenhada como design: o erro é a metade escarlate, mais adiante no círculo, mais escura e mais saturada; propriedades em orquídea e parâmetros de tipo em magenta escuro; números âmbar e membros de enum laranja, separados pela luminosidade; strings verdes e tipos petróleo — nenhum par de tintas a menos de 12,4 ΔE |
 | **Orange** | laranja, o sol no horizonte | desenhada como design: números no rosa do céu e membros de enum em coral, do outro lado do zero do círculo em relação à keyword; parâmetros de tipo em índigo e propriedades em lavanda, a noite chegando; strings verdes, funções azul-céu e tipos em água — nenhum par de tintas a menos de 14,6 ΔE |
 | **Green** | esmeralda, a copa | desenhada como design: a keyword é dona do verde, então as strings saem dele para o trigo, que é também o laranja dos gráficos; números em coral e membros de enum em rosa-orquídea; propriedades em violeta e parâmetros de tipo em uva escura, o complemento do verde; tipos turquesa, um azul limpo nas funções, interfaces lima — nenhum par de tintas a menos de 14,5 ΔE |
-| **Cyan** | ciano | os tipos cruzam para o jade, do outro lado das strings |
+| **Cyan** | ciano, a superfície do mar | desenhada como design: tipos em jade, longe o bastante para serem verdes e não um segundo ciano, e strings em alga, separadas deles pela luminosidade; funções em azul profundo; números em coral, membros de enum em rosa-concha e interfaces em areia, que são também o laranja dos gráficos; propriedades em orquídea e parâmetros de tipo em magenta mais escuro — nenhum par de tintas a menos de 12,0 ΔE |
 | **Blue** | pervinca | as funções vão para um azul-ciano, 43° longe do chrome; os tipos voltam ao verde-azulado |
 
 ### Palavras-chave na cor da própria família

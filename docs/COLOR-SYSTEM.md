@@ -8,7 +8,7 @@ How the colors are *used* — which token goes where and why — is the [design 
 
 ## The ground
 
-The editor sits at `#020108` in Indigo: near-black with the family's cast, never pure black. Every family has its own near-black at the same lightness — `#000303` in Cyan, `#040100` in Orange — so accent colors stay saturated without glare, and the window is the theme's color even where nothing is drawn.
+The editor sits at `#020108` in Indigo: near-black with the family's cast, never pure black. Every family has its own near-black at the same lightness — `#000305` in Cyan, `#040100` in Orange — so accent colors stay saturated without glare, and the window is the theme's color even where nothing is drawn.
 
 Above the ground is a ladder of surfaces — frame, side bar, current line, raised widgets, hover, focus, selection — each a step lighter than the one below. The build fails if any family's ladder runs backwards.
 
@@ -38,7 +38,7 @@ Now each family names its own hues. Conventions are kept where there is room —
 | **Red** | rose-crimson, the warm half of the ember | drawn as a design: the error is the scarlet half, further round, darker and more saturated; properties are orchid and type parameters a dark magenta; amber numbers and orange enum members, told apart by lightness; green strings and petrol types — no two inks closer than 12.4 ΔE |
 | **Orange** | orange, the sun on the horizon | drawn as a design: numbers are the sky's pink and enum members a coral, across the wheel's zero from the keyword; type parameters are indigo and properties lavender, the night coming in; green strings, sky-blue functions and aqua types — no two inks closer than 14.6 ΔE |
 | **Green** | emerald, the canopy | drawn as a design: the keyword owns green, so strings leave it for wheat, which is also a chart's orange; coral numbers and orchid-pink enum members; properties are violet and type parameters a dark grape, green's complement; turquoise types, a clear blue for functions, lime interfaces — no two inks closer than 14.5 ΔE |
-| **Cyan** | cyan | types cross to jade, on the other side of the strings |
+| **Cyan** | cyan, the surface of the sea | drawn as a design: types are jade, far enough round to be green and not a second cyan, and seaweed strings are told from them by lightness; deep-blue functions; coral numbers, shell-pink enum members and sand interfaces, which are also a chart's orange; properties are orchid and type parameters a darker magenta — no two inks closer than 12.0 ΔE |
 | **Blue** | periwinkle | functions step to azure-cyan, 43° clear of the chrome; types drop back to teal |
 
 ### Keywords in the family's own color
