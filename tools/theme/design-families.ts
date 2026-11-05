@@ -225,12 +225,24 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
     warning: { h: 88, l: 0.85, c: 0.17 },
     error: { h: 27, l: 0.66, c: 0.22 },
   },
-  /* Floresta (#19): an emerald keyword, so the strings leave green for wheat; coral numbers, orchid enum members, turquoise types. */
+  /*
+   * Floresta (#19): an emerald keyword, so the strings leave green for wheat; coral numbers, orchid enum members, turquoise types.
+   *
+   * Revised when the family landed, for the reasons the four before it were, and then some: green is where sRGB is narrowest
+   * at the depth of a selection, so the gamut cuts the chroma the ladder asks for, and the steps are told apart by lightness
+   * almost alone. Its focus and selection were 0.27 and 0.32: the focus ring read 2.70:1 on the selection, a hover sat 2.4 ΔE
+   * from the selected row. At the others' 0.236 and 0.265 the focus sat 2.9 ΔE under the selection, so it went to 0.23, next
+   * to indigo's 0.231; the raised surface to 0.158. The strong border went from C 0.08 to 0.06: at the edge of the gamut it was
+   * a dark copy of the accent, and a pressed toolbar button read 2.4 ΔE from a toggled one. The accent went from L 0.55 to
+   * 0.544, the middle of a narrow window: the find match is the accent at 40%, and at 0.547 the operators read 4.49:1 on it;
+   * under 0.542 the toggled button, the accent at 40% too, comes back within 3 ΔE of the pressed one. The error went from
+   * L 0.64 to 0.66: at 0.64 a deleted line's gutter mark read 2.87:1.
+   */
   green: {
     groundHue: 158,
     surfaces: {
-      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.165, 0.042],
-      surfaceHover: [0.178, 0.044], surfaceFocus: [0.27, 0.08], surfaceSelected: [0.32, 0.09], border: [0.2, 0.05], borderStrong: [0.36, 0.08],
+      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.158, 0.04],
+      surfaceHover: [0.178, 0.044], surfaceFocus: [0.23, 0.07], surfaceSelected: [0.265, 0.075], border: [0.2, 0.05], borderStrong: [0.36, 0.06],
     },
     textHue: 160,
     textChroma: 0.035,
@@ -239,9 +251,9 @@ const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
       generic: { h: 300, l: 0.58, c: 0.19 }, string: { h: 72, l: 0.85, c: 0.1 }, func: { h: 245, l: 0.79, c: 0.12 }, number: { h: 28, l: 0.78, c: 0.13 },
       type: { h: 195, l: 0.84, c: 0.11 }, iface: { h: 118, l: 0.91, c: 0.15 }, enumMember: { h: 350, l: 0.79, c: 0.12 },
     },
-    accent: { h: 155, l: 0.55, c: 0.14 },
+    accent: { h: 155, l: 0.544, c: 0.14 },
     warning: { h: 95, l: 0.85, c: 0.18 },
-    error: { h: 25, l: 0.64, c: 0.22 },
+    error: { h: 25, l: 0.66, c: 0.22 },
   },
   /* Abissal (#20): a surface-cyan keyword, jade types and seaweed strings; coral numbers, shell-pink enum members, sand interfaces, deep-blue functions. */
   cyan: {
@@ -526,7 +538,7 @@ const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
   success: { hue: 145, candidates: ['string', 'keyword', 'type', 'iface'] },
   info: { hue: 250, candidates: ['func', 'keyword'] },
   hint: { hue: 185, candidates: ['type', 'string', 'func', 'keyword'] },
-  orange: { hue: 55, candidates: ['enumMember', 'number', 'keyword', 'property', 'iface'] },
+  orange: { hue: 55, candidates: ['enumMember', 'number', 'keyword', 'property', 'iface', 'string'] },
   purple: { hue: 305, candidates: ['property', 'keyword', 'func', 'enumMember'] },
 };
 

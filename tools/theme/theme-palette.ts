@@ -406,53 +406,6 @@ const VARIANTS: { indigo: Variant } & Partial<Record<Family, Variant>> = {
   },
 
   /*
-   * GREEN — the hardest of the eight, because the family owns the one hue with
-   * the strongest convention on it. A string cannot be green here, and the
-   * reason is not the background: the grounds are near-black at every hue, and
-   * a string clears them by 20:1 whatever colour either one is. It is the
-   * variables. They are family by definition, so in this family they sit at
-   * hue 152 and L 0.78, and a green string at 150 and L 0.80 is the same
-   * colour as the identifier beside it.
-   *
-   * That pins the answer more tightly than it looks. Clearing the chrome means
-   * the strings stay under 130 or go past 174, and the far side is already the
-   * types' — so 125, a yellow-green, and still the greenest thing on the
-   * screen after the workbench itself. The interfaces give up lime for gold at
-   * 65 rather than fight them for the band.
-   * Numbers move to warm red and enum members to rose, which empties the whole
-   * warm quarter of anything that could be confused with the chrome. The
-   * keywords are the family's green (M9), far louder than the variables at the
-   * same hue, and the properties take green's complement, a violet at 308.
-   *
-   * Types stay cyan at 195: 45 degrees off the family, and cyan against green
-   * separates on chroma as much as on hue, so it holds.
-   *
-   * The loudest ink of the eight, and the strings are why. A yellow-green is
-   * the one hue where `lift` works against itself — the altitude that keeps it
-   * from reading as khaki also drains it toward a pale wheat — so what the
-   * correction costs is given back in chroma.
-   */
-  green: {
-    hue: 150,
-    groundChroma: 1.1, chromeChroma: 1.05, inkChroma: 1.12,
-    accent: { h: 155, c: 0.16, l: 0.548 },
-    hues: {
-      keyword: 155, generic: 290,
-      enumMember: 355, number: 30, iface: 65, string: 125, type: 195, func: 245,
-    },
-    // The warm quarter is empty of chrome here, so both signals keep their
-    // conventional hues; the warning sits between the gold interfaces at 65
-    // and the yellow-green strings at 125.
-    signalHues: { error: 22, warning: 88 },
-    signals: {
-      success: 'string', info: 'func', hint: 'type',
-      orange: 'number', purple: 'property',
-    },
-    redrawn: ownKeywords({ l: 0.79, c: 0.18 }, 308),
-    terminalMagenta: ['property', 'propertyBright'],
-  },
-
-  /*
    * CYAN — the family takes the teal the types were using, so the types cross
    * to the *other* side of the strings: jade at 168, with the strings at 135
    * between them and the greens. That is the one place in the eight where a
@@ -866,6 +819,90 @@ const DESIGNS: Partial<Record<Exclude<Family, 'indigo'>, FamilyDesign>> = {
       warningBright:  { l: 0.931, c: 0.082, h: 88.3 }, // #FFE6A9
     },
     signals: { success: 'string', info: 'func', hint: 'type', orange: 'keyword', purple: 'property' },
+    terminalMagenta: ['property', 'propertyBright'],
+  },
+
+  /*
+   * GREEN · FLORESTA (#19) — a forest floor, and the family that owns the hue
+   * with the strongest convention on it. The keyword is the canopy, an
+   * emerald at 146 and the family's own colour, the loudest word in the code;
+   * success borrows it, so an added line and the terminal's green are the
+   * keyword too, which is safe because an addition is drawn as a shape — a
+   * gutter bar, a band behind the line — never as text. The accent is the
+   * same green a little cooler, at 155, and a little darker than white text
+   * on it needs: a find match drawn from it any lighter washes the operators
+   * out, and any darker sinks a toggled button into a pressed one.
+   *
+   * So a string cannot be green, and leaves the band altogether: wheat, a
+   * honey at 65, and a chart's orange is the strings, 10 degrees from the
+   * reference, where the numbers would have been 39 off. The warm side holds
+   * the rest: coral numbers at 16 and an orchid-pink for the enum members at
+   * 338, a tenth lighter. The error is the red past the numbers at 25, 10.1
+   * ΔE from them. The interfaces keep the lime at 119, between the keyword
+   * and the strings, with the yellow warning at 95 beside them.
+   *
+   * The far side of the wheel is green's complement: the properties a violet
+   * at 310 and the type parameters a dark grape at 292, the same purple told
+   * apart by lightness. The cool half carries the convention: turquoise types
+   * at 185 and a clear blue for the functions at 251. The operators are a
+   * near-grey of the ground, the variables a near-white of it, whose chroma
+   * is low enough that the keyword beside them at the same hue is a colour
+   * and they are not.
+   *
+   * Its focus and selection sit where indigo's do; the brief's history is in
+   * tools/theme/design-families.ts.
+   *
+   * Closest inks: the variables and the types, 14.5 ΔE apart, and the
+   * operators and the types at 14.5. The table this replaced put its closest
+   * pair at 7.0.
+   */
+  green: {
+    groundHue: 158,
+    roles: {
+      bg:             { l: 0.085, c: 0.020, h: 156.7 }, // #000301
+      bgDeep:         { l: 0.101, c: 0.023, h: 160.0 }, // #000502
+      bgSide:         { l: 0.107, c: 0.026, h: 156.7 }, // #000602
+      ansiBlack:      { l: 0.123, c: 0.029, h: 156.7 }, // #000903
+      bgLine:         { l: 0.148, c: 0.036, h: 155.9 }, // #000F05
+      bgLift:         { l: 0.157, c: 0.036, h: 159.0 }, // #001107
+      bgTab:          { l: 0.180, c: 0.042, h: 157.7 }, // #00170A
+      line:           { l: 0.199, c: 0.047, h: 157.3 }, // #001C0D
+      selDim:         { l: 0.229, c: 0.053, h: 158.5 }, // #002413
+      sel:            { l: 0.265, c: 0.062, h: 157.8 }, // #002E19
+      whitespace:     { l: 0.299, c: 0.056, h: 160.5 }, // #0E3624
+      border:         { l: 0.361, c: 0.060, h: 157.9 }, // #1E4731
+      accentDim:      { l: 0.382, c: 0.095, h: 154.8 }, // #00512B
+      accent:         { l: 0.5445, c: 0.1351, h: 154.83 }, // #00864B
+      fgFaint:        { l: 0.501, c: 0.036, h: 159.2 }, // #526A5C
+      fgMuted:        { l: 0.559, c: 0.035, h: 159.4 }, // #637B6D
+      fgDim:          { l: 0.681, c: 0.032, h: 160.7 }, // #889F92
+      fg:             { l: 0.750, c: 0.030, h: 158.5 }, // #9FB4A7
+      fgBright:       { l: 0.820, c: 0.028, h: 160.7 }, // #B5CABE
+      cursor:         { l: 0.799, c: 0.090, h: 154.9 }, // #8ECFA4
+      fgWhite:        { l: 0.954, c: 0.010, h: 164.9 }, // #EAF2EE
+      variable:       { l: 0.891, c: 0.027, h: 163.1 }, // #CCE1D6
+      property:       { l: 0.719, c: 0.169, h: 309.5 }, // #C483F3
+      operator:       { l: 0.670, c: 0.031, h: 151.7 }, // #889B8C
+      propertyBright: { l: 0.799, c: 0.136, h: 309.8 }, // #D8A4FF
+      keyword:        { l: 0.814, c: 0.214, h: 146.1 }, // #4BE565
+      keywordBright:  { l: 0.895, c: 0.182, h: 146.1 }, // #83FC90
+      generic:        { l: 0.584, c: 0.196, h: 292.2 }, // #825CE3
+      genericDeep:    { l: 0.501, c: 0.170, h: 292.2 }, // #6949BA
+      string:         { l: 0.814, c: 0.118, h: 64.9 }, // #F7B26D
+      stringBright:   { l: 0.895, c: 0.074, h: 65.3 }, // #FFD3A9
+      func:           { l: 0.719, c: 0.131, h: 250.7 }, // #61A9F3
+      funcBright:     { l: 0.798, c: 0.106, h: 250.9 }, // #89C2FF
+      number:         { l: 0.721, c: 0.146, h: 15.7 }, // #F27B86
+      type:           { l: 0.781, c: 0.118, h: 185.4 }, // #47D0C2
+      typeBright:     { l: 0.861, c: 0.101, h: 185.2 }, // #7DE7DA
+      enumMember:     { l: 0.837, c: 0.108, h: 338.0 }, // #F8AEE2
+      iface:          { l: 0.921, c: 0.166, h: 119.0 }, // #D9F469
+      error:          { l: 0.659, c: 0.220, h: 24.9 }, // #FC4447
+      errorBright:    { l: 0.758, c: 0.144, h: 24.6 }, // #FF8982
+      warning:        { l: 0.850, c: 0.175, h: 94.9 }, // #F2CB00
+      warningBright:  { l: 0.931, c: 0.110, h: 95.1 }, // #FFE891
+    },
+    signals: { success: 'keyword', info: 'func', hint: 'type', orange: 'string', purple: 'property' },
     terminalMagenta: ['property', 'propertyBright'],
   },
 };
