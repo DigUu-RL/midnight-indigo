@@ -1,0 +1,969 @@
+/*
+ * The design tool for the seven family palettes:
+ *
+ *   npm run design:families                        all seven
+ *   npm run design:families -- --family=red,blue   the ones named
+ *
+ * It PROPOSES a palette; it never builds one. The build does not run it, and
+ * nothing it prints reaches themes/ until someone has read it, judged it and
+ * pasted it into tools/theme/theme-palette.ts as plain numbers. That split is
+ * the point. A search makes a good first draft and a poor source of truth:
+ * change one of its constants and all seven families move at once, quietly,
+ * and a theme people have open in their editors is not something to
+ * regenerate by accident. Frozen values keep the build deterministic and each
+ * family what COLOR-SYSTEM says it is — a design, written down — and this file
+ * is the record of how the draft was made.
+ *
+ * WHAT GOES IN is a brief per family (`BRIEFS`): the hue of its grounds and the
+ * lightness and chroma of each step of its surface ladder, the hue and chroma
+ * of its text, where each of the eleven syntax inks starts, and the accent and
+ * the two signals that are colours of their own. Every number in a brief is a
+ * decision. The tool takes none of those; it only finishes them.
+ *
+ * WHAT IT DOES with them:
+ *
+ *   Contrast is solved, not hoped for. A colour that has to read on a ground
+ *   is raised in lightness, a step at a time, until it does: the inks and the
+ *   body text to 7:1 on the background, the type parameters and the secondary
+ *   text to 4.5:1, the faint and muted text to 3:1 (muted on the selection,
+ *   where comments are hardest to read).
+ *
+ *   Chroma has a ceiling. No ink takes more than 86% of the chroma sRGB can
+ *   hold at its lightness and hue: the last stretch before the edge of the
+ *   gamut is where a colour stops being saturated and starts being neon.
+ *
+ *   Separation is searched for. A local search moves one ink at a time — its
+ *   lightness, its chroma or its hue, each within limits set per role — and
+ *   keeps any move that does not make the palette worse. Worse is measured in
+ *   OKLab ΔE between all eleven inks, because distance in hue says nothing
+ *   about two inks told apart by lightness, which is how half of them are: the
+ *   closest pair counts in full and the next three less and less. An ink
+ *   louder than the keywords costs, because the keyword is the family's
+ *   signature; so does any ink within 10 ΔE of the error or the warning,
+ *   because a squiggle has to show on the word it is under.
+ *
+ *   The run is repeatable. The search draws from Lehmer's generator with fixed
+ *   seeds, runs once per seed and keeps the better run, so the same brief
+ *   always gives the same palette.
+ *
+ * WHAT COMES OUT, per family: the measurements beside the shipped palette's,
+ * the 68 tokens beside the shipped ones, and the design as a literal for
+ * theme-palette.ts — every palette role in absolute OKLCH, at the precision
+ * that converts back to the same hex. It writes nothing.
+ *
+ * The algorithm is the Midnight Palettes prototype's (issue #12 keeps its
+ * JavaScript), and the briefs are the ones the family issues approved, #15 to
+ * #21: for those briefs this reproduces the issues' tables to the byte. A
+ * brief the build refused was revised when its family landed, and its comment
+ * says what moved and why.
+ */
+
+import {
+  contrastRatio,
+  deltaE,
+  hexFromLinearRgb,
+  hexFromOklch,
+  linearRgbFromOklch,
+  oklchFromHex,
+  signedHueDelta,
+  type Colour,
+  type Oklch,
+} from '../shared/color.ts';
+import {
+  FAMILY_ORDER,
+  GAMUT_ROUNDING,
+  GAMUT_SHARE,
+  KEYWORD_MARGIN,
+  ROLES,
+  SEPARATION,
+  SEPARATION_DELTA_E,
+  WHITE,
+  closestInks,
+  gamutShareOf,
+  type Family,
+  type Ink,
+  type InkPair,
+  type RoleName,
+  type Signals,
+} from './theme-palette.ts';
+import { SIGNAL_HUE, SIGNAL_TOLERANCE, flatten, tokensFor, type Tokens } from './theme-tokens.ts';
+
+/* -------------------------------------------------------------- *
+ * The briefs
+ * -------------------------------------------------------------- */
+
+type DesignedFamily = Exclude<Family, 'indigo'>;
+
+const SURFACES = ['background', 'frame', 'surface', 'currentLine', 'surfaceRaised', 'surfaceHover', 'surfaceFocus', 'surfaceSelected', 'border', 'borderStrong'] as const;
+type Surface = (typeof SURFACES)[number];
+
+/** The eleven syntax inks, in the order the search draws them from — which is part of what makes a run repeatable. */
+const SYNTAX_INKS = ['variable', 'property', 'operator', 'keyword', 'generic', 'string', 'func', 'number', 'type', 'iface', 'enumMember'] as const;
+type SyntaxInk = (typeof SYNTAX_INKS)[number];
+
+type FamilyBrief = {
+  /** The hue of every ground, line and selection. */
+  groundHue: number;
+  /** Each step of the surface ladder, darkest ground to strongest border. */
+  surfaces: Record<Surface, [lightness: number, chroma: number]>;
+  /** The hue of the foreground ramp, and the chroma its steps are a share of. */
+  textHue: number;
+  textChroma: number;
+  /** Where the search starts each ink from. */
+  inks: Record<SyntaxInk, Oklch>;
+  /** The accent before it is darkened for white text to read on it. */
+  accent: Oklch;
+  /** The two signals that are colours of their own, taken as given. */
+  warning: Oklch;
+  error: Oklch;
+};
+
+const BRIEFS: Record<DesignedFamily, FamilyBrief> = {
+  /*
+   * Ametista (#15): the violet keyword is the only saturated purple in the code; a velvet ground with more chroma than the warm families.
+   *
+   * Revised when the family landed, because the approved brief failed checks the build already made. Its focus and selection
+   * were 0.275 and 0.325, lighter than indigo's 0.231 and 0.268: the focus ring read 2.5:1 on the selection, and no accent can
+   * fix that, as white at AA on it caps how light it may be. Brought down to 0.236 and 0.265 — the least focus that keeps a
+   * hover readable on a raised widget, the most selection the focus ring reads on — with the raised surface down to 0.158 to
+   * give that hover room. The error went from L 0.64 to indigo's 0.66: at 0.64 a deleted line's gutter mark read 2.9:1, and
+   * the mark on uncovered code weighed less than the one on covered code, which is the mint of the strings.
+   */
+  purple: {
+    groundHue: 312,
+    surfaces: {
+      background: [0.09, 0.028], frame: [0.1, 0.03], surface: [0.11, 0.032], currentLine: [0.15, 0.045], surfaceRaised: [0.158, 0.047],
+      surfaceHover: [0.18, 0.052], surfaceFocus: [0.236, 0.078], surfaceSelected: [0.265, 0.102], border: [0.205, 0.055], borderStrong: [0.365, 0.09],
+    },
+    textHue: 315,
+    textChroma: 0.045,
+    inks: {
+      keyword: { h: 303, l: 0.74, c: 0.18 }, property: { h: 345, l: 0.8, c: 0.11 }, operator: { h: 318, l: 0.72, c: 0.05 }, variable: { h: 315, l: 0.87, c: 0.03 },
+      generic: { h: 332, l: 0.6, c: 0.2 }, string: { h: 158, l: 0.85, c: 0.12 }, func: { h: 258, l: 0.78, c: 0.13 }, number: { h: 72, l: 0.83, c: 0.12 },
+      type: { h: 198, l: 0.84, c: 0.1 }, iface: { h: 122, l: 0.89, c: 0.15 }, enumMember: { h: 32, l: 0.79, c: 0.13 },
+    },
+    accent: { h: 305, l: 0.56, c: 0.2 },
+    warning: { h: 90, l: 0.86, c: 0.17 },
+    error: { h: 25, l: 0.66, c: 0.22 },
+  },
+  /*
+   * Flor neon (#16): a hot pink keyword, lilac properties, leaf-green strings and types; apricot numbers and salmon enum members, told apart by lightness.
+   *
+   * Revised when the family landed, as Ametista's was and for the same reasons. Its focus and selection were 0.27 and 0.32:
+   * the focus ring read 2.7:1 on the selection, and a hover sat 1.7 ΔE from the selected row. Brought down to Ametista's
+   * 0.236 and 0.265, chroma scaled with them, and the raised surface to 0.158. The error went from L 0.63 to 0.66: at 0.63 a
+   * deleted line's gutter mark read 2.8:1.
+   */
+  pink: {
+    groundHue: 352,
+    surfaces: {
+      background: [0.088, 0.024], frame: [0.098, 0.026], surface: [0.108, 0.028], currentLine: [0.148, 0.04], surfaceRaised: [0.158, 0.043],
+      surfaceHover: [0.178, 0.047], surfaceFocus: [0.236, 0.074], surfaceSelected: [0.265, 0.097], border: [0.2, 0.05], borderStrong: [0.36, 0.085],
+    },
+    textHue: 350,
+    textChroma: 0.04,
+    inks: {
+      keyword: { h: 356, l: 0.74, c: 0.19 }, property: { h: 298, l: 0.79, c: 0.12 }, operator: { h: 345, l: 0.72, c: 0.05 }, variable: { h: 350, l: 0.87, c: 0.028 },
+      generic: { h: 322, l: 0.6, c: 0.2 }, string: { h: 152, l: 0.85, c: 0.13 }, func: { h: 240, l: 0.78, c: 0.12 }, number: { h: 62, l: 0.83, c: 0.12 },
+      type: { h: 192, l: 0.84, c: 0.11 }, iface: { h: 120, l: 0.89, c: 0.16 }, enumMember: { h: 28, l: 0.8, c: 0.12 },
+    },
+    accent: { h: 355, l: 0.57, c: 0.2 },
+    warning: { h: 92, l: 0.86, c: 0.17 },
+    error: { h: 27, l: 0.66, c: 0.23 },
+  },
+  /*
+   * Brasa (#17): red as heat, not alarm. A lighter rose-crimson keyword, and an error darker, more saturated and further round.
+   *
+   * Revised when the family landed, for the reasons Ametista's and Flor neon's were. Its focus and selection were 0.265 and
+   * 0.315: a hover sat 2.3 ΔE from the selected row. Brought down to theirs, 0.236 and 0.265, chroma scaled with them, and the
+   * raised surface to 0.158. The focus ring still read 2.96:1 on the selection, and here the accent was the cause, not the
+   * selection: at L 0.55 white read 5.3:1 on it, more than AA asks, so it went up to 0.565. The error went from L 0.61 to 0.66:
+   * at 0.61 a deleted line's gutter mark read 2.65:1, a deleted file 4.33:1 on an inactive selection, and uncovered code weighed
+   * less than the lime of covered code. The search answered the lighter error by taking the strings from 167 to 156, a green
+   * rather than a mint, and success borrows them now instead of the interfaces, which had no bright partner for the terminal.
+   */
+  red: {
+    groundHue: 22,
+    surfaces: {
+      background: [0.086, 0.018], frame: [0.096, 0.02], surface: [0.105, 0.021], currentLine: [0.145, 0.03], surfaceRaised: [0.158, 0.033],
+      surfaceHover: [0.175, 0.036], surfaceFocus: [0.236, 0.062], surfaceSelected: [0.265, 0.08], border: [0.2, 0.04], borderStrong: [0.355, 0.07],
+    },
+    textHue: 25,
+    textChroma: 0.03,
+    inks: {
+      keyword: { h: 14, l: 0.75, c: 0.16 }, property: { h: 305, l: 0.79, c: 0.11 }, operator: { h: 25, l: 0.72, c: 0.045 }, variable: { h: 30, l: 0.87, c: 0.026 },
+      generic: { h: 340, l: 0.58, c: 0.19 }, string: { h: 155, l: 0.84, c: 0.12 }, func: { h: 245, l: 0.79, c: 0.11 }, number: { h: 72, l: 0.84, c: 0.13 },
+      type: { h: 195, l: 0.83, c: 0.1 }, iface: { h: 125, l: 0.89, c: 0.15 }, enumMember: { h: 48, l: 0.79, c: 0.14 },
+    },
+    accent: { h: 22, l: 0.565, c: 0.19 },
+    warning: { h: 97, l: 0.87, c: 0.18 },
+    error: { h: 32, l: 0.66, c: 0.22 },
+  },
+  /*
+   * Crepúsculo (#18): a horizon-orange keyword, sky-pink numbers and coral enum members, indigo type parameters; an amber near-black that stays out of brown.
+   *
+   * Revised when the family landed, for the reasons the three before it were. Its focus and selection were 0.265 and 0.315:
+   * the focus ring read 2.91:1 on the selection, a hover sat 2.6 ΔE from the selected row, and a find match 0.7 ΔE from the
+   * selection. Brought down to theirs, 0.236 and 0.265, chroma scaled with them, and the raised surface to 0.158. The error
+   * went from L 0.64 to 0.66: at 0.64 a deleted line's gutter mark read 2.92:1. The accent went from L 0.6 to 0.57, which here
+   * is a change and not only a start: orange is light for its contrast with white, so at the most white allowed, 4.53:1, the
+   * find match drawn from it was the lightest of the eight, and the operators read 4.44:1 on it. At 0.57 white reads 4.70:1.
+   */
+  orange: {
+    groundHue: 58,
+    surfaces: {
+      background: [0.086, 0.014], frame: [0.096, 0.016], surface: [0.105, 0.017], currentLine: [0.145, 0.025], surfaceRaised: [0.158, 0.027],
+      surfaceHover: [0.175, 0.03], surfaceFocus: [0.236, 0.053], surfaceSelected: [0.265, 0.059], border: [0.2, 0.035], borderStrong: [0.355, 0.06],
+    },
+    textHue: 65,
+    textChroma: 0.03,
+    inks: {
+      keyword: { h: 55, l: 0.77, c: 0.17 }, property: { h: 295, l: 0.79, c: 0.12 }, operator: { h: 60, l: 0.72, c: 0.045 }, variable: { h: 65, l: 0.87, c: 0.028 },
+      generic: { h: 275, l: 0.58, c: 0.18 }, string: { h: 148, l: 0.84, c: 0.12 }, func: { h: 242, l: 0.79, c: 0.12 }, number: { h: 340, l: 0.79, c: 0.13 },
+      type: { h: 192, l: 0.83, c: 0.1 }, iface: { h: 120, l: 0.88, c: 0.17 }, enumMember: { h: 15, l: 0.77, c: 0.13 },
+    },
+    accent: { h: 52, l: 0.57, c: 0.17 },
+    warning: { h: 88, l: 0.85, c: 0.17 },
+    error: { h: 27, l: 0.66, c: 0.22 },
+  },
+  /*
+   * Floresta (#19): an emerald keyword, so the strings leave green for wheat; coral numbers, orchid enum members, turquoise types.
+   *
+   * Revised when the family landed, for the reasons the four before it were, and then some: green is where sRGB is narrowest
+   * at the depth of a selection, so the gamut cuts the chroma the ladder asks for, and the steps are told apart by lightness
+   * almost alone. Its focus and selection were 0.27 and 0.32: the focus ring read 2.70:1 on the selection, a hover sat 2.4 ΔE
+   * from the selected row. At the others' 0.236 and 0.265 the focus sat 2.9 ΔE under the selection, so it went to 0.23, next
+   * to indigo's 0.231; the raised surface to 0.158. The strong border went from C 0.08 to 0.06: at the edge of the gamut it was
+   * a dark copy of the accent, and a pressed toolbar button read 2.4 ΔE from a toggled one. The accent went from L 0.55 to
+   * 0.544, the middle of a narrow window: the find match is the accent at 40%, and at 0.547 the operators read 4.49:1 on it;
+   * under 0.542 the toggled button, the accent at 40% too, comes back within 3 ΔE of the pressed one. The error went from
+   * L 0.64 to 0.66: at 0.64 a deleted line's gutter mark read 2.87:1.
+   */
+  green: {
+    groundHue: 158,
+    surfaces: {
+      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.158, 0.04],
+      surfaceHover: [0.178, 0.044], surfaceFocus: [0.23, 0.07], surfaceSelected: [0.265, 0.075], border: [0.2, 0.05], borderStrong: [0.36, 0.06],
+    },
+    textHue: 160,
+    textChroma: 0.035,
+    inks: {
+      keyword: { h: 152, l: 0.8, c: 0.18 }, property: { h: 298, l: 0.79, c: 0.12 }, operator: { h: 158, l: 0.72, c: 0.045 }, variable: { h: 160, l: 0.87, c: 0.028 },
+      generic: { h: 300, l: 0.58, c: 0.19 }, string: { h: 72, l: 0.85, c: 0.1 }, func: { h: 245, l: 0.79, c: 0.12 }, number: { h: 28, l: 0.78, c: 0.13 },
+      type: { h: 195, l: 0.84, c: 0.11 }, iface: { h: 118, l: 0.91, c: 0.15 }, enumMember: { h: 350, l: 0.79, c: 0.12 },
+    },
+    accent: { h: 155, l: 0.544, c: 0.14 },
+    warning: { h: 95, l: 0.85, c: 0.18 },
+    error: { h: 25, l: 0.66, c: 0.22 },
+  },
+  /*
+   * Abissal (#20): a surface-cyan keyword, jade types and seaweed strings; coral numbers, shell-pink enum members, sand interfaces, deep-blue functions.
+   *
+   * Revised when the family landed, for the reasons the five before it were. Cyan at the depth of a selection is as narrow
+   * in sRGB as green, so it took Floresta's ladder: its focus and selection were 0.27 and 0.32, the focus ring read 2.72:1 on
+   * the selection, a hover sat 2.2 ΔE from the selected row and a find match 1.9 ΔE from the selection; at 0.236 the focus
+   * sat 2.8 ΔE under the selection, so 0.23 and 0.265, with the raised surface at 0.158. The strong border went from C 0.08
+   * to 0.05: a pressed toolbar button read 2.5 ΔE from a toggled one, and still 2.7 at 0.06. The error went from L 0.64 to
+   * 0.66: at 0.64 a deleted line's gutter mark read 2.87:1.
+   *
+   * The strings went from L 0.86 to 0.85. From 0.86 the search lifted them to 0.91, the lightest of the seven, and they were
+   * the success — so the focused stack frame, the success as a wash, was light enough that the operators read just under
+   * 4.5:1 on it. From 0.85 the search puts the types where the success borrows them instead, a jade at 0.74, and the hint
+   * takes the keyword (see BORROWING).
+   */
+  cyan: {
+    groundHue: 220,
+    surfaces: {
+      background: [0.088, 0.022], frame: [0.098, 0.024], surface: [0.108, 0.026], currentLine: [0.148, 0.038], surfaceRaised: [0.158, 0.04],
+      surfaceHover: [0.178, 0.044], surfaceFocus: [0.23, 0.07], surfaceSelected: [0.265, 0.075], border: [0.2, 0.05], borderStrong: [0.36, 0.05],
+    },
+    textHue: 212,
+    textChroma: 0.035,
+    inks: {
+      keyword: { h: 210, l: 0.81, c: 0.14 }, property: { h: 305, l: 0.79, c: 0.12 }, operator: { h: 215, l: 0.72, c: 0.04 }, variable: { h: 212, l: 0.87, c: 0.028 },
+      generic: { h: 325, l: 0.58, c: 0.19 }, string: { h: 128, l: 0.85, c: 0.14 }, func: { h: 258, l: 0.78, c: 0.13 }, number: { h: 35, l: 0.79, c: 0.13 },
+      type: { h: 168, l: 0.85, c: 0.12 }, iface: { h: 72, l: 0.86, c: 0.11 }, enumMember: { h: 350, l: 0.8, c: 0.12 },
+    },
+    accent: { h: 212, l: 0.56, c: 0.12 },
+    warning: { h: 98, l: 0.86, c: 0.17 },
+    error: { h: 25, l: 0.66, c: 0.22 },
+  },
+  /*
+   * Cobalto (#21): a cobalt keyword with ice-cyan functions above it; sea-green types, mint strings, straw interfaces, terracotta and rose for warmth.
+   *
+   * Revised when the family landed, for the reasons the six before it were. Its focus and selection were 0.275 and 0.325:
+   * the focus ring read 2.56:1 on the selection, a hover sat 2.1 ΔE from the selected row and a find match 2.9 ΔE from the
+   * selection. Blue has indigo's room in sRGB, so it took indigo's depth, 0.23 and 0.265, chroma scaled with them, and the
+   * raised surface at 0.158. The strong border went from C 0.1 to 0.07: a pressed toolbar button read 2.9 ΔE from a toggled
+   * one, the accent at 40%.
+   *
+   * The error went from h 25 · L 0.64 · C 0.22 to h 28 · L 0.649 · C 0.2, and here the window is a point. At 0.64 a deleted
+   * line's gutter mark read 2.88:1, and the six before went to 0.66 for it. Here the info squiggle is the keyword, which the
+   * search keeps at 0.70, the floor of its band, whatever lightness it starts from; at 0.66 the error sat 0.04 under it, the
+   * two squiggles told apart by hue alone. Over 0.649 they come within 0.05; under it the gutter mark falls back under 3:1,
+   * and less chroma and a turn toward vermilion give the mark its last hundredth. Raising the keyword's floor to 0.71 for
+   * this family was tried and kept the error at 0.66, but it brought the closest pair down from 12.6 ΔE to the 12.0 floor.
+   *
+   * The brief's success and hint borrowed the strings and the types, 9° apart: the terminal's green and cyan, which the
+   * build holds 22° apart. The hint borrows the functions now (see BORROWING).
+   */
+  blue: {
+    groundHue: 262,
+    surfaces: {
+      background: [0.09, 0.035], frame: [0.1, 0.038], surface: [0.11, 0.04], currentLine: [0.15, 0.055], surfaceRaised: [0.158, 0.056],
+      surfaceHover: [0.18, 0.062], surfaceFocus: [0.23, 0.085], surfaceSelected: [0.265, 0.095], border: [0.205, 0.065], borderStrong: [0.365, 0.07],
+    },
+    textHue: 258,
+    textChroma: 0.045,
+    inks: {
+      keyword: { h: 262, l: 0.74, c: 0.16 }, property: { h: 305, l: 0.79, c: 0.12 }, operator: { h: 262, l: 0.72, c: 0.05 }, variable: { h: 258, l: 0.87, c: 0.03 },
+      generic: { h: 330, l: 0.58, c: 0.19 }, string: { h: 152, l: 0.85, c: 0.12 }, func: { h: 222, l: 0.85, c: 0.11 }, number: { h: 42, l: 0.8, c: 0.13 },
+      type: { h: 185, l: 0.84, c: 0.1 }, iface: { h: 115, l: 0.9, c: 0.16 }, enumMember: { h: 350, l: 0.79, c: 0.12 },
+    },
+    accent: { h: 258, l: 0.55, c: 0.18 },
+    warning: { h: 85, l: 0.84, c: 0.17 },
+    error: { h: 28, l: 0.649, c: 0.2 },
+  },
+};
+
+/* -------------------------------------------------------------- *
+ * The gamut, measured as the drafts were
+ * -------------------------------------------------------------- */
+
+/*
+ * hexFromOklch tests a colour against sRGB on its encoded channels; the
+ * prototype tested linear light, with the same 0.0001 of tolerance, and
+ * bisected 22 times. The two disagree only within a hair of the boundary, and
+ * a hair is enough. The search is chaotic: a ceiling a ten-thousandth lower
+ * changes one ink's last bit, a move that was kept is refused, and twelve
+ * thousand steps later the red family's success signal is another ink. Built
+ * on hexFromOklch and maxChromaAt, this tool missed the approved tables by as
+ * much as 123 in a channel. So the drafts are measured the way they were made.
+ * The build is not: it converts the frozen values with hexFromOklch, and
+ * `frozen` checks that each one lands on the hex proposed here.
+ */
+const GAMUT_TOLERANCE = 1e-4;
+const BISECTIONS = 22;
+/** More chroma than sRGB holds at any hue: where the search for a hue's ceiling starts. */
+const BEYOND_GAMUT = 0.4;
+
+const isInGamut = (point: Oklch): boolean =>
+  linearRgbFromOklch(point).every((channel: number): boolean => channel >= -GAMUT_TOLERANCE && channel <= 1 + GAMUT_TOLERANCE);
+
+/** The point's own chroma if it fits, or the most that does, by bisection. */
+const fittedChroma = (point: Oklch): number => {
+  if (isInGamut(point)) return point.c;
+  let lowest: number = 0;
+  let highest: number = point.c;
+  for (let step = 0; step < BISECTIONS; step++) {
+    const middle: number = (lowest + highest) / 2;
+    if (isInGamut({ ...point, c: middle })) lowest = middle;
+    else highest = middle;
+  }
+  return lowest;
+};
+
+/** A point as a hex, its chroma reduced until it fits rather than its channels clipped. */
+const hexAt = (point: Oklch): Colour => hexFromLinearRgb(linearRgbFromOklch({ ...point, c: fittedChroma(point) }));
+
+/** The most chroma sRGB holds at this lightness and hue. */
+const gamutChroma = (lightness: number, hue: number): number => fittedChroma({ l: lightness, c: BEYOND_GAMUT, h: hue });
+
+/* -------------------------------------------------------------- *
+ * Readable on purpose
+ * -------------------------------------------------------------- */
+
+const BODY_CONTRAST = 7;
+const TEXT_CONTRAST = 4.5;
+const AUXILIARY_CONTRAST = 3;
+
+/** How far a colour is raised or lowered per step while its contrast is solved, and where that stops. */
+const LIGHTNESS_STEP = 0.005;
+const LIGHTEST = 0.97;
+const DARKEST = 0.2;
+
+/**
+ * The colour at `point`, raised until it reads at `ratio` on `ground`.
+ * `chromaAt` is what the colour may take at each lightness on the way up.
+ */
+const raisedUntil = (point: Oklch, ratio: number, ground: Colour, chromaAt: (lightness: number) => number = (): number => point.c): Colour => {
+  let lightness: number = point.l;
+  let colour: Colour = hexAt({ l: lightness, c: chromaAt(lightness), h: point.h });
+  while (contrastRatio(colour, ground) < ratio && lightness < LIGHTEST) {
+    lightness += LIGHTNESS_STEP;
+    colour = hexAt({ l: lightness, c: chromaAt(lightness), h: point.h });
+  }
+  return colour;
+};
+
+/** The colour at `point`, lowered until white text reads on it at AA — a button's label is text. */
+const loweredForWhite = (point: Oklch): Colour => {
+  let lightness: number = point.l;
+  let colour: Colour = hexAt(point);
+  while (contrastRatio(colour, WHITE) < TEXT_CONTRAST && lightness > DARKEST) {
+    lightness -= LIGHTNESS_STEP;
+    colour = hexAt({ ...point, l: lightness });
+  }
+  return colour;
+};
+
+/** A lighter partner — the terminal's bright row, a link under the pointer: more light, a little less chroma, the same hue. */
+const lightened = (colour: Colour, lightnessStep: number = 0.08, chromaShare: number = 0.85): Colour => {
+  const measured: Oklch = oklchFromHex(colour);
+  return hexAt({ l: Math.min(0.95, measured.l + lightnessStep), c: measured.c * chromaShare, h: measured.h });
+};
+
+/* -------------------------------------------------------------- *
+ * The search
+ * -------------------------------------------------------------- */
+
+type SearchBounds = { lightness: [number, number]; chroma: [number, number]; hueDrift: number };
+
+/*
+ * How far the search may take each ink from where its brief put it. The
+ * variables stay a near-grey just under white, the operators a quiet tint, the
+ * keywords loud and the type parameters the darkest ink; the semantic inks
+ * share one band and may each drift 12 degrees from their starting hue.
+ */
+const SEMANTIC_BOUNDS: SearchBounds = { lightness: [0.72, 0.92], chroma: [0.105, 0.19], hueDrift: 12 };
+
+const BOUNDS: Record<SyntaxInk, SearchBounds> = {
+  variable: { lightness: [0.85, 0.89], chroma: [0.02, 0.04], hueDrift: 4 },
+  operator: { lightness: [0.66, 0.78], chroma: [0.03, 0.06], hueDrift: 5 },
+  keyword: { lightness: [0.7, 0.82], chroma: [0.14, 0.22], hueDrift: 6 },
+  generic: { lightness: [0.54, 0.66], chroma: [0.14, 0.22], hueDrift: 10 },
+  property: SEMANTIC_BOUNDS,
+  string: SEMANTIC_BOUNDS,
+  func: SEMANTIC_BOUNDS,
+  number: SEMANTIC_BOUNDS,
+  type: SEMANTIC_BOUNDS,
+  iface: SEMANTIC_BOUNDS,
+  enumMember: SEMANTIC_BOUNDS,
+};
+
+/** The largest move one step makes: lightness and chroma span this much, centred on where the ink is, and hue this many degrees. */
+const LIGHTNESS_MOVE = 0.06;
+const CHROMA_MOVE = 0.05;
+const HUE_MOVE = 8;
+
+const SEARCH_STEPS = 12000;
+const SEEDS: number[] = [11, 29];
+
+/** What the closest pairs weigh in the score, closest first. */
+const PAIR_WEIGHTS: number[] = [1, 0.5, 0.25, 0.1];
+/** The least ΔE an ink keeps from the error and the warning before it costs, and what each unit short costs. */
+const SIGNAL_CLEARANCE = 10;
+const SIGNAL_COST = 3;
+/** What each unit of chroma over the keyword's costs, once an ink is past the margin the build allows. */
+const LOUDNESS_COST = 300;
+
+/** Lehmer's generator, as the prototype drew from it: the same seed, the same run. */
+const lehmer = (seed: number): (() => number) => {
+  let state: number = seed;
+  return (): number => {
+    state = (state * 16807) % 2147483647;
+    return state / 2147483647;
+  };
+};
+
+const clamp = (value: number, [lowest, highest]: [number, number]): number => Math.min(highest, Math.max(lowest, value));
+
+/** An ink at a point of the search: under the gamut ceiling at every lightness, raised until it reads on the background. */
+const inkAt = (ink: SyntaxInk, point: Oklch, background: Colour): Colour =>
+  raisedUntil(point, ink === 'generic' ? TEXT_CONTRAST : BODY_CONTRAST, background, (lightness: number): number =>
+    Math.min(point.c, GAMUT_SHARE * gamutChroma(lightness, point.h))
+  );
+
+const INK_PAIRS: [SyntaxInk, SyntaxInk][] = SYNTAX_INKS.flatMap((first: SyntaxInk, index: number): [SyntaxInk, SyntaxInk][] =>
+  SYNTAX_INKS.slice(index + 1).map((second: SyntaxInk): [SyntaxInk, SyntaxInk] => [first, second])
+);
+
+/*
+ * The search measures the same few thousand hexes millions of times over, so
+ * what it measures of them is kept. Without this, a run takes more than twice
+ * as long.
+ */
+const knownDistances: Map<string, number> = new Map();
+const knownChromas: Map<Colour, number> = new Map();
+
+const distanceBetween = (first: Colour, second: Colour): number => {
+  const key: string = first + second;
+  let distance: number | undefined = knownDistances.get(key);
+  if (distance === undefined) knownDistances.set(key, (distance = deltaE(first, second)));
+  return distance;
+};
+
+const chromaOf = (colour: Colour): number => {
+  let chroma: number | undefined = knownChromas.get(colour);
+  if (chroma === undefined) knownChromas.set(colour, (chroma = oklchFromHex(colour).c));
+  return chroma;
+};
+
+/** How good a set of inks is: higher is better. */
+const scoreOf = (inks: Record<SyntaxInk, Colour>, signals: Colour[]): number => {
+  const distances: number[] = INK_PAIRS.map(([first, second]: [SyntaxInk, SyntaxInk]): number => distanceBetween(inks[first], inks[second])).sort(
+    (first: number, second: number): number => first - second
+  );
+  const clearance: number = Math.min(
+    ...SYNTAX_INKS.flatMap((ink: SyntaxInk): number[] => signals.map((signal: Colour): number => distanceBetween(inks[ink], signal)))
+  );
+  const keywordChroma: number = chromaOf(inks.keyword);
+  let loudness: number = 0;
+  for (const ink of SYNTAX_INKS) {
+    if (ink === 'keyword' || ink === 'generic') continue;
+    const chroma: number = chromaOf(inks[ink]);
+    if (chroma > keywordChroma + KEYWORD_MARGIN) loudness += (chroma - keywordChroma) * LOUDNESS_COST;
+  }
+  const separation: number = PAIR_WEIGHTS.reduce((sum: number, weight: number, index: number): number => sum + weight * distances[index], 0);
+  return separation + Math.min(0, clearance - SIGNAL_CLEARANCE) * SIGNAL_COST - loudness;
+};
+
+type SearchResult = { inks: Record<SyntaxInk, Colour>; score: number };
+
+/** One run of the search from the brief's starting inks. */
+const searched = (brief: FamilyBrief, background: Colour, seed: number): SearchResult => {
+  const random: () => number = lehmer(seed);
+  const signals: Colour[] = [hexAt(brief.error), hexAt(brief.warning)];
+  const points = {} as Record<SyntaxInk, Oklch>;
+  const inks = {} as Record<SyntaxInk, Colour>;
+  for (const ink of SYNTAX_INKS) {
+    points[ink] = { ...brief.inks[ink] };
+    inks[ink] = inkAt(ink, points[ink], background);
+  }
+
+  let best: number = scoreOf(inks, signals);
+  for (let step = 0; step < SEARCH_STEPS; step++) {
+    const ink: SyntaxInk = SYNTAX_INKS[Math.floor(random() * SYNTAX_INKS.length)];
+    const bounds: SearchBounds = BOUNDS[ink];
+    const before: Oklch = points[ink];
+    const beforeInk: Colour = inks[ink];
+
+    const move: number = random();
+    if (move < 0.33) points[ink] = { ...before, l: clamp(before.l + (random() - 0.5) * LIGHTNESS_MOVE, bounds.lightness) };
+    else if (move < 0.66) points[ink] = { ...before, c: clamp(before.c + (random() - 0.5) * CHROMA_MOVE, bounds.chroma) };
+    else {
+      const turned: number = before.h + (random() - 0.5) * HUE_MOVE;
+      const hue: number = Math.abs(signedHueDelta(brief.inks[ink].h, turned)) > bounds.hueDrift ? before.h : turned;
+      points[ink] = { ...before, h: (hue + 360) % 360 };
+    }
+    inks[ink] = inkAt(ink, points[ink], background);
+
+    const score: number = scoreOf(inks, signals);
+    if (score >= best) best = score;
+    else {
+      points[ink] = before;
+      inks[ink] = beforeInk;
+    }
+  }
+  return { inks, score: best };
+};
+
+/* -------------------------------------------------------------- *
+ * The design
+ * -------------------------------------------------------------- */
+
+/*
+ * Which ink a signal borrows: the one nearest in hue to the signal's colour,
+ * among the inks that can play it, ties going to the first named. Proposed,
+ * like everything here — the family issue may name another.
+ *
+ * No two signals may borrow the same ink (the build refuses it, and the
+ * terminal's green and cyan would come out as one colour), so the signals are
+ * borrowed together: of every way to give each one a different ink, the one
+ * whose hues sit nearest their signals' in total. Where each signal's nearest
+ * ink is already its own, that is simply the nearest; Abissal (#20) is where
+ * it is not — its jade types are nearest both the success's green and the
+ * hint's teal. They go to the success, 12° off, and the hint takes the
+ * keyword's cyan, 29° off: 40° in total, where the strings for the success
+ * and the types for the hint would have been 44°.
+ *
+ * The success, the info and the hint are also the terminal's green, blue and
+ * cyan, which the build holds `SEPARATION` degrees apart (check 14), so an
+ * assignment that puts two of them closer is not one of the ways. Cobalto
+ * (#21) is where that decides it: its mint strings and sea-green types are
+ * nearest the success and the hint, 19° and 12° off, but only 9° from each
+ * other. The hint takes the ice-cyan functions instead, 29° off, and the
+ * terminal's cyan is a cyan. Where the nearest ways already clear the floor,
+ * as in the six families before it, nothing changes.
+ */
+const BORROWING: Record<keyof Signals, { hue: number; candidates: Ink[] }> = {
+  success: { hue: 145, candidates: ['string', 'keyword', 'type', 'iface'] },
+  info: { hue: 250, candidates: ['func', 'keyword'] },
+  hint: { hue: 185, candidates: ['type', 'string', 'func', 'keyword'] },
+  orange: { hue: 55, candidates: ['enumMember', 'number', 'keyword', 'property', 'iface', 'string'] },
+  purple: { hue: 305, candidates: ['property', 'keyword', 'func', 'enumMember'] },
+};
+
+const SIGNAL_NAMES: (keyof Signals)[] = Object.keys(BORROWING) as (keyof Signals)[];
+
+/** The signals that are also the terminal's green, blue and cyan (build-color-themes.ts, check 14). */
+const TERMINAL_SIGNALS: (keyof Signals)[] = ['success', 'info', 'hint'];
+
+/** Every signal's ink at once, all different, nearest their hues in total — ties going to the inks named first. */
+const borrowedSignals = (roles: Record<RoleName, Colour>): Signals => {
+  type Assignment = { inks: Ink[]; total: number };
+  const distance = (signal: keyof Signals, ink: Ink): number => Math.abs(signedHueDelta(oklchFromHex(roles[ink]).h, BORROWING[signal].hue));
+  const hueOf = (ink: Ink): number => oklchFromHex(roles[ink]).h;
+  // A terminal colour is named for its hue, so its green, blue and cyan may not sit nearer each other than the build allows.
+  const clearsTerminal = (signal: keyof Signals, ink: Ink, chosen: Assignment): boolean =>
+    !TERMINAL_SIGNALS.includes(signal) ||
+    chosen.inks.every(
+      (other: Ink, index: number): boolean => !TERMINAL_SIGNALS.includes(SIGNAL_NAMES[index]) || Math.abs(signedHueDelta(hueOf(ink), hueOf(other))) >= SEPARATION
+    );
+  // Depth first in the order the candidates are named, so of two assignments equally near the first one found stands.
+  const nearest = (chosen: Assignment): Assignment | undefined => {
+    if (chosen.inks.length === SIGNAL_NAMES.length) return chosen;
+    const signal: keyof Signals = SIGNAL_NAMES[chosen.inks.length];
+    return BORROWING[signal].candidates
+      .filter((ink: Ink): boolean => !chosen.inks.includes(ink) && clearsTerminal(signal, ink, chosen))
+      .map((ink: Ink): Assignment | undefined => nearest({ inks: [...chosen.inks, ink], total: chosen.total + distance(signal, ink) }))
+      .reduce(
+        (best: Assignment | undefined, found: Assignment | undefined): Assignment | undefined => (found && (!best || found.total < best.total) ? found : best),
+        undefined
+      );
+  };
+  const assignment: Assignment | undefined = nearest({ inks: [], total: 0 });
+  if (!assignment) throw new Error('the signals cannot each borrow a different ink');
+  return Object.fromEntries(SIGNAL_NAMES.map((signal: keyof Signals, index: number): [keyof Signals, Ink] => [signal, assignment.inks[index]])) as Signals;
+};
+
+/** Keywords at these hues are a magenta, a violet or a pink, and play the terminal's magenta; anywhere else the properties do. */
+const isMagenta = (hue: number): boolean => hue >= 280 || hue < 10;
+
+/** The bright terminal partner of each ink that has one in the palette. */
+const BRIGHT_ROLE: Partial<Record<Ink, RoleName>> = {
+  keyword: 'keywordBright',
+  property: 'propertyBright',
+  string: 'stringBright',
+  func: 'funcBright',
+  type: 'typeBright',
+};
+
+type Design = {
+  roles: Record<RoleName, Colour>;
+  signals: Signals;
+  terminalMagenta?: [normal: RoleName, bright: RoleName];
+  tokens: Tokens;
+  score: number;
+};
+
+const designOf = (brief: FamilyBrief): Design => {
+  const surfaces = Object.fromEntries(
+    SURFACES.map((surface: Surface): [Surface, Colour] => {
+      const [lightness, chroma]: [number, number] = brief.surfaces[surface];
+      return [surface, hexAt({ l: lightness, c: chroma, h: brief.groundHue })];
+    })
+  ) as Record<Surface, Colour>;
+  const background: Colour = surfaces.background;
+  const text = (lightness: number, chromaShare: number): Oklch => ({ l: lightness, c: brief.textChroma * chromaShare, h: brief.textHue });
+
+  const normal: Colour = raisedUntil(text(0.75, 0.85), BODY_CONTRAST, background);
+  const runs: SearchResult[] = SEEDS.map((seed: number): SearchResult => searched(brief, background, seed));
+  const { inks, score }: SearchResult = runs.reduce((best: SearchResult, run: SearchResult): SearchResult => (run.score > best.score ? run : best));
+
+  const accent: Colour = loweredForWhite(brief.accent);
+  const accentPoint: Oklch = oklchFromHex(accent);
+  const error: Colour = hexAt(brief.error);
+  const warning: Colour = hexAt(brief.warning);
+  const [groundLightness, groundChroma]: [number, number] = brief.surfaces.background;
+
+  const roles: Record<RoleName, Colour> = {
+    bg: background,
+    bgDeep: surfaces.frame,
+    bgSide: surfaces.surface,
+    ansiBlack: hexAt({ l: groundLightness + 0.035, c: groundChroma * 1.2, h: brief.groundHue }),
+    bgLine: surfaces.currentLine,
+    bgLift: surfaces.surfaceRaised,
+    bgTab: surfaces.surfaceHover,
+    line: surfaces.border,
+    selDim: surfaces.surfaceFocus,
+    sel: surfaces.surfaceSelected,
+    whitespace: hexAt(text(0.3, 1.6)),
+    border: surfaces.borderStrong,
+    accentDim: hexAt({ l: accentPoint.l * 0.7, c: accentPoint.c * 0.72, h: accentPoint.h }),
+    accent,
+    fgFaint: raisedUntil(text(0.5, 1), AUXILIARY_CONTRAST, background),
+    fgMuted: raisedUntil(text(0.56, 1), AUXILIARY_CONTRAST, surfaces.surfaceSelected),
+    fgDim: raisedUntil(text(0.68, 0.9), TEXT_CONTRAST, background),
+    fg: normal,
+    fgBright: hexAt(text(Math.max(0.82, oklchFromHex(normal).l + 0.07), 0.8)),
+    cursor: hexAt({ l: 0.8, c: 0.09, h: accentPoint.h }),
+    fgWhite: hexAt(text(0.955, 0.3)),
+    variable: inks.variable,
+    property: inks.property,
+    operator: inks.operator,
+    propertyBright: lightened(inks.property),
+    keyword: inks.keyword,
+    keywordBright: lightened(inks.keyword),
+    generic: inks.generic,
+    // The debugging status bar: the type parameters' hue, as deep as white text needs it.
+    genericDeep: loweredForWhite({ l: 0.5, c: 0.17, h: oklchFromHex(inks.generic).h }),
+    string: inks.string,
+    stringBright: lightened(inks.string),
+    func: inks.func,
+    funcBright: lightened(inks.func),
+    number: inks.number,
+    type: inks.type,
+    typeBright: lightened(inks.type),
+    enumMember: inks.enumMember,
+    iface: inks.iface,
+    error,
+    errorBright: lightened(error, 0.1, 0.8),
+    warning,
+    warningBright: lightened(warning),
+  };
+
+  const signals: Signals = borrowedSignals(roles);
+  const magenta: Ink = isMagenta(oklchFromHex(roles.keyword).h) ? 'keyword' : 'property';
+  // The terminal's bright row is the borrowed ink lightened, whether or not the palette has a role for it: `problemsOf` says when it does not.
+  const bright = (ink: Ink): Colour => lightened(roles[ink]);
+
+  const tokens: Tokens = {
+    surface: surfaces,
+    text: {
+      ghost: roles.whitespace,
+      faint: roles.fgFaint,
+      muted: roles.fgMuted,
+      secondary: roles.fgDim,
+      normal: roles.fg,
+      bright: roles.fgBright,
+      white: roles.fgWhite,
+    },
+    link: { rest: roles.func, active: roles.funcBright },
+    accent: { base: roles.accent, muted: roles.accentDim, on: WHITE },
+    syntax: {
+      variable: roles.variable,
+      property: roles.property,
+      operator: roles.operator,
+      keyword: roles.keyword,
+      generic: roles.generic,
+      string: roles.string,
+      function: roles.func,
+      number: roles.number,
+      type: roles.type,
+      interface: roles.iface,
+      enumMember: roles.enumMember,
+    },
+    state: {
+      focus: roles.accent,
+      active: roles.cursor,
+      success: roles[signals.success],
+      info: roles[signals.info],
+      warning,
+      error,
+      hint: roles[signals.hint],
+      modified: roles[signals.info],
+      added: roles[signals.success],
+      deleted: error,
+      conflicting: warning,
+      deprecated: roles.fgMuted,
+      debugging: roles.genericDeep,
+    },
+    chart: {
+      red: error,
+      orange: roles[signals.orange],
+      yellow: warning,
+      green: roles[signals.success],
+      blue: roles[signals.info],
+      purple: roles[signals.purple],
+    },
+    ansi: {
+      black: roles.ansiBlack,
+      red: error,
+      green: roles[signals.success],
+      yellow: warning,
+      blue: roles[signals.info],
+      magenta: roles[magenta],
+      cyan: roles[signals.hint],
+      white: roles.fg,
+      brightBlack: roles.fgMuted,
+      brightRed: roles.errorBright,
+      brightGreen: bright(signals.success),
+      brightYellow: roles.warningBright,
+      brightBlue: bright(signals.info),
+      brightMagenta: bright(magenta),
+      brightCyan: bright(signals.hint),
+      brightWhite: roles.fgWhite,
+    },
+  };
+
+  return {
+    roles,
+    signals,
+    terminalMagenta: magenta === 'keyword' ? undefined : [magenta, BRIGHT_ROLE[magenta]!],
+    tokens,
+    score,
+  };
+};
+
+/* -------------------------------------------------------------- *
+ * Measuring
+ * -------------------------------------------------------------- */
+
+const TOKEN_OF_INK: Record<SyntaxInk, keyof Tokens['syntax']> = {
+  variable: 'variable',
+  property: 'property',
+  operator: 'operator',
+  keyword: 'keyword',
+  generic: 'generic',
+  string: 'string',
+  func: 'function',
+  number: 'number',
+  type: 'type',
+  iface: 'interface',
+  enumMember: 'enumMember',
+};
+
+type Pair = { first: string; second: string; distance: number };
+
+type Measurements = {
+  /** Every pair of inks, closest first. */
+  pairs: Pair[];
+  mean: number;
+  /** The ink nearest the error or the warning. */
+  nearestSignal: Pair;
+  contrast: Record<SyntaxInk, number>;
+  faintOnSurface: number;
+  mutedOnSelection: number;
+  normalOnBackground: number;
+  whiteOnAccent: number;
+};
+
+const measured = (tokens: Tokens): Measurements => {
+  const inkOf = (ink: SyntaxInk): Colour => tokens.syntax[TOKEN_OF_INK[ink]];
+  const pairs: Pair[] = INK_PAIRS.map(([first, second]: [SyntaxInk, SyntaxInk]): Pair => ({ first, second, distance: deltaE(inkOf(first), inkOf(second)) })).sort(
+    (first: Pair, second: Pair): number => first.distance - second.distance
+  );
+  const signalPairs: Pair[] = (['error', 'warning'] as const).flatMap((signal: 'error' | 'warning'): Pair[] =>
+    SYNTAX_INKS.map((ink: SyntaxInk): Pair => ({ first: signal, second: ink, distance: deltaE(tokens.state[signal], inkOf(ink)) }))
+  );
+  return {
+    pairs,
+    mean: pairs.reduce((sum: number, pair: Pair): number => sum + pair.distance, 0) / pairs.length,
+    nearestSignal: signalPairs.reduce((nearest: Pair, pair: Pair): Pair => (pair.distance < nearest.distance ? pair : nearest)),
+    contrast: Object.fromEntries(SYNTAX_INKS.map((ink: SyntaxInk): [SyntaxInk, number] => [ink, contrastRatio(inkOf(ink), tokens.surface.background)])) as Record<
+      SyntaxInk,
+      number
+    >,
+    faintOnSurface: contrastRatio(tokens.text.faint, tokens.surface.surface),
+    mutedOnSelection: contrastRatio(tokens.text.muted, tokens.surface.surfaceSelected),
+    normalOnBackground: contrastRatio(tokens.text.normal, tokens.surface.background),
+    whiteOnAccent: contrastRatio(WHITE, tokens.accent.base),
+  };
+};
+
+/**
+ * A palette role as frozen numbers, written as the literal to paste: its OKLCH
+ * at the fewest decimals that the build's own conversion turns back into the
+ * same hex, so what is pasted is exactly what was proposed.
+ */
+const frozen = (colour: Colour): string => {
+  const exact: Oklch = oklchFromHex(colour);
+  for (let decimals = 3; decimals <= 8; decimals++) {
+    const [lightness, chroma, hue]: string[] = [exact.l.toFixed(decimals), exact.c.toFixed(decimals), exact.h.toFixed(decimals - 2)];
+    if (hexFromOklch({ l: +lightness, c: +chroma, h: +hue }) === colour) return `{ l: ${lightness}, c: ${chroma}, h: ${hue} }`;
+  }
+  throw new Error(`${colour} does not survive a round trip through OKLCH`);
+};
+
+/** What would stop the design from being pasted as it is, or the build from taking it. */
+const problemsOf = (design: Design): string[] => {
+  const held: Set<Colour> = new Set([...Object.values(design.roles), WHITE]);
+  const unheld: string[] = flatten(design.tokens)
+    .filter(([, colour]: [string, Colour]): boolean => !held.has(colour))
+    .map(([token, colour]: [string, Colour]): string => `${token} ${colour} is no palette role: theme-palette.ts has nowhere to put it`);
+  const borrowed: [keyof Signals, Ink][] = Object.entries(design.signals) as [keyof Signals, Ink][];
+  const shared: string[] =
+    new Set(Object.values(design.signals)).size === borrowed.length ? [] : ['two signals borrow the same ink, which the build refuses'];
+  const offTarget: string[] = borrowed
+    .filter(([signal, ink]: [keyof Signals, Ink]): boolean => Math.abs(signedHueDelta(SIGNAL_HUE[signal], oklchFromHex(design.roles[ink]).h)) > SIGNAL_TOLERANCE)
+    .map(([signal, ink]: [keyof Signals, Ink]): string => `${signal} borrows ${ink}, more than the build's ${SIGNAL_TOLERANCE}° from the colour it is named for`);
+  // The build's floors for a design (#13). The search caps the chroma it asks for before rounding and only scores the other two, so a brief can still miss one.
+  const closest: InkPair = closestInks(design.roles);
+  const crowded: string[] =
+    closest.distance < SEPARATION_DELTA_E ? [`${closest.first} and ${closest.second} are ${decimal(closest.distance)} ΔE apart, under the build's ${SEPARATION_DELTA_E}`] : [];
+  const neon: string[] = SYNTAX_INKS.filter((ink: SyntaxInk): boolean => gamutShareOf(design.roles[ink]) > GAMUT_SHARE + GAMUT_ROUNDING).map(
+    (ink: SyntaxInk): string => `${ink} takes ${decimal(gamutShareOf(design.roles[ink]) * 100)}% of the gamut, past the build's ceiling`
+  );
+  const keywordChroma: number = oklchFromHex(design.roles.keyword).c;
+  const louder: string[] = SYNTAX_INKS.filter(
+    (ink: SyntaxInk): boolean => ink !== 'keyword' && ink !== 'generic' && oklchFromHex(design.roles[ink]).c > keywordChroma + KEYWORD_MARGIN
+  ).map((ink: SyntaxInk): string => `${ink} has more chroma than the keyword, past the build's margin of ${KEYWORD_MARGIN}`);
+  return [...unheld, ...shared, ...offTarget, ...crowded, ...neon, ...louder];
+};
+
+/* -------------------------------------------------------------- *
+ * Printing
+ * -------------------------------------------------------------- */
+
+const decimal = (value: number, digits: number = 1): string => value.toFixed(digits);
+const ratio = (value: number): string => `${value.toFixed(2)}:1`;
+const pairName = (pair: Pair): string => `${pair.first}/${pair.second}`;
+const shift = (shipped: string, proposed: string): string => `${shipped} → ${proposed}`;
+
+const printMeasurements = (shipped: Measurements, proposed: Measurements): void => {
+  const under = (measurements: Measurements): string => String(measurements.pairs.filter((pair: Pair): boolean => pair.distance < SEPARATION_DELTA_E).length);
+  console.log(
+    `  separation  closest ${shift(decimal(shipped.pairs[0].distance), decimal(proposed.pairs[0].distance))} ΔE (${pairName(proposed.pairs[0])})` +
+      ` · mean ${shift(decimal(shipped.mean), decimal(proposed.mean))} · pairs under ${SEPARATION_DELTA_E} ${shift(under(shipped), under(proposed))}`
+  );
+  console.log(`  next        ${proposed.pairs.slice(1, 4).map((pair: Pair): string => `${pairName(pair)} ${decimal(pair.distance)}`).join(' · ')}`);
+  console.log(
+    `  signals     nearest ink ${shift(decimal(shipped.nearestSignal.distance), decimal(proposed.nearestSignal.distance))} ΔE (${pairName(proposed.nearestSignal)})`
+  );
+  console.log(`  contrast    ${SYNTAX_INKS.map((ink: SyntaxInk): string => `${ink} ${decimal(proposed.contrast[ink])}`).join(' · ')}`);
+  console.log(
+    `  text        faint on surface ${ratio(proposed.faintOnSurface)} · muted on selection ${ratio(proposed.mutedOnSelection)}` +
+      ` · normal ${ratio(proposed.normalOnBackground)} · white on accent ${ratio(proposed.whiteOnAccent)}`
+  );
+};
+
+const printTokens = (shipped: Tokens, proposed: Tokens): void => {
+  const shippedColours: Map<string, Colour> = new Map(flatten(shipped));
+  console.log(`  ${'token'.padEnd(24)}shipped  proposed  oklch`);
+  for (const [token, colour] of flatten(proposed)) {
+    const { l: lightness, c: chroma, h: hue }: Oklch = oklchFromHex(colour);
+    console.log(`  ${token.padEnd(24)}${shippedColours.get(token)}  ${colour}   ${lightness.toFixed(3)} ${chroma.toFixed(3)} ${hue.toFixed(1)}`);
+  }
+};
+
+const printDesign = (family: DesignedFamily, design: Design): void => {
+  const roleNames: RoleName[] = Object.keys(ROLES) as RoleName[];
+  const width: number = Math.max(...roleNames.map((name: RoleName): number => name.length));
+  console.log(`  ${family}: {`);
+  console.log(`    groundHue: ${BRIEFS[family].groundHue},`);
+  console.log('    roles: {');
+  for (const name of roleNames) console.log(`      ${`${name}:`.padEnd(width + 2)}${frozen(design.roles[name])}, // ${design.roles[name]}`);
+  console.log('    },');
+  const signals: string = (Object.entries(design.signals) as [keyof Signals, Ink][]).map(([signal, ink]: [keyof Signals, Ink]): string => `${signal}: '${ink}'`).join(', ');
+  console.log(`    signals: { ${signals} },`);
+  if (design.terminalMagenta) console.log(`    terminalMagenta: ['${design.terminalMagenta[0]}', '${design.terminalMagenta[1]}'],`);
+  console.log('  },');
+};
+
+/* -------------------------------------------------------------- *
+ * Running
+ * -------------------------------------------------------------- */
+
+const DESIGNED: DesignedFamily[] = FAMILY_ORDER.filter((family: Family): family is DesignedFamily => family !== 'indigo');
+
+const requested: string[] | undefined = process.argv
+  .find((value: string): boolean => value.startsWith('--family='))
+  ?.slice('--family='.length)
+  .split(',')
+  .filter(Boolean);
+const unknown: string[] = (requested ?? []).filter((family: string): boolean => !(DESIGNED as string[]).includes(family));
+if (unknown.length) throw new Error(`unknown famil${unknown.length === 1 ? 'y' : 'ies'} ${unknown.join(', ')} — expected some of: ${DESIGNED.join(', ')}`);
+
+for (const family of requested ? (requested as DesignedFamily[]) : DESIGNED) {
+  const design: Design = designOf(BRIEFS[family]);
+  const shipped: Tokens = tokensFor(family);
+  console.log(`\n${family}  (search score ${decimal(design.score, 2)})\n`);
+  printMeasurements(measured(shipped), measured(design.tokens));
+  console.log(`  borrowed    ${(Object.entries(design.signals) as [keyof Signals, Ink][]).map(([signal, ink]: [keyof Signals, Ink]): string => `${signal} ${ink}`).join(' · ')}`);
+  console.log('');
+  printTokens(shipped, design.tokens);
+  console.log('');
+  printDesign(family, design);
+  for (const problem of problemsOf(design)) console.log(`  ! ${problem}`);
+}

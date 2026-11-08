@@ -26,7 +26,7 @@ Uma extensão só. Instale uma vez, escolha um tema de cores e ative os ícones.
 
 ![As oito paletas Midnight](docs/preview/palettes.png)
 
-As oito são um tema em oito cores: a mesma estrutura, as mesmas regras, o mesmo piso de legibilidade, de modo que trocar de cor nunca significa trocar para algo que se comporta de outro jeito. Cada paleta é desenhada para o seu próprio matiz, e não tingida a partir de outra. Uma string é verde onde a família deixa espaço para o verde, e algo deliberado onde não deixa — no Midnight Green as strings são verde-amareladas, porque o verde é do próprio tema.
+As oito são um tema em oito cores: a mesma estrutura, as mesmas regras, o mesmo piso de legibilidade, de modo que trocar de cor nunca significa trocar para algo que se comporta de outro jeito. Cada paleta é desenhada para o seu próprio matiz, e não tingida a partir de outra: o seu próprio fundo, o seu texto e as suas tintas de sintaxe, desenhados do zero para cada família menos o Indigo, que é o original. Uma string é verde onde a família deixa espaço para o verde, e algo deliberado onde não deixa — no Midnight Green as strings são cor de trigo, porque o verde é do próprio tema.
 
 O **Midnight Indigo** é o original. Suas cores são mantidas, por um check no build, no que a v3.0.0 publicou; as poucas que mudaram desde então mudaram de propósito, por legibilidade ou significado, e cada uma está registrada com o motivo.
 

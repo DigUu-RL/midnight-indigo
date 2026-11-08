@@ -107,7 +107,7 @@ const CHECKS: { name: string; run: () => void }[] = [
     run: () => void node(path.join('..', 'node_modules', 'typescript', 'bin', 'tsc'), '-p', ROOT),
   },
   {
-    // Baseline, contrast floors, hue separation, manifest — all inside the theme build.
+    // Baseline, contrast floors, separation, the gamut ceiling, manifest — all inside the theme build.
     name: 'themes build',
     run: () => void node('theme/build-color-themes.ts'),
   },

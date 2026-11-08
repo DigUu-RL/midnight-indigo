@@ -134,15 +134,21 @@ function rgbToOklab(r: number, g: number, b: number): [number, number, number] {
   ];
 }
 
-function oklabToRgb(L: number, A: number, B: number): [number, number, number] {
-  const l = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3;
-  const m = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
-  const s = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
+/** OKLab to linear-light sRGB, unclamped. */
+const oklabToLinearRgb = (lightness: number, greenRed: number, blueYellow: number): [number, number, number] => {
+  const long: number = (lightness + 0.3963377774 * greenRed + 0.2158037573 * blueYellow) ** 3;
+  const medium: number = (lightness - 0.1055613458 * greenRed - 0.0638541728 * blueYellow) ** 3;
+  const short: number = (lightness - 0.0894841775 * greenRed - 1.291485548 * blueYellow) ** 3;
   return [
-    linearChannelToSrgb(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
-    linearChannelToSrgb(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
-    linearChannelToSrgb(-0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s),
+    4.0767416621 * long - 3.3077115913 * medium + 0.2309699292 * short,
+    -1.2684380046 * long + 2.6097574011 * medium - 0.3413193965 * short,
+    -0.0041960863 * long - 0.7034186147 * medium + 1.707614701 * short,
   ];
+};
+
+function oklabToRgb(L: number, A: number, B: number): [number, number, number] {
+  const [red, green, blue]: [number, number, number] = oklabToLinearRgb(L, A, B);
+  return [linearChannelToSrgb(red), linearChannelToSrgb(green), linearChannelToSrgb(blue)];
 }
 
 export function oklchFromHex(colour: Colour): Oklch {
@@ -208,6 +214,20 @@ export function maxChromaAt(l: number, h: number): number {
   }
   return lo;
 }
+
+/**
+ * OKLCH in linear light, before the transfer function and the 8 bits: a
+ * channel outside 0..1 is a colour outside sRGB, and by how much.
+ * tools/theme/design-families.ts measures the gamut here, and says why.
+ */
+export const linearRgbFromOklch = ({ l: lightness, c: chroma, h: hue }: Oklch): [number, number, number] => {
+  const radians: number = (hue * Math.PI) / 180;
+  return oklabToLinearRgb(lightness, Math.cos(radians) * chroma, Math.sin(radians) * chroma);
+};
+
+/** Linear-light sRGB to a hex, each channel clipped into 0..1 first. */
+export const hexFromLinearRgb = (channels: [number, number, number]): Colour =>
+  rgbToHex(...(channels.map((channel: number): number => linearChannelToSrgb(clampToUnit(channel))) as [number, number, number]));
 
 export function hexFromOklch({ l, c, h }: Oklch): Colour {
   const L = clampToUnit(l);
