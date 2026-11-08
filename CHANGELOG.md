@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [11.0.0]
+
+Purple, Pink, Red, Orange, Green, Cyan and Blue are redrawn from nothing. Each used to start from Indigo's measurements and change only the hues of the colors with an identity of their own, and in all seven two syntax colors ended up 5.9 to 7.6 ΔE apart — close enough to misread. Now each has its own ground, text, syntax inks, accent and signals, and no two of its syntax colors are closer than 12 ΔE.
+
+**What will look different.** This is a major version because the seven themes you may already have selected have changed: their grounds, their text, every syntax color, the accent and the signals. **Midnight Indigo has not changed**: it still reproduces what v3.0.0 shipped, byte for byte, with the same amendments as 10.0.
+
+### Changed
+
+- **Midnight Purple is Ametista, amethyst.** The keyword is the violet, the only saturated purple in the code; properties are orchid and type parameters a dark plum; mint strings, cyan types rather than teal, a clear blue for functions, old-gold numbers, lime interfaces and coral enum members. The ground is velvet, with more chroma than any warm family can carry. Closest two syntax colors: 7.6 → 13.7 ΔE. Charts' orange is now the numbers, not the enum members.
+- **Midnight Pink is Flor neon, the neon flower.** Hot-pink keywords, lilac properties and dark-violet type parameters; leaf-green strings and aqua types; apricot numbers and salmon enum members, told apart by lightness. Closest: 7.3 → 12.4 ΔE. Charts' orange is now the numbers.
+- **Midnight Red is Brasa, the ember.** The keyword is the ember's rose-crimson half and the error its scarlet half, further round, darker and more saturated; orchid properties and dark-magenta type parameters; amber numbers and orange enum members, green strings and petrol types. Closest: 6.4 → 12.4 ΔE. The terminal's magenta is now the keyword.
+- **Midnight Orange is Crepúsculo, dusk.** Orange keywords, the sun on the horizon; the sky's pink for numbers and a coral for enum members; indigo type parameters and lavender properties, the night coming in; green strings, sky-blue functions and aqua types. Closest: 6.3 → 14.6 ΔE.
+- **Midnight Green is Floresta, the forest.** Emerald keywords, the canopy, and the success green is now the keyword; the strings leave green for wheat, which is also charts' orange; coral numbers, orchid-pink enum members, violet properties and dark-grape type parameters; turquoise types, a clear blue for functions and lime interfaces. Closest: 7.0 → 14.5 ΔE.
+- **Midnight Cyan is Abissal, the deep sea.** Cyan keywords, the surface of the sea, which are now the hint; jade types, which are now the success, and seaweed strings told from them by lightness; deep-blue functions; coral numbers, shell-pink enum members and sand interfaces, which are now charts' orange; orchid properties and darker-magenta type parameters. Closest: 6.2 → 12.0 ΔE.
+- **Midnight Blue is Cobalto, cobalt.** Cobalt keywords, which are now the info blue, so a modified file is the family's own color; ice-cyan functions above them, now the hint and the terminal's cyan; sea-green types and mint strings, told apart by lightness; terracotta numbers, rose enum members and straw interfaces; violet properties and dark-magenta type parameters. The error leans to vermilion. Closest: 5.9 → 12.6 ΔE.
+
+### Added
+
+- **Three more checks in the build, for the seven:** no two syntax colors closer than 12 ΔE, none past 86% of the chroma sRGB holds at its lightness and hue, and none but the type parameters louder than the keyword.
+- **`npm run design:families`**, the tool that drafts a family's palette from its brief: contrast solved, chroma capped, separation searched. It proposes; the palettes are frozen in `tools/theme/theme-palette.ts` as plain numbers, and the build never runs the search.
+
+### Documentation
+
+- **[The color system](docs/COLOR-SYSTEM.md)** describes the seven as drawn, with each family's concept and main decision, how a family is drafted and frozen, and what the build checks.
+
 ## [10.0.0]
 
 The theme covers the whole of VS Code now, not only the editor, and every color in it has one job: each theme sets 877 of VS Code's colors where 9.0 set 129, and a color that means something — an error, a warning, a change, the AI — means it on every surface it appears on. Keywords are each theme's own color, the icons are placed by their weight, and folders are colored by what they are for.

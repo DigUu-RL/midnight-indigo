@@ -2,7 +2,7 @@
     "name": "midnight-indigo",
     "displayName": "Midnight Indigo",
     "description": "An ultra-dark theme in eight colors — indigo, purple, pink, red, orange, green, cyan and blue — that draws the whole of VS Code, from the editor to the terminal, Git and chat, with each palette designed for its own hue, semantic highlighting checked against real code, and a 305-icon file set built on the languages' own logos.",
-    "version": "10.0.0",
+    "version": "11.0.0",
     "publisher": "diguu-rl",
     "license": "MIT",
     "icon": "icon.png",
