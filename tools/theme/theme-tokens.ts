@@ -303,8 +303,8 @@ export const DOCS: Docs = {
   },
   syntax: {
     variable: 'Variables, parameters (italic) and command-line flags. Family-coloured, told apart from the text by lightness.',
-    property: "Properties, fields, object and JSON keys, YAML keys, CSS properties and SQL columns. The family's light chrome in indigo; in the other seven, the hue the keywords had before M9.",
-    operator: "Operators, word operators included. Colour only, never bold or italic. Indigo's violet; in the other seven, a quiet tint of the family.",
+    property: "Properties, fields, object and JSON keys, YAML keys, CSS properties and SQL columns. The family's light chrome in indigo; in the other seven, a violet, orchid or lilac drawn clear of the keyword.",
+    operator: "Operators, word operators included. Colour only, never bold or italic. Indigo's violet; in the other seven, a near-grey of the family's ground, told from the variables by lightness.",
     keyword: "Keywords and punctuation, always bold italic (punctuation plain). The theme's signature: pink in indigo, the family's own colour in the other seven.",
     generic: 'Type parameters, type arguments and lifetimes: a dark partner of the signature, the darkest ink in the code and still at AA.',
     string: 'Strings, and the JSON values that are strings.',

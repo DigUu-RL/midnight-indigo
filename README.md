@@ -26,7 +26,7 @@ One extension. Install it once, then pick a color theme and turn on the icons.
 
 ![The eight Midnight palettes](docs/preview/palettes.png)
 
-The eight are one theme in eight colors: the same structure, the same rules, the same legibility floor, so switching color never means switching to something that behaves differently. Each palette is designed for its own hue rather than tinted from another. A string is green where the family leaves room for green, and something deliberate where it does not — in Midnight Green the strings are wheat, because green is the theme's own.
+The eight are one theme in eight colors: the same structure, the same rules, the same legibility floor, so switching color never means switching to something that behaves differently. Each palette is designed for its own hue rather than tinted from another: its own ground, its own text and its own syntax inks, drawn from nothing for each family but Indigo, which is the original. A string is green where the family leaves room for green, and something deliberate where it does not — in Midnight Green the strings are wheat, because green is the theme's own.
 
 **Midnight Indigo** is the original. Its colors are held, by a check in the build, to what v3.0.0 shipped; the few that changed since were changed on purpose, for legibility or meaning, and each is recorded with its reason.
 
